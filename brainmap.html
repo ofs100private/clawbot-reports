@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brain Map - 2026-02-23</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 20px; background: #0d1117; color: #c9d1d9; }
+        h1 { text-align: center; color: #58a6ff; margin-bottom: 5px; }
+        .subtitle { text-align: center; color: #8b949e; margin-bottom: 30px; }
+        .container { max-width: 1100px; margin: auto; }
+        .section { margin-bottom: 20px; padding: 20px; background: #161b22; border-radius: 10px; border: 1px solid #30363d; }
+        .section h2 { color: #58a6ff; margin-top: 0; border-bottom: 1px solid #30363d; padding-bottom: 8px; }
+        .tree { font-family: 'Fira Code', monospace; white-space: pre; background: #0d1117; padding: 15px; border-radius: 8px; line-height: 1.6; font-size: 14px; }
+        .agent-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; }
+        .agent-card { background: #0d1117; border-radius: 8px; padding: 15px; border: 1px solid #30363d; }
+        .agent-card h3 { color: #3fb950; margin: 0 0 8px 0; }
+        .agent-card p { margin: 4px 0; font-size: 14px; }
+        .tag { display: inline-block; background: #1f6feb33; color: #58a6ff; padding: 2px 8px; border-radius: 12px; font-size: 12px; margin: 2px; }
+        .mem { color: #d2a8ff; }
+        .warn { color: #d29922; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🧠 Ben's Brain Map</h1>
+    <p class="subtitle">Generated: 2026-02-23 12:44 GMT+2</p>
+
+    <div class="section">
+        <h2>📂 Workspace Structure</h2>
+        <div class="tree">
+~/.openclaw/workspace/
+├── SOUL.md          — Core identity & personality
+├── IDENTITY.md      — Name, emoji, avatar
+├── MEMORY.md        — Long-term curated memory
+├── AGENTS.md        — Operating rules & conventions
+├── TOOLS.md         — Local tool notes & config
+├── USER.md          — User profile (Ofer Sasson)
+├── HEARTBEAT.md     — Proactive check config
+├── memory/          — Daily logs (YYYY-MM-DD.md)
+├── brainmap/        — Visual maps (this file)
+│   ├── index.html
+│   └── updated-brainmap.html
+└── agents/          — Specialist agents
+    ├── ben-pa/      — Personal Assistant (lead)
+    ├── ai-architect/— AI system design
+    ├── it-expert/   — IT & infrastructure
+    ├── openclaw-guru/— OpenClaw platform expert
+    ├── toriclaw/    — Tori integration
+    └── dbx/         — Databricks specialist</div>
+    </div>
+
+    <div class="section">
+        <h2>🤖 Agent Roster</h2>
+        <div class="agent-grid">
+            <div class="agent-card">
+                <h3>🤵 Ben (Lead)</h3>
+                <p>Personal assistant & coordinator. All agents report to Ben.</p>
+                <span class="tag">Gmail</span><span class="tag">Calendar</span><span class="tag">Daily Ops</span><span class="tag">Backups</span>
+            </div>
+            <div class="agent-card">
+                <h3>🏗️ AI Architect</h3>
+                <p>AI system design, architecture decisions, model selection.</p>
+                <span class="tag">Design</span><span class="tag">Architecture</span>
+            </div>
+            <div class="agent-card">
+                <h3>🔧 IT Expert</h3>
+                <p>Infrastructure, networking, system administration.</p>
+                <span class="tag">Infra</span><span class="tag">DevOps</span>
+            </div>
+            <div class="agent-card">
+                <h3>📘 OpenClaw Guru</h3>
+                <p>OpenClaw platform expertise, configuration, troubleshooting.</p>
+                <span class="tag">OpenClaw</span><span class="tag">Config</span>
+            </div>
+            <div class="agent-card">
+                <h3>🐾 ToriClaw</h3>
+                <p>Tori integration and related workflows.</p>
+                <span class="tag">Tori</span><span class="tag">Integration</span>
+            </div>
+            <div class="agent-card">
+                <h3>📊 DBX</h3>
+                <p>Databricks specialist — queries, notebooks, data ops.</p>
+                <span class="tag">Databricks</span><span class="tag">Data</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🧠 Memory Snapshot</h2>
+        <p class="mem"><strong>Key facts:</strong></p>
+        <ul>
+            <li>User: <strong>Ofer Sasson</strong> (ofscrawl@gmail.com)</li>
+            <li>Ben is the ONLY agent responding to Ofer by default</li>
+            <li>Personality: Smart, factual, efficient — suggest better/faster ways</li>
+            <li>Daily backups: local tar.gz + git push</li>
+            <li>Hierarchy: All agents report to Ben unless Ofer overrides</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>⚙️ Capabilities</h2>
+        <ul>
+            <li>📧 Gmail reading & alerts</li>
+            <li>📅 Calendar monitoring</li>
+            <li>🌐 Web search & fetch</li>
+            <li>🖥️ Shell execution (WSL2)</li>
+            <li>🌍 Browser automation</li>
+            <li>📱 Node device control (camera, screen, location)</li>
+            <li>🗣️ TTS (text-to-speech)</li>
+            <li>💬 Telegram messaging</li>
+            <li>🔄 Git version control</li>
+            <li>⏰ Heartbeat proactive checks</li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>
