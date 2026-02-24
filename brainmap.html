@@ -7,78 +7,82 @@
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { background: #0a0e1a; color: #e0e6f0; font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; overflow-x: hidden; }
-  
   .bg-grid { position: fixed; inset: 0; background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.03) 1px, transparent 0); background-size: 40px 40px; z-index: 0; }
-  
   .container { position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; padding: 2rem 1.5rem; }
-  
-  header { text-align: center; margin-bottom: 3rem; }
-  header h1 { font-size: 2.8rem; background: linear-gradient(135deg, #60a5fa, #a78bfa, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: .5rem; }
-  header p { color: #8892a8; font-size: 1rem; }
+  header { text-align: center; margin-bottom: 2rem; }
+  header h1 { font-size: 2.5rem; background: linear-gradient(135deg, #60a5fa, #a78bfa, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: .3rem; }
+  header p { color: #8892a8; font-size: .95rem; }
   .timestamp { display: inline-block; background: rgba(96,165,250,.1); border: 1px solid rgba(96,165,250,.2); border-radius: 999px; padding: .25rem .9rem; font-size: .8rem; color: #60a5fa; margin-top: .5rem; }
-  
-  /* Agent cards */
-  .agents { display: grid; grid-template-columns: 1fr; gap: 2rem; margin-bottom: 3rem; }
-  @media(min-width:900px){ .agents { grid-template-columns: 1fr 1fr 1fr; } }
-  
-  .card { background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08); border-radius: 1rem; padding: 1.8rem; position: relative; overflow: hidden; transition: transform .2s, border-color .2s; }
-  .card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,.15); }
-  .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
-  .card.ben::before { background: linear-gradient(90deg, #60a5fa, #a78bfa); }
-  .card.invest::before { background: linear-gradient(90deg, #34d399, #10b981); }
-  .card.budget::before { background: linear-gradient(90deg, #fbbf24, #f59e0b); }
-  
-  .card-header { display: flex; align-items: center; gap: .8rem; margin-bottom: 1.2rem; }
-  .avatar { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; }
-  .ben .avatar { background: linear-gradient(135deg, #3b82f6, #8b5cf6); }
-  .invest .avatar { background: linear-gradient(135deg, #059669, #10b981); }
-  .budget .avatar { background: linear-gradient(135deg, #d97706, #f59e0b); }
-  
-  .card-header h2 { font-size: 1.3rem; color: #fff; }
-  .card-header .model { font-size: .75rem; color: #8892a8; font-weight: 400; }
-  .badge { display: inline-block; padding: .15rem .6rem; border-radius: 999px; font-size: .7rem; font-weight: 600; }
-  .badge-main { background: rgba(96,165,250,.15); color: #60a5fa; }
-  .badge-sub { background: rgba(52,211,153,.15); color: #34d399; }
-  .badge-sibling { background: rgba(251,191,36,.15); color: #fbbf24; }
-  
-  .skills { display: flex; flex-wrap: wrap; gap: .4rem; margin: 1rem 0; }
-  .skill { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.08); border-radius: .4rem; padding: .2rem .6rem; font-size: .72rem; color: #b0b8c8; }
-  .skill.pending { border-style: dashed; opacity: .6; }
-  
-  .card ul { list-style: none; }
-  .card li { padding: .3rem 0; font-size: .85rem; color: #b0b8c8; padding-left: 1.2rem; position: relative; }
-  .card li::before { content: '›'; position: absolute; left: 0; color: #60a5fa; font-weight: bold; }
-  .invest li::before { color: #34d399; }
-  .budget li::before { color: #fbbf24; }
-  
-  /* Connection lines */
-  .connections { text-align: center; margin: -1rem 0 2rem; }
-  .conn-label { display: inline-block; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.06); border-radius: .5rem; padding: .4rem 1rem; font-size: .8rem; color: #8892a8; }
-  .conn-label .arrow { color: #60a5fa; margin: 0 .3rem; }
+  .stats-bar { display: flex; justify-content: center; gap: 2rem; margin: 1.5rem 0; flex-wrap: wrap; }
+  .stat { text-align: center; }
+  .stat-num { font-size: 2rem; font-weight: 700; background: linear-gradient(135deg, #60a5fa, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .stat-label { font-size: .75rem; color: #8892a8; text-transform: uppercase; letter-spacing: .05em; }
 
-  /* Bottom sections */
-  .bottom-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
-  @media(min-width:900px){ .bottom-grid { grid-template-columns: 1fr 1fr; } }
-  
-  .section { background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08); border-radius: 1rem; padding: 1.5rem; }
-  .section h3 { font-size: 1.1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: .5rem; }
-  .section h3 .icon { font-size: 1.3rem; }
-  
-  table { width: 100%; border-collapse: collapse; font-size: .82rem; }
-  th { text-align: left; color: #8892a8; font-weight: 500; padding: .5rem .6rem; border-bottom: 1px solid rgba(255,255,255,.08); }
-  td { padding: .5rem .6rem; color: #b0b8c8; border-bottom: 1px solid rgba(255,255,255,.04); }
-  tr:hover td { background: rgba(255,255,255,.02); }
-  
-  .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: .4rem; }
+  /* Tabs */
+  .tabs { display: flex; justify-content: center; gap: .5rem; margin-bottom: 2rem; flex-wrap: wrap; }
+  .tab { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); border-radius: .5rem; padding: .5rem 1.2rem; font-size: .85rem; color: #8892a8; cursor: pointer; transition: all .2s; }
+  .tab:hover, .tab.active { background: rgba(96,165,250,.15); border-color: rgba(96,165,250,.3); color: #60a5fa; }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* Cards */
+  .grid-2 { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+  @media(min-width:900px){ .grid-2 { grid-template-columns: 1fr 1fr; } }
+  .grid-3 { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+  @media(min-width:900px){ .grid-3 { grid-template-columns: 1fr 1fr 1fr; } }
+
+  .card { background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08); border-radius: 1rem; padding: 1.5rem; position: relative; overflow: hidden; transition: transform .2s, border-color .2s; }
+  .card:hover { transform: translateY(-3px); border-color: rgba(255,255,255,.15); }
+  .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .card.blue::before { background: linear-gradient(90deg, #60a5fa, #a78bfa); }
+  .card.green::before { background: linear-gradient(90deg, #34d399, #10b981); }
+  .card.yellow::before { background: linear-gradient(90deg, #fbbf24, #f59e0b); }
+  .card.purple::before { background: linear-gradient(90deg, #a78bfa, #c084fc); }
+  .card.red::before { background: linear-gradient(90deg, #f87171, #ef4444); }
+  .card.cyan::before { background: linear-gradient(90deg, #22d3ee, #06b6d4); }
+  .card.pink::before { background: linear-gradient(90deg, #f472b6, #ec4899); }
+
+  .card h2 { font-size: 1.2rem; margin-bottom: .8rem; display: flex; align-items: center; gap: .5rem; }
+  .card h3 { font-size: .95rem; color: #b0b8c8; margin: .8rem 0 .4rem; }
+  .card ul { list-style: none; }
+  .card li { padding: .25rem 0; font-size: .82rem; color: #b0b8c8; padding-left: 1rem; position: relative; }
+  .card li::before { content: '›'; position: absolute; left: 0; color: #60a5fa; font-weight: bold; }
+
+  .badge { display: inline-block; padding: .12rem .5rem; border-radius: 999px; font-size: .68rem; font-weight: 600; }
+  .badge-blue { background: rgba(96,165,250,.15); color: #60a5fa; }
+  .badge-green { background: rgba(52,211,153,.15); color: #34d399; }
+  .badge-yellow { background: rgba(251,191,36,.15); color: #fbbf24; }
+  .badge-purple { background: rgba(167,139,250,.15); color: #a78bfa; }
+
+  .skill { display: inline-block; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.08); border-radius: .4rem; padding: .15rem .5rem; font-size: .7rem; color: #b0b8c8; margin: .15rem; }
+  .skill.done { background: rgba(52,211,153,.1); border-color: rgba(52,211,153,.2); color: #34d399; }
+  .skill.pending { border-style: dashed; opacity: .6; }
+
+  /* Progress bars */
+  .progress-wrap { margin: .5rem 0; }
+  .progress-label { display: flex; justify-content: space-between; font-size: .72rem; color: #8892a8; margin-bottom: .2rem; }
+  .progress-bar { background: rgba(255,255,255,.06); border-radius: 4px; height: 8px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 4px; transition: width .5s; }
+  .fill-green { background: linear-gradient(90deg, #34d399, #10b981); }
+  .fill-blue { background: linear-gradient(90deg, #60a5fa, #3b82f6); }
+  .fill-yellow { background: linear-gradient(90deg, #fbbf24, #f59e0b); }
+  .fill-purple { background: linear-gradient(90deg, #a78bfa, #8b5cf6); }
+
+  /* Table */
+  table { width: 100%; border-collapse: collapse; font-size: .8rem; }
+  th { text-align: left; color: #8892a8; font-weight: 500; padding: .4rem .5rem; border-bottom: 1px solid rgba(255,255,255,.08); }
+  td { padding: .4rem .5rem; color: #b0b8c8; border-bottom: 1px solid rgba(255,255,255,.04); }
+  .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: .3rem; }
   .dot-green { background: #34d399; box-shadow: 0 0 6px rgba(52,211,153,.5); }
   .dot-yellow { background: #fbbf24; box-shadow: 0 0 6px rgba(251,191,36,.5); }
   .dot-blue { background: #60a5fa; box-shadow: 0 0 6px rgba(96,165,250,.5); }
+  .dot-red { background: #f87171; box-shadow: 0 0 6px rgba(248,113,113,.5); }
 
-  .footer { text-align: center; margin-top: 3rem; padding: 1.5rem; color: #4a5268; font-size: .75rem; }
-  
-  /* Animated glow */
   @keyframes pulse { 0%,100%{ opacity: .6; } 50%{ opacity: 1; } }
   .live { animation: pulse 2s ease-in-out infinite; }
+
+  .footer { text-align: center; margin-top: 2rem; padding: 1rem; color: #4a5268; font-size: .72rem; }
+  .footer a { color: #60a5fa; text-decoration: none; }
 </style>
 </head>
 <body>
@@ -88,179 +92,380 @@
 <header>
   <h1>🧠 Ben's Brain Map</h1>
   <p>OpenClaw Agent Network — Ofer Sasson's AI Infrastructure</p>
-  <div class="timestamp">Last updated: 2026-02-24 20:15 IST</div>
+  <div class="timestamp">Last updated: 2026-02-24 21:38 IST</div>
 </header>
 
-<!-- Agent Cards -->
-<div class="agents">
-  
-  <!-- Ben -->
-  <div class="card ben">
-    <div class="card-header">
-      <div class="avatar">🤖</div>
-      <div>
-        <h2>Ben <span class="badge badge-main">MAIN PA</span></h2>
-        <div class="model">anthropic/claude-opus-4-6</div>
-      </div>
-    </div>
+<!-- Stats Bar -->
+<div class="stats-bar">
+  <div class="stat"><div class="stat-num">3</div><div class="stat-label">Agents</div></div>
+  <div class="stat"><div class="stat-num">33</div><div class="stat-label">Knowledge Files</div></div>
+  <div class="stat"><div class="stat-num">5,094</div><div class="stat-label">Lines of Knowledge</div></div>
+  <div class="stat"><div class="stat-num">8</div><div class="stat-label">Cron Jobs</div></div>
+  <div class="stat"><div class="stat-num">3</div><div class="stat-label">Sectors</div></div>
+  <div class="stat"><div class="stat-num">5</div><div class="stat-label">News Sources</div></div>
+</div>
+
+<!-- Tabs -->
+<div class="tabs">
+  <div class="tab active" onclick="showTab('agents')">🤖 Agents</div>
+  <div class="tab" onclick="showTab('ofsinvest')">📈 OfsInvest</div>
+  <div class="tab" onclick="showTab('sectors')">🔬 Sectors</div>
+  <div class="tab" onclick="showTab('news')">📰 News Intel</div>
+  <div class="tab" onclick="showTab('cron')">⏰ Cron Jobs</div>
+  <div class="tab" onclick="showTab('infra')">🔧 Infrastructure</div>
+</div>
+
+<!-- TAB: Agents -->
+<div id="tab-agents" class="tab-content active">
+<div class="grid-3">
+  <div class="card blue">
+    <h2>🤖 Ben <span class="badge badge-blue">MAIN PA</span></h2>
+    <div style="font-size:.72rem;color:#8892a8;margin-bottom:.8rem;">anthropic/claude-opus-4-6</div>
     <ul>
       <li>Main dispatcher — all agents report to Ben</li>
-      <li>LinkedIn posting (API connected, expires ~Apr 23)</li>
+      <li>LinkedIn posting (API connected, expires ~Apr 26)</li>
       <li>Git backup (auto every 6h)</li>
       <li>Daily HTML reports → Telegram at 9:00 AM</li>
-      <li>Memclawz memory system (QMD &lt;1ms → hnswlib &lt;10ms → MEMORY.md)</li>
-      <li>Social media management</li>
-      <li>Gmail monitoring & calendar alerts</li>
-      <li>Model routing: Opus (code/brain) · Grok (news/research)</li>
+      <li>Memclawz memory system (QMD → hnswlib → MEMORY.md)</li>
+      <li>Model routing: Opus (code) · Grok (news/research)</li>
     </ul>
-    <div class="skills">
-      <span class="skill">dispatcher</span>
-      <span class="skill">linkedin-api</span>
-      <span class="skill">git-backup</span>
-      <span class="skill">daily-reports</span>
-      <span class="skill">memclawz</span>
-      <span class="skill">gmail</span>
-      <span class="skill">tts</span>
+    <div style="margin-top:.8rem;">
+      <span class="skill done">dispatcher</span>
+      <span class="skill done">linkedin-api</span>
+      <span class="skill done">git-backup</span>
+      <span class="skill done">daily-reports</span>
+      <span class="skill done">memclawz</span>
+      <span class="skill done">tts</span>
     </div>
   </div>
 
-  <!-- OfsInvest -->
-  <div class="card invest">
-    <div class="card-header">
-      <div class="avatar">📈</div>
-      <div>
-        <h2>OfsInvest <span class="badge badge-sub">SUB-AGENT</span></h2>
-        <div class="model">anthropic/claude-sonnet-4-5 + xai/grok-4</div>
-      </div>
-    </div>
+  <div class="card green">
+    <h2>📈 OfsInvest <span class="badge badge-green">SUB-AGENT</span></h2>
+    <div style="font-size:.72rem;color:#8892a8;margin-bottom:.8rem;">sonnet + xai/grok-4</div>
     <ul>
-      <li>Investment research & market analysis</li>
-      <li>Stock & crypto analysis (US equities, BTC, ETH, alts)</li>
-      <li>News sentiment filtering (Grok for real-time)</li>
-      <li>Portfolio tracking & P&L reviews</li>
-      <li>Micha.Stocks methodology learned (Discord scraped)</li>
-      <li>Knowledge base: 600+ lines across 6 files</li>
-      <li>Data sources: yfinance, CoinGecko, SEC filings</li>
+      <li>Investment research & Micha.Stocks methodology</li>
+      <li>3 sector research modules (Nuclear/Space, BioPharma, Quantum)</li>
+      <li>5 news intelligence sources</li>
+      <li>Complete trading system (MA150 + ATR + patterns)</li>
+      <li>81-stock watchlist + 18 active setups</li>
+      <li>Daily 6:20 AM briefing → Telegram</li>
     </ul>
-    <div class="skills">
-      <span class="skill">market-analysis</span>
-      <span class="skill">news-sentiment</span>
-      <span class="skill">portfolio-tracker</span>
-      <span class="skill">crypto-analysis</span>
-      <span class="skill">micha-stocks</span>
-      <span class="skill pending">eToro (pending)</span>
+    <div class="progress-wrap">
+      <div class="progress-label"><span>Knowledge Score</span><span>3.7/10 → 6.0 (Week 1)</span></div>
+      <div class="progress-bar"><div class="progress-fill fill-green" style="width:37%"></div></div>
     </div>
-
-    <!-- Learning Progress -->
-    <h3 style="font-size:.9rem;color:#34d399;margin-top:1rem;">📚 Micha.Stocks Learning Progress</h3>
-    <div style="margin-top:.5rem;">
-      <div style="display:flex;justify-content:space-between;font-size:.75rem;color:#8892a8;margin-bottom:.3rem;"><span>3/10 channels scraped</span><span>30%</span></div>
-      <div style="background:rgba(255,255,255,.06);border-radius:4px;height:8px;overflow:hidden;">
-        <div style="width:30%;height:100%;background:linear-gradient(90deg,#34d399,#10b981);border-radius:4px;"></div>
-      </div>
-      <div style="display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.5rem;font-size:.68rem;">
-        <span class="skill" style="background:rgba(52,211,153,.15);color:#34d399;border-color:rgba(52,211,153,.3)">✅ עמוד-הבית</span>
-        <span class="skill" style="background:rgba(52,211,153,.15);color:#34d399;border-color:rgba(52,211,153,.3)">✅ סט-אפים</span>
-        <span class="skill" style="background:rgba(52,211,153,.15);color:#34d399;border-color:rgba(52,211,153,.3)">✅ הדרכות</span>
-        <span class="skill" style="border-style:dashed;opacity:.6;">⬜ גרפים</span>
-        <span class="skill" style="border-style:dashed;opacity:.6;">⬜ קאפ-אנד-הנדל</span>
-        <span class="skill" style="border-style:dashed;opacity:.6;">⬜ ממוצעים</span>
-        <span class="skill" style="border-style:dashed;opacity:.6;">⬜ קווי-מגמה</span>
-        <span class="skill" style="border-style:dashed;opacity:.6;">⬜ נקודות-כניסה</span>
-        <span class="skill" style="border-style:dashed;opacity:.6;">⬜ Fear&Greed</span>
-        <span class="skill" style="border-style:dashed;opacity:.6;">⬜ Koyfin/TV</span>
-      </div>
-      <div style="margin-top:.6rem;font-size:.72rem;color:#b0b8c8;">
-        <strong style="color:#34d399;">Key concepts:</strong> 6 entry types · 5 chart patterns · 5 risk rules · 18-stock watchlist · Twin stocks · 9-month IPO rule · AI research prompts · Capitulation volume signals
-      </div>
+    <div style="margin-top:.6rem;">
+      <span class="skill done">micha-stocks</span>
+      <span class="skill done">market-analysis</span>
+      <span class="skill done">news-intelligence</span>
+      <span class="skill done">sectors</span>
+      <span class="skill pending">eToro</span>
+      <span class="skill pending">daily-scanner</span>
     </div>
   </div>
 
-  <!-- Budget -->
-  <div class="card budget">
-    <div class="card-header">
-      <div class="avatar">💰</div>
-      <div>
-        <h2>Budget Bot <span class="badge badge-sibling">SIBLING</span></h2>
-        <div class="model">anthropic/claude-sonnet-4-5</div>
-      </div>
-    </div>
+  <div class="card yellow">
+    <h2>💰 Budget Bot <span class="badge badge-yellow">SIBLING</span></h2>
+    <div style="font-size:.72rem;color:#8892a8;margin-bottom:.8rem;">anthropic/claude-sonnet-4-5</div>
     <ul>
       <li>Family expense tracking (NIS ₪)</li>
       <li>Auto-categorization (15 categories)</li>
       <li>Natural language input ("Coffee 15")</li>
       <li>Daily / weekly / monthly reports</li>
       <li>Budget: ₪10,000/month</li>
-      <li>Smart recommendations & waste alerts</li>
     </ul>
-    <div class="skills">
-      <span class="skill">expense-tracking</span>
-      <span class="skill">auto-categorize</span>
-      <span class="skill">budget-reports</span>
-      <span class="skill">waste-alerts</span>
-      <span class="skill">recommendations</span>
+    <div style="margin-top:.8rem;">
+      <span class="skill done">expense-tracking</span>
+      <span class="skill done">budget-reports</span>
+      <span class="skill done">waste-alerts</span>
     </div>
   </div>
 </div>
 
-<!-- Connections -->
-<div class="connections">
-  <span class="conn-label">Ben <span class="arrow">→</span> dispatches <span class="arrow">→</span> OfsInvest</span>
-  &nbsp;&nbsp;
-  <span class="conn-label">Ben <span class="arrow">↔</span> sibling <span class="arrow">↔</span> Budget Bot</span>
+<div style="text-align:center;margin:1.5rem 0;">
+  <span style="display:inline-block;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:.5rem;padding:.4rem 1rem;font-size:.8rem;color:#8892a8;">
+    Ben <span style="color:#60a5fa;margin:0 .3rem;">→</span> dispatches <span style="color:#60a5fa;margin:0 .3rem;">→</span> OfsInvest
+    &nbsp;&nbsp;|&nbsp;&nbsp;
+    Ben <span style="color:#fbbf24;margin:0 .3rem;">↔</span> sibling <span style="color:#fbbf24;margin:0 .3rem;">↔</span> Budget Bot
+  </span>
+</div>
 </div>
 
-<!-- Bottom Grid -->
-<div class="bottom-grid">
-
-  <!-- Cron Jobs -->
-  <div class="section">
-    <h3><span class="icon">⏰</span> Cron Jobs (7 active)</h3>
+<!-- TAB: OfsInvest Detail -->
+<div id="tab-ofsinvest" class="tab-content">
+<div class="grid-2">
+  <div class="card green">
+    <h2>📚 Knowledge Base</h2>
     <table>
-      <tr><th>Job</th><th>Schedule</th><th>Agent</th></tr>
-      <tr><td><span class="status-dot dot-green live"></span>Git Push</td><td>Every 6 hours</td><td>Ben</td></tr>
-      <tr><td><span class="status-dot dot-green live"></span>Daily Report</td><td>09:00 daily</td><td>Ben</td></tr>
-      <tr><td><span class="status-dot dot-green live"></span>LinkedIn Post</td><td>10:30 daily</td><td>Ben</td></tr>
-      <tr><td><span class="status-dot dot-blue live"></span>Memclawz Sync</td><td>Every 30 min</td><td>Ben</td></tr>
-      <tr><td><span class="status-dot dot-yellow live"></span>Budget Daily</td><td>21:00 daily</td><td>Budget</td></tr>
-      <tr><td><span class="status-dot dot-yellow live"></span>Budget Weekly</td><td>Sun 20:00</td><td>Budget</td></tr>
-      <tr><td><span class="status-dot dot-yellow live"></span>Budget Monthly</td><td>1st of month 09:00</td><td>Budget</td></tr>
+      <tr><th>File</th><th>Lines</th><th>Content</th></tr>
+      <tr><td>investment-system.md</td><td>392</td><td>Complete unified trading system</td></tr>
+      <tr><td>improvement-plan.md</td><td>556</td><td>Roadmap 3.7→9.2/10</td></tr>
+      <tr><td>decision-tree.md</td><td>242</td><td>Stock evaluation flowchart</td></tr>
+      <tr><td>tutorials.md</td><td>168</td><td>20 tutorials, AI prompts, videos</td></tr>
+      <tr><td>trading-rooms.md</td><td>169</td><td>Patterns, Hebrew glossary</td></tr>
+      <tr><td>methodology-summary.md</td><td>105</td><td>7-section investment guide</td></tr>
+      <tr><td>setups-2026-02-16-24.md</td><td>106</td><td>Recent trade setups</td></tr>
+      <tr><td>entry-points-2026.md</td><td>79</td><td>MA150 prompt + 81 stocks</td></tr>
+      <tr><td>self-assessment.md</td><td>101</td><td>Honest gap analysis</td></tr>
+      <tr><td>active-watchlist.md</td><td>53</td><td>18 stocks + 3 ETFs</td></tr>
+      <tr><td>homepage-2026-02-24.md</td><td>79</td><td>Latest news signals</td></tr>
     </table>
   </div>
 
-  <!-- Services & Infra -->
-  <div class="section">
-    <h3><span class="icon">🔧</span> Services & Infrastructure</h3>
+  <div class="card green">
+    <h2>🎯 Micha.Stocks Discord Scraping</h2>
+    <div class="progress-wrap">
+      <div class="progress-label"><span>Channels scraped</span><span>5/10 (50%)</span></div>
+      <div class="progress-bar"><div class="progress-fill fill-green" style="width:50%"></div></div>
+    </div>
+    <div style="margin-top:.8rem;display:flex;flex-wrap:wrap;gap:.3rem;">
+      <span class="skill done">✅ עמוד-הבית</span>
+      <span class="skill done">✅ סט-אפים</span>
+      <span class="skill done">✅ הדרכות</span>
+      <span class="skill done">✅ נקודות-כניסה</span>
+      <span class="skill done">✅ Trading Rooms (x4)</span>
+      <span class="skill pending">⬜ Fear&Greed</span>
+      <span class="skill pending">⬜ כשהשוק-נופל</span>
+      <span class="skill pending">⬜ Koyfin</span>
+      <span class="skill pending">⬜ TradingView</span>
+      <span class="skill pending">⬜ סיכומי-2025</span>
+    </div>
+
+    <h3>Key Concepts Learned</h3>
+    <ul>
+      <li>MA150 entry framework + ATR risk management</li>
+      <li>6 entry types, 5 chart patterns, 5 risk rules</li>
+      <li>Twin stocks (מניות תאומות)</li>
+      <li>9-month IPO rule</li>
+      <li>Capitulation volume as entry signal</li>
+      <li>3 AI research prompts (analyst, viral, sentiment)</li>
+      <li>20+ Hebrew trading terms</li>
+      <li>"Busy investor" philosophy</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card green" style="margin-top:1.5rem;">
+  <h2>📈 Improvement Roadmap</h2>
+  <div class="grid-3" style="margin-top:1rem;">
+    <div>
+      <div style="font-size:.85rem;font-weight:600;color:#f87171;margin-bottom:.5rem;">🔴 Week 1 → 6.0/10</div>
+      <ul>
+        <li>MA150+ATR screening pipeline</li>
+        <li>Portfolio tracker (portfolio.json)</li>
+        <li>Real-time price alerts</li>
+        <li>Daily morning scan routine</li>
+        <li>Broker connection research</li>
+      </ul>
+    </div>
+    <div>
+      <div style="font-size:.85rem;font-weight:600;color:#fbbf24;margin-bottom:.5rem;">🟡 Weeks 2-4 → 7.8/10</div>
+      <ul>
+        <li>PDF extraction from Discord</li>
+        <li>Backtesting framework</li>
+        <li>TradingView chart analysis</li>
+        <li>Earnings calendar integration</li>
+        <li>Pattern detection automation</li>
+      </ul>
+    </div>
+    <div>
+      <div style="font-size:.85rem;font-weight:600;color:#34d399;margin-bottom:.5rem;">🟢 Month 2+ → 9.2/10</div>
+      <ul>
+        <li>Trade journal + P&L tracking</li>
+        <li>ML pattern recognition</li>
+        <li>Discord live monitoring</li>
+        <li>Risk dashboard</li>
+        <li>Automated weekly reports</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- TAB: Sectors -->
+<div id="tab-sectors" class="tab-content">
+<div class="grid-3">
+  <div class="card cyan">
+    <h2>🔬 גרעיניות וחלל</h2>
+    <div style="font-size:.72rem;color:#8892a8;margin-bottom:.5rem;">Nuclear Energy & Space · 426 lines</div>
+    <h3>Nuclear</h3>
+    <ul>
+      <li>UUUU — Cup & handle, ready for breakout</li>
+      <li>CEG — Entry point analyzed</li>
+      <li>SMR, OKLO, NNE, VST, GEV</li>
+    </ul>
+    <h3>Space</h3>
+    <ul>
+      <li>RKLB — High priority, $73.5 stop</li>
+      <li>ASTS — Twin stock w/ RKLB, buying signal</li>
+      <li>PL, RCAT</li>
+    </ul>
+    <div style="margin-top:.5rem;font-size:.72rem;color:#22d3ee;">Thesis: AI/Data Center power demand + SMR revolution + Defense spending</div>
+  </div>
+
+  <div class="card pink">
+    <h2>💊 ביופארמה</h2>
+    <div style="font-size:.72rem;color:#8892a8;margin-bottom:.5rem;">BioPharma · 338 lines</div>
+    <ul>
+      <li>ABBV — Best buy candidate</li>
+      <li>LLY — GLP-1 leader</li>
+      <li>MRNA — Potential cup & handle at $55</li>
+      <li>NVO — ⛔ Skip (failed CagriSema)</li>
+      <li>JNJ, OSCR, XBI ETF</li>
+    </ul>
+    <div style="margin-top:.5rem;font-size:.72rem;color:#f472b6;">Thesis: GLP-1 revolution + "Health sector about to break out" (Feb 24 signal)</div>
+  </div>
+
+  <div class="card purple">
+    <h2>⚛️ קוונטום</h2>
+    <div style="font-size:.72rem;color:#8892a8;margin-bottom:.5rem;">Quantum Computing · 251 lines</div>
+    <ul>
+      <li>IONQ — Only quantum on Micha's list</li>
+      <li>RGTI, QBTS, QUBT, ARQQ</li>
+      <li>⛔ ALL below MA150 currently</li>
+      <li>⚠️ Extreme volatility (Beta 1.5-3.5)</li>
+      <li>IONQ earnings Feb 25!</li>
+    </ul>
+    <div style="margin-top:.5rem;font-size:.72rem;color:#a78bfa;">Thesis: Pre-commercial, high risk. Micha's maturity filter keeps only IONQ.</div>
+  </div>
+</div>
+</div>
+
+<!-- TAB: News Intel -->
+<div id="tab-news" class="tab-content">
+<div class="grid-3">
+  <div class="card blue">
+    <h2>𝕏 X/Twitter</h2>
+    <ul>
+      <li>20+ FinTwit accounts tracked</li>
+      <li>Viral stock scanner (Micha's prompt)</li>
+      <li>Ticker sentiment research prompt</li>
+      <li>Pump & dump detection</li>
+      <li>Routed via Grok for X insights</li>
+    </ul>
+  </div>
+  <div class="card green">
+    <h2>📊 Yahoo Finance</h2>
+    <ul>
+      <li>yfinance Python automation</li>
+      <li>Earnings calendar monitoring</li>
+      <li>Analyst upgrades/downgrades</li>
+      <li>Pre/post market movers</li>
+      <li>MA150 screening pipeline</li>
+    </ul>
+  </div>
+  <div class="card yellow">
+    <h2>🧠 GuruFocus</h2>
+    <ul>
+      <li>15+ gurus tracked (Buffett, Dalio, Wood...)</li>
+      <li>13F filing monitoring</li>
+      <li>Insider trading signals</li>
+      <li>GF Value / DCF / Piotroski</li>
+    </ul>
+  </div>
+  <div class="card red">
+    <h2>📺 CNBC</h2>
+    <ul>
+      <li>2026 FOMC calendar (8 meetings)</li>
+      <li>Carter Worth + Cramer references</li>
+      <li>Macro indicators (CPI, PPI, GDP)</li>
+      <li>Fear & Greed integration</li>
+    </ul>
+  </div>
+  <div class="card purple">
+    <h2>📰 Market Aggregator</h2>
+    <ul>
+      <li>Investing.com (אינבסטינג)</li>
+      <li>The Fly (הזבוב)</li>
+      <li>Walter Bloomberg</li>
+      <li>Seeking Alpha, Reddit, StockTwits</li>
+    </ul>
+  </div>
+  <div class="card cyan">
+    <h2>🎯 Master Orchestrator</h2>
+    <ul>
+      <li>Daily routine (pre/during/post market)</li>
+      <li>5-source weighted sentiment scoring</li>
+      <li>Alert triggers for Ofer</li>
+      <li>6:20 AM daily Telegram briefing</li>
+    </ul>
+  </div>
+</div>
+</div>
+
+<!-- TAB: Cron Jobs -->
+<div id="tab-cron" class="tab-content">
+<div class="card blue">
+  <h2>⏰ Active Cron Jobs (8)</h2>
+  <table>
+    <tr><th>Job</th><th>Schedule</th><th>Agent</th><th>Status</th></tr>
+    <tr><td><span class="dot dot-green live"></span>OfsInvest News Briefing</td><td>06:20 daily</td><td>Ben → OfsInvest</td><td>🆕 New</td></tr>
+    <tr><td><span class="dot dot-green live"></span>Daily Backup & Report</td><td>09:00 daily</td><td>Ben</td><td>✅ Running</td></tr>
+    <tr><td><span class="dot dot-green live"></span>LinkedIn Draft</td><td>10:30 daily</td><td>Ben</td><td>✅ Running</td></tr>
+    <tr><td><span class="dot dot-blue live"></span>Git Push</td><td>Every 6h</td><td>Ben</td><td>✅ Running</td></tr>
+    <tr><td><span class="dot dot-blue live"></span>Memclawz Health</td><td>Every 30min</td><td>Ben</td><td>✅ Running</td></tr>
+    <tr><td><span class="dot dot-yellow live"></span>Budget Daily</td><td>21:00 daily</td><td>Budget</td><td>✅ Running</td></tr>
+    <tr><td><span class="dot dot-yellow live"></span>Budget Weekly</td><td>Sun 20:00</td><td>Budget</td><td>✅ Running</td></tr>
+    <tr><td><span class="dot dot-yellow live"></span>Budget Monthly</td><td>1st 09:00</td><td>Budget</td><td>✅ Running</td></tr>
+  </table>
+</div>
+</div>
+
+<!-- TAB: Infrastructure -->
+<div id="tab-infra" class="tab-content">
+<div class="grid-2">
+  <div class="card blue">
+    <h2>🔧 Services</h2>
     <table>
       <tr><th>Service</th><th>Status</th><th>Details</th></tr>
-      <tr><td><span class="status-dot dot-green live"></span>Memclawz hnswlib</td><td>Running</td><td>Port 4010 · vector memory</td></tr>
-      <tr><td><span class="status-dot dot-green live"></span>LinkedIn API</td><td>Connected</td><td>Token expires ~Apr 2023</td></tr>
-      <tr><td><span class="status-dot dot-green live"></span>OpenClaw Gateway</td><td>Running</td><td>WSL2 · Linux 6.6</td></tr>
-      <tr><td><span class="status-dot dot-blue live"></span>Telegram Channel</td><td>Active</td><td>Primary communication</td></tr>
+      <tr><td><span class="dot dot-green live"></span>OpenClaw Gateway</td><td>Running</td><td>WSL2 · Port 18789</td></tr>
+      <tr><td><span class="dot dot-green live"></span>Memclawz hnswlib</td><td>Running</td><td>Port 4010 · Vector memory</td></tr>
+      <tr><td><span class="dot dot-green live"></span>LinkedIn API</td><td>Connected</td><td>Expires ~Apr 2026</td></tr>
+      <tr><td><span class="dot dot-blue live"></span>Telegram</td><td>Active</td><td>Primary channel</td></tr>
+      <tr><td><span class="dot dot-blue live"></span>Browser Relay</td><td>Active</td><td>Chrome extension</td></tr>
+      <tr><td><span class="dot dot-green live"></span>GitHub</td><td>Connected</td><td>Auto-push every 6h</td></tr>
     </table>
+  </div>
 
-    <h3 style="margin-top:1.5rem"><span class="icon">🧠</span> Memory Architecture</h3>
-    <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-top:.8rem;font-size:.85rem;">
+  <div class="card blue">
+    <h2>🧠 Architecture</h2>
+    <h3>Memory Stack</h3>
+    <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin:.5rem 0;font-size:.82rem;">
       <span class="skill" style="background:rgba(96,165,250,.15);color:#60a5fa;border-color:rgba(96,165,250,.3)">QMD &lt;1ms</span>
       <span style="color:#4a5268">→</span>
       <span class="skill" style="background:rgba(52,211,153,.15);color:#34d399;border-color:rgba(52,211,153,.3)">hnswlib &lt;10ms</span>
       <span style="color:#4a5268">→</span>
       <span class="skill" style="background:rgba(167,139,250,.15);color:#a78bfa;border-color:rgba(167,139,250,.3)">MEMORY.md</span>
     </div>
-
-    <h3 style="margin-top:1.5rem"><span class="icon">🤖</span> Model Routing</h3>
-    <div style="margin-top:.8rem;font-size:.85rem;color:#b0b8c8;">
-      <div style="margin-bottom:.4rem"><strong style="color:#a78bfa">Opus 4.6</strong> — Code, brain improvements, complex reasoning</div>
-      <div><strong style="color:#34d399">Grok 4</strong> — News, financial data, X/Twitter, real-time research</div>
+    <h3>Model Routing</h3>
+    <div style="margin:.5rem 0;font-size:.82rem;color:#b0b8c8;">
+      <div style="margin-bottom:.3rem"><strong style="color:#a78bfa">Opus 4.6</strong> — Code, brain, complex reasoning</div>
+      <div><strong style="color:#34d399">Grok 4</strong> — News, X/Twitter, real-time research</div>
+    </div>
+    <h3>Workspace</h3>
+    <div style="font-size:.78rem;color:#b0b8c8;margin-top:.3rem;">
+      <div>Ben: ~/.openclaw/workspace (main)</div>
+      <div>OfsInvest: ~/.openclaw/workspace-ofsinvest (5,094 lines)</div>
+      <div>Budget: ~/.openclaw/workspace-budget</div>
     </div>
   </div>
 </div>
+</div>
 
 <footer class="footer">
-  <p>🧠 Ben's Brain Map · OpenClaw Agent Network · Generated 2026-02-24</p>
-  <p style="margin-top:.3rem">Built by Ben for Ofer Sasson · <a href="https://github.com/ofersasson/clawbot-reports" style="color:#60a5fa;text-decoration:none;">github.com/ofersasson/clawbot-reports</a></p>
+  <p>🧠 Ben's Brain Map · OpenClaw Agent Network · Generated 2026-02-24 21:38 IST</p>
+  <p style="margin-top:.2rem">Built by Ben for Ofer Sasson · <a href="https://github.com/ofs100private/clawbot-reports">github.com/ofs100private/clawbot-reports</a></p>
 </footer>
 
 </div>
+
+<script>
+function showTab(name) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
 </body>
 </html>
