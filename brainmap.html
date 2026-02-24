@@ -3,150 +3,240 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🧠 Ben's Brain Map</title>
+<title>🧠 Ben's Brain Map — OpenClaw Agent Network</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#0d1117;color:#c9d1d9;font-family:'Segoe UI',system-ui,sans-serif;padding:24px;min-height:100vh}
-h1{text-align:center;font-size:2.2rem;margin-bottom:8px;background:linear-gradient(135deg,#58a6ff,#bc8cff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.subtitle{text-align:center;color:#8b949e;margin-bottom:32px;font-size:.95rem}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:20px;max-width:1200px;margin:0 auto}
-.card{background:#161b22;border:1px solid #30363d;border-radius:12px;padding:20px;transition:border-color .2s}
-.card:hover{border-color:#58a6ff}
-.card h2{font-size:1.1rem;margin-bottom:12px;display:flex;align-items:center;gap:8px}
-.card h2 .icon{font-size:1.3rem}
-.badge{display:inline-block;padding:2px 10px;border-radius:20px;font-size:.75rem;font-weight:600}
-.opus{background:#3b1f6e;color:#bc8cff}
-.sonnet{background:#1a3a2a;color:#56d364}
-.tag{display:inline-block;background:#21262d;border:1px solid #30363d;padding:3px 10px;border-radius:6px;font-size:.8rem;margin:3px 2px;color:#8b949e}
-.tag.active{border-color:#238636;color:#56d364}
-.layer{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #21262d}
-.layer:last-child{border:none}
-.layer .speed{font-size:.75rem;color:#58a6ff;font-weight:600;min-width:60px}
-.layer .name{font-weight:600}
-.layer .desc{color:#8b949e;font-size:.85rem}
-.arrow{color:#484f58;font-size:1.2rem}
-.service{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #21262d}
-.service:last-child{border:none}
-.dot{width:8px;height:8px;border-radius:50%;background:#56d364;display:inline-block;margin-right:6px}
-.cron-item{padding:6px 0;border-bottom:1px solid #21262d;display:flex;justify-content:space-between;font-size:.88rem}
-.cron-item:last-child{border:none}
-.cron-item .schedule{color:#58a6ff;font-size:.8rem;white-space:nowrap}
-.tree{font-family:'Fira Code',monospace;font-size:.82rem;color:#8b949e;line-height:1.7}
-.tree .dir{color:#58a6ff}
-.tree .file{color:#c9d1d9}
-.footer{text-align:center;margin-top:32px;color:#484f58;font-size:.8rem}
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0a0e1a; color: #e0e6f0; font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; overflow-x: hidden; }
+  
+  .bg-grid { position: fixed; inset: 0; background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.03) 1px, transparent 0); background-size: 40px 40px; z-index: 0; }
+  
+  .container { position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; padding: 2rem 1.5rem; }
+  
+  header { text-align: center; margin-bottom: 3rem; }
+  header h1 { font-size: 2.8rem; background: linear-gradient(135deg, #60a5fa, #a78bfa, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: .5rem; }
+  header p { color: #8892a8; font-size: 1rem; }
+  .timestamp { display: inline-block; background: rgba(96,165,250,.1); border: 1px solid rgba(96,165,250,.2); border-radius: 999px; padding: .25rem .9rem; font-size: .8rem; color: #60a5fa; margin-top: .5rem; }
+  
+  /* Agent cards */
+  .agents { display: grid; grid-template-columns: 1fr; gap: 2rem; margin-bottom: 3rem; }
+  @media(min-width:900px){ .agents { grid-template-columns: 1fr 1fr 1fr; } }
+  
+  .card { background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08); border-radius: 1rem; padding: 1.8rem; position: relative; overflow: hidden; transition: transform .2s, border-color .2s; }
+  .card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,.15); }
+  .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .card.ben::before { background: linear-gradient(90deg, #60a5fa, #a78bfa); }
+  .card.invest::before { background: linear-gradient(90deg, #34d399, #10b981); }
+  .card.budget::before { background: linear-gradient(90deg, #fbbf24, #f59e0b); }
+  
+  .card-header { display: flex; align-items: center; gap: .8rem; margin-bottom: 1.2rem; }
+  .avatar { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; }
+  .ben .avatar { background: linear-gradient(135deg, #3b82f6, #8b5cf6); }
+  .invest .avatar { background: linear-gradient(135deg, #059669, #10b981); }
+  .budget .avatar { background: linear-gradient(135deg, #d97706, #f59e0b); }
+  
+  .card-header h2 { font-size: 1.3rem; color: #fff; }
+  .card-header .model { font-size: .75rem; color: #8892a8; font-weight: 400; }
+  .badge { display: inline-block; padding: .15rem .6rem; border-radius: 999px; font-size: .7rem; font-weight: 600; }
+  .badge-main { background: rgba(96,165,250,.15); color: #60a5fa; }
+  .badge-sub { background: rgba(52,211,153,.15); color: #34d399; }
+  .badge-sibling { background: rgba(251,191,36,.15); color: #fbbf24; }
+  
+  .skills { display: flex; flex-wrap: wrap; gap: .4rem; margin: 1rem 0; }
+  .skill { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.08); border-radius: .4rem; padding: .2rem .6rem; font-size: .72rem; color: #b0b8c8; }
+  .skill.pending { border-style: dashed; opacity: .6; }
+  
+  .card ul { list-style: none; }
+  .card li { padding: .3rem 0; font-size: .85rem; color: #b0b8c8; padding-left: 1.2rem; position: relative; }
+  .card li::before { content: '›'; position: absolute; left: 0; color: #60a5fa; font-weight: bold; }
+  .invest li::before { color: #34d399; }
+  .budget li::before { color: #fbbf24; }
+  
+  /* Connection lines */
+  .connections { text-align: center; margin: -1rem 0 2rem; }
+  .conn-label { display: inline-block; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.06); border-radius: .5rem; padding: .4rem 1rem; font-size: .8rem; color: #8892a8; }
+  .conn-label .arrow { color: #60a5fa; margin: 0 .3rem; }
+
+  /* Bottom sections */
+  .bottom-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+  @media(min-width:900px){ .bottom-grid { grid-template-columns: 1fr 1fr; } }
+  
+  .section { background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08); border-radius: 1rem; padding: 1.5rem; }
+  .section h3 { font-size: 1.1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: .5rem; }
+  .section h3 .icon { font-size: 1.3rem; }
+  
+  table { width: 100%; border-collapse: collapse; font-size: .82rem; }
+  th { text-align: left; color: #8892a8; font-weight: 500; padding: .5rem .6rem; border-bottom: 1px solid rgba(255,255,255,.08); }
+  td { padding: .5rem .6rem; color: #b0b8c8; border-bottom: 1px solid rgba(255,255,255,.04); }
+  tr:hover td { background: rgba(255,255,255,.02); }
+  
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: .4rem; }
+  .dot-green { background: #34d399; box-shadow: 0 0 6px rgba(52,211,153,.5); }
+  .dot-yellow { background: #fbbf24; box-shadow: 0 0 6px rgba(251,191,36,.5); }
+  .dot-blue { background: #60a5fa; box-shadow: 0 0 6px rgba(96,165,250,.5); }
+
+  .footer { text-align: center; margin-top: 3rem; padding: 1.5rem; color: #4a5268; font-size: .75rem; }
+  
+  /* Animated glow */
+  @keyframes pulse { 0%,100%{ opacity: .6; } 50%{ opacity: 1; } }
+  .live { animation: pulse 2s ease-in-out infinite; }
 </style>
 </head>
 <body>
+<div class="bg-grid"></div>
+<div class="container">
 
-<h1>🧠 Ben's Brain Map</h1>
-<p class="subtitle">OpenClaw Workspace Overview — Last updated: 2026-02-24</p>
+<header>
+  <h1>🧠 Ben's Brain Map</h1>
+  <p>OpenClaw Agent Network — Ofer Sasson's AI Infrastructure</p>
+  <div class="timestamp">Last updated: 2026-02-24 18:40 IST</div>
+</header>
 
-<div class="grid">
+<!-- Agent Cards -->
+<div class="agents">
+  
+  <!-- Ben -->
+  <div class="card ben">
+    <div class="card-header">
+      <div class="avatar">🤖</div>
+      <div>
+        <h2>Ben <span class="badge badge-main">MAIN PA</span></h2>
+        <div class="model">anthropic/claude-opus-4-6</div>
+      </div>
+    </div>
+    <ul>
+      <li>Main dispatcher — all agents report to Ben</li>
+      <li>LinkedIn posting (API connected, expires ~Apr 23)</li>
+      <li>Git backup (auto every 6h)</li>
+      <li>Daily HTML reports → Telegram at 9:00 AM</li>
+      <li>Memclawz memory system (QMD &lt;1ms → hnswlib &lt;10ms → MEMORY.md)</li>
+      <li>Social media management</li>
+      <li>Gmail monitoring & calendar alerts</li>
+      <li>Model routing: Opus (code/brain) · Grok (news/research)</li>
+    </ul>
+    <div class="skills">
+      <span class="skill">dispatcher</span>
+      <span class="skill">linkedin-api</span>
+      <span class="skill">git-backup</span>
+      <span class="skill">daily-reports</span>
+      <span class="skill">memclawz</span>
+      <span class="skill">gmail</span>
+      <span class="skill">tts</span>
+    </div>
+  </div>
 
-<!-- AGENTS -->
-<div class="card">
-<h2><span class="icon">🤖</span> Agents</h2>
-<div style="margin-bottom:12px">
-<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #21262d">
-<div><strong>Ben</strong> — Lead Agent</div><span class="badge opus">Claude Opus</span>
-</div>
-<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #21262d">
-<div><strong>Budget</strong> — Finance Tracker</div><span class="badge sonnet">Claude Sonnet</span>
-</div>
-<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0">
-<div><strong>OfsInvest</strong> — Investment Analyst</div><span class="badge sonnet">Claude Sonnet</span>
-</div>
-</div>
-</div>
+  <!-- OfsInvest -->
+  <div class="card invest">
+    <div class="card-header">
+      <div class="avatar">📈</div>
+      <div>
+        <h2>OfsInvest <span class="badge badge-sub">SUB-AGENT</span></h2>
+        <div class="model">anthropic/claude-sonnet-4-5 + xai/grok-4</div>
+      </div>
+    </div>
+    <ul>
+      <li>Investment research & market analysis</li>
+      <li>Stock & crypto analysis (US equities, BTC, ETH, alts)</li>
+      <li>News sentiment filtering (Grok for real-time)</li>
+      <li>Portfolio tracking & P&L reviews</li>
+      <li>Micha.Stocks signal monitoring (Hebrew)</li>
+      <li>Data sources: yfinance, CoinGecko, SEC filings</li>
+    </ul>
+    <div class="skills">
+      <span class="skill">market-analysis</span>
+      <span class="skill">news-sentiment</span>
+      <span class="skill">portfolio-tracker</span>
+      <span class="skill">crypto-analysis</span>
+      <span class="skill">micha-stocks</span>
+      <span class="skill pending">eToro (pending)</span>
+      <span class="skill pending">Discord browser (pending)</span>
+    </div>
+  </div>
 
-<!-- BEN'S SKILLS -->
-<div class="card">
-<h2><span class="icon">⚡</span> Ben's Skills</h2>
-<div>
-<span class="tag active">qmd-zvec (memclawz)</span>
-<span class="tag active">LinkedIn Posting</span>
-<span class="tag active">Git Backup</span>
-</div>
-</div>
-
-<!-- OFSINVEST SKILLS -->
-<div class="card">
-<h2><span class="icon">📊</span> OfsInvest Skills</h2>
-<div>
-<span class="tag active">market-analysis</span>
-<span class="tag active">news-sentiment</span>
-<span class="tag active">portfolio-tracker</span>
-<span class="tag active">crypto-analysis</span>
-<span class="tag active">micha-stocks</span>
-</div>
-</div>
-
-<!-- MEMORY LAYERS -->
-<div class="card">
-<h2><span class="icon">🧬</span> Memory Layers</h2>
-<div class="layer">
-<span class="speed">&lt;1ms</span>
-<div><span class="name">QMD</span><br><span class="desc">Quick Memory Dispatch — instant recall</span></div>
-</div>
-<div style="text-align:center"><span class="arrow">↓</span></div>
-<div class="layer">
-<span class="speed">&lt;10ms</span>
-<div><span class="name">Zvec / hnswlib</span><br><span class="desc">Vector search — semantic memory</span></div>
-</div>
-<div style="text-align:center"><span class="arrow">↓</span></div>
-<div class="layer">
-<span class="speed">file</span>
-<div><span class="name">MEMORY.md</span><br><span class="desc">Long-term curated knowledge</span></div>
-</div>
-</div>
-
-<!-- SERVICES -->
-<div class="card">
-<h2><span class="icon">🔧</span> Services</h2>
-<div class="service">
-<div><span class="dot"></span><strong>memclawz</strong></div>
-<div style="color:#8b949e;font-size:.85rem">hnswlib on port 4010</div>
-</div>
-<div class="service">
-<div><span class="dot"></span><strong>LinkedIn API</strong></div>
-<div style="color:#8b949e;font-size:.85rem">Posting integration</div>
-</div>
-</div>
-
-<!-- CRON JOBS -->
-<div class="card" style="grid-column:span 1">
-<h2><span class="icon">⏰</span> Cron Jobs <span class="badge" style="background:#1a3a2a;color:#56d364;margin-left:auto">7 active</span></h2>
-<div class="cron-item"><span>Git Push</span><span class="schedule">Every 6h</span></div>
-<div class="cron-item"><span>Daily Report</span><span class="schedule">09:00</span></div>
-<div class="cron-item"><span>LinkedIn Post</span><span class="schedule">10:30</span></div>
-<div class="cron-item"><span>Memclawz Sync</span><span class="schedule">Every 30m</span></div>
-<div class="cron-item"><span>Budget Daily</span><span class="schedule">Daily</span></div>
-<div class="cron-item"><span>Budget Weekly</span><span class="schedule">Weekly</span></div>
-<div class="cron-item"><span>Budget Monthly</span><span class="schedule">Monthly</span></div>
-</div>
-
-<!-- WORKSPACE -->
-<div class="card">
-<h2><span class="icon">📁</span> Workspace Structure</h2>
-<div class="tree">
-<span class="dir">~/.openclaw/workspace/</span><br>
-├── <span class="file">SOUL.md</span><br>
-├── <span class="file">MEMORY.md</span><br>
-├── <span class="file">TOOLS.md</span><br>
-├── <span class="file">AGENTS.md</span><br>
-├── <span class="dir">agents/</span><br>
-│   └── <span class="dir">ofsinvest/</span><br>
-├── <span class="dir">skills/</span><br>
-│   └── <span class="dir">qmd-zvec/</span><br>
-├── <span class="dir">brainmap/</span><br>
-└── <span class="dir">memory/</span><br>
-</div>
+  <!-- Budget -->
+  <div class="card budget">
+    <div class="card-header">
+      <div class="avatar">💰</div>
+      <div>
+        <h2>Budget Bot <span class="badge badge-sibling">SIBLING</span></h2>
+        <div class="model">anthropic/claude-sonnet-4-5</div>
+      </div>
+    </div>
+    <ul>
+      <li>Family expense tracking (NIS ₪)</li>
+      <li>Auto-categorization (15 categories)</li>
+      <li>Natural language input ("Coffee 15")</li>
+      <li>Daily / weekly / monthly reports</li>
+      <li>Budget: ₪10,000/month</li>
+      <li>Smart recommendations & waste alerts</li>
+    </ul>
+    <div class="skills">
+      <span class="skill">expense-tracking</span>
+      <span class="skill">auto-categorize</span>
+      <span class="skill">budget-reports</span>
+      <span class="skill">waste-alerts</span>
+      <span class="skill">recommendations</span>
+    </div>
+  </div>
 </div>
 
+<!-- Connections -->
+<div class="connections">
+  <span class="conn-label">Ben <span class="arrow">→</span> dispatches <span class="arrow">→</span> OfsInvest</span>
+  &nbsp;&nbsp;
+  <span class="conn-label">Ben <span class="arrow">↔</span> sibling <span class="arrow">↔</span> Budget Bot</span>
 </div>
 
-<p class="footer">Ben — OpenClaw Agent • Powered by Claude Opus • github.com/ofs100private</p>
+<!-- Bottom Grid -->
+<div class="bottom-grid">
 
+  <!-- Cron Jobs -->
+  <div class="section">
+    <h3><span class="icon">⏰</span> Cron Jobs (7 active)</h3>
+    <table>
+      <tr><th>Job</th><th>Schedule</th><th>Agent</th></tr>
+      <tr><td><span class="status-dot dot-green live"></span>Git Push</td><td>Every 6 hours</td><td>Ben</td></tr>
+      <tr><td><span class="status-dot dot-green live"></span>Daily Report</td><td>09:00 daily</td><td>Ben</td></tr>
+      <tr><td><span class="status-dot dot-green live"></span>LinkedIn Post</td><td>10:30 daily</td><td>Ben</td></tr>
+      <tr><td><span class="status-dot dot-blue live"></span>Memclawz Sync</td><td>Every 30 min</td><td>Ben</td></tr>
+      <tr><td><span class="status-dot dot-yellow live"></span>Budget Daily</td><td>21:00 daily</td><td>Budget</td></tr>
+      <tr><td><span class="status-dot dot-yellow live"></span>Budget Weekly</td><td>Sun 20:00</td><td>Budget</td></tr>
+      <tr><td><span class="status-dot dot-yellow live"></span>Budget Monthly</td><td>1st of month 09:00</td><td>Budget</td></tr>
+    </table>
+  </div>
+
+  <!-- Services & Infra -->
+  <div class="section">
+    <h3><span class="icon">🔧</span> Services & Infrastructure</h3>
+    <table>
+      <tr><th>Service</th><th>Status</th><th>Details</th></tr>
+      <tr><td><span class="status-dot dot-green live"></span>Memclawz hnswlib</td><td>Running</td><td>Port 4010 · vector memory</td></tr>
+      <tr><td><span class="status-dot dot-green live"></span>LinkedIn API</td><td>Connected</td><td>Token expires ~Apr 2023</td></tr>
+      <tr><td><span class="status-dot dot-green live"></span>OpenClaw Gateway</td><td>Running</td><td>WSL2 · Linux 6.6</td></tr>
+      <tr><td><span class="status-dot dot-blue live"></span>Telegram Channel</td><td>Active</td><td>Primary communication</td></tr>
+    </table>
+
+    <h3 style="margin-top:1.5rem"><span class="icon">🧠</span> Memory Architecture</h3>
+    <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-top:.8rem;font-size:.85rem;">
+      <span class="skill" style="background:rgba(96,165,250,.15);color:#60a5fa;border-color:rgba(96,165,250,.3)">QMD &lt;1ms</span>
+      <span style="color:#4a5268">→</span>
+      <span class="skill" style="background:rgba(52,211,153,.15);color:#34d399;border-color:rgba(52,211,153,.3)">hnswlib &lt;10ms</span>
+      <span style="color:#4a5268">→</span>
+      <span class="skill" style="background:rgba(167,139,250,.15);color:#a78bfa;border-color:rgba(167,139,250,.3)">MEMORY.md</span>
+    </div>
+
+    <h3 style="margin-top:1.5rem"><span class="icon">🤖</span> Model Routing</h3>
+    <div style="margin-top:.8rem;font-size:.85rem;color:#b0b8c8;">
+      <div style="margin-bottom:.4rem"><strong style="color:#a78bfa">Opus 4.6</strong> — Code, brain improvements, complex reasoning</div>
+      <div><strong style="color:#34d399">Grok 4</strong> — News, financial data, X/Twitter, real-time research</div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <p>🧠 Ben's Brain Map · OpenClaw Agent Network · Generated 2026-02-24</p>
+  <p style="margin-top:.3rem">Built by Ben for Ofer Sasson · <a href="https://github.com/ofersasson/clawbot-reports" style="color:#60a5fa;text-decoration:none;">github.com/ofersasson/clawbot-reports</a></p>
+</footer>
+
+</div>
 </body>
 </html>
