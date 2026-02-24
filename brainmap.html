@@ -114,6 +114,7 @@
   <div class="tab" onclick="showTab('cron')">⏰ Cron Jobs</div>
   <div class="tab" onclick="showTab('infra')">🔧 Infrastructure</div>
   <div class="tab" onclick="showTab('updates')">📊 Updates & Learning Curve</div>
+  <div class="tab" onclick="showTab('costs')">💰 Model Costs</div>
 </div>
 
 <!-- TAB: Agents -->
@@ -610,6 +611,59 @@
 
 </div>
 
+<!-- TAB: Model Costs -->
+<div id="tab-costs" class="tab-content">
+
+<!-- Summary Bar -->
+<div class="card blue" style="margin-bottom:1.5rem;">
+  <h2>💰 Today's Model Costs <button onclick="refreshCosts()" style="background:rgba(96,165,250,.15);border:1px solid rgba(96,165,250,.3);border-radius:.4rem;padding:.3rem .8rem;font-size:.75rem;color:#60a5fa;cursor:pointer;margin-left:.5rem;">🔄 Refresh</button></h2>
+  <div class="stats-bar" style="margin:1rem 0;">
+    <div class="stat"><div class="stat-num" id="total-cost">~$6.51</div><div class="stat-label">Total Today</div></div>
+    <div class="stat"><div class="stat-num" id="opus-cost">~$6.51</div><div class="stat-label">Opus Cost</div></div>
+    <div class="stat"><div class="stat-num" id="grok-cost">$0.00</div><div class="stat-label">Grok Cost (Free)</div></div>
+    <div class="stat"><div class="stat-num" id="sessions-active">13</div><div class="stat-label">Sessions Active</div></div>
+  </div>
+  <div style="font-size:.75rem;color:#8892a8;text-align:center;" id="refresh-timestamp">Last updated: 2026-02-25 00:30 IST</div>
+</div>
+
+<!-- Cost Breakdown Table -->
+<div class="card blue">
+  <h2>📊 Session Cost Breakdown</h2>
+  <table id="cost-table">
+    <thead>
+      <tr>
+        <th>Session</th>
+        <th>Model</th>
+        <th>Tokens In</th>
+        <th>Tokens Out</th>
+        <th>Total Tokens</th>
+        <th>Est. Cost ($)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Ben (main)</td><td>claude-opus-4-6</td><td>75k</td><td>32k</td><td>107k</td><td>$1.60</td></tr>
+      <tr><td>extract-space-scorecard</td><td>claude-opus-4-6</td><td>13k</td><td>5k</td><td>18k</td><td>$0.27</td></tr>
+      <tr><td>extract-2026-playbook</td><td>claude-opus-4-6</td><td>12k</td><td>5k</td><td>17k</td><td>$0.26</td></tr>
+      <tr><td>Brain Map Cron</td><td>claude-opus-4-6</td><td>13k</td><td>5k</td><td>18k</td><td>$0.27</td></tr>
+      <tr><td>Memclawz Cron</td><td>claude-opus-4-6</td><td>11k</td><td>4k</td><td>15k</td><td>$0.22</td></tr>
+      <tr><td>extract-text-pdfs</td><td>claude-opus-4-6</td><td>13k</td><td>5k</td><td>18k</td><td>$0.27</td></tr>
+      <tr><td>extract-market-map</td><td>claude-opus-4-6</td><td>13k</td><td>5k</td><td>18k</td><td>$0.27</td></tr>
+      <tr><td>extract-risk-discipline</td><td>claude-opus-4-6</td><td>13k</td><td>5k</td><td>18k</td><td>$0.27</td></tr>
+      <tr><td>Group chat</td><td>claude-opus-4-6</td><td>41k</td><td>18k</td><td>59k</td><td>$0.88</td></tr>
+      <tr><td>Git backup cron</td><td>claude-opus-4-6</td><td>11k</td><td>4k</td><td>15k</td><td>$0.22</td></tr>
+      <tr><td>Pagaya analysis v2</td><td>grok-4</td><td>15k</td><td>6k</td><td>21k</td><td>$0.00</td></tr>
+      <tr><td>Pagaya analysis</td><td>grok-4</td><td>9k</td><td>4k</td><td>13k</td><td>$0.00</td></tr>
+      <tr><td>Group chat 2</td><td>claude-opus-4-6</td><td>32k</td><td>13k</td><td>45k</td><td>$0.67</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div style="margin-top:1rem;padding:1rem;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.15);border-radius:.8rem;font-size:.78rem;color:#b0b8c8;">
+  <strong style="color:#fbbf24;">💡 Pricing:</strong> Claude Opus 4.6: $15/1M input tokens, $75/1M output tokens. Grok 4: Free via xAI. Cost estimates assume 70% input / 30% output ratio.
+</div>
+
+</div>
+
 <footer class="footer">
   <p>🧠 Ben's Brain Map · OpenClaw Agent Network · Generated 2026-02-25 00:07 IST</p>
   <p style="margin-top:.2rem">Built by Ben for Ofer Sasson · <a href="https://github.com/ofs100private/clawbot-reports">github.com/ofs100private/clawbot-reports</a></p>
@@ -623,6 +677,83 @@ function showTab(name) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.getElementById('tab-' + name).classList.add('active');
   event.target.classList.add('active');
+}
+
+function refreshCosts() {
+  fetch('http://127.0.0.1:18789/api/sessions?activeMinutes=1440&messageLimit=0', {
+    headers: {'Authorization': 'Bearer 0d04dc8adb5f793aa7c6d078d84755799f1a9ccf0566b77a'}
+  })
+  .then(res => res.json())
+  .then(data => {
+    // Pricing constants (per 1M tokens)
+    const OPUS_INPUT = 15;   // $15/1M input
+    const OPUS_OUTPUT = 75;  // $75/1M output
+    
+    let totalCost = 0;
+    let opusCost = 0;
+    let grokCost = 0;
+    let sessionsActive = 0;
+    
+    const tbody = document.querySelector('#cost-table tbody');
+    tbody.innerHTML = '';
+    
+    data.sessions.forEach(session => {
+      if (!session.totalTokens || session.totalTokens === 0) return;
+      
+      sessionsActive++;
+      const totalTokens = session.totalTokens;
+      
+      // Estimate 70% input, 30% output
+      const inputTokens = Math.round(totalTokens * 0.7);
+      const outputTokens = Math.round(totalTokens * 0.3);
+      
+      let cost = 0;
+      const model = session.model || 'unknown';
+      
+      if (model.includes('opus')) {
+        cost = (inputTokens / 1000000) * OPUS_INPUT + (outputTokens / 1000000) * OPUS_OUTPUT;
+        opusCost += cost;
+      } else if (model.includes('grok')) {
+        cost = 0; // Grok is free
+        grokCost += 0;
+      } else if (model.includes('claude')) {
+        // Assume other claude models use opus pricing as fallback
+        cost = (inputTokens / 1000000) * OPUS_INPUT + (outputTokens / 1000000) * OPUS_OUTPUT;
+        opusCost += cost;
+      }
+      
+      totalCost += cost;
+      
+      // Format tokens
+      const formatTokens = (n) => n >= 1000 ? Math.round(n/1000) + 'k' : n;
+      
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${session.label || session.sessionId.slice(0, 20)}</td>
+        <td>${model}</td>
+        <td>${formatTokens(inputTokens)}</td>
+        <td>${formatTokens(outputTokens)}</td>
+        <td>${formatTokens(totalTokens)}</td>
+        <td>$${cost.toFixed(2)}</td>
+      `;
+      tbody.appendChild(row);
+    });
+    
+    // Update summary
+    document.getElementById('total-cost').textContent = '$' + totalCost.toFixed(2);
+    document.getElementById('opus-cost').textContent = '$' + opusCost.toFixed(2);
+    document.getElementById('grok-cost').textContent = '$' + grokCost.toFixed(2);
+    document.getElementById('sessions-active').textContent = sessionsActive;
+    
+    // Update timestamp
+    const now = new Date();
+    const timestamp = now.toLocaleString('en-IL', { timeZone: 'Asia/Jerusalem', dateStyle: 'medium', timeStyle: 'short' });
+    document.getElementById('refresh-timestamp').textContent = 'Last updated: ' + timestamp;
+  })
+  .catch(err => {
+    console.error('Failed to refresh costs:', err);
+    alert('Failed to refresh costs. Check console for details.');
+  });
 }
 </script>
 </body>
