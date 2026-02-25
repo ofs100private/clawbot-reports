@@ -1,868 +1,1209 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🧠 Ben's Brain Map — OpenClaw Agent Network</title>
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: #0a0e1a; color: #e0e6f0; font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; overflow-x: hidden; }
-  .bg-grid { position: fixed; inset: 0; background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.03) 1px, transparent 0); background-size: 40px 40px; z-index: 0; }
-  .container { position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; padding: 2rem 1.5rem; }
-  header { text-align: center; margin-bottom: 2rem; }
-  header h1 { font-size: 2.5rem; background: linear-gradient(135deg, #60a5fa, #a78bfa, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: .3rem; }
-  header p { color: #8892a8; font-size: .95rem; }
-  .timestamp { display: inline-block; background: rgba(96,165,250,.1); border: 1px solid rgba(96,165,250,.2); border-radius: 999px; padding: .25rem .9rem; font-size: .8rem; color: #60a5fa; margin-top: .5rem; }
-  .stats-bar { display: flex; justify-content: center; gap: 2rem; margin: 1.5rem 0; flex-wrap: wrap; }
-  .stat { text-align: center; }
-  .stat-num { font-size: 2rem; font-weight: 700; background: linear-gradient(135deg, #60a5fa, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  .stat-label { font-size: .75rem; color: #8892a8; text-transform: uppercase; letter-spacing: .05em; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧠 Ben's Brain Map</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  /* Tabs */
-  .tabs { display: flex; justify-content: center; gap: .5rem; margin-bottom: 2rem; flex-wrap: wrap; }
-  .tab { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); border-radius: .5rem; padding: .5rem 1.2rem; font-size: .85rem; color: #8892a8; cursor: pointer; transition: all .2s; }
-  .tab:hover, .tab.active { background: rgba(96,165,250,.15); border-color: rgba(96,165,250,.3); color: #60a5fa; }
-  .tab-content { display: none; }
-  .tab-content.active { display: block; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #0f1117;
+            color: #e5e7eb;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
 
-  /* Cards */
-  .grid-2 { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
-  @media(min-width:900px){ .grid-2 { grid-template-columns: 1fr 1fr; } }
-  .grid-3 { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
-  @media(min-width:900px){ .grid-3 { grid-template-columns: 1fr 1fr 1fr; } }
+        /* Neural Network Background */
+        .neural-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.03;
+            pointer-events: none;
+        }
 
-  .card { background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08); border-radius: 1rem; padding: 1.5rem; position: relative; overflow: hidden; transition: transform .2s, border-color .2s; }
-  .card:hover { transform: translateY(-3px); border-color: rgba(255,255,255,.15); }
-  .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
-  .card.blue::before { background: linear-gradient(90deg, #60a5fa, #a78bfa); }
-  .card.green::before { background: linear-gradient(90deg, #34d399, #10b981); }
-  .card.yellow::before { background: linear-gradient(90deg, #fbbf24, #f59e0b); }
-  .card.purple::before { background: linear-gradient(90deg, #a78bfa, #c084fc); }
-  .card.red::before { background: linear-gradient(90deg, #f87171, #ef4444); }
-  .card.cyan::before { background: linear-gradient(90deg, #22d3ee, #06b6d4); }
-  .card.pink::before { background: linear-gradient(90deg, #f472b6, #ec4899); }
+        .neural-node {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #60a5fa;
+            border-radius: 50%;
+            animation: pulse 3s ease-in-out infinite;
+        }
 
-  .card h2 { font-size: 1.2rem; margin-bottom: .8rem; display: flex; align-items: center; gap: .5rem; }
-  .card h3 { font-size: .95rem; color: #b0b8c8; margin: .8rem 0 .4rem; }
-  .card ul { list-style: none; }
-  .card li { padding: .25rem 0; font-size: .82rem; color: #b0b8c8; padding-left: 1rem; position: relative; }
-  .card li::before { content: '›'; position: absolute; left: 0; color: #60a5fa; font-weight: bold; }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.2); }
+        }
 
-  .badge { display: inline-block; padding: .12rem .5rem; border-radius: 999px; font-size: .68rem; font-weight: 600; }
-  .badge-blue { background: rgba(96,165,250,.15); color: #60a5fa; }
-  .badge-green { background: rgba(52,211,153,.15); color: #34d399; }
-  .badge-yellow { background: rgba(251,191,36,.15); color: #fbbf24; }
-  .badge-purple { background: rgba(167,139,250,.15); color: #a78bfa; }
+        /* Header */
+        header {
+            background: #1a1d27;
+            border-bottom: 1px solid #2d3748;
+            padding: 1.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
 
-  .skill { display: inline-block; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.08); border-radius: .4rem; padding: .15rem .5rem; font-size: .7rem; color: #b0b8c8; margin: .15rem; }
-  .skill.done { background: rgba(52,211,153,.1); border-color: rgba(52,211,153,.2); color: #34d399; }
-  .skill.pending { border-style: dashed; opacity: .6; }
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-  /* Progress bars */
-  .progress-wrap { margin: .5rem 0; }
-  .progress-label { display: flex; justify-content: space-between; font-size: .72rem; color: #8892a8; margin-bottom: .2rem; }
-  .progress-bar { background: rgba(255,255,255,.06); border-radius: 4px; height: 8px; overflow: hidden; }
-  .progress-fill { height: 100%; border-radius: 4px; transition: width .5s; }
-  .fill-green { background: linear-gradient(90deg, #34d399, #10b981); }
-  .fill-blue { background: linear-gradient(90deg, #60a5fa, #3b82f6); }
-  .fill-yellow { background: linear-gradient(90deg, #fbbf24, #f59e0b); }
-  .fill-purple { background: linear-gradient(90deg, #a78bfa, #8b5cf6); }
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
 
-  /* Table */
-  table { width: 100%; border-collapse: collapse; font-size: .8rem; }
-  th { text-align: left; color: #8892a8; font-weight: 500; padding: .4rem .5rem; border-bottom: 1px solid rgba(255,255,255,.08); }
-  td { padding: .4rem .5rem; color: #b0b8c8; border-bottom: 1px solid rgba(255,255,255,.04); }
-  .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: .3rem; }
-  .dot-green { background: #34d399; box-shadow: 0 0 6px rgba(52,211,153,.5); }
-  .dot-yellow { background: #fbbf24; box-shadow: 0 0 6px rgba(251,191,36,.5); }
-  .dot-blue { background: #60a5fa; box-shadow: 0 0 6px rgba(96,165,250,.5); }
-  .dot-red { background: #f87171; box-shadow: 0 0 6px rgba(248,113,113,.5); }
+        .timestamp {
+            font-size: 0.875rem;
+            color: #9ca3af;
+            font-weight: 400;
+        }
 
-  @keyframes pulse { 0%,100%{ opacity: .6; } 50%{ opacity: 1; } }
-  .live { animation: pulse 2s ease-in-out infinite; }
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
 
-  .footer { text-align: center; margin-top: 2rem; padding: 1rem; color: #4a5268; font-size: .72rem; }
-  .footer a { color: #60a5fa; text-decoration: none; }
-</style>
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+        }
+
+        .tab-btn {
+            background: #1a1d27;
+            border: 2px solid #2d3748;
+            color: #9ca3af;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover {
+            border-color: #60a5fa;
+            color: #60a5fa;
+            transform: translateY(-2px);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #60a5fa, #a78bfa);
+            border-color: transparent;
+            color: white;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cards */
+        .card {
+            background: #1a1d27;
+            border: 1px solid #2d3748;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: #60a5fa;
+            box-shadow: 0 4px 12px rgba(96, 165, 250, 0.15);
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #60a5fa;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat {
+            background: linear-gradient(135deg, #1a1d27, #2d3748);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            border: 1px solid #2d3748;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #60a5fa;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Identity Card */
+        .identity-card {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .identity-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem;
+            background: #0f1117;
+            border-radius: 0.5rem;
+        }
+
+        .info-label {
+            color: #9ca3af;
+            font-weight: 600;
+        }
+
+        .info-value {
+            color: #60a5fa;
+            font-weight: 700;
+        }
+
+        /* Progress Ring */
+        .progress-ring-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+
+        .progress-ring-circle {
+            transition: stroke-dashoffset 1s ease;
+        }
+
+        .score-text {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #34d399;
+        }
+
+        /* Table */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .data-table th {
+            background: #0f1117;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 700;
+            color: #60a5fa;
+            cursor: pointer;
+            user-select: none;
+            border-bottom: 2px solid #2d3748;
+        }
+
+        .data-table th:hover {
+            background: #2d3748;
+        }
+
+        .data-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #2d3748;
+        }
+
+        .data-table tr:hover {
+            background: #0f1117;
+        }
+
+        /* Skills Grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .skill-card {
+            background: linear-gradient(135deg, #1a1d27, #2d3748);
+            padding: 1.25rem;
+            border-radius: 0.5rem;
+            border: 1px solid #34d399;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(52, 211, 153, 0.2);
+        }
+
+        .skill-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #34d399;
+        }
+
+        /* Sectors Grid */
+        .sectors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .sector-card {
+            background: linear-gradient(135deg, #1a1d27, #2d3748);
+            padding: 1.25rem;
+            border-radius: 0.5rem;
+            border: 1px solid #a78bfa;
+            text-align: center;
+        }
+
+        .sector-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #a78bfa;
+            margin-bottom: 0.5rem;
+        }
+
+        .sector-count {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #60a5fa;
+        }
+
+        /* Research Card */
+        .research-card {
+            margin-bottom: 1rem;
+            border-left: 4px solid #60a5fa;
+        }
+
+        .research-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .research-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #60a5fa;
+        }
+
+        .expand-icon {
+            font-size: 1.5rem;
+            color: #60a5fa;
+            transition: transform 0.3s ease;
+        }
+
+        .expand-icon.expanded {
+            transform: rotate(180deg);
+        }
+
+        .research-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+        .research-content.expanded {
+            max-height: 1000px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.25rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            background: #34d399;
+            color: #0f1117;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, #60a5fa, #a78bfa);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 2rem;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -2.5rem;
+            top: 0;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #60a5fa;
+            box-shadow: 0 0 0 4px #1a1d27, 0 0 0 6px #60a5fa;
+        }
+
+        .timeline-time {
+            font-size: 0.875rem;
+            color: #9ca3af;
+            font-weight: 600;
+        }
+
+        .timeline-content {
+            margin-top: 0.25rem;
+            color: #e5e7eb;
+        }
+
+        /* Button */
+        .btn {
+            background: linear-gradient(135deg, #60a5fa, #a78bfa);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(96, 165, 250, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1d27;
+            border-top: 1px solid #2d3748;
+            padding: 1.5rem 2rem;
+            text-align: center;
+            color: #9ca3af;
+            margin-top: 3rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .identity-card {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 0.5rem;
+                text-align: center;
+            }
+
+            .tabs {
+                flex-wrap: nowrap;
+            }
+
+            .tab-btn {
+                font-size: 0.875rem;
+                padding: 0.5rem 1rem;
+            }
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #2d3748;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #60a5fa, #34d399);
+            border-radius: 4px;
+            animation: fillProgress 1.5s ease;
+        }
+
+        @keyframes fillProgress {
+            from { width: 0; }
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #9ca3af;
+        }
+    </style>
 </head>
 <body>
-<div class="bg-grid"></div>
-<div class="container">
+    <!-- Neural Network Background -->
+    <div class="neural-bg" id="neuralBg"></div>
 
-<header>
-  <h1>🧠 Ben's Brain Map</h1>
-  <p>OpenClaw Agent Network — Ofer Sasson's AI Infrastructure</p>
-  <div class="timestamp">Last updated: 2026-02-25 08:30 IST</div>
-</header>
+    <header>
+        <div class="header-content">
+            <h1>🧠 Ben's Brain Map</h1>
+            <div class="timestamp" id="timestamp"></div>
+        </div>
+    </header>
 
-<!-- Stats Bar -->
-<div class="stats-bar">
-  <div class="stat"><div class="stat-num">3</div><div class="stat-label">Agents</div></div>
-  <div class="stat"><div class="stat-num">70</div><div class="stat-label">Knowledge Files</div></div>
-  <div class="stat"><div class="stat-num">12,262</div><div class="stat-label">Lines of Knowledge</div></div>
-  <div class="stat"><div class="stat-num">8</div><div class="stat-label">Cron Jobs</div></div>
-  <div class="stat"><div class="stat-num">3</div><div class="stat-label">Sectors</div></div>
-  <div class="stat"><div class="stat-num">5</div><div class="stat-label">News Sources</div></div>
-  <div class="stat"><div class="stat-num">3</div><div class="stat-label">V2 Research Docs</div></div>
-</div>
+    <div class="container">
+        <!-- Tabs Navigation -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('overview')">🧠 Overview</button>
+            <button class="tab-btn" onclick="switchTab('ofsinvest')">📈 OfsInvest</button>
+            <button class="tab-btn" onclick="switchTab('architecture')">🏗️ V2 Architecture</button>
+            <button class="tab-btn" onclick="switchTab('costs')">💰 Model Costs</button>
+            <button class="tab-btn" onclick="switchTab('activity')">📋 Activity Log</button>
+        </div>
 
-<!-- Tabs -->
-<div class="tabs">
-  <div class="tab active" onclick="showTab('agents')">🤖 Agents</div>
-  <div class="tab" onclick="showTab('ofsinvest')">📈 OfsInvest</div>
-  <div class="tab" onclick="showTab('sectors')">🔬 Sectors</div>
-  <div class="tab" onclick="showTab('news')">📰 News Intel</div>
-  <div class="tab" onclick="showTab('v2arch')">🏗️ V2 Architecture</div>
-  <div class="tab" onclick="showTab('cron')">⏰ Cron Jobs</div>
-  <div class="tab" onclick="showTab('infra')">🔧 Infrastructure</div>
-  <div class="tab" onclick="showTab('updates')">📊 Updates & Learning Curve</div>
-  <div class="tab" onclick="showTab('costs')">💰 Model Costs</div>
-</div>
+        <!-- Tab 1: Overview -->
+        <div id="overview" class="tab-content active">
+            <div class="stats-bar">
+                <div class="stat">
+                    <span class="stat-value" data-count="72">0</span>
+                    <span class="stat-label">Total Files</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value" data-count="12997">0</span>
+                    <span class="stat-label">Lines of Knowledge</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value" data-count="3">0</span>
+                    <span class="stat-label">Active Agents</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">9.1<small>/10</small></span>
+                    <span class="stat-label">Knowledge Score</span>
+                </div>
+            </div>
 
-<!-- TAB: Agents -->
-<div id="tab-agents" class="tab-content active">
-<div class="grid-3">
-  <div class="card blue">
-    <h2>🤖 Ben <span class="badge badge-blue">MAIN PA</span></h2>
-    <div style="font-size:.72rem;color:#8892a8;margin-bottom:.8rem;">anthropic/claude-opus-4-6</div>
-    <ul>
-      <li>Main dispatcher — all agents report to Ben</li>
-      <li>LinkedIn posting (API connected, expires ~Apr 26)</li>
-      <li>Git backup (auto every 6h)</li>
-      <li>Daily HTML reports → Telegram at 9:00 AM</li>
-      <li>Memclawz memory system (QMD → hnswlib → MEMORY.md)</li>
-      <li>Model routing: Opus (code) · Grok (news/research)</li>
-    </ul>
-    <div style="margin-top:.8rem;">
-      <span class="skill done">dispatcher</span>
-      <span class="skill done">linkedin-api</span>
-      <span class="skill done">git-backup</span>
-      <span class="skill done">daily-reports</span>
-      <span class="skill done">memclawz</span>
-      <span class="skill done">tts</span>
+            <div class="identity-card">
+                <div class="card">
+                    <div class="card-title">🤖 Agent Identity</div>
+                    <div class="identity-info">
+                        <div class="info-row">
+                            <span class="info-label">Name</span>
+                            <span class="info-value">Ben 🧠</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Role</span>
+                            <span class="info-value">Admin Agent</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Primary Model</span>
+                            <span class="info-value">Opus 4.6</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Sub-Agents</span>
+                            <span class="info-value">Sonnet 4.5</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Research</span>
+                            <span class="info-value">Grok 4 (Free)</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Created</span>
+                            <span class="info-value">2026-02-21</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">⚙️ System Info</div>
+                    <div class="identity-info">
+                        <div class="info-row">
+                            <span class="info-label">Platform</span>
+                            <span class="info-value">OpenClaw</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Version</span>
+                            <span class="info-value">2026.2.24</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Environment</span>
+                            <span class="info-value">WSL2</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Host</span>
+                            <span class="info-value">DESKTOP-OT4750D</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Channel</span>
+                            <span class="info-value">Telegram</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">User</span>
+                            <span class="info-value">Ofer Sasson</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">🎯 Agent Roster</div>
+                <div class="skills-grid">
+                    <div class="skill-card">
+                        <div class="skill-name">🧠 Ben</div>
+                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">Admin & Main Agent</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">💰 Budget</div>
+                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">Family Budget Tracking</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">📈 OfsInvest</div>
+                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">Investment Research</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 2: OfsInvest -->
+        <div id="ofsinvest" class="tab-content">
+            <div class="card">
+                <div class="card-title">📊 Knowledge Score</div>
+                <div class="progress-ring-container">
+                    <svg class="progress-ring" width="200" height="200">
+                        <circle
+                            class="progress-ring-circle"
+                            stroke="#2d3748"
+                            stroke-width="15"
+                            fill="transparent"
+                            r="85"
+                            cx="100"
+                            cy="100"/>
+                        <circle
+                            class="progress-ring-circle"
+                            stroke="url(#gradient)"
+                            stroke-width="15"
+                            fill="transparent"
+                            r="85"
+                            cx="100"
+                            cy="100"
+                            stroke-dasharray="534.07"
+                            stroke-dashoffset="53.4"
+                            stroke-linecap="round"/>
+                        <defs>
+                            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#34d399;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#60a5fa;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <div style="position: absolute;">
+                        <div class="score-text">9.1</div>
+                        <div style="text-align: center; color: #9ca3af; font-size: 0.875rem;">out of 10</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">📥 Discord Scraping Status</div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                    <span style="color: #9ca3af;">14/14 Channels Complete</span>
+                    <span style="color: #34d399; font-weight: 700;">100%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 100%;"></div>
+                </div>
+                <div style="margin-top: 1rem; color: #9ca3af; font-size: 0.875rem;">
+                    10 PDFs downloaded • 120MB extracted • 5 sub-agents processed
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">📚 Knowledge Files</div>
+                <table class="data-table" id="knowledgeTable">
+                    <thead>
+                        <tr>
+                            <th onclick="sortTable(0)">Filename ↕</th>
+                            <th onclick="sortTable(1)">Lines ↕</th>
+                            <th onclick="sortTable(2)">Description ↕</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>investment-system.md</td><td>390</td><td>Complete unified trading system</td></tr>
+                        <tr><td>decision-tree.md</td><td>230</td><td>Step-by-step flowchart</td></tr>
+                        <tr><td>2026-investor-playbook.md</td><td>188</td><td>Micha's 3-tier framework</td></tr>
+                        <tr><td>10x-framework.md</td><td>157</td><td>DNA scoring for 10x stocks</td></tr>
+                        <tr><td>space-sector-scorecard.md</td><td>203</td><td>8-company space financials</td></tr>
+                        <tr><td>space-sector-deep-dive.md</td><td>207</td><td>Tiered space allocation</td></tr>
+                        <tr><td>market-map-81-stocks.md</td><td>161</td><td>GO/WATCH/AVOID classifications</td></tr>
+                        <tr><td>headwinds-2026.md</td><td>300</td><td>10 macro risk monitors</td></tr>
+                        <tr><td>10x-watchlist.md</td><td>400</td><td>11 stocks DNA scored</td></tr>
+                        <tr><td>sector-allocation-model.md</td><td>300</td><td>Complete allocation model</td></tr>
+                        <tr><td>watchlist-81-full.json</td><td>641</td><td>Structured 81-stock data</td></tr>
+                        <tr><td>trading-rooms.md</td><td>200</td><td>10 trading room patterns</td></tr>
+                        <tr><td>methodology-summary.md</td><td>105</td><td>Core methodology</td></tr>
+                        <tr><td>entry-points-2026.md</td><td>79</td><td>MA150+ATR framework</td></tr>
+                        <tr><td>active-watchlist.md</td><td>53</td><td>18 stocks + 3 ETFs</td></tr>
+                        <tr><td>self-assessment.md</td><td>100</td><td>Score breakdown</td></tr>
+                        <tr><td>improvement-plan.md</td><td>557</td><td>Roadmap</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <div class="card-title">🛠️ Skills</div>
+                <div class="skills-grid">
+                    <div class="skill-card">
+                        <div class="skill-name">📊 Portfolio Construction</div>
+                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">3-tier allocation framework</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">🔍 Stock Screening</div>
+                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">10x DNA scoring system</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">⚠️ Risk Management</div>
+                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">MA150 + ATR methodology</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">🏢 Sectors</div>
+                <div class="sectors-grid">
+                    <div class="sector-card">
+                        <div class="sector-name">🚀 Nuclear-Space</div>
+                        <div class="sector-count">11 stocks</div>
+                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">728 lines</div>
+                    </div>
+                    <div class="sector-card">
+                        <div class="sector-name">💊 BioPharma</div>
+                        <div class="sector-count">16 stocks</div>
+                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">407 lines</div>
+                    </div>
+                    <div class="sector-card">
+                        <div class="sector-name">⚛️ Quantum</div>
+                        <div class="sector-count">5 stocks</div>
+                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">251 lines</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 3: V2 Architecture -->
+        <div id="architecture" class="tab-content">
+            <div class="card research-card">
+                <div class="research-header" onclick="toggleResearch(this)">
+                    <div>
+                        <div class="research-title">🗄️ Brain Database</div>
+                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.25rem;">
+                            Neo4j vs Postgres+JSON vs SurrealDB
+                        </div>
+                    </div>
+                    <div>
+                        <span class="badge">Research Complete ✅</span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="research-content">
+                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #2d3748;">
+                        <div style="margin-bottom: 1rem;">
+                            <strong style="color: #34d399;">Recommended: Postgres + JSONB</strong>
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                            <div style="background: #0f1117; padding: 1rem; border-radius: 0.5rem;">
+                                <div style="font-weight: 700; color: #60a5fa; margin-bottom: 0.5rem;">Neo4j</div>
+                                <div style="font-size: 0.875rem; color: #9ca3af;">
+                                    ✅ Best for relationships<br>
+                                    ✅ Fast traversals<br>
+                                    ❌ Overhead for simple data<br>
+                                    ❌ Learning curve
+                                </div>
+                            </div>
+                            <div style="background: #0f1117; padding: 1rem; border-radius: 0.5rem;">
+                                <div style="font-weight: 700; color: #34d399; margin-bottom: 0.5rem;">Postgres+JSON</div>
+                                <div style="font-size: 0.875rem; color: #9ca3af;">
+                                    ✅ Mature & reliable<br>
+                                    ✅ JSONB flexibility<br>
+                                    ✅ Extensions (pgvector)<br>
+                                    ✅ Best balance
+                                </div>
+                            </div>
+                            <div style="background: #0f1117; padding: 1rem; border-radius: 0.5rem;">
+                                <div style="font-weight: 700; color: #a78bfa; margin-bottom: 0.5rem;">SurrealDB</div>
+                                <div style="font-size: 0.875rem; color: #9ca3af;">
+                                    ✅ Multi-model<br>
+                                    ✅ Modern & flexible<br>
+                                    ❌ Less mature<br>
+                                    ❌ Smaller community
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 1rem; padding: 1rem; background: #0f1117; border-radius: 0.5rem; border-left: 3px solid #34d399;">
+                            <strong>Key Finding:</strong> Postgres+JSONB offers the best balance of maturity, flexibility, and ecosystem support for 100K+ agents.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card research-card">
+                <div class="research-header" onclick="toggleResearch(this)">
+                    <div>
+                        <div class="research-title">⚡ Cache Database</div>
+                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.25rem;">
+                            Redis Cluster vs Valkey vs DragonflyDB
+                        </div>
+                    </div>
+                    <div>
+                        <span class="badge">Research Complete ✅</span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="research-content">
+                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #2d3748;">
+                        <div style="margin-bottom: 1rem;">
+                            <strong style="color: #34d399;">Recommended: Valkey (open-source) or DragonflyDB (performance)</strong>
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                            <div style="background: #0f1117; padding: 1rem; border-radius: 0.5rem;">
+                                <div style="font-weight: 700; color: #60a5fa; margin-bottom: 0.5rem;">Redis Cluster</div>
+                                <div style="font-size: 0.875rem; color: #9ca3af;">
+                                    ✅ Most mature<br>
+                                    ✅ ~100K ops/sec<br>
+                                    ❌ License issues (SSPL)<br>
+                                    💰 $100-500/mo
+                                </div>
+                            </div>
+                            <div style="background: #0f1117; padding: 1rem; border-radius: 0.5rem;">
+                                <div style="font-weight: 700; color: #34d399; margin-bottom: 0.5rem;">Valkey</div>
+                                <div style="font-size: 0.875rem; color: #9ca3af;">
+                                    ✅ Redis fork (BSD)<br>
+                                    ✅ Drop-in replacement<br>
+                                    ✅ Open-source<br>
+                                    💰 $100-500/mo
+                                </div>
+                            </div>
+                            <div style="background: #0f1117; padding: 1rem; border-radius: 0.5rem;">
+                                <div style="font-weight: 700; color: #a78bfa; margin-bottom: 0.5rem;">DragonflyDB</div>
+                                <div style="font-size: 0.875rem; color: #9ca3af;">
+                                    ✅ 20-50x faster<br>
+                                    ✅ Multi-threaded<br>
+                                    ✅ 50% less memory<br>
+                                    💰 $50-300/mo
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 1rem; padding: 1rem; background: #0f1117; border-radius: 0.5rem; border-left: 3px solid #34d399;">
+                            <strong>Key Finding:</strong> Valkey for licensing/compatibility, DragonflyDB for raw performance at scale.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card research-card">
+                <div class="research-header" onclick="toggleResearch(this)">
+                    <div>
+                        <div class="research-title">🤖 LLM Routing & Self-Hosting</div>
+                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.25rem;">
+                            vLLM vs Ollama vs TGI
+                        </div>
+                    </div>
+                    <div>
+                        <span class="badge">Research Complete ✅</span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="research-content">
+                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #2d3748;">
+                        <div style="margin-bottom: 1rem;">
+                            <strong style="color: #34d399;">Recommended: vLLM for production</strong>
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                            <div style="background: #0f1117; padding: 1rem; border-radius: 0.5rem;">
+                                <div style="font-weight: 700; color: #34d399; margin-bottom: 0.5rem;">vLLM</div>
+                                <div style="font-size: 0.875rem; color: #9ca3af;">
+                                    ✅ 200-400 tokens/sec<br>
+                                    ✅ PagedAttention<br>
+                                    ✅ Production-ready<br>
+                                    ✅ OpenAI API compatible
+                                </div>
+                            </div>
+                            <div style="background: #0f1117; padding: 1rem; border-radius: 0.5rem;">
+                                <div style="font-weight: 700; color: #60a5fa; margin-bottom: 0.5rem;">Ollama</div>
+                                <div style="font-size: 0.875rem; color: #9ca3af;">
+                                    ✅ Easy setup<br>
+                                    ✅ 10-40 tokens/sec<br>
+                                    ❌ Not for production scale<br>
+                                    ✅ Great for dev
+                                </div>
+                            </div>
+                            <div style="background: #0f1117; padding: 1rem; border-radius: 0.5rem;">
+                                <div style="font-weight: 700; color: #a78bfa; margin-bottom: 0.5rem;">TGI</div>
+                                <div style="font-size: 0.875rem; color: #9ca3af;">
+                                    ✅ 150-350 tokens/sec<br>
+                                    ✅ HuggingFace native<br>
+                                    ✅ Tensor parallelism<br>
+                                    ⚖️ Comparable to vLLM
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 1rem; padding: 1rem; background: #0f1117; border-radius: 0.5rem; border-left: 3px solid #34d399;">
+                            <strong>Key Finding:</strong> Self-hosting breaks even at ~100K tokens/day. vLLM best for production; use Hetzner GPU (A100 ~€1.5/hr) or Vast.ai (~$0.3-0.8/hr).
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 4: Model Costs -->
+        <div id="costs" class="tab-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h2 style="font-size: 1.5rem; font-weight: 700;">Cost Analytics</h2>
+                <button class="btn" onclick="refreshCosts()">
+                    <span id="refreshIcon">🔄</span>
+                    Refresh
+                </button>
+            </div>
+
+            <div class="stats-bar" id="costSummary">
+                <div class="stat">
+                    <span class="stat-value" id="totalCost">$0.00</span>
+                    <span class="stat-label">Total Today</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value" id="opusCost">$0.00</span>
+                    <span class="stat-label">Opus Cost</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">$0.00</span>
+                    <span class="stat-label">Grok Cost (Free)</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value" id="sessionsActive">0</span>
+                    <span class="stat-label">Active Sessions</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">💸 Session Costs</div>
+                <div id="costsTableContainer">
+                    <div class="loading">Loading cost data...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 5: Activity Log -->
+        <div id="activity" class="tab-content">
+            <div class="card">
+                <div class="card-title">📅 Recent Activity</div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-time">08:25 GMT+2</div>
+                        <div class="timeline-content">OpenClaw upgraded to 2026.2.24</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-time">07:37 GMT+2</div>
+                        <div class="timeline-content">Brain map rebuilt</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-time">07:33 GMT+2</div>
+                        <div class="timeline-content">V2 Architecture Research (3 Grok agents)</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-time">00:51 GMT+2</div>
+                        <div class="timeline-content">OfsInvest Skills Upgrade (portfolio, screening, risk mgmt)</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-time">00:40 GMT+2</div>
+                        <div class="timeline-content">PDF Knowledge Extraction (5 sub-agents)</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-time">00:23 GMT+2</div>
+                        <div class="timeline-content">Discord PDFs downloaded (10 files, 120MB)</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-time">00:07 GMT+2</div>
+                        <div class="timeline-content">Full backup + Error resilience rule added</div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <div class="card green">
-    <h2>📈 OfsInvest <span class="badge badge-green">SUB-AGENT</span></h2>
-    <div style="font-size:.72rem;color:#8892a8;margin-bottom:.8rem;">sonnet + xai/grok-4</div>
-    <ul>
-      <li>Investment research & Micha.Stocks methodology</li>
-      <li>3 sector research modules (Nuclear/Space, BioPharma, Quantum)</li>
-      <li>5 news intelligence sources</li>
-      <li>Complete trading system (MA150 + ATR + patterns)</li>
-      <li>81-stock watchlist + 18 active setups</li>
-      <li>Daily 6:20 AM briefing → Telegram</li>
-    </ul>
-    <div class="progress-wrap">
-      <div class="progress-label"><span>Knowledge Score</span><span>9.1/10 (from 3.7)</span></div>
-      <div class="progress-bar"><div class="progress-fill fill-green" style="width:91%"></div></div>
-    </div>
-    <div style="margin-top:.6rem;">
-      <span class="skill done">micha-stocks</span>
-      <span class="skill done">market-analysis</span>
-      <span class="skill done">news-intelligence</span>
-      <span class="skill done">sectors</span>
-      <span class="skill pending">eToro</span>
-      <span class="skill pending">daily-scanner</span>
-    </div>
-  </div>
+    <footer>
+        <div>OpenClaw 2026.2.24 • Built with 🧠 by Ben • WSL2 on DESKTOP-OT4750D</div>
+        <div style="margin-top: 0.5rem; font-size: 0.875rem;">Last updated: <span id="footerTimestamp"></span></div>
+    </footer>
 
-  <div class="card yellow">
-    <h2>💰 Budget Bot <span class="badge badge-yellow">SIBLING</span></h2>
-    <div style="font-size:.72rem;color:#8892a8;margin-bottom:.8rem;">anthropic/claude-sonnet-4-5</div>
-    <ul>
-      <li>Family expense tracking (NIS ₪)</li>
-      <li>Auto-categorization (15 categories)</li>
-      <li>Natural language input ("Coffee 15")</li>
-      <li>Daily / weekly / monthly reports</li>
-      <li>Budget: ₪10,000/month</li>
-    </ul>
-    <div style="margin-top:.8rem;">
-      <span class="skill done">expense-tracking</span>
-      <span class="skill done">budget-reports</span>
-      <span class="skill done">waste-alerts</span>
-    </div>
-  </div>
-</div>
+    <script>
+        // Neural Network Background
+        function generateNeuralBg() {
+            const bg = document.getElementById('neuralBg');
+            const nodeCount = 30;
+            for (let i = 0; i < nodeCount; i++) {
+                const node = document.createElement('div');
+                node.className = 'neural-node';
+                node.style.left = Math.random() * 100 + '%';
+                node.style.top = Math.random() * 100 + '%';
+                node.style.animationDelay = Math.random() * 3 + 's';
+                bg.appendChild(node);
+            }
+        }
 
-<div style="text-align:center;margin:1.5rem 0;">
-  <span style="display:inline-block;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:.5rem;padding:.4rem 1rem;font-size:.8rem;color:#8892a8;">
-    Ben <span style="color:#60a5fa;margin:0 .3rem;">→</span> dispatches <span style="color:#60a5fa;margin:0 .3rem;">→</span> OfsInvest
-    &nbsp;&nbsp;|&nbsp;&nbsp;
-    Ben <span style="color:#fbbf24;margin:0 .3rem;">↔</span> sibling <span style="color:#fbbf24;margin:0 .3rem;">↔</span> Budget Bot
-  </span>
-</div>
-</div>
+        // Update Timestamp
+        function updateTimestamp() {
+            const now = new Date();
+            const options = { 
+                timeZone: 'Asia/Jerusalem', 
+                weekday: 'short', 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric', 
+                hour: '2-digit', 
+                minute: '2-digit',
+                second: '2-digit'
+            };
+            const formatted = now.toLocaleString('en-US', options);
+            document.getElementById('timestamp').textContent = formatted;
+            document.getElementById('footerTimestamp').textContent = formatted;
+        }
 
-<!-- TAB: OfsInvest Detail -->
-<div id="tab-ofsinvest" class="tab-content">
-<div class="grid-2">
-  <div class="card green">
-    <h2>📚 Knowledge Base</h2>
-    <table>
-      <tr><th>File</th><th>Lines</th><th>Content</th></tr>
-      <tr><td>investment-system.md</td><td>392</td><td>Complete unified trading system</td></tr>
-      <tr><td>improvement-plan.md</td><td>556</td><td>Roadmap 3.7→9.2/10</td></tr>
-      <tr><td>decision-tree.md</td><td>242</td><td>Stock evaluation flowchart</td></tr>
-      <tr><td>tutorials.md</td><td>168</td><td>20 tutorials, AI prompts, videos</td></tr>
-      <tr><td>trading-rooms.md</td><td>169</td><td>Patterns, Hebrew glossary</td></tr>
-      <tr><td>methodology-summary.md</td><td>105</td><td>7-section investment guide</td></tr>
-      <tr><td>setups-2026-02-16-24.md</td><td>106</td><td>Recent trade setups</td></tr>
-      <tr><td>entry-points-2026.md</td><td>79</td><td>MA150 prompt + 81 stocks</td></tr>
-      <tr><td>self-assessment.md</td><td>101</td><td>Honest gap analysis</td></tr>
-      <tr><td>active-watchlist.md</td><td>53</td><td>18 stocks + 3 ETFs</td></tr>
-      <tr><td>homepage-2026-02-24.md</td><td>79</td><td>Latest news signals</td></tr>
-      <tr><td>2026-investor-playbook.md</td><td>188</td><td>Micha's 3-tier portfolio framework</td></tr>
-      <tr><td>10x-framework.md</td><td>157</td><td>DNA scoring for 10x stocks</td></tr>
-      <tr><td>space-sector-scorecard.md</td><td>203</td><td>8-company space financials</td></tr>
-      <tr><td>space-sector-deep-dive.md</td><td>207</td><td>Tiered space allocation</td></tr>
-      <tr><td>market-map-81-stocks.md</td><td>161</td><td>GO/WATCH/AVOID classifications</td></tr>
-      <tr><td>headwinds-2026.md</td><td>~300</td><td>10 macro risk monitors</td></tr>
-      <tr><td>10x-watchlist.md</td><td>~400</td><td>11 stocks DNA scored</td></tr>
-      <tr><td>sector-allocation-model.md</td><td>~300</td><td>Complete allocation model</td></tr>
-    </table>
-  </div>
+        // Tab Switching
+        function switchTab(tabName) {
+            const tabs = document.querySelectorAll('.tab-content');
+            const buttons = document.querySelectorAll('.tab-btn');
+            
+            tabs.forEach(tab => tab.classList.remove('active'));
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
 
-  <div class="card green">
-    <h2>🎯 Micha.Stocks Discord Scraping</h2>
-    <div class="progress-wrap">
-      <div class="progress-label"><span>Channels scraped</span><span>14/14 ✅ COMPLETE</span></div>
-      <div class="progress-bar"><div class="progress-fill fill-green" style="width:100%"></div></div>
-    </div>
-    <div style="margin-top:.8rem;display:flex;flex-wrap:wrap;gap:.3rem;">
-      <span class="skill done">✅ עמוד-הבית</span>
-      <span class="skill done">✅ סט-אפים</span>
-      <span class="skill done">✅ הדרכות</span>
-      <span class="skill done">✅ נקודות-כניסה</span>
-      <span class="skill done">✅ Trading Rooms (x10)</span>
-      <span class="skill done">✅ גרעיניות-וחלל</span>
-      <span class="skill done">✅ ביופארמה</span>
-      <span class="skill done">✅ קוואנטום</span>
-    </div>
+            // Load costs when tab is opened
+            if (tabName === 'costs' && !window.costsLoaded) {
+                refreshCosts();
+            }
+        }
 
-    <h3>Key Concepts Learned</h3>
-    <ul>
-      <li>MA150 entry framework + ATR risk management</li>
-      <li>6 entry types, 5 chart patterns, 5 risk rules</li>
-      <li>Twin stocks (מניות תאומות)</li>
-      <li>9-month IPO rule</li>
-      <li>Capitulation volume as entry signal</li>
-      <li>3 AI research prompts (analyst, viral, sentiment)</li>
-      <li>20+ Hebrew trading terms</li>
-      <li>"Busy investor" philosophy</li>
-    </ul>
-  </div>
-</div>
+        // Animated Counter
+        function animateCounter(element, target) {
+            const duration = 1500;
+            const start = 0;
+            const increment = target / (duration / 16);
+            let current = start;
 
-<div class="card green" style="margin-top:1.5rem;">
-  <h2>📈 Improvement Roadmap</h2>
-  <div class="grid-3" style="margin-top:1rem;">
-    <div>
-      <div style="font-size:.85rem;font-weight:600;color:#34d399;margin-bottom:.5rem;">🟢 Week 1 → 6.0/10 ✅ EXCEEDED (9.1)</div>
-      <ul>
-        <li>MA150+ATR screening pipeline</li>
-        <li>Portfolio tracker (portfolio.json)</li>
-        <li>Real-time price alerts</li>
-        <li>Daily morning scan routine</li>
-        <li>Broker connection research</li>
-      </ul>
-    </div>
-    <div>
-      <div style="font-size:.85rem;font-weight:600;color:#fbbf24;margin-bottom:.5rem;">🟡 Weeks 2-4 → 7.8/10</div>
-      <ul>
-        <li>PDF extraction from Discord</li>
-        <li>Backtesting framework</li>
-        <li>TradingView chart analysis</li>
-        <li>Earnings calendar integration</li>
-        <li>Pattern detection automation</li>
-      </ul>
-    </div>
-    <div>
-      <div style="font-size:.85rem;font-weight:600;color:#34d399;margin-bottom:.5rem;">🟢 Month 2+ → 9.2/10</div>
-      <ul>
-        <li>Trade journal + P&L tracking</li>
-        <li>ML pattern recognition</li>
-        <li>Discord live monitoring</li>
-        <li>Risk dashboard</li>
-        <li>Automated weekly reports</li>
-      </ul>
-    </div>
-  </div>
-</div>
-</div>
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target.toLocaleString();
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current).toLocaleString();
+                }
+            }, 16);
+        }
 
-<!-- TAB: Sectors -->
-<div id="tab-sectors" class="tab-content">
-<div class="grid-3">
-  <div class="card cyan">
-    <h2>🔬 גרעיניות וחלל</h2>
-    <div style="font-size:.72rem;color:#8892a8;margin-bottom:.5rem;">Nuclear Energy & Space · 426 lines</div>
-    <h3>Nuclear</h3>
-    <ul>
-      <li>UUUU — Cup & handle, ready for breakout</li>
-      <li>CEG — Entry point analyzed</li>
-      <li>SMR, OKLO, NNE, VST, GEV</li>
-    </ul>
-    <h3>Space</h3>
-    <ul>
-      <li>RKLB — High priority, $73.5 stop</li>
-      <li>ASTS — Twin stock w/ RKLB, buying signal</li>
-      <li>PL, RCAT</li>
-    </ul>
-    <div style="margin-top:.5rem;font-size:.72rem;color:#22d3ee;">Thesis: AI/Data Center power demand + SMR revolution + Defense spending</div>
-  </div>
+        // Initialize Counters
+        function initCounters() {
+            document.querySelectorAll('.stat-value[data-count]').forEach(element => {
+                const target = parseInt(element.getAttribute('data-count'));
+                animateCounter(element, target);
+            });
+        }
 
-  <div class="card pink">
-    <h2>💊 ביופארמה</h2>
-    <div style="font-size:.72rem;color:#8892a8;margin-bottom:.5rem;">BioPharma · 338 lines</div>
-    <ul>
-      <li>ABBV — Best buy candidate</li>
-      <li>LLY — GLP-1 leader</li>
-      <li>MRNA — Potential cup & handle at $55</li>
-      <li>NVO — ⛔ Skip (failed CagriSema)</li>
-      <li>JNJ, OSCR, XBI ETF</li>
-    </ul>
-    <div style="margin-top:.5rem;font-size:.72rem;color:#f472b6;">Thesis: GLP-1 revolution + "Health sector about to break out" (Feb 24 signal)</div>
-  </div>
+        // Table Sorting
+        function sortTable(columnIndex) {
+            const table = document.getElementById('knowledgeTable');
+            const tbody = table.querySelector('tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            
+            rows.sort((a, b) => {
+                let aVal = a.cells[columnIndex].textContent;
+                let bVal = b.cells[columnIndex].textContent;
+                
+                // Try numeric sort for lines column
+                if (columnIndex === 1) {
+                    return parseInt(bVal) - parseInt(aVal);
+                }
+                
+                return aVal.localeCompare(bVal);
+            });
+            
+            rows.forEach(row => tbody.appendChild(row));
+        }
 
-  <div class="card purple">
-    <h2>⚛️ קוונטום</h2>
-    <div style="font-size:.72rem;color:#8892a8;margin-bottom:.5rem;">Quantum Computing · 251 lines</div>
-    <ul>
-      <li>IONQ — Only quantum on Micha's list</li>
-      <li>RGTI, QBTS, QUBT, ARQQ</li>
-      <li>⛔ ALL below MA150 currently</li>
-      <li>⚠️ Extreme volatility (Beta 1.5-3.5)</li>
-      <li>IONQ earnings Feb 25!</li>
-    </ul>
-    <div style="margin-top:.5rem;font-size:.72rem;color:#a78bfa;">Thesis: Pre-commercial, high risk. Micha's maturity filter keeps only IONQ.</div>
-  </div>
-</div>
-</div>
+        // Toggle Research Card
+        function toggleResearch(header) {
+            const content = header.nextElementSibling;
+            const icon = header.querySelector('.expand-icon');
+            
+            content.classList.toggle('expanded');
+            icon.classList.toggle('expanded');
+        }
 
-<!-- TAB: News Intel -->
-<div id="tab-news" class="tab-content">
-<div class="grid-3">
-  <div class="card blue">
-    <h2>𝕏 X/Twitter</h2>
-    <ul>
-      <li>20+ FinTwit accounts tracked</li>
-      <li>Viral stock scanner (Micha's prompt)</li>
-      <li>Ticker sentiment research prompt</li>
-      <li>Pump & dump detection</li>
-      <li>Routed via Grok for X insights</li>
-    </ul>
-  </div>
-  <div class="card green">
-    <h2>📊 Yahoo Finance</h2>
-    <ul>
-      <li>yfinance Python automation</li>
-      <li>Earnings calendar monitoring</li>
-      <li>Analyst upgrades/downgrades</li>
-      <li>Pre/post market movers</li>
-      <li>MA150 screening pipeline</li>
-    </ul>
-  </div>
-  <div class="card yellow">
-    <h2>🧠 GuruFocus</h2>
-    <ul>
-      <li>15+ gurus tracked (Buffett, Dalio, Wood...)</li>
-      <li>13F filing monitoring</li>
-      <li>Insider trading signals</li>
-      <li>GF Value / DCF / Piotroski</li>
-    </ul>
-  </div>
-  <div class="card red">
-    <h2>📺 CNBC</h2>
-    <ul>
-      <li>2026 FOMC calendar (8 meetings)</li>
-      <li>Carter Worth + Cramer references</li>
-      <li>Macro indicators (CPI, PPI, GDP)</li>
-      <li>Fear & Greed integration</li>
-    </ul>
-  </div>
-  <div class="card purple">
-    <h2>📰 Market Aggregator</h2>
-    <ul>
-      <li>Investing.com (אינבסטינג)</li>
-      <li>The Fly (הזבוב)</li>
-      <li>Walter Bloomberg</li>
-      <li>Seeking Alpha, Reddit, StockTwits</li>
-    </ul>
-  </div>
-  <div class="card cyan">
-    <h2>🎯 Master Orchestrator</h2>
-    <ul>
-      <li>Daily routine (pre/during/post market)</li>
-      <li>5-source weighted sentiment scoring</li>
-      <li>Alert triggers for Ofer</li>
-      <li>6:20 AM daily Telegram briefing</li>
-    </ul>
-  </div>
-</div>
-</div>
+        // Refresh Costs
+        async function refreshCosts() {
+            const icon = document.getElementById('refreshIcon');
+            const container = document.getElementById('costsTableContainer');
+            
+            icon.style.animation = 'spin 1s linear infinite';
+            container.innerHTML = '<div class="loading">Fetching live data...</div>';
+            
+            try {
+                const response = await fetch('http://127.0.0.1:18789/api/sessions?activeMinutes=1440&messageLimit=0', {
+                    headers: {
+                        'Authorization': 'Bearer 0d04dc8adb5f793aa7c6d078d84755799f1a9ccf0566b77a'
+                    }
+                });
+                
+                const data = await response.json();
+                window.costsLoaded = true;
+                
+                // Calculate costs
+                let totalCost = 0;
+                let opusCost = 0;
+                let sessionsActive = data.sessions ? data.sessions.length : 0;
+                
+                let tableHTML = '<table class="data-table"><thead><tr><th>Session</th><th>Model</th><th>Tokens In</th><th>Tokens Out</th><th>Est. Cost</th></tr></thead><tbody>';
+                
+                if (data.sessions) {
+                    data.sessions.forEach(session => {
+                        const model = session.defaultModel || 'unknown';
+                        const tokensIn = session.usage?.totalInputTokens || 0;
+                        const tokensOut = session.usage?.totalOutputTokens || 0;
+                        
+                        let cost = 0;
+                        if (model.includes('opus')) {
+                            cost = (tokensIn / 1000000 * 15) + (tokensOut / 1000000 * 75);
+                            opusCost += cost;
+                        } else if (model.includes('sonnet')) {
+                            cost = (tokensIn / 1000000 * 3) + (tokensOut / 1000000 * 15);
+                        }
+                        // Grok is free
+                        
+                        totalCost += cost;
+                        
+                        tableHTML += `<tr>
+                            <td>${session.id || 'unknown'}</td>
+                            <td>${model}</td>
+                            <td>${tokensIn.toLocaleString()}</td>
+                            <td>${tokensOut.toLocaleString()}</td>
+                            <td>$${cost.toFixed(3)}</td>
+                        </tr>`;
+                    });
+                }
+                
+                tableHTML += '</tbody></table>';
+                container.innerHTML = tableHTML;
+                
+                // Update summary
+                document.getElementById('totalCost').textContent = '$' + totalCost.toFixed(2);
+                document.getElementById('opusCost').textContent = '$' + opusCost.toFixed(2);
+                document.getElementById('sessionsActive').textContent = sessionsActive;
+                
+            } catch (error) {
+                container.innerHTML = `<div class="loading" style="color: #f59e0b;">Error loading data: ${error.message}</div>`;
+            }
+            
+            icon.style.animation = '';
+        }
 
-<!-- TAB: V2 Architecture -->
-<div id="tab-v2arch" class="tab-content">
-<div class="grid-3">
-  <div class="card blue">
-    <h2>🧠 Brain DB Plan <span class="badge badge-green">Research Complete ✅</span></h2>
-    <h3>Options Compared</h3>
-    <ul>
-      <li><strong>Neo4j</strong> — Native graph, complex relationships</li>
-      <li><strong>Postgres+JSON</strong> — Simple, flexible, SQL-based</li>
-      <li><strong>SurrealDB</strong> — Modern, graph+doc hybrid</li>
-    </ul>
-    <h3>Key Finding</h3>
-    <div style="margin-top:.8rem;padding:.8rem;background:rgba(96,165,250,.1);border-radius:.5rem;font-size:.8rem;color:#b0b8c8;">
-      <strong style="color:#60a5fa;">Recommended: Postgres+JSONB</strong><br>
-      Simple setup, built-in to OpenClaw, no extra services needed. Agent registry, soul, skills, and config all stored as JSON with SQL queries. Perfect for current scale.
-    </div>
-    <h3>Use Case</h3>
-    <ul>
-      <li>Agent registry & metadata</li>
-      <li>Soul definitions & identity</li>
-      <li>Skills & capabilities</li>
-      <li>Configuration management</li>
-    </ul>
-  </div>
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            generateNeuralBg();
+            updateTimestamp();
+            initCounters();
+            setInterval(updateTimestamp, 1000);
+        });
 
-  <div class="card green">
-    <h2>⚡ Cache DB Plan <span class="badge badge-green">Research Complete ✅</span></h2>
-    <h3>Options Compared</h3>
-    <ul>
-      <li><strong>Redis Cluster</strong> — Battle-tested, mature ecosystem</li>
-      <li><strong>Valkey</strong> — Redis fork, Linux Foundation, no license issues</li>
-      <li><strong>DragonflyDB</strong> — High performance, multi-threaded</li>
-    </ul>
-    <h3>Key Finding</h3>
-    <div style="margin-top:.8rem;padding:.8rem;background:rgba(52,211,153,.1);border-radius:.5rem;font-size:.8rem;color:#b0b8c8;">
-      <strong style="color:#34d399;">Recommended: Valkey</strong><br>
-      Redis-compatible, community-driven, no licensing concerns. Ideal for session routing, QMD cache, and scheduling. Drop-in Redis replacement with better governance.
-    </div>
-    <h3>Use Case</h3>
-    <ul>
-      <li>Session routing & state</li>
-      <li>QMD query cache (fast lookups)</li>
-      <li>Cron scheduling & locking</li>
-      <li>Rate limiting & quotas</li>
-    </ul>
-  </div>
-
-  <div class="card purple">
-    <h2>🚀 LLM Routing Plan <span class="badge badge-green">Research Complete ✅</span></h2>
-    <h3>Options Compared</h3>
-    <ul>
-      <li><strong>vLLM</strong> — PagedAttention, best throughput</li>
-      <li><strong>Ollama</strong> — Simple CLI, easy setup</li>
-      <li><strong>TGI (Text Generation Inference)</strong> — HuggingFace, production-ready</li>
-    </ul>
-    <h3>Key Finding</h3>
-    <div style="margin-top:.8rem;padding:.8rem;background:rgba(167,139,250,.1);border-radius:.5rem;font-size:.8rem;color:#b0b8c8;">
-      <strong style="color:#a78bfa;">Recommended: vLLM on Hetzner GPU</strong><br>
-      Best performance/cost ratio. Run Qwen2.5-32B-Instruct on CCX33 (RTX 4000 ADA). ~€0.60/hr = €450/mo vs $1,200+ API costs. 3-4x cheaper than cloud GPUs.
-    </div>
-    <h3>Use Case</h3>
-    <ul>
-      <li>Local model inference (Qwen, Llama)</li>
-      <li>Cost reduction (API → self-hosted)</li>
-      <li>Low-latency responses</li>
-      <li>Privacy-sensitive operations</li>
-    </ul>
-  </div>
-</div>
-
-<div class="card blue" style="margin-top:1.5rem;">
-  <h2>🎯 V2 Architecture Summary</h2>
-  <div style="margin-top:1rem;font-size:.85rem;line-height:1.8;color:#b0b8c8;">
-    <strong style="color:#60a5fa;">Three Grok agents completed comprehensive research:</strong>
-    <ul style="margin-top:.5rem;">
-      <li><strong>Brain DB:</strong> Postgres+JSONB chosen for simplicity, no extra services, native SQL support</li>
-      <li><strong>Cache DB:</strong> Valkey chosen for Redis compatibility, community governance, no licensing issues</li>
-      <li><strong>LLM Routing:</strong> vLLM on Hetzner GPU for 3-4x cost savings vs cloud APIs</li>
-    </ul>
-    <div style="margin-top:1rem;padding:.8rem;background:rgba(52,211,153,.1);border-radius:.5rem;">
-      <strong style="color:#34d399;">Status:</strong> Research phase complete. Ready for implementation planning. All recommendations prioritize simplicity, cost-efficiency, and maintainability.
-    </div>
-  </div>
-</div>
-</div>
-
-<!-- TAB: Cron Jobs -->
-<div id="tab-cron" class="tab-content">
-<div class="card blue">
-  <h2>⏰ Active Cron Jobs (8)</h2>
-  <table>
-    <tr><th>Job</th><th>Schedule</th><th>Agent</th><th>Status</th></tr>
-    <tr><td><span class="dot dot-green live"></span>OfsInvest News Briefing</td><td>06:20 daily</td><td>Ben → OfsInvest</td><td>🆕 New</td></tr>
-    <tr><td><span class="dot dot-green live"></span>Daily Backup & Report</td><td>09:00 daily</td><td>Ben</td><td>✅ Running</td></tr>
-    <tr><td><span class="dot dot-green live"></span>LinkedIn Draft</td><td>10:30 daily</td><td>Ben</td><td>✅ Running</td></tr>
-    <tr><td><span class="dot dot-blue live"></span>Git Push</td><td>Every 6h</td><td>Ben</td><td>✅ Running</td></tr>
-    <tr><td><span class="dot dot-blue live"></span>Memclawz Health</td><td>Every 30min</td><td>Ben</td><td>✅ Running</td></tr>
-    <tr><td><span class="dot dot-yellow live"></span>Budget Daily</td><td>21:00 daily</td><td>Budget</td><td>✅ Running</td></tr>
-    <tr><td><span class="dot dot-yellow live"></span>Budget Weekly</td><td>Sun 20:00</td><td>Budget</td><td>✅ Running</td></tr>
-    <tr><td><span class="dot dot-yellow live"></span>Budget Monthly</td><td>1st 09:00</td><td>Budget</td><td>✅ Running</td></tr>
-  </table>
-</div>
-</div>
-
-<!-- TAB: Infrastructure -->
-<div id="tab-infra" class="tab-content">
-<div class="grid-2">
-  <div class="card blue">
-    <h2>🔧 Services</h2>
-    <table>
-      <tr><th>Service</th><th>Status</th><th>Details</th></tr>
-      <tr><td><span class="dot dot-green live"></span>OpenClaw Gateway</td><td>Running</td><td>WSL2 · Port 18789</td></tr>
-      <tr><td><span class="dot dot-green live"></span>Memclawz hnswlib</td><td>Running</td><td>Port 4010 · Vector memory</td></tr>
-      <tr><td><span class="dot dot-green live"></span>LinkedIn API</td><td>Connected</td><td>Expires ~Apr 2026</td></tr>
-      <tr><td><span class="dot dot-blue live"></span>Telegram</td><td>Active</td><td>Primary channel</td></tr>
-      <tr><td><span class="dot dot-blue live"></span>Browser Relay</td><td>Active</td><td>Chrome extension</td></tr>
-      <tr><td><span class="dot dot-green live"></span>GitHub</td><td>Connected</td><td>Auto-push every 6h</td></tr>
-    </table>
-  </div>
-
-  <div class="card blue">
-    <h2>🧠 Architecture</h2>
-    <h3>Memory Stack</h3>
-    <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin:.5rem 0;font-size:.82rem;">
-      <span class="skill" style="background:rgba(96,165,250,.15);color:#60a5fa;border-color:rgba(96,165,250,.3)">QMD &lt;1ms</span>
-      <span style="color:#4a5268">→</span>
-      <span class="skill" style="background:rgba(52,211,153,.15);color:#34d399;border-color:rgba(52,211,153,.3)">hnswlib &lt;10ms</span>
-      <span style="color:#4a5268">→</span>
-      <span class="skill" style="background:rgba(167,139,250,.15);color:#a78bfa;border-color:rgba(167,139,250,.3)">MEMORY.md</span>
-    </div>
-    <h3>Model Routing</h3>
-    <div style="margin:.5rem 0;font-size:.82rem;color:#b0b8c8;">
-      <div style="margin-bottom:.3rem"><strong style="color:#a78bfa">Opus 4.6</strong> — Code, brain, complex reasoning</div>
-      <div><strong style="color:#34d399">Grok 4</strong> — News, X/Twitter, real-time research</div>
-    </div>
-    <h3>Workspace</h3>
-    <div style="font-size:.78rem;color:#b0b8c8;margin-top:.3rem;">
-      <div>Ben: ~/.openclaw/workspace (main)</div>
-      <div>OfsInvest: ~/.openclaw/workspace-ofsinvest (12,262 lines)</div>
-      <div>Budget: ~/.openclaw/workspace-budget</div>
-    </div>
-  </div>
-</div>
-</div>
-
-<!-- TAB: Updates & Learning Curve -->
-<div id="tab-updates" class="tab-content">
-
-<div class="card blue" style="margin-bottom:1.5rem;">
-  <h2>📊 Live Stats <span class="badge badge-blue live" id="last-update">Updated: 2026-02-25 08:30 IST</span></h2>
-  <div class="stats-bar" style="margin:1rem 0;">
-    <div class="stat"><div class="stat-num" id="s-files">70</div><div class="stat-label">Total Files</div></div>
-    <div class="stat"><div class="stat-num" id="s-lines">12,262</div><div class="stat-label">Lines of Knowledge</div></div>
-    <div class="stat"><div class="stat-num" id="s-score">9.1</div><div class="stat-label">Score /10</div></div>
-    <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Discord Scraped</div></div>
-  </div>
-  <div style="font-size:.75rem;color:#8892a8;text-align:center;">Auto-refreshes every 30 minutes via cron</div>
-</div>
-
-<!-- Learning Curve Timeline -->
-<div class="card green" style="margin-bottom:1.5rem;">
-  <h2>📈 Learning Curve Timeline</h2>
-  <div style="position:relative;margin:1.5rem 0;">
-    <!-- SVG Chart -->
-    <svg viewBox="0 0 800 250" style="width:100%;height:auto;">
-      <!-- Grid lines -->
-      <line x1="60" y1="20" x2="60" y2="210" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
-      <line x1="60" y1="210" x2="780" y2="210" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-      <line x1="60" y1="172" x2="780" y2="172" stroke="rgba(255,255,255,0.04)" stroke-width="1" stroke-dasharray="4"/>
-      <line x1="60" y1="134" x2="780" y2="134" stroke="rgba(255,255,255,0.04)" stroke-width="1" stroke-dasharray="4"/>
-      <line x1="60" y1="96" x2="780" y2="96" stroke="rgba(255,255,255,0.04)" stroke-width="1" stroke-dasharray="4"/>
-      <line x1="60" y1="58" x2="780" y2="58" stroke="rgba(255,255,255,0.04)" stroke-width="1" stroke-dasharray="4"/>
-      <line x1="60" y1="20" x2="780" y2="20" stroke="rgba(255,255,255,0.04)" stroke-width="1" stroke-dasharray="4"/>
-      
-      <!-- Y-axis labels -->
-      <text x="50" y="214" fill="#8892a8" font-size="10" text-anchor="end">0</text>
-      <text x="50" y="176" fill="#8892a8" font-size="10" text-anchor="end">2k</text>
-      <text x="50" y="138" fill="#8892a8" font-size="10" text-anchor="end">4k</text>
-      <text x="50" y="100" fill="#8892a8" font-size="10" text-anchor="end">6k</text>
-      <text x="50" y="62" fill="#8892a8" font-size="10" text-anchor="end">8k</text>
-      <text x="50" y="24" fill="#8892a8" font-size="10" text-anchor="end">10k</text>
-      
-      <!-- Area fill -->
-      <defs>
-        <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#34d399" stop-opacity="0.3"/>
-          <stop offset="100%" stop-color="#34d399" stop-opacity="0.02"/>
-        </linearGradient>
-      </defs>
-      <path d="M100,210 L100,205 L200,196 L340,182 L440,168 L540,145 L640,120 L740,113 L780,110 L780,210 Z" fill="url(#areaGrad)"/>
-      
-      <!-- Line -->
-      <polyline points="100,205 200,196 340,182 440,168 540,145 640,120 740,113" 
-        fill="none" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-      
-      <!-- Data points -->
-      <circle cx="100" cy="205" r="4" fill="#0a0e1a" stroke="#34d399" stroke-width="2"/>
-      <circle cx="200" cy="196" r="4" fill="#0a0e1a" stroke="#34d399" stroke-width="2"/>
-      <circle cx="340" cy="182" r="4" fill="#0a0e1a" stroke="#34d399" stroke-width="2"/>
-      <circle cx="440" cy="168" r="4" fill="#0a0e1a" stroke="#34d399" stroke-width="2"/>
-      <circle cx="540" cy="145" r="4" fill="#0a0e1a" stroke="#34d399" stroke-width="2"/>
-      <circle cx="640" cy="120" r="4" fill="#0a0e1a" stroke="#34d399" stroke-width="2"/>
-      <circle cx="740" cy="113" r="5" fill="#34d399" stroke="#0a0e1a" stroke-width="2"/>
-      
-      <!-- Labels -->
-      <text x="100" y="230" fill="#8892a8" font-size="9" text-anchor="middle">19:30</text>
-      <text x="200" y="230" fill="#8892a8" font-size="9" text-anchor="middle">20:00</text>
-      <text x="340" y="230" fill="#8892a8" font-size="9" text-anchor="middle">20:15</text>
-      <text x="440" y="230" fill="#8892a8" font-size="9" text-anchor="middle">20:30</text>
-      <text x="540" y="230" fill="#8892a8" font-size="9" text-anchor="middle">21:00</text>
-      <text x="640" y="230" fill="#8892a8" font-size="9" text-anchor="middle">21:15</text>
-      <text x="740" y="230" fill="#34d399" font-size="9" text-anchor="middle" font-weight="bold">22:00</text>
-      
-      <!-- Value labels -->
-      <text x="100" y="198" fill="#b0b8c8" font-size="8" text-anchor="middle">498</text>
-      <text x="200" y="189" fill="#b0b8c8" font-size="8" text-anchor="middle">677</text>
-      <text x="340" y="175" fill="#b0b8c8" font-size="8" text-anchor="middle">1,673</text>
-      <text x="440" y="161" fill="#b0b8c8" font-size="8" text-anchor="middle">2,050</text>
-      <text x="540" y="138" fill="#b0b8c8" font-size="8" text-anchor="middle">3,979</text>
-      <text x="640" y="113" fill="#b0b8c8" font-size="8" text-anchor="middle">4,994</text>
-      <text x="740" y="106" fill="#34d399" font-size="9" text-anchor="middle" font-weight="bold">5,094</text>
-    </svg>
-  </div>
-</div>
-
-<!-- Event Log -->
-<div class="card purple">
-  <h2>🕐 Activity Log — Feb 24-25, 2026</h2>
-  <div style="font-size:.82rem;line-height:1.8;">
-    <div style="border-left:2px solid #a78bfa;padding-left:1rem;margin:.5rem 0;">
-      <div style="color:#a78bfa;font-weight:600;">07:33 — V2 Architecture Research</div>
-      <div style="color:#b0b8c8;">3 Grok agents completed research: Brain DB (Postgres+JSONB), Cache DB (Valkey), LLM Routing (vLLM/Hetzner). All recommendations finalized.</div>
-    </div>
-    <div style="border-left:2px solid #60a5fa;padding-left:1rem;margin:.5rem 0;">
-      <div style="color:#60a5fa;font-weight:600;">00:51 — OfsInvest Skills Upgrade</div>
-      <div style="color:#b0b8c8;">3 sub-agents upgraded skills: portfolio construction, screening, risk management, sectors. Score jumped 3.7→9.1/10</div>
-    </div>
-    <div style="border-left:2px solid #34d399;padding-left:1rem;margin:.5rem 0;">
-      <div style="color:#34d399;font-weight:600;">00:40 — PDF Knowledge Extraction</div>
-      <div style="color:#b0b8c8;">5 sub-agents extracted 8 PDF files: Risk Discipline, Playbook, Scorecard, Market Map, Text PDFs. +6,737 lines of knowledge</div>
-    </div>
-    <div style="border-left:2px solid #60a5fa;padding-left:1rem;margin:.5rem 0;">
-      <div style="color:#60a5fa;font-weight:600;">00:07 — Full Backup + Error Resilience</div>
-      <div style="color:#b0b8c8;">Backed up all workspaces to GitHub (56 files, 6,380 lines). Added retry + dynamic model fallback rule to MEMORY.md</div>
-    </div>
-    <div style="border-left:2px solid #34d399;padding-left:1rem;margin:.5rem 0;">
-      <div style="color:#34d399;font-weight:600;">23:00 — All 14 Discord Channels Complete</div>
-      <div style="color:#b0b8c8;">Scraped remaining 6 trading rooms + 3 sector channels. All processed via Sonnet sub-agents into knowledge base</div>
-    </div>
-    <div style="border-left:2px solid #a78bfa;padding-left:1rem;margin:.5rem 0;">
-      <div style="color:#a78bfa;font-weight:600;">22:00 — News Intelligence Modules</div>
-      <div style="color:#b0b8c8;">Created 5 news source configs (X, Yahoo, GuruFocus, CNBC, Aggregator) + master orchestrator skill. 6 files, ~42KB</div>
-    </div>
-    <div style="border-left:2px solid #f472b6;padding-left:1rem;margin:.5rem 0;">
-      <div style="color:#f472b6;font-weight:600;">21:30 — Daily News Briefing Cron</div>
-      <div style="color:#b0b8c8;">Set up 6:20 AM daily Telegram briefing with indices, watchlist movers, earnings, signals, sentiment</div>
-    </div>
-    <div style="border-left:2px solid #22d3ee;padding-left:1rem;margin:.5rem 0;">
-      <div style="color:#22d3ee;font-weight:600;">21:15 — Sector Research Modules</div>
-      <div style="color:#b0b8c8;">Created 3 sector sub-agents: Nuclear/Space (426 lines), BioPharma (338 lines), Quantum (251 lines)</div>
-    </div>
-    <div style="border-left:2px solid #34d399;padding-left:1rem;margin:.5rem 0;">
-      <div style="color:#34d399;font-weight:600;">21:00 — Deep Learning Complete</div>
-      <div style="color:#b0b8c8;">Built investment-system.md (392), decision-tree.md (242), self-assessment.md (101), improvement-plan.md (556). Score: 3.7/10</div>
-    </div>
-    <div style="border-left:2px solid #fbbf24;padding-left:1rem;margin:.5rem 0;">
-      <div style="color:#fbbf24;font-weight:600;">20:30 — Trading Rooms Scraped</div>
-      <div style="color:#b0b8c8;">4 trading rooms processed: graphs, cup & handle, moving averages, trend lines. 20+ Hebrew terms glossary</div>
-    </div>
-    <div style="border-left:2px solid #60a5fa;padding-left:1rem;margin:.5rem 0;">
-      <div style="color:#60a5fa;font-weight:600;">20:15 — Entry Points 2026</div>
-      <div style="color:#b0b8c8;">Scraped נקודות-כניסה channel: Micha's MA150+ATR prompt, 10 stocks analyzed, 81-stock TradingView watchlist</div>
-    </div>
-    <div style="border-left:2px solid #f87171;padding-left:1rem;margin:.5rem 0;">
-      <div style="color:#f87171;font-weight:600;">20:00 — Tutorials Channel</div>
-      <div style="color:#b0b8c8;">20 tutorials scraped: AI prompts, risk discipline, RBLX case study, space sector, NotebookLM, 10x stocks</div>
-    </div>
-    <div style="border-left:2px solid #8892a8;padding-left:1rem;margin:.5rem 0;">
-      <div style="color:#8892a8;font-weight:600;">19:30 — First Learning Session</div>
-      <div style="color:#b0b8c8;">Homepage + setups channels scraped. Initial methodology, watchlist, and methodology-summary created. 498 lines</div>
-    </div>
-  </div>
-</div>
-
-<!-- Score Projection -->
-<div class="card green" style="margin-top:1.5rem;">
-  <h2>🎯 Score Projection</h2>
-  <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:1rem;">
-    <div style="flex:1;min-width:150px;text-align:center;padding:1rem;background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.15);border-radius:.8rem;">
-      <div style="font-size:2rem;font-weight:700;color:#34d399;">9.1</div>
-      <div style="font-size:.75rem;color:#8892a8;">Current</div>
-      <div style="font-size:.7rem;color:#34d399;">Feb 25</div>
-    </div>
-    <div style="display:flex;align-items:center;color:#4a5268;font-size:1.5rem;">→</div>
-    <div style="flex:1;min-width:150px;text-align:center;padding:1rem;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.15);border-radius:.8rem;">
-      <div style="font-size:2rem;font-weight:700;color:#fbbf24;">6.0</div>
-      <div style="font-size:.75rem;color:#8892a8;">Week 1 Target</div>
-      <div style="font-size:.7rem;color:#34d399;">✅ EXCEEDED</div>
-    </div>
-    <div style="display:flex;align-items:center;color:#4a5268;font-size:1.5rem;">→</div>
-    <div style="flex:1;min-width:150px;text-align:center;padding:1rem;background:rgba(96,165,250,.08);border:1px solid rgba(96,165,250,.15);border-radius:.8rem;">
-      <div style="font-size:2rem;font-weight:700;color:#60a5fa;">7.8</div>
-      <div style="font-size:.75rem;color:#8892a8;">Month 1 Target</div>
-      <div style="font-size:.7rem;color:#60a5fa;">Mar 24</div>
-    </div>
-    <div style="display:flex;align-items:center;color:#4a5268;font-size:1.5rem;">→</div>
-    <div style="flex:1;min-width:150px;text-align:center;padding:1rem;background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.15);border-radius:.8rem;">
-      <div style="font-size:2rem;font-weight:700;color:#34d399;">9.2</div>
-      <div style="font-size:.75rem;color:#8892a8;">Month 2+ Target</div>
-      <div style="font-size:.7rem;color:#34d399;">Apr 24</div>
-    </div>
-  </div>
-</div>
-
-</div>
-
-<!-- TAB: Model Costs -->
-<div id="tab-costs" class="tab-content">
-
-<!-- Summary Bar -->
-<div class="card blue" style="margin-bottom:1.5rem;">
-  <h2>💰 Today's Model Costs <button onclick="refreshCosts()" style="background:rgba(96,165,250,.15);border:1px solid rgba(96,165,250,.3);border-radius:.4rem;padding:.3rem .8rem;font-size:.75rem;color:#60a5fa;cursor:pointer;margin-left:.5rem;">🔄 Refresh</button></h2>
-  <div class="stats-bar" style="margin:1rem 0;">
-    <div class="stat"><div class="stat-num" id="total-cost">~$6.51</div><div class="stat-label">Total Today</div></div>
-    <div class="stat"><div class="stat-num" id="opus-cost">~$6.51</div><div class="stat-label">Opus Cost</div></div>
-    <div class="stat"><div class="stat-num" id="grok-cost">$0.00</div><div class="stat-label">Grok Cost (Free)</div></div>
-    <div class="stat"><div class="stat-num" id="sessions-active">13</div><div class="stat-label">Sessions Active</div></div>
-  </div>
-  <div style="font-size:.75rem;color:#8892a8;text-align:center;" id="refresh-timestamp">Last updated: 2026-02-25 06:30 IST</div>
-</div>
-
-<!-- Cost Breakdown Table -->
-<div class="card blue">
-  <h2>📊 Session Cost Breakdown</h2>
-  <table id="cost-table">
-    <thead>
-      <tr>
-        <th>Session</th>
-        <th>Model</th>
-        <th>Tokens In</th>
-        <th>Tokens Out</th>
-        <th>Total Tokens</th>
-        <th>Est. Cost ($)</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td>Ben (main)</td><td>claude-opus-4-6</td><td>75k</td><td>32k</td><td>107k</td><td>$1.60</td></tr>
-      <tr><td>extract-space-scorecard</td><td>claude-opus-4-6</td><td>13k</td><td>5k</td><td>18k</td><td>$0.27</td></tr>
-      <tr><td>extract-2026-playbook</td><td>claude-opus-4-6</td><td>12k</td><td>5k</td><td>17k</td><td>$0.26</td></tr>
-      <tr><td>Brain Map Cron</td><td>claude-opus-4-6</td><td>13k</td><td>5k</td><td>18k</td><td>$0.27</td></tr>
-      <tr><td>Memclawz Cron</td><td>claude-opus-4-6</td><td>11k</td><td>4k</td><td>15k</td><td>$0.22</td></tr>
-      <tr><td>extract-text-pdfs</td><td>claude-opus-4-6</td><td>13k</td><td>5k</td><td>18k</td><td>$0.27</td></tr>
-      <tr><td>extract-market-map</td><td>claude-opus-4-6</td><td>13k</td><td>5k</td><td>18k</td><td>$0.27</td></tr>
-      <tr><td>extract-risk-discipline</td><td>claude-opus-4-6</td><td>13k</td><td>5k</td><td>18k</td><td>$0.27</td></tr>
-      <tr><td>Group chat</td><td>claude-opus-4-6</td><td>41k</td><td>18k</td><td>59k</td><td>$0.88</td></tr>
-      <tr><td>Git backup cron</td><td>claude-opus-4-6</td><td>11k</td><td>4k</td><td>15k</td><td>$0.22</td></tr>
-      <tr><td>Pagaya analysis v2</td><td>grok-4</td><td>15k</td><td>6k</td><td>21k</td><td>$0.00</td></tr>
-      <tr><td>Pagaya analysis</td><td>grok-4</td><td>9k</td><td>4k</td><td>13k</td><td>$0.00</td></tr>
-      <tr><td>Group chat 2</td><td>claude-opus-4-6</td><td>32k</td><td>13k</td><td>45k</td><td>$0.67</td></tr>
-    </tbody>
-  </table>
-</div>
-
-<div style="margin-top:1rem;padding:1rem;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.15);border-radius:.8rem;font-size:.78rem;color:#b0b8c8;">
-  <strong style="color:#fbbf24;">💡 Pricing:</strong> Claude Opus 4.6: $15/1M input tokens, $75/1M output tokens. Grok 4: Free via xAI. Cost estimates assume 70% input / 30% output ratio.
-</div>
-
-</div>
-
-<footer class="footer">
-  <p>🧠 Ben's Brain Map · OpenClaw Agent Network · Generated 2026-02-25 08:30 IST</p>
-  <p style="margin-top:.2rem">Built by Ben for Ofer Sasson · <a href="https://github.com/ofs100private/clawbot-reports">github.com/ofs100private/clawbot-reports</a></p>
-</footer>
-
-</div>
-
-<script>
-function showTab(name) {
-  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('tab-' + name).classList.add('active');
-  event.target.classList.add('active');
-}
-
-function refreshCosts() {
-  fetch('http://127.0.0.1:18789/api/sessions?activeMinutes=1440&messageLimit=0', {
-    headers: {'Authorization': 'Bearer 0d04dc8adb5f793aa7c6d078d84755799f1a9ccf0566b77a'}
-  })
-  .then(res => res.json())
-  .then(data => {
-    // Pricing constants (per 1M tokens)
-    const OPUS_INPUT = 15;   // $15/1M input
-    const OPUS_OUTPUT = 75;  // $75/1M output
-    
-    let totalCost = 0;
-    let opusCost = 0;
-    let grokCost = 0;
-    let sessionsActive = 0;
-    
-    const tbody = document.querySelector('#cost-table tbody');
-    tbody.innerHTML = '';
-    
-    data.sessions.forEach(session => {
-      if (!session.totalTokens || session.totalTokens === 0) return;
-      
-      sessionsActive++;
-      const totalTokens = session.totalTokens;
-      
-      // Estimate 70% input, 30% output
-      const inputTokens = Math.round(totalTokens * 0.7);
-      const outputTokens = Math.round(totalTokens * 0.3);
-      
-      let cost = 0;
-      const model = session.model || 'unknown';
-      
-      if (model.includes('opus')) {
-        cost = (inputTokens / 1000000) * OPUS_INPUT + (outputTokens / 1000000) * OPUS_OUTPUT;
-        opusCost += cost;
-      } else if (model.includes('grok')) {
-        cost = 0; // Grok is free
-        grokCost += 0;
-      } else if (model.includes('claude')) {
-        // Assume other claude models use opus pricing as fallback
-        cost = (inputTokens / 1000000) * OPUS_INPUT + (outputTokens / 1000000) * OPUS_OUTPUT;
-        opusCost += cost;
-      }
-      
-      totalCost += cost;
-      
-      // Format tokens
-      const formatTokens = (n) => n >= 1000 ? Math.round(n/1000) + 'k' : n;
-      
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td>${session.label || session.sessionId.slice(0, 20)}</td>
-        <td>${model}</td>
-        <td>${formatTokens(inputTokens)}</td>
-        <td>${formatTokens(outputTokens)}</td>
-        <td>${formatTokens(totalTokens)}</td>
-        <td>$${cost.toFixed(2)}</td>
-      `;
-      tbody.appendChild(row);
-    });
-    
-    // Update summary
-    document.getElementById('total-cost').textContent = '$' + totalCost.toFixed(2);
-    document.getElementById('opus-cost').textContent = '$' + opusCost.toFixed(2);
-    document.getElementById('grok-cost').textContent = '$' + grokCost.toFixed(2);
-    document.getElementById('sessions-active').textContent = sessionsActive;
-    
-    // Update timestamp
-    const now = new Date();
-    const timestamp = now.toLocaleString('en-IL', { timeZone: 'Asia/Jerusalem', dateStyle: 'medium', timeStyle: 'short' });
-    document.getElementById('refresh-timestamp').textContent = 'Last updated: ' + timestamp;
-  })
-  .catch(err => {
-    console.error('Failed to refresh costs:', err);
-    alert('Failed to refresh costs. Check console for details.');
-  });
-}
-</script>
+        // Add spin animation
+        const style = document.createElement('style');
+        style.textContent = '@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }';
+        document.head.appendChild(style);
+    </script>
 </body>
 </html>
