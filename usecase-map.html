@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🦞 OpenClaw Use Case Map</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #0f1117;
+            color: #e5e7eb;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: #1a1d27;
+            padding: 2rem 1.5rem;
+            border-right: 1px solid #2d3142;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: #0f1117;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: #2d3142;
+            border-radius: 3px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 0.875rem;
+            color: #9ca3af;
+            margin-bottom: 2rem;
+        }
+
+        .nav-section {
+            margin-bottom: 2rem;
+        }
+
+        .nav-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #6b7280;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+
+        .nav-links {
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-links a {
+            color: #9ca3af;
+            text-decoration: none;
+            font-size: 0.875rem;
+            display: block;
+            padding: 0.5rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover {
+            background: #2d3142;
+            color: #e5e7eb;
+        }
+
+        .model-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+        }
+
+        .model-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .model-dot.purple { background: #a78bfa; }
+        .model-dot.blue { background: #60a5fa; }
+        .model-dot.green { background: #34d399; }
+
+        .model-name {
+            flex: 1;
+        }
+
+        .free-badge {
+            background: #10b981;
+            color: #fff;
+            font-size: 0.625rem;
+            padding: 0.125rem 0.375rem;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 2rem;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .stat-card {
+            background: #1a1d27;
+            padding: 1.25rem;
+            border-radius: 12px;
+            border: 1px solid #2d3142;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: bold;
+            color: #e5e7eb;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .header-subtitle {
+            color: #9ca3af;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.625rem 1.25rem;
+            border-radius: 8px;
+            border: none;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-secondary {
+            background: #2d3142;
+            color: #e5e7eb;
+            border: 1px solid #374151;
+        }
+
+        .btn-secondary:hover {
+            background: #374151;
+        }
+
+        .btn-add {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-add:hover {
+            background: #059669;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        /* Use Case Grid */
+        .use-cases {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .use-case-card {
+            background: #1a1d27;
+            border: 1px solid #2d3142;
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+            opacity: 0;
+            animation: fadeInUp 0.5s ease-out forwards;
+            position: relative;
+        }
+
+        .use-case-card:nth-child(1) { animation-delay: 0.1s; }
+        .use-case-card:nth-child(2) { animation-delay: 0.15s; }
+        .use-case-card:nth-child(3) { animation-delay: 0.2s; }
+        .use-case-card:nth-child(4) { animation-delay: 0.25s; }
+        .use-case-card:nth-child(5) { animation-delay: 0.3s; }
+        .use-case-card:nth-child(6) { animation-delay: 0.35s; }
+        .use-case-card:nth-child(7) { animation-delay: 0.4s; }
+        .use-case-card:nth-child(8) { animation-delay: 0.45s; }
+        .use-case-card:nth-child(9) { animation-delay: 0.5s; }
+
+        .use-case-card:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            line-height: 1;
+        }
+
+        .card-info {
+            flex: 1;
+        }
+
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-description {
+            color: #9ca3af;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+
+        .model-selector {
+            margin-top: 1.25rem;
+            position: relative;
+        }
+
+        .model-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .model-badge:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .model-badge.purple {
+            background: rgba(167, 139, 250, 0.15);
+            color: #a78bfa;
+            border-color: rgba(167, 139, 250, 0.3);
+        }
+
+        .model-badge.blue {
+            background: rgba(96, 165, 250, 0.15);
+            color: #60a5fa;
+            border-color: rgba(96, 165, 250, 0.3);
+        }
+
+        .model-badge.green {
+            background: rgba(52, 211, 153, 0.15);
+            color: #34d399;
+            border-color: rgba(52, 211, 153, 0.3);
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: #2d3142;
+            border: 1px solid #374151;
+            border-radius: 8px;
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            display: none;
+            z-index: 10;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .dropdown.active {
+            display: block;
+            animation: dropdownSlide 0.2s ease-out;
+        }
+
+        .dropdown-item {
+            padding: 0.75rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .dropdown-item:hover {
+            background: #374151;
+        }
+
+        .dropdown-item .model-icon {
+            font-size: 1rem;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #10b981;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            z-index: 1000;
+            animation: slideInRight 0.3s ease-out;
+        }
+
+        .toast.show {
+            display: flex;
+        }
+
+        .toast.hide {
+            animation: slideOutRight 0.3s ease-out;
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 1rem;
+        }
+
+        .modal.active {
+            display: flex;
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        .modal-content {
+            background: #1a1d27;
+            border: 1px solid #2d3142;
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 100%;
+            animation: scaleIn 0.3s ease-out;
+        }
+
+        .modal-header {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            color: #9ca3af;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            background: #0f1117;
+            border: 1px solid #2d3142;
+            border-radius: 8px;
+            color: #e5e7eb;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: flex-end;
+            margin-top: 1.5rem;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes dropdownSlide {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: 1px solid #2d3142;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+
+            .use-cases {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-bar {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .toast {
+                left: 1rem;
+                right: 1rem;
+                bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">🦞 OpenClaw Control</div>
+            <div class="subtitle">Model Management</div>
+
+            <nav class="nav-section">
+                <div class="nav-title">Navigation</div>
+                <ul class="nav-links">
+                    <li><a href="#models">Models</a></li>
+                    <li><a href="#use-cases">Use Cases</a></li>
+                    <li><a href="#how-to">How to Switch</a></li>
+                </ul>
+            </nav>
+
+            <nav class="nav-section">
+                <div class="nav-title">Quick Links</div>
+                <ul class="nav-links">
+                    <li><a href="#" onclick="alert('Hub integration coming soon!'); return false;">🏠 Hub</a></li>
+                    <li><a href="#" onclick="alert('Cost Dashboard coming soon!'); return false;">💰 Cost Dashboard</a></li>
+                    <li><a href="https://console.anthropic.com" target="_blank">🔷 Anthropic Console</a></li>
+                </ul>
+            </nav>
+
+            <div class="nav-section">
+                <div class="nav-title">Models</div>
+                <div id="modelsList">
+                    <div class="model-item">
+                        <span class="model-dot purple"></span>
+                        <span class="model-name">Claude Opus 4.6</span>
+                    </div>
+                    <div class="model-item">
+                        <span class="model-dot blue"></span>
+                        <span class="model-name">Claude Sonnet 4.5</span>
+                    </div>
+                    <div class="model-item">
+                        <span class="model-dot green"></span>
+                        <span class="model-name">Grok 4</span>
+                        <span class="free-badge">FREE</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Stats Bar -->
+            <div class="stats-bar">
+                <div class="stat-card">
+                    <div class="stat-label">Total Use Cases</div>
+                    <div class="stat-value" id="totalUseCases">9</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Models Active</div>
+                    <div class="stat-value" id="modelsActive">3</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Free Tier Usage</div>
+                    <div class="stat-value" id="freeTierUsage">44%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Est. Monthly Cost</div>
+                    <div class="stat-value" id="monthlyCost">$127</div>
+                </div>
+            </div>
+
+            <!-- Header -->
+            <div class="header">
+                <div>
+                    <h1>Use Case Map</h1>
+                    <div class="header-subtitle">What each model is used for in the OpenClaw setup</div>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-secondary" onclick="resetToDefaults()">
+                        🔄 Reset to Defaults
+                    </button>
+                    <button class="btn btn-add" onclick="openAddModal()">
+                        ➕ Add Use Case
+                    </button>
+                    <button class="btn btn-primary" onclick="saveConfiguration()">
+                        💾 Save Configuration
+                    </button>
+                </div>
+            </div>
+
+            <!-- Use Cases Grid -->
+            <div class="use-cases" id="useCasesGrid">
+                <!-- Use cases will be rendered here by JavaScript -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <span id="toastMessage">Configuration saved ✅</span>
+    </div>
+
+    <!-- Add Use Case Modal -->
+    <div class="modal" id="addModal">
+        <div class="modal-content">
+            <div class="modal-header">➕ Add New Use Case</div>
+            <div class="form-group">
+                <label class="form-label">Emoji Icon</label>
+                <input type="text" class="form-input" id="newIcon" placeholder="🎯" maxlength="2">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Title</label>
+                <input type="text" class="form-input" id="newTitle" placeholder="My Use Case">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Description</label>
+                <input type="text" class="form-input" id="newDescription" placeholder="What this use case does">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Model</label>
+                <select class="form-input" id="newModel">
+                    <option value="opus">Claude Opus 4.6</option>
+                    <option value="sonnet">Claude Sonnet 4.5</option>
+                    <option value="grok">Grok 4</option>
+                </select>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeAddModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="addNewUseCase()">Add Use Case</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Model definitions
+        const models = {
+            opus: {
+                name: 'Claude Opus 4.6',
+                color: 'purple',
+                icon: '🟣',
+                cost: 25
+            },
+            sonnet: {
+                name: 'Claude Sonnet 4.5',
+                color: 'blue',
+                icon: '🔵',
+                cost: 8
+            },
+            grok: {
+                name: 'Grok 4',
+                color: 'green',
+                icon: '⚡',
+                cost: 0,
+                free: true
+            }
+        };
+
+        // Default use cases
+        const defaultUseCases = [
+            {
+                id: 'main-chat',
+                icon: '💬',
+                title: 'Main Chat',
+                description: 'Primary assistant for all Telegram conversations',
+                model: 'opus'
+            },
+            {
+                id: 'stock-trading',
+                icon: '📈',
+                title: 'Stock Trading (OfsInvest)',
+                description: 'Real-time market analysis, Micha.Stocks methodology, 8 sectors',
+                model: 'grok'
+            },
+            {
+                id: 'daily-scan',
+                icon: '🔍',
+                title: 'Daily Stock Scan',
+                description: 'Daily scanner of watchlist stocks with news, analyst, and technical scores',
+                model: 'grok'
+            },
+            {
+                id: 'architecture',
+                icon: '🏗️',
+                title: 'Architecture Research',
+                description: 'Deep dive into clouds, databases, Databricks, infrastructure',
+                model: 'grok'
+            },
+            {
+                id: 'budget',
+                icon: '💰',
+                title: 'Budget Management',
+                description: 'Family budget tracking and analysis',
+                model: 'sonnet'
+            },
+            {
+                id: 'social-media',
+                icon: '📱',
+                title: 'Social Media',
+                description: 'LinkedIn content creation, posting, engagement strategy',
+                model: 'opus'
+            },
+            {
+                id: 'ai-news',
+                icon: '📰',
+                title: 'AI News Summary',
+                description: 'Daily AI/tech news digest',
+                model: 'grok'
+            },
+            {
+                id: 'code',
+                icon: '🧠',
+                title: 'Code & Analysis',
+                description: 'Writing code, debugging, technical analysis',
+                model: 'opus'
+            },
+            {
+                id: 'planning',
+                icon: '📋',
+                title: 'Planning',
+                description: 'Complex multi-step tasks and orchestration',
+                model: 'opus'
+            }
+        ];
+
+        // Load use cases from localStorage or use defaults
+        let useCases = JSON.parse(localStorage.getItem('useCases')) || defaultUseCases;
+
+        // Render use cases
+        function renderUseCases() {
+            const grid = document.getElementById('useCasesGrid');
+            grid.innerHTML = '';
+
+            useCases.forEach((useCase, index) => {
+                const model = models[useCase.model];
+                const card = document.createElement('div');
+                card.className = 'use-case-card';
+                card.innerHTML = `
+                    <div class="card-header">
+                        <div class="card-icon">${useCase.icon}</div>
+                        <div class="card-info">
+                            <div class="card-title">${useCase.title}</div>
+                            <div class="card-description">${useCase.description}</div>
+                        </div>
+                    </div>
+                    <div class="model-selector">
+                        <div class="model-badge ${model.color}" onclick="toggleDropdown(${index})">
+                            <span>${model.icon}</span>
+                            <span>${model.name}</span>
+                            ${model.free ? '<span class="free-badge">FREE</span>' : ''}
+                        </div>
+                        <div class="dropdown" id="dropdown-${index}">
+                            ${Object.entries(models).map(([key, m]) => `
+                                <div class="dropdown-item" onclick="selectModel(${index}, '${key}')">
+                                    <span class="model-icon">${m.icon}</span>
+                                    <span>${m.name}</span>
+                                    ${m.free ? '<span class="free-badge">FREE</span>' : ''}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            updateStats();
+        }
+
+        // Toggle dropdown
+        function toggleDropdown(index) {
+            const dropdown = document.getElementById(`dropdown-${index}`);
+            const allDropdowns = document.querySelectorAll('.dropdown');
+            
+            allDropdowns.forEach(d => {
+                if (d !== dropdown) d.classList.remove('active');
+            });
+            
+            dropdown.classList.toggle('active');
+        }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.model-selector')) {
+                document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('active'));
+            }
+        });
+
+        // Select model
+        function selectModel(index, modelKey) {
+            useCases[index].model = modelKey;
+            renderUseCases();
+            showToast('Model updated! Remember to save configuration.');
+        }
+
+        // Update stats
+        function updateStats() {
+            const totalCases = useCases.length;
+            const uniqueModels = new Set(useCases.map(uc => uc.model)).size;
+            const grokCount = useCases.filter(uc => uc.model === 'grok').length;
+            const freeUsage = Math.round((grokCount / totalCases) * 100);
+            
+            let totalCost = 0;
+            useCases.forEach(uc => {
+                totalCost += models[uc.model].cost;
+            });
+
+            document.getElementById('totalUseCases').textContent = totalCases;
+            document.getElementById('modelsActive').textContent = uniqueModels;
+            document.getElementById('freeTierUsage').textContent = `${freeUsage}%`;
+            document.getElementById('monthlyCost').textContent = `$${totalCost}`;
+        }
+
+        // Save configuration
+        function saveConfiguration() {
+            localStorage.setItem('useCases', JSON.stringify(useCases));
+            showToast('Configuration saved ✅');
+        }
+
+        // Reset to defaults
+        function resetToDefaults() {
+            if (confirm('Are you sure you want to reset to default configuration? This will overwrite your current settings.')) {
+                useCases = JSON.parse(JSON.stringify(defaultUseCases));
+                localStorage.setItem('useCases', JSON.stringify(useCases));
+                renderUseCases();
+                showToast('Reset to default configuration ✅');
+            }
+        }
+
+        // Show toast
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            toastMessage.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.add('hide');
+                setTimeout(() => {
+                    toast.classList.remove('show', 'hide');
+                }, 300);
+            }, 3000);
+        }
+
+        // Modal functions
+        function openAddModal() {
+            document.getElementById('addModal').classList.add('active');
+        }
+
+        function closeAddModal() {
+            document.getElementById('addModal').classList.remove('active');
+            document.getElementById('newIcon').value = '';
+            document.getElementById('newTitle').value = '';
+            document.getElementById('newDescription').value = '';
+            document.getElementById('newModel').value = 'opus';
+        }
+
+        function addNewUseCase() {
+            const icon = document.getElementById('newIcon').value || '🎯';
+            const title = document.getElementById('newTitle').value;
+            const description = document.getElementById('newDescription').value;
+            const model = document.getElementById('newModel').value;
+
+            if (!title || !description) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            const newUseCase = {
+                id: `custom-${Date.now()}`,
+                icon,
+                title,
+                description,
+                model
+            };
+
+            useCases.push(newUseCase);
+            renderUseCases();
+            closeAddModal();
+            showToast(`Added new use case: ${title} ✅`);
+        }
+
+        // Initialize
+        renderUseCases();
+    </script>
+</body>
+</html>
