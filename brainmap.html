@@ -544,16 +544,20 @@
         <div id="overview" class="tab-content active">
             <div class="stats-bar">
                 <div class="stat">
-                    <span class="stat-value" data-count="75">0</span>
+                    <span class="stat-value" data-count="77">0</span>
                     <span class="stat-label">Total Files</span>
                 </div>
                 <div class="stat">
-                    <span class="stat-value" data-count="12598">0</span>
+                    <span class="stat-value" data-count="13333">0</span>
                     <span class="stat-label">Lines of Knowledge</span>
                 </div>
                 <div class="stat">
-                    <span class="stat-value" data-count="3">0</span>
+                    <span class="stat-value" data-count="4">0</span>
                     <span class="stat-label">Active Agents</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value" data-count="8">0</span>
+                    <span class="stat-label">Sectors</span>
                 </div>
                 <div class="stat">
                     <span class="stat-value">9.1<small>/10</small></span>
@@ -627,16 +631,20 @@
                 <div class="card-title">🎯 Agent Roster</div>
                 <div class="skills-grid">
                     <div class="skill-card">
-                        <div class="skill-name">🧠 Ben</div>
-                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">Admin & Main Agent</div>
+                        <div class="skill-name">🧠 Ben (Opus)</div>
+                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">Main assistant, admin</div>
                     </div>
                     <div class="skill-card">
-                        <div class="skill-name">💰 Budget</div>
-                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">Family Budget Tracking</div>
+                        <div class="skill-name">💰 Budget (Sonnet)</div>
+                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">Family budget</div>
                     </div>
                     <div class="skill-card">
-                        <div class="skill-name">📈 OfsInvest</div>
-                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">Investment Research</div>
+                        <div class="skill-name">📈 OfsInvest (Sonnet)</div>
+                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">Investment analysis</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">🏗️ Architect (Grok)</div>
+                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">Infrastructure research, FREE</div>
                     </div>
                 </div>
             </div>
@@ -749,19 +757,36 @@
                 <div class="card-title">🏢 Sectors</div>
                 <div class="sectors-grid">
                     <div class="sector-card">
-                        <div class="sector-name">🚀 Nuclear-Space</div>
+                        <div class="sector-name">🔬 Nuclear-Space</div>
                         <div class="sector-count">11 stocks</div>
-                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">728 lines</div>
                     </div>
                     <div class="sector-card">
                         <div class="sector-name">💊 BioPharma</div>
                         <div class="sector-count">16 stocks</div>
-                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">407 lines</div>
                     </div>
                     <div class="sector-card">
                         <div class="sector-name">⚛️ Quantum</div>
                         <div class="sector-count">5 stocks</div>
-                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">251 lines</div>
+                    </div>
+                    <div class="sector-card">
+                        <div class="sector-name">📊 Earnings Reports</div>
+                        <div class="sector-count"><span class="badge">NEW</span></div>
+                    </div>
+                    <div class="sector-card">
+                        <div class="sector-name">₿ Crypto</div>
+                        <div class="sector-count">7 stocks</div>
+                    </div>
+                    <div class="sector-card">
+                        <div class="sector-name">📈 Options</div>
+                        <div class="sector-count"><span class="badge">NEW</span></div>
+                    </div>
+                    <div class="sector-card">
+                        <div class="sector-name">🔍 Under $1B</div>
+                        <div class="sector-count">3 stocks</div>
+                    </div>
+                    <div class="sector-card">
+                        <div class="sector-name">🇮🇱 Israel TASE</div>
+                        <div class="sector-count"><span class="badge">NEW</span></div>
                     </div>
                 </div>
             </div>
@@ -976,6 +1001,16 @@
                 <div class="timeline">
                     <div class="timeline-item">
                         <div class="timeline-dot"></div>
+                        <div class="timeline-time">09:15 GMT+2</div>
+                        <div class="timeline-content">Added 5 new sectors (Earnings, Crypto, Options, Under $1B, Israel TASE)</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-time">09:05 GMT+2</div>
+                        <div class="timeline-content">Architect agent created (Grok, free research)</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
                         <div class="timeline-time">08:25 GMT+2</div>
                         <div class="timeline-content">OpenClaw upgraded to 2026.2.24</div>
                     </div>
@@ -1016,7 +1051,7 @@
 
     <footer>
         <div>OpenClaw 2026.2.24 • Built with 🧠 by Ben • WSL2 on DESKTOP-OT4750D</div>
-        <div style="margin-top: 0.5rem; font-size: 0.875rem;">Last updated: <span id="footerTimestamp"></span> | Auto-refreshed Wed, Feb 25, 2026 10:00 AM IST</div>
+        <div style="margin-top: 0.5rem; font-size: 0.875rem;">Last updated: <span id="footerTimestamp"></span> | Auto-refreshed Tue, Feb 25, 2026 09:20 AM IST</div>
     </footer>
 
     <script>
