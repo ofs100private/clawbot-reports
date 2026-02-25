@@ -517,6 +517,16 @@
             padding: 2rem;
             color: #9ca3af;
         }
+
+        .highlight-new {
+            background: #34d399;
+            color: #0f1117;
+            padding: 0.125rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-left: 0.5rem;
+        }
     </style>
 </head>
 <body>
@@ -545,20 +555,20 @@
         <div id="overview" class="tab-content active">
             <div class="stats-bar">
                 <div class="stat">
-                    <span class="stat-value" data-count="80">0</span>
-                    <span class="stat-label">Total Files</span>
+                    <span class="stat-value" data-count="222">0</span>
+                    <span class="stat-label">Ben Files</span>
                 </div>
                 <div class="stat">
-                    <span class="stat-value" data-count="12981">0</span>
+                    <span class="stat-value" data-count="82">0</span>
+                    <span class="stat-label">OfsInvest Files</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value" data-count="13716">0</span>
                     <span class="stat-label">Lines of Knowledge</span>
                 </div>
                 <div class="stat">
                     <span class="stat-value" data-count="4">0</span>
                     <span class="stat-label">Active Agents</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-value" data-count="8">0</span>
-                    <span class="stat-label">Sectors</span>
                 </div>
                 <div class="stat">
                     <span class="stat-value">9.1<small>/10</small></span>
@@ -634,19 +644,61 @@
                     <div class="skill-card">
                         <div class="skill-name">🧠 Ben (Opus)</div>
                         <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">Main assistant, admin</div>
+                        <div style="margin-top: 0.5rem; font-size: 0.75rem; color: #60a5fa;">
+                            222 files • Skills: social-media, qmd-zvec<br>
+                            Telegram • LinkedIn API • Gmail<br>
+                            Cron: git push 6h, daily report 9:00, LinkedIn 10:30
+                        </div>
                     </div>
                     <div class="skill-card">
-                        <div class="skill-name">💰 Budget (Sonnet)</div>
-                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">Family budget</div>
-                    </div>
-                    <div class="skill-card">
-                        <div class="skill-name">📈 OfsInvest (Sonnet)</div>
+                        <div class="skill-name">📈 OfsInvest (Grok)</div>
                         <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">Investment analysis</div>
                         <div style="margin-top: 0.5rem;"><span class="badge" style="background: #34d399;">eToro API ✓</span></div>
+                        <div style="margin-top: 0.5rem; font-size: 0.75rem; color: #60a5fa;">
+                            15 positions • $36,379 • +6.4% PnL<br>
+                            82 files • 13,716 lines • 10 skills
+                        </div>
                     </div>
                     <div class="skill-card">
                         <div class="skill-name">🏗️ Architect (Grok)</div>
                         <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">Infrastructure research, FREE</div>
+                        <div style="margin-top: 0.5rem; font-size: 0.75rem; color: #60a5fa;">
+                            V2 research complete<br>
+                            Brain DB • Cache DB • LLM Routing
+                        </div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">💰 Budget (Sonnet)</div>
+                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">Family budget</div>
+                        <div style="margin-top: 0.5rem; font-size: 0.75rem; color: #60a5fa;">
+                            8 files • Active tracking
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">🔗 Infrastructure</div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                    <div style="background: #0f1117; padding: 1rem; border-radius: 0.5rem;">
+                        <div style="font-weight: 700; color: #60a5fa; margin-bottom: 0.5rem;">💻 OpenClaw</div>
+                        <div style="font-size: 0.875rem; color: #9ca3af;">v2026.2.24 on WSL2</div>
+                    </div>
+                    <div style="background: #0f1117; padding: 1rem; border-radius: 0.5rem;">
+                        <div style="font-weight: 700; color: #60a5fa; margin-bottom: 0.5rem;">🧠 Models</div>
+                        <div style="font-size: 0.875rem; color: #9ca3af;">Opus (main) • Grok (FREE) • Sonnet (sub)</div>
+                    </div>
+                    <div style="background: #0f1117; padding: 1rem; border-radius: 0.5rem;">
+                        <div style="font-weight: 700; color: #60a5fa; margin-bottom: 0.5rem;">📊 GitHub</div>
+                        <div style="font-size: 0.875rem; color: #9ca3af;">ofs100private/clawbot_ofs100<br>ofs100private/clawbot-reports</div>
+                    </div>
+                    <div style="background: #0f1117; padding: 1rem; border-radius: 0.5rem;">
+                        <div style="font-weight: 700; color: #34d399; margin-bottom: 0.5rem;">💹 eToro API<span class="highlight-new">NEW</span></div>
+                        <div style="font-size: 0.875rem; color: #9ca3af;">53 endpoints • Portfolio live<br>wss://ws.etoro.com/ws ready</div>
+                    </div>
+                    <div style="background: #0f1117; padding: 1rem; border-radius: 0.5rem;">
+                        <div style="font-weight: 700; color: #60a5fa; margin-bottom: 0.5rem;">🧠 Memclawz</div>
+                        <div style="font-size: 0.875rem; color: #9ca3af;">hnswlib backend</div>
                     </div>
                 </div>
             </div>
@@ -687,6 +739,35 @@
                     <div style="position: absolute;">
                         <div class="score-text">9.1</div>
                         <div style="text-align: center; color: #9ca3af; font-size: 0.875rem;">out of 10</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">💹 eToro Portfolio<span class="highlight-new">LIVE</span></div>
+                <div class="stats-bar">
+                    <div class="stat">
+                        <span class="stat-value">15</span>
+                        <span class="stat-label">Positions</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value">$36,379</span>
+                        <span class="stat-label">Invested</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value" style="color: #34d399;">+$2,328</span>
+                        <span class="stat-label">PnL</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value" style="color: #34d399;">+6.4%</span>
+                        <span class="stat-label">Return</span>
+                    </div>
+                </div>
+                <div style="margin-top: 1rem; padding: 1rem; background: #0f1117; border-radius: 0.5rem; border-left: 3px solid #34d399;">
+                    <div style="font-weight: 700; color: #34d399; margin-bottom: 0.5rem;">✅ API Connected</div>
+                    <div style="color: #9ca3af; font-size: 0.875rem;">
+                        53 endpoints ready • 11 watchlists synced • Real-time WebSocket ready<br>
+                        Full portfolio tracking enabled
                     </div>
                 </div>
             </div>
@@ -738,11 +819,19 @@
             </div>
 
             <div class="card">
-                <div class="card-title">🛠️ Skills</div>
+                <div class="card-title">🛠️ Skills (10 Total)</div>
                 <div class="skills-grid">
+                    <div class="skill-card">
+                        <div class="skill-name">💹 eToro API<span class="highlight-new">NEW</span></div>
+                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">Real-time portfolio tracking</div>
+                    </div>
                     <div class="skill-card">
                         <div class="skill-name">📊 Portfolio Construction</div>
                         <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">3-tier allocation framework</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">📈 Portfolio Tracker</div>
+                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">Live position monitoring</div>
                     </div>
                     <div class="skill-card">
                         <div class="skill-name">🔍 Stock Screening</div>
@@ -752,11 +841,31 @@
                         <div class="skill-name">⚠️ Risk Management</div>
                         <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">MA150 + ATR methodology</div>
                     </div>
+                    <div class="skill-card">
+                        <div class="skill-name">📰 News Intelligence</div>
+                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">Market news analysis</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">💭 News Sentiment</div>
+                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">Sentiment scoring</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">📊 Market Analysis</div>
+                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">Technical & fundamental</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">₿ Crypto Analysis</div>
+                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">Crypto market tracking</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">📈 Micha Stocks</div>
+                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">Micha.Stocks methodology</div>
+                    </div>
                 </div>
             </div>
 
             <div class="card">
-                <div class="card-title">🏢 Sectors</div>
+                <div class="card-title">🏢 Sectors (8 Total)</div>
                 <div class="sectors-grid">
                     <div class="sector-card">
                         <div class="sector-name">🔬 Nuclear-Space</div>
@@ -772,7 +881,7 @@
                     </div>
                     <div class="sector-card">
                         <div class="sector-name">📊 Earnings Reports</div>
-                        <div class="sector-count"><span class="badge">NEW</span></div>
+                        <div class="sector-count">Active</div>
                     </div>
                     <div class="sector-card">
                         <div class="sector-name">₿ Crypto</div>
@@ -780,7 +889,7 @@
                     </div>
                     <div class="sector-card">
                         <div class="sector-name">📈 Options</div>
-                        <div class="sector-count"><span class="badge">NEW</span></div>
+                        <div class="sector-count">Active</div>
                     </div>
                     <div class="sector-card">
                         <div class="sector-name">🔍 Under $1B</div>
@@ -788,7 +897,7 @@
                     </div>
                     <div class="sector-card">
                         <div class="sector-name">🇮🇱 Israel TASE</div>
-                        <div class="sector-count"><span class="badge">NEW</span></div>
+                        <div class="sector-count">Active</div>
                     </div>
                 </div>
             </div>
@@ -1001,6 +1110,21 @@
             <div class="card">
                 <div class="card-title">📅 Recent Activity</div>
                 <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot" style="background: #34d399; box-shadow: 0 0 0 4px #1a1d27, 0 0 0 6px #34d399;"></div>
+                        <div class="timeline-time">2026-02-25 18:57 GMT+2</div>
+                        <div class="timeline-content"><strong style="color: #34d399;">Full portfolio pulled</strong> — 15 positions, +6.4% return</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot" style="background: #34d399; box-shadow: 0 0 0 4px #1a1d27, 0 0 0 6px #34d399;"></div>
+                        <div class="timeline-time">2026-02-25 18:55 GMT+2</div>
+                        <div class="timeline-content"><strong style="color: #34d399;">eToro skill built</strong> for OfsInvest (10th skill)</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot" style="background: #34d399; box-shadow: 0 0 0 4px #1a1d27, 0 0 0 6px #34d399;"></div>
+                        <div class="timeline-time">2026-02-25 18:50 GMT+2</div>
+                        <div class="timeline-content"><strong style="color: #34d399;">eToro API connected</strong> — 53 endpoints, portfolio live</div>
+                    </div>
                     <div class="timeline-item">
                         <div class="timeline-dot"></div>
                         <div class="timeline-time">20:00 GMT+2</div>
@@ -1231,7 +1355,7 @@
 
     <footer>
         <div>OpenClaw 2026.2.24 • Built with 🧠 by Ben • WSL2 on DESKTOP-OT4750D</div>
-        <div style="margin-top: 0.5rem; font-size: 0.875rem;">Last updated: <span id="footerTimestamp"></span> | Auto-refreshed Wed, Feb 25, 2026 9:00 PM IST</div>
+        <div style="margin-top: 0.5rem; font-size: 0.875rem;">Last updated: <span id="footerTimestamp"></span></div>
     </footer>
 
     <script>
