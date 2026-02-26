@@ -22,7 +22,7 @@
   ],
   "micha": {
     "name": "Micha Fan",
-    "strategy": "MA-150 Trend Following • Chart Patterns • Risk Discipline",
+    "strategy": "MA-150 Trend Following • 6 Entry Types • Chart Patterns • ATR Sizing • Risk Discipline",
     "cash": 0,
     "holdings": [],
     "trades": [],
@@ -31,7 +31,7 @@
   },
   "yoni": {
     "name": "Yoni Fan",
-    "strategy": "QuantClaw Signals • Smart Money • GEX Regime • Factor Alpha",
+    "strategy": "QuantClaw Signals • Smart Money Flow • GEX Regime • Fama-French Alpha • Factor Screening",
     "cash": 0,
     "holdings": [],
     "trades": [],
@@ -39,9 +39,7 @@
     "totalPnl": 0
   },
   "audit": [
-    {"time":"2026-02-26T22:00:00","agent":"system","msg":"🏆 Competition started — both agents receive identical portfolio ($36,379)"},
-    {"time":"2026-02-26T22:00:00","agent":"micha","msg":"📊 Analyzing all positions against MA-150 framework. Patience is key."},
-    {"time":"2026-02-26T22:00:00","agent":"yoni","msg":"🔬 Running QuantClaw full-spectrum analysis. Data will drive every decision."}
+    {"time":"2026-02-26T22:00:00","agent":"system","msg":"🏆 Competition started — both agents receive identical portfolio ($36,379)"}
   ],
   "lastUpdate": "2026-02-26T22:00:00+02:00",
   "prices": {}
