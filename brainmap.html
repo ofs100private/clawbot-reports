@@ -545,6 +545,7 @@
         <div class="tabs">
             <button class="tab-btn active" onclick="switchTab('overview')">🧠 Overview</button>
             <button class="tab-btn" onclick="switchTab('ofsinvest')">📈 OfsInvest</button>
+            <button class="tab-btn" onclick="switchTab('quantclaw')">📊 QuantClaw</button>
             <button class="tab-btn" onclick="switchTab('architecture')">🏗️ V2 Architecture</button>
             <button class="tab-btn" onclick="switchTab('costs')">💰 Model Costs</button>
             <button class="tab-btn" onclick="switchTab('activity')">📋 Activity Log</button>
@@ -555,15 +556,15 @@
         <div id="overview" class="tab-content active">
             <div class="stats-bar">
                 <div class="stat">
-                    <span class="stat-value" data-count="282">0</span>
+                    <span class="stat-value" data-count="432">0</span>
                     <span class="stat-label">Ben Files</span>
                 </div>
                 <div class="stat">
-                    <span class="stat-value" data-count="80">0</span>
+                    <span class="stat-value" data-count="87">0</span>
                     <span class="stat-label">OfsInvest Files</span>
                 </div>
                 <div class="stat">
-                    <span class="stat-value" data-count="12981">0</span>
+                    <span class="stat-value" data-count="17623">0</span>
                     <span class="stat-label">Lines of Knowledge</span>
                 </div>
                 <div class="stat">
@@ -619,20 +620,20 @@
                             <span class="info-value">2026.2.24</span>
                         </div>
                         <div class="info-row">
-                            <span class="info-label">Environment</span>
-                            <span class="info-value">WSL2</span>
+                            <span class="info-label">Gateway Port</span>
+                            <span class="info-value">41920</span>
                         </div>
                         <div class="info-row">
-                            <span class="info-label">Host</span>
-                            <span class="info-value">DESKTOP-OT4750D</span>
+                            <span class="info-label">Memclawz Port</span>
+                            <span class="info-value">6031</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Ollama Port</span>
+                            <span class="info-value">16343</span>
                         </div>
                         <div class="info-row">
                             <span class="info-label">Channel</span>
                             <span class="info-value">Telegram</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">User</span>
-                            <span class="info-value">Ofer Sasson</span>
                         </div>
                     </div>
                 </div>
@@ -645,18 +646,18 @@
                         <div class="skill-name">🧠 Ben (Opus)</div>
                         <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">Main assistant, admin</div>
                         <div style="margin-top: 0.5rem; font-size: 0.75rem; color: #60a5fa;">
-                            222 files • Skills: social-media, qmd-zvec<br>
-                            Telegram • LinkedIn API • Gmail<br>
+                            432 files • Skills: social-media, qmd-zvec, <span class="highlight-new">investing</span>, <span class="highlight-new">quantclaw</span><br>
+                            Telegram (DM + group admin) • LinkedIn API • Gmail • GitHub • eToro API • <span class="highlight-new">QuantClaw API</span><br>
                             Cron: git push 6h, daily report 9:00, LinkedIn 10:30
                         </div>
                     </div>
                     <div class="skill-card">
                         <div class="skill-name">📈 OfsInvest (Grok)</div>
                         <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">Investment analysis</div>
-                        <div style="margin-top: 0.5rem;"><span class="badge" style="background: #34d399;">eToro API ✓</span></div>
+                        <div style="margin-top: 0.5rem;"><span class="badge" style="background: #34d399;">eToro API ✓</span> <span class="badge" style="background: #a78bfa;">QuantClaw ✓</span></div>
                         <div style="margin-top: 0.5rem; font-size: 0.75rem; color: #60a5fa;">
                             15 positions • $36,379 • +6.4% PnL<br>
-                            80 files • 12,981 lines • 10 skills
+                            87 files • 17,623 lines • <strong>11 skills</strong>
                         </div>
                     </div>
                     <div class="skill-card">
@@ -678,11 +679,29 @@
             </div>
 
             <div class="card">
+                <div class="card-title">💬 Telegram Group</div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                    <div style="background: #0f1117; padding: 1rem; border-radius: 0.5rem;">
+                        <div style="font-weight: 700; color: #60a5fa; margin-bottom: 0.5rem;">👥 ofs100claw_friends</div>
+                        <div style="font-size: 0.875rem; color: #9ca3af;">7 members • Bot is admin</div>
+                    </div>
+                    <div style="background: #0f1117; padding: 1rem; border-radius: 0.5rem;">
+                        <div style="font-weight: 700; color: #34d399; margin-bottom: 0.5rem;">🤖 Model</div>
+                        <div style="font-size: 0.875rem; color: #9ca3af;">Grok 4 (FREE)</div>
+                    </div>
+                    <div style="background: #0f1117; padding: 1rem; border-radius: 0.5rem;">
+                        <div style="font-weight: 700; color: #a78bfa; margin-bottom: 0.5rem;">🔒 Security</div>
+                        <div style="font-size: 0.875rem; color: #9ca3af;">Hardened, admin access</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
                 <div class="card-title">🔗 Infrastructure</div>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
                     <div style="background: #0f1117; padding: 1rem; border-radius: 0.5rem;">
                         <div style="font-weight: 700; color: #60a5fa; margin-bottom: 0.5rem;">💻 OpenClaw</div>
-                        <div style="font-size: 0.875rem; color: #9ca3af;">v2026.2.24 on WSL2</div>
+                        <div style="font-size: 0.875rem; color: #9ca3af;">v2026.2.24 on WSL2<br>Gateway: 41920 • Memclawz: 6031</div>
                     </div>
                     <div style="background: #0f1117; padding: 1rem; border-radius: 0.5rem;">
                         <div style="font-weight: 700; color: #60a5fa; margin-bottom: 0.5rem;">🧠 Models</div>
@@ -693,8 +712,12 @@
                         <div style="font-size: 0.875rem; color: #9ca3af;">ofs100private/clawbot_ofs100<br>ofs100private/clawbot-reports</div>
                     </div>
                     <div style="background: #0f1117; padding: 1rem; border-radius: 0.5rem;">
-                        <div style="font-weight: 700; color: #34d399; margin-bottom: 0.5rem;">💹 eToro API<span class="highlight-new">NEW</span></div>
+                        <div style="font-weight: 700; color: #34d399; margin-bottom: 0.5rem;">💹 eToro API</div>
                         <div style="font-size: 0.875rem; color: #9ca3af;">53 endpoints • Portfolio live<br>wss://ws.etoro.com/ws ready</div>
+                    </div>
+                    <div style="background: #0f1117; padding: 1rem; border-radius: 0.5rem;">
+                        <div style="font-weight: 700; color: #a78bfa; margin-bottom: 0.5rem;">📊 QuantClaw<span class="highlight-new">NEW</span></div>
+                        <div style="font-size: 0.875rem; color: #9ca3af;">699 modules • 112 sources • $0/month<br>data.quantclaw.org • terminal.quantclaw.org</div>
                     </div>
                     <div style="background: #0f1117; padding: 1rem; border-radius: 0.5rem;">
                         <div style="font-weight: 700; color: #60a5fa; margin-bottom: 0.5rem;">🧠 Memclawz</div>
@@ -787,7 +810,7 @@
             </div>
 
             <div class="card">
-                <div class="card-title">📚 Knowledge Files</div>
+                <div class="card-title">📚 Knowledge Files (87 files, 17,623 lines)</div>
                 <table class="data-table" id="knowledgeTable">
                     <thead>
                         <tr>
@@ -819,10 +842,14 @@
             </div>
 
             <div class="card">
-                <div class="card-title">🛠️ Skills (10 Total)</div>
+                <div class="card-title">🛠️ Skills (11 Total)<span class="highlight-new">+1 NEW</span></div>
                 <div class="skills-grid">
+                    <div class="skill-card" style="border-color: #a78bfa;">
+                        <div class="skill-name" style="color: #a78bfa;">📊 QuantClaw<span class="highlight-new">NEW</span></div>
+                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">699 modules, 112 data sources, 8 API endpoints</div>
+                    </div>
                     <div class="skill-card">
-                        <div class="skill-name">💹 eToro API<span class="highlight-new">NEW</span></div>
+                        <div class="skill-name">💹 eToro API</div>
                         <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">Real-time portfolio tracking</div>
                     </div>
                     <div class="skill-card">
@@ -903,7 +930,128 @@
             </div>
         </div>
 
-        <!-- Tab 3: V2 Architecture -->
+        <!-- Tab 3: QuantClaw -->
+        <div id="quantclaw" class="tab-content">
+            <div class="card">
+                <div class="card-title">📊 QuantClaw Data Platform<span class="highlight-new">NEW</span></div>
+                <div style="text-align: center; padding: 2rem;">
+                    <div style="font-size: 4rem; margin-bottom: 1rem;">🦞📊</div>
+                    <div style="font-size: 1.5rem; font-weight: 700; color: #a78bfa; margin-bottom: 1rem;">Bloomberg Terminal Alternative</div>
+                    <div style="font-size: 1.25rem; color: #34d399; font-weight: 700; margin-bottom: 2rem;">$0/month • No Authentication Needed</div>
+                </div>
+            </div>
+
+            <div class="stats-bar">
+                <div class="stat">
+                    <span class="stat-value" data-count="699">0</span>
+                    <span class="stat-label">Modules</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">354K+</span>
+                    <span class="stat-label">Lines of Code</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value" data-count="112">0</span>
+                    <span class="stat-label">Data Sources</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value" data-count="40">0</span>
+                    <span class="stat-label">Countries</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value" data-count="8">0</span>
+                    <span class="stat-label">API Endpoints</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">🔌 API Endpoints (8 Verified)</div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                    <div style="background: #0f1117; padding: 1.25rem; border-radius: 0.5rem; border: 1px solid #34d399;">
+                        <div style="font-weight: 700; color: #34d399; margin-bottom: 0.5rem;">💰 Price Data</div>
+                        <div style="font-size: 0.75rem; color: #9ca3af; margin-bottom: 0.5rem; font-family: monospace;">/api/price/{symbol}</div>
+                        <div style="color: #9ca3af; font-size: 0.875rem;">Real-time & historical pricing</div>
+                    </div>
+                    <div style="background: #0f1117; padding: 1.25rem; border-radius: 0.5rem; border: 1px solid #60a5fa;">
+                        <div style="font-weight: 700; color: #60a5fa; margin-bottom: 0.5rem;">📊 GEX (Gamma Exposure)</div>
+                        <div style="font-size: 0.75rem; color: #9ca3af; margin-bottom: 0.5rem; font-family: monospace;">/api/gex/{symbol}</div>
+                        <div style="color: #9ca3af; font-size: 0.875rem;">Options gamma exposure analysis</div>
+                    </div>
+                    <div style="background: #0f1117; padding: 1.25rem; border-radius: 0.5rem; border: 1px solid #a78bfa;">
+                        <div style="font-weight: 700; color: #a78bfa; margin-bottom: 0.5rem;">📍 Pin Risk</div>
+                        <div style="font-size: 0.75rem; color: #9ca3af; margin-bottom: 0.5rem; font-family: monospace;">/api/pin-risk/{symbol}</div>
+                        <div style="color: #9ca3af; font-size: 0.875rem;">Options pinning detection</div>
+                    </div>
+                    <div style="background: #0f1117; padding: 1.25rem; border-radius: 0.5rem; border: 1px solid #34d399;">
+                        <div style="font-weight: 700; color: #34d399; margin-bottom: 0.5rem;">🔄 Hedging Flow</div>
+                        <div style="font-size: 0.75rem; color: #9ca3af; margin-bottom: 0.5rem; font-family: monospace;">/api/hedging-flow/{symbol}</div>
+                        <div style="color: #9ca3af; font-size: 0.875rem;">Institutional hedging patterns</div>
+                    </div>
+                    <div style="background: #0f1117; padding: 1.25rem; border-radius: 0.5rem; border: 1px solid #60a5fa;">
+                        <div style="font-weight: 700; color: #60a5fa; margin-bottom: 0.5rem;">💼 Smart Money</div>
+                        <div style="font-size: 0.75rem; color: #9ca3af; margin-bottom: 0.5rem; font-family: monospace;">/api/smart-money/{symbol}</div>
+                        <div style="color: #9ca3af; font-size: 0.875rem;">Institutional positioning</div>
+                    </div>
+                    <div style="background: #0f1117; padding: 1.25rem; border-radius: 0.5rem; border: 1px solid #a78bfa;">
+                        <div style="font-weight: 700; color: #a78bfa; margin-bottom: 0.5rem;">📈 Fama-French</div>
+                        <div style="font-size: 0.75rem; color: #9ca3af; margin-bottom: 0.5rem; font-family: monospace;">/api/fama-french/{symbol}</div>
+                        <div style="color: #9ca3af; font-size: 0.875rem;">Factor analysis & exposures</div>
+                    </div>
+                    <div style="background: #0f1117; padding: 1.25rem; border-radius: 0.5rem; border: 1px solid #34d399;">
+                        <div style="font-weight: 700; color: #34d399; margin-bottom: 0.5rem;">📰 News</div>
+                        <div style="font-size: 0.75rem; color: #9ca3af; margin-bottom: 0.5rem; font-family: monospace;">/api/news/{symbol}</div>
+                        <div style="color: #9ca3af; font-size: 0.875rem;">Financial news & sentiment</div>
+                    </div>
+                    <div style="background: #0f1117; padding: 1.25rem; border-radius: 0.5rem; border: 1px solid #60a5fa;">
+                        <div style="font-weight: 700; color: #60a5fa; margin-bottom: 0.5rem;">🔍 Screener</div>
+                        <div style="font-size: 0.75rem; color: #9ca3af; margin-bottom: 0.5rem; font-family: monospace;">/api/screener</div>
+                        <div style="color: #9ca3af; font-size: 0.875rem;">Advanced stock screening</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">🌐 Access Points</div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;">
+                    <div style="background: #0f1117; padding: 1.25rem; border-radius: 0.5rem; border-left: 3px solid #34d399;">
+                        <div style="font-weight: 700; color: #34d399; margin-bottom: 0.5rem;">🔗 Live API</div>
+                        <div style="color: #60a5fa; font-size: 0.875rem; margin-bottom: 0.5rem; font-family: monospace;">data.quantclaw.org</div>
+                        <div style="color: #9ca3af; font-size: 0.875rem;">Direct API access • No auth required</div>
+                    </div>
+                    <div style="background: #0f1117; padding: 1.25rem; border-radius: 0.5rem; border-left: 3px solid #60a5fa;">
+                        <div style="font-weight: 700; color: #60a5fa; margin-bottom: 0.5rem;">📊 Dashboard</div>
+                        <div style="color: #60a5fa; font-size: 0.875rem; margin-bottom: 0.5rem; font-family: monospace;">data.quantclaw.org</div>
+                        <div style="color: #9ca3af; font-size: 0.875rem;">Web-based data explorer</div>
+                    </div>
+                    <div style="background: #0f1117; padding: 1.25rem; border-radius: 0.5rem; border-left: 3px solid #a78bfa;">
+                        <div style="font-weight: 700; color: #a78bfa; margin-bottom: 0.5rem;">💻 Terminal</div>
+                        <div style="color: #60a5fa; font-size: 0.875rem; margin-bottom: 0.5rem; font-family: monospace;">terminal.quantclaw.org</div>
+                        <div style="color: #9ca3af; font-size: 0.875rem;">Bloomberg-style terminal UI</div>
+                    </div>
+                    <div style="background: #0f1117; padding: 1.25rem; border-radius: 0.5rem; border-left: 3px solid #34d399;">
+                        <div style="font-weight: 700; color: #34d399; margin-bottom: 0.5rem;">📦 Source Code</div>
+                        <div style="color: #60a5fa; font-size: 0.875rem; margin-bottom: 0.5rem; font-family: monospace;">github.com/ofs100private/YonniAssiaQuant</div>
+                        <div style="color: #9ca3af; font-size: 0.875rem;">Full source code available</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">✨ Integration Status</div>
+                <div style="padding: 1rem; background: #0f1117; border-radius: 0.5rem; border-left: 3px solid #34d399;">
+                    <div style="font-weight: 700; color: #34d399; margin-bottom: 0.5rem;">✅ Fully Integrated</div>
+                    <div style="color: #9ca3af; font-size: 0.875rem; line-height: 1.8;">
+                        • <strong style="color: #60a5fa;">Ben Agent:</strong> New <code style="background: #2d3748; padding: 0.125rem 0.5rem; border-radius: 0.25rem;">quantclaw</code> skill added<br>
+                        • <strong style="color: #60a5fa;">OfsInvest Agent:</strong> 11th skill - full QuantClaw module access<br>
+                        • <strong style="color: #60a5fa;">Master Investing Skill:</strong> Complete Micha methodology framework<br>
+                        • <strong style="color: #60a5fa;">Infrastructure:</strong> Zero-cost Bloomberg alternative operational<br>
+                        • <strong style="color: #60a5fa;">Data Sources:</strong> 112 sources across 40 countries ready
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 4: V2 Architecture -->
         <div id="architecture" class="tab-content">
             <div class="card research-card">
                 <div class="research-header" onclick="toggleResearch(this)">
@@ -1068,7 +1216,7 @@
             </div>
         </div>
 
-        <!-- Tab 4: Model Costs -->
+        <!-- Tab 5: Model Costs -->
         <div id="costs" class="tab-content">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
                 <h2 style="font-size: 1.5rem; font-weight: 700;">Cost Analytics</h2>
@@ -1105,30 +1253,45 @@
             </div>
         </div>
 
-        <!-- Tab 5: Activity Log -->
+        <!-- Tab 6: Activity Log -->
         <div id="activity" class="tab-content">
             <div class="card">
                 <div class="card-title">📅 Recent Activity</div>
                 <div class="timeline">
                     <div class="timeline-item">
-                        <div class="timeline-dot" style="background: #60a5fa; box-shadow: 0 0 0 4px #1a1d27, 0 0 0 6px #60a5fa;"></div>
+                        <div class="timeline-dot" style="background: #a78bfa; box-shadow: 0 0 0 4px #1a1d27, 0 0 0 6px #a78bfa;"></div>
                         <div class="timeline-time">2026-02-26 09:00 GMT+2</div>
-                        <div class="timeline-content"><strong style="color: #60a5fa;">Daily backup & report</strong> — 120MB backup, git push, model-costs.json updated</div>
+                        <div class="timeline-content"><strong style="color: #a78bfa;">QuantClaw integration</strong> — 699 modules, 112 data sources absorbed into Ben & OfsInvest</div>
                     </div>
                     <div class="timeline-item">
                         <div class="timeline-dot" style="background: #34d399; box-shadow: 0 0 0 4px #1a1d27, 0 0 0 6px #34d399;"></div>
+                        <div class="timeline-time">2026-02-26 08:30 GMT+2</div>
+                        <div class="timeline-content"><strong style="color: #34d399;">Master investing skill built</strong> for Ben — full Micha.Stocks methodology framework</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot" style="background: #60a5fa; box-shadow: 0 0 0 4px #1a1d27, 0 0 0 6px #60a5fa;"></div>
+                        <div class="timeline-time">2026-02-26 06:00 GMT+2</div>
+                        <div class="timeline-content"><strong style="color: #60a5fa;">Group security hardened</strong> — ofs100claw_friends, bot promoted to admin</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot" style="background: #a78bfa; box-shadow: 0 0 0 4px #1a1d27, 0 0 0 6px #a78bfa;"></div>
+                        <div class="timeline-time">2026-02-26 05:20 GMT+2</div>
+                        <div class="timeline-content"><strong style="color: #a78bfa;">Ports changed</strong> — Gateway: 41920, Memclawz: 6031, Ollama: 16343</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
                         <div class="timeline-time">2026-02-25 22:30 GMT+2</div>
-                        <div class="timeline-content"><strong style="color: #34d399;">Full portfolio pulled</strong> — 15 positions, +6.4% return</div>
+                        <div class="timeline-content">Full portfolio pulled — 15 positions, +6.4% return</div>
                     </div>
                     <div class="timeline-item">
-                        <div class="timeline-dot" style="background: #34d399; box-shadow: 0 0 0 4px #1a1d27, 0 0 0 6px #34d399;"></div>
+                        <div class="timeline-dot"></div>
                         <div class="timeline-time">2026-02-25 18:55 GMT+2</div>
-                        <div class="timeline-content"><strong style="color: #34d399;">eToro skill built</strong> for OfsInvest (10th skill)</div>
+                        <div class="timeline-content">eToro skill built for OfsInvest (10th skill)</div>
                     </div>
                     <div class="timeline-item">
-                        <div class="timeline-dot" style="background: #34d399; box-shadow: 0 0 0 4px #1a1d27, 0 0 0 6px #34d399;"></div>
+                        <div class="timeline-dot"></div>
                         <div class="timeline-time">2026-02-25 18:50 GMT+2</div>
-                        <div class="timeline-content"><strong style="color: #34d399;">eToro API connected</strong> — 53 endpoints, portfolio live</div>
+                        <div class="timeline-content">eToro API connected — 53 endpoints, portfolio live</div>
                     </div>
                     <div class="timeline-item">
                         <div class="timeline-dot"></div>
@@ -1165,36 +1328,11 @@
                         <div class="timeline-time">07:37 GMT+2</div>
                         <div class="timeline-content">Brain map rebuilt</div>
                     </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-time">07:33 GMT+2</div>
-                        <div class="timeline-content">V2 Architecture Research (3 Grok agents)</div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-time">00:51 GMT+2</div>
-                        <div class="timeline-content">OfsInvest Skills Upgrade (portfolio, screening, risk mgmt)</div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-time">00:40 GMT+2</div>
-                        <div class="timeline-content">PDF Knowledge Extraction (5 sub-agents)</div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-time">00:23 GMT+2</div>
-                        <div class="timeline-content">Discord PDFs downloaded (10 files, 120MB)</div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-time">00:07 GMT+2</div>
-                        <div class="timeline-content">Full backup + Error resilience rule added</div>
-                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Tab 6: Use Case Map -->
+        <!-- Tab 7: Use Case Map -->
         <div id="usecases" class="tab-content">
             <div class="card">
                 <div class="card-title">📊 Use Case Statistics</div>
@@ -1244,7 +1382,7 @@
                         <div style="font-size: 3rem; text-align: center;">📈</div>
                         <div>
                             <div style="font-size: 1.25rem; font-weight: 700; color: white; margin-bottom: 0.5rem;">Stock Trading</div>
-                            <div style="color: #9ca3af; font-size: 0.875rem; line-height: 1.5;">OfsInvest - Micha.Stocks methodology, 8 sectors</div>
+                            <div style="color: #9ca3af; font-size: 0.875rem; line-height: 1.5;">OfsInvest - Micha.Stocks methodology, 8 sectors, QuantClaw data</div>
                         </div>
                         <div style="margin-top: auto; display: flex; align-items: center; gap: 0.5rem;">
                             <div style="width: 8px; height: 8px; border-radius: 50%; background: #34d399;"></div>
@@ -1360,7 +1498,7 @@
 
     <footer>
         <div>OpenClaw 2026.2.24 • Built with 🧠 by Ben • WSL2 on DESKTOP-OT4750D</div>
-        <div style="margin-top: 0.5rem; font-size: 0.875rem;">Last updated: <span id="footerTimestamp"></span> | Auto-refreshed: Thu, Feb 26, 2026 1:30 PM IST</div>
+        <div style="margin-top: 0.5rem; font-size: 0.875rem;">Last updated: <span id="footerTimestamp">Thu, Feb 26, 2026, 02:00:00 PM</span> | Gateway: 41920 • Memclawz: 6031 • Ollama: 16343</div>
     </footer>
 
     <script>
@@ -1478,7 +1616,7 @@
             container.innerHTML = '<div class="loading">Fetching live data...</div>';
             
             try {
-                const response = await fetch('http://127.0.0.1:18789/api/sessions?activeMinutes=1440&messageLimit=0', {
+                const response = await fetch('http://127.0.0.1:41920/api/sessions?activeMinutes=1440&messageLimit=0', {
                     headers: {
                         'Authorization': 'Bearer 0d04dc8adb5f793aa7c6d078d84755799f1a9ccf0566b77a'
                     }
