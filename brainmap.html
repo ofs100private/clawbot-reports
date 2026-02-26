@@ -3,1689 +3,593 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🧠 Ben's Brain Map</title>
+    <title>Ben's Brain Map - Interactive Skills & Infrastructure</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
+        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: #0f1117;
-            color: #e5e7eb;
-            line-height: 1.6;
-            overflow-x: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0e27;
+            overflow: hidden;
+            color: white;
         }
-
-        /* Neural Network Background */
-        .neural-bg {
+        
+        #canvas {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            opacity: 0.03;
-            pointer-events: none;
-        }
-
-        .neural-node {
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            background: #60a5fa;
-            border-radius: 50%;
-            animation: pulse 3s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 0.6; transform: scale(1.2); }
-        }
-
-        /* Header */
-        header {
-            background: #1a1d27;
-            border-bottom: 1px solid #2d3748;
-            padding: 1.5rem 2rem;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        }
-
-        .header-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .timestamp {
-            font-size: 0.875rem;
-            color: #9ca3af;
-            font-weight: 400;
-        }
-
-        /* Container */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem;
-            position: relative;
             z-index: 1;
         }
-
-        /* Tabs */
-        .tabs {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 2rem;
-            overflow-x: auto;
-            padding-bottom: 0.5rem;
-        }
-
-        .tab-btn {
-            background: #1a1d27;
-            border: 2px solid #2d3748;
-            color: #9ca3af;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-        }
-
-        .tab-btn:hover {
-            border-color: #60a5fa;
-            color: #60a5fa;
-            transform: translateY(-2px);
-        }
-
-        .tab-btn.active {
-            background: linear-gradient(135deg, #60a5fa, #a78bfa);
-            border-color: transparent;
-            color: white;
-        }
-
-        /* Tab Content */
-        .tab-content {
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Cards */
-        .card {
-            background: #1a1d27;
-            border: 1px solid #2d3748;
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            transition: all 0.3s ease;
-        }
-
-        .card:hover {
-            border-color: #60a5fa;
-            box-shadow: 0 4px 12px rgba(96, 165, 250, 0.15);
-        }
-
-        .card-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: #60a5fa;
-        }
-
-        /* Stats Bar */
-        .stats-bar {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat {
-            background: linear-gradient(135deg, #1a1d27, #2d3748);
-            padding: 1.5rem;
-            border-radius: 0.75rem;
-            border: 1px solid #2d3748;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .stat:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-        }
-
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #60a5fa;
-            display: block;
-            margin-bottom: 0.25rem;
-        }
-
-        .stat-label {
-            font-size: 0.875rem;
-            color: #9ca3af;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        /* Identity Card */
-        .identity-card {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .identity-info {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.75rem;
-            background: #0f1117;
-            border-radius: 0.5rem;
-        }
-
-        .info-label {
-            color: #9ca3af;
-            font-weight: 600;
-        }
-
-        .info-value {
-            color: #60a5fa;
-            font-weight: 700;
-        }
-
-        /* Progress Ring */
-        .progress-ring-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .progress-ring {
-            transform: rotate(-90deg);
-        }
-
-        .progress-ring-circle {
-            transition: stroke-dashoffset 1s ease;
-        }
-
-        .score-text {
-            font-size: 3rem;
-            font-weight: 700;
-            color: #34d399;
-        }
-
-        /* Table */
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 1rem;
-        }
-
-        .data-table th {
-            background: #0f1117;
-            padding: 1rem;
-            text-align: left;
-            font-weight: 700;
-            color: #60a5fa;
-            cursor: pointer;
-            user-select: none;
-            border-bottom: 2px solid #2d3748;
-        }
-
-        .data-table th:hover {
-            background: #2d3748;
-        }
-
-        .data-table td {
-            padding: 0.75rem 1rem;
-            border-bottom: 1px solid #2d3748;
-        }
-
-        .data-table tr:hover {
-            background: #0f1117;
-        }
-
-        /* Skills Grid */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .skill-card {
-            background: linear-gradient(135deg, #1a1d27, #2d3748);
-            padding: 1.25rem;
-            border-radius: 0.5rem;
-            border: 1px solid #34d399;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .skill-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(52, 211, 153, 0.2);
-        }
-
-        .skill-name {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #34d399;
-        }
-
-        /* Sectors Grid */
-        .sectors-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .sector-card {
-            background: linear-gradient(135deg, #1a1d27, #2d3748);
-            padding: 1.25rem;
-            border-radius: 0.5rem;
-            border: 1px solid #a78bfa;
-            text-align: center;
-        }
-
-        .sector-name {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #a78bfa;
-            margin-bottom: 0.5rem;
-        }
-
-        .sector-count {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #60a5fa;
-        }
-
-        /* Research Card */
-        .research-card {
-            margin-bottom: 1rem;
-            border-left: 4px solid #60a5fa;
-        }
-
-        .research-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            user-select: none;
-        }
-
-        .research-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #60a5fa;
-        }
-
-        .expand-icon {
-            font-size: 1.5rem;
-            color: #60a5fa;
-            transition: transform 0.3s ease;
-        }
-
-        .expand-icon.expanded {
-            transform: rotate(180deg);
-        }
-
-        .research-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease;
-        }
-
-        .research-content.expanded {
-            max-height: 1000px;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            border-radius: 0.25rem;
-            font-size: 0.875rem;
-            font-weight: 600;
-            background: #34d399;
-            color: #0f1117;
-        }
-
-        /* Timeline */
-        .timeline {
-            position: relative;
-            padding-left: 2rem;
-        }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
+        
+        #graph {
+            position: fixed;
+            top: 0;
             left: 0;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: linear-gradient(180deg, #60a5fa, #a78bfa);
+            z-index: 2;
         }
-
-        .timeline-item {
-            position: relative;
-            padding-bottom: 2rem;
-        }
-
-        .timeline-dot {
-            position: absolute;
-            left: -2.5rem;
-            top: 0;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #60a5fa;
-            box-shadow: 0 0 0 4px #1a1d27, 0 0 0 6px #60a5fa;
-        }
-
-        .timeline-time {
-            font-size: 0.875rem;
-            color: #9ca3af;
-            font-weight: 600;
-        }
-
-        .timeline-content {
-            margin-top: 0.25rem;
-            color: #e5e7eb;
-        }
-
-        /* Button */
-        .btn {
-            background: linear-gradient(135deg, #60a5fa, #a78bfa);
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
+        
+        .node {
             cursor: pointer;
             transition: all 0.3s ease;
-            display: inline-flex;
+        }
+        
+        .node:hover {
+            filter: brightness(1.5);
+        }
+        
+        .node-circle {
+            stroke-width: 2px;
+            filter: drop-shadow(0 0 8px currentColor);
+        }
+        
+        .node-text {
+            font-size: 12px;
+            fill: white;
+            text-anchor: middle;
+            pointer-events: none;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+        }
+        
+        .node-icon {
+            font-size: 24px;
+            text-anchor: middle;
+            dominant-baseline: central;
+            pointer-events: none;
+        }
+        
+        .link {
+            stroke-opacity: 0.6;
+            stroke-width: 1.5px;
+            fill: none;
+        }
+        
+        .link-main {
+            stroke: #00ffff;
+            stroke-width: 2px;
+            filter: drop-shadow(0 0 3px #00ffff);
+        }
+        
+        .link-sub {
+            stroke: #4dd0e1;
+            stroke-width: 1px;
+            stroke-opacity: 0.4;
+        }
+        
+        .tooltip {
+            position: fixed;
+            background: rgba(10, 14, 39, 0.95);
+            border: 1px solid #00ffff;
+            border-radius: 8px;
+            padding: 12px;
+            pointer-events: none;
+            z-index: 1000;
+            font-size: 13px;
+            line-height: 1.6;
+            max-width: 300px;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        
+        .tooltip.visible {
+            opacity: 1;
+        }
+        
+        .tooltip-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #00ffff;
+            margin-bottom: 8px;
+        }
+        
+        .tooltip-detail {
+            color: #b0bec5;
+            margin: 4px 0;
+        }
+        
+        .zoom-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .zoom-btn {
+            background: rgba(0, 255, 255, 0.2);
+            border: 1px solid #00ffff;
+            color: #00ffff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .zoom-btn:hover {
+            background: rgba(0, 255, 255, 0.4);
+            transform: scale(1.1);
+        }
+        
+        .legend {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(10, 14, 39, 0.8);
+            border: 1px solid #00ffff;
+            border-radius: 8px;
+            padding: 15px;
+            z-index: 100;
+            font-size: 12px;
+        }
+        
+        .legend-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #00ffff;
+            margin-bottom: 10px;
+        }
+        
+        .legend-item {
+            margin: 5px 0;
+            display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 8px;
         }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(96, 165, 250, 0.3);
-        }
-
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        /* Footer */
-        footer {
-            background: #1a1d27;
-            border-top: 1px solid #2d3748;
-            padding: 1.5rem 2rem;
-            text-align: center;
-            color: #9ca3af;
-            margin-top: 3rem;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .identity-card {
-                grid-template-columns: 1fr;
-            }
-
-            h1 {
-                font-size: 1.5rem;
-            }
-
-            .header-content {
-                flex-direction: column;
-                gap: 0.5rem;
-                text-align: center;
-            }
-
-            .tabs {
-                flex-wrap: nowrap;
-            }
-
-            .tab-btn {
-                font-size: 0.875rem;
-                padding: 0.5rem 1rem;
-            }
-        }
-
-        /* Progress Bar */
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: #2d3748;
-            border-radius: 4px;
-            overflow: hidden;
-            margin-top: 0.5rem;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #60a5fa, #34d399);
-            border-radius: 4px;
-            animation: fillProgress 1.5s ease;
-        }
-
-        @keyframes fillProgress {
-            from { width: 0; }
-        }
-
-        .loading {
-            text-align: center;
-            padding: 2rem;
-            color: #9ca3af;
-        }
-
-        .highlight-new {
-            background: #34d399;
-            color: #0f1117;
-            padding: 0.125rem 0.5rem;
-            border-radius: 0.25rem;
-            font-size: 0.75rem;
-            font-weight: 700;
-            margin-left: 0.5rem;
+        
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid currentColor;
         }
     </style>
 </head>
 <body>
-    <!-- Neural Network Background -->
-    <div class="neural-bg" id="neuralBg"></div>
-
-    <header>
-        <div class="header-content">
-            <h1>🧠 Ben's Brain Map</h1>
-            <div class="timestamp" id="timestamp"></div>
+    <canvas id="canvas"></canvas>
+    <svg id="graph"></svg>
+    
+    <div class="tooltip" id="tooltip">
+        <div class="tooltip-title"></div>
+        <div class="tooltip-content"></div>
+    </div>
+    
+    <div class="zoom-controls">
+        <button class="zoom-btn" onclick="zoomIn()">+</button>
+        <button class="zoom-btn" onclick="zoomOut()">−</button>
+        <button class="zoom-btn" onclick="resetZoom()">⟲</button>
+    </div>
+    
+    <div class="legend">
+        <div class="legend-title">Ben's Brain Map</div>
+        <div class="legend-item">
+            <span class="legend-color" style="color: #00ffff;"></span>
+            <span>Core Skills</span>
         </div>
-    </header>
-
-    <div class="container">
-        <!-- Tabs Navigation -->
-        <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('overview')">🧠 Overview</button>
-            <button class="tab-btn" onclick="switchTab('ofsinvest')">📈 OfsInvest</button>
-            <button class="tab-btn" onclick="switchTab('quantclaw')">📊 QuantClaw</button>
-            <button class="tab-btn" onclick="switchTab('architecture')">🏗️ V2 Architecture</button>
-            <button class="tab-btn" onclick="switchTab('costs')">💰 Model Costs</button>
-            <button class="tab-btn" onclick="switchTab('activity')">📋 Activity Log</button>
-            <button class="tab-btn" onclick="switchTab('usecases')">🎯 Use Cases</button>
+        <div class="legend-item">
+            <span class="legend-color" style="color: #ff6b6b;"></span>
+            <span>Infrastructure</span>
         </div>
-
-        <!-- Tab 1: Overview -->
-        <div id="overview" class="tab-content active">
-            <div class="stats-bar">
-                <div class="stat">
-                    <span class="stat-value" data-count="432">0</span>
-                    <span class="stat-label">Ben Files</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-value" data-count="88">0</span>
-                    <span class="stat-label">OfsInvest Files</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-value" data-count="18766">0</span>
-                    <span class="stat-label">Lines of Knowledge</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-value" data-count="4">0</span>
-                    <span class="stat-label">Active Agents</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-value">9.1<small>/10</small></span>
-                    <span class="stat-label">Knowledge Score</span>
-                </div>
-            </div>
-
-            <div class="identity-card">
-                <div class="card">
-                    <div class="card-title">🤖 Agent Identity</div>
-                    <div class="identity-info">
-                        <div class="info-row">
-                            <span class="info-label">Name</span>
-                            <span class="info-value">Ben 🧠</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Role</span>
-                            <span class="info-value">Admin Agent</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Primary Model</span>
-                            <span class="info-value">Opus 4.6</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Sub-Agents</span>
-                            <span class="info-value">Sonnet 4.5</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Research</span>
-                            <span class="info-value">Grok 4 (Free)</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Created</span>
-                            <span class="info-value">2026-02-21</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-title">⚙️ System Info</div>
-                    <div class="identity-info">
-                        <div class="info-row">
-                            <span class="info-label">Platform</span>
-                            <span class="info-value">OpenClaw</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Version</span>
-                            <span class="info-value">2026.2.24</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Gateway Port</span>
-                            <span class="info-value">41920</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Memclawz Port</span>
-                            <span class="info-value">6031</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Ollama Port</span>
-                            <span class="info-value">16343</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Channel</span>
-                            <span class="info-value">Telegram</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">🎯 Agent Roster</div>
-                <div class="skills-grid">
-                    <div class="skill-card">
-                        <div class="skill-name">🧠 Ben (Opus)</div>
-                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">Main assistant, admin</div>
-                        <div style="margin-top: 0.5rem; font-size: 0.75rem; color: #60a5fa;">
-                            432 files • Skills: social-media, qmd-zvec, <span class="highlight-new">investing</span>, <span class="highlight-new">quantclaw</span><br>
-                            Telegram (DM + group admin) • LinkedIn API • Gmail • GitHub • eToro API • <span class="highlight-new">QuantClaw API</span><br>
-                            Cron: git push 6h, daily report 9:00, LinkedIn 10:30
-                        </div>
-                    </div>
-                    <div class="skill-card">
-                        <div class="skill-name">📈 OfsInvest (Grok)</div>
-                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">Investment analysis</div>
-                        <div style="margin-top: 0.5rem;"><span class="badge" style="background: #34d399;">eToro API ✓</span> <span class="badge" style="background: #a78bfa;">QuantClaw ✓</span></div>
-                        <div style="margin-top: 0.5rem; font-size: 0.75rem; color: #60a5fa;">
-                            15 positions • $36,379 • +6.4% PnL<br>
-                            88 files • 18,766 lines • <strong>11 skills</strong>
-                        </div>
-                    </div>
-                    <div class="skill-card">
-                        <div class="skill-name">🏗️ Architect (Grok)</div>
-                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">Infrastructure research, FREE</div>
-                        <div style="margin-top: 0.5rem; font-size: 0.75rem; color: #60a5fa;">
-                            V2 research complete<br>
-                            Brain DB • Cache DB • LLM Routing
-                        </div>
-                    </div>
-                    <div class="skill-card">
-                        <div class="skill-name">💰 Budget (Sonnet)</div>
-                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">Family budget</div>
-                        <div style="margin-top: 0.5rem; font-size: 0.75rem; color: #60a5fa;">
-                            8 files • Active tracking
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">💬 Telegram Group</div>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
-                    <div style="background: #0f1117; padding: 1rem; border-radius: 0.5rem;">
-                        <div style="font-weight: 700; color: #60a5fa; margin-bottom: 0.5rem;">👥 ofs100claw_friends</div>
-                        <div style="font-size: 0.875rem; color: #9ca3af;">7 members • Bot is admin</div>
-                    </div>
-                    <div style="background: #0f1117; padding: 1rem; border-radius: 0.5rem;">
-                        <div style="font-weight: 700; color: #34d399; margin-bottom: 0.5rem;">🤖 Model</div>
-                        <div style="font-size: 0.875rem; color: #9ca3af;">Grok 4 (FREE)</div>
-                    </div>
-                    <div style="background: #0f1117; padding: 1rem; border-radius: 0.5rem;">
-                        <div style="font-weight: 700; color: #a78bfa; margin-bottom: 0.5rem;">🔒 Security</div>
-                        <div style="font-size: 0.875rem; color: #9ca3af;">Hardened, admin access</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">🔗 Infrastructure</div>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
-                    <div style="background: #0f1117; padding: 1rem; border-radius: 0.5rem;">
-                        <div style="font-weight: 700; color: #60a5fa; margin-bottom: 0.5rem;">💻 OpenClaw</div>
-                        <div style="font-size: 0.875rem; color: #9ca3af;">v2026.2.24 on WSL2<br>Gateway: 41920 • Memclawz: 6031</div>
-                    </div>
-                    <div style="background: #0f1117; padding: 1rem; border-radius: 0.5rem;">
-                        <div style="font-weight: 700; color: #60a5fa; margin-bottom: 0.5rem;">🧠 Models</div>
-                        <div style="font-size: 0.875rem; color: #9ca3af;">Opus (main) • Grok (FREE) • Sonnet (sub)</div>
-                    </div>
-                    <div style="background: #0f1117; padding: 1rem; border-radius: 0.5rem;">
-                        <div style="font-weight: 700; color: #60a5fa; margin-bottom: 0.5rem;">📊 GitHub</div>
-                        <div style="font-size: 0.875rem; color: #9ca3af;">ofs100private/clawbot_ofs100<br>ofs100private/clawbot-reports</div>
-                    </div>
-                    <div style="background: #0f1117; padding: 1rem; border-radius: 0.5rem;">
-                        <div style="font-weight: 700; color: #34d399; margin-bottom: 0.5rem;">💹 eToro API</div>
-                        <div style="font-size: 0.875rem; color: #9ca3af;">53 endpoints • Portfolio live<br>wss://ws.etoro.com/ws ready</div>
-                    </div>
-                    <div style="background: #0f1117; padding: 1rem; border-radius: 0.5rem;">
-                        <div style="font-weight: 700; color: #a78bfa; margin-bottom: 0.5rem;">📊 QuantClaw<span class="highlight-new">NEW</span></div>
-                        <div style="font-size: 0.875rem; color: #9ca3af;">699 modules • 112 sources • $0/month<br>data.quantclaw.org • terminal.quantclaw.org</div>
-                    </div>
-                    <div style="background: #0f1117; padding: 1rem; border-radius: 0.5rem;">
-                        <div style="font-weight: 700; color: #60a5fa; margin-bottom: 0.5rem;">🧠 Memclawz</div>
-                        <div style="font-size: 0.875rem; color: #9ca3af;">hnswlib backend</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tab 2: OfsInvest -->
-        <div id="ofsinvest" class="tab-content">
-            <div class="card">
-                <div class="card-title">📊 Knowledge Score</div>
-                <div class="progress-ring-container">
-                    <svg class="progress-ring" width="200" height="200">
-                        <circle
-                            class="progress-ring-circle"
-                            stroke="#2d3748"
-                            stroke-width="15"
-                            fill="transparent"
-                            r="85"
-                            cx="100"
-                            cy="100"/>
-                        <circle
-                            class="progress-ring-circle"
-                            stroke="url(#gradient)"
-                            stroke-width="15"
-                            fill="transparent"
-                            r="85"
-                            cx="100"
-                            cy="100"
-                            stroke-dasharray="534.07"
-                            stroke-dashoffset="53.4"
-                            stroke-linecap="round"/>
-                        <defs>
-                            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#34d399;stop-opacity:1" />
-                                <stop offset="100%" style="stop-color:#60a5fa;stop-opacity:1" />
-                            </linearGradient>
-                        </defs>
-                    </svg>
-                    <div style="position: absolute;">
-                        <div class="score-text">9.1</div>
-                        <div style="text-align: center; color: #9ca3af; font-size: 0.875rem;">out of 10</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">💹 eToro Portfolio<span class="highlight-new">LIVE</span></div>
-                <div class="stats-bar">
-                    <div class="stat">
-                        <span class="stat-value">15</span>
-                        <span class="stat-label">Positions</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-value">$36,379</span>
-                        <span class="stat-label">Invested</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-value" style="color: #34d399;">+$2,328</span>
-                        <span class="stat-label">PnL</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-value" style="color: #34d399;">+6.4%</span>
-                        <span class="stat-label">Return</span>
-                    </div>
-                </div>
-                <div style="margin-top: 1rem; padding: 1rem; background: #0f1117; border-radius: 0.5rem; border-left: 3px solid #34d399;">
-                    <div style="font-weight: 700; color: #34d399; margin-bottom: 0.5rem;">✅ API Connected</div>
-                    <div style="color: #9ca3af; font-size: 0.875rem;">
-                        53 endpoints ready • 11 watchlists synced • Real-time WebSocket ready<br>
-                        Full portfolio tracking enabled
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">📥 Discord Scraping Status</div>
-                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                    <span style="color: #9ca3af;">14/14 Channels Complete</span>
-                    <span style="color: #34d399; font-weight: 700;">100%</span>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: 100%;"></div>
-                </div>
-                <div style="margin-top: 1rem; color: #9ca3af; font-size: 0.875rem;">
-                    10 PDFs downloaded • 120MB extracted • 5 sub-agents processed
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">📚 Knowledge Files (88 files, 18,766 lines)</div>
-                <table class="data-table" id="knowledgeTable">
-                    <thead>
-                        <tr>
-                            <th onclick="sortTable(0)">Filename ↕</th>
-                            <th onclick="sortTable(1)">Lines ↕</th>
-                            <th onclick="sortTable(2)">Description ↕</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>investment-system.md</td><td>390</td><td>Complete unified trading system</td></tr>
-                        <tr><td>decision-tree.md</td><td>230</td><td>Step-by-step flowchart</td></tr>
-                        <tr><td>2026-investor-playbook.md</td><td>188</td><td>Micha's 3-tier framework</td></tr>
-                        <tr><td>10x-framework.md</td><td>157</td><td>DNA scoring for 10x stocks</td></tr>
-                        <tr><td>space-sector-scorecard.md</td><td>203</td><td>8-company space financials</td></tr>
-                        <tr><td>space-sector-deep-dive.md</td><td>207</td><td>Tiered space allocation</td></tr>
-                        <tr><td>market-map-81-stocks.md</td><td>161</td><td>GO/WATCH/AVOID classifications</td></tr>
-                        <tr><td>headwinds-2026.md</td><td>300</td><td>10 macro risk monitors</td></tr>
-                        <tr><td>10x-watchlist.md</td><td>400</td><td>11 stocks DNA scored</td></tr>
-                        <tr><td>sector-allocation-model.md</td><td>300</td><td>Complete allocation model</td></tr>
-                        <tr><td>watchlist-81-full.json</td><td>641</td><td>Structured 81-stock data</td></tr>
-                        <tr><td>trading-rooms.md</td><td>200</td><td>10 trading room patterns</td></tr>
-                        <tr><td>methodology-summary.md</td><td>105</td><td>Core methodology</td></tr>
-                        <tr><td>entry-points-2026.md</td><td>79</td><td>MA150+ATR framework</td></tr>
-                        <tr><td>active-watchlist.md</td><td>53</td><td>18 stocks + 3 ETFs</td></tr>
-                        <tr><td>self-assessment.md</td><td>100</td><td>Score breakdown</td></tr>
-                        <tr><td>improvement-plan.md</td><td>557</td><td>Roadmap</td></tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="card">
-                <div class="card-title">🛠️ Skills (11 Total)<span class="highlight-new">+1 NEW</span></div>
-                <div class="skills-grid">
-                    <div class="skill-card" style="border-color: #a78bfa;">
-                        <div class="skill-name" style="color: #a78bfa;">📊 QuantClaw<span class="highlight-new">NEW</span></div>
-                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">699 modules, 112 data sources, 8 API endpoints</div>
-                    </div>
-                    <div class="skill-card">
-                        <div class="skill-name">💹 eToro API</div>
-                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">Real-time portfolio tracking</div>
-                    </div>
-                    <div class="skill-card">
-                        <div class="skill-name">📊 Portfolio Construction</div>
-                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">3-tier allocation framework</div>
-                    </div>
-                    <div class="skill-card">
-                        <div class="skill-name">📈 Portfolio Tracker</div>
-                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">Live position monitoring</div>
-                    </div>
-                    <div class="skill-card">
-                        <div class="skill-name">🔍 Stock Screening</div>
-                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">10x DNA scoring system</div>
-                    </div>
-                    <div class="skill-card">
-                        <div class="skill-name">⚠️ Risk Management</div>
-                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">MA150 + ATR methodology</div>
-                    </div>
-                    <div class="skill-card">
-                        <div class="skill-name">📰 News Intelligence</div>
-                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">Market news analysis</div>
-                    </div>
-                    <div class="skill-card">
-                        <div class="skill-name">💭 News Sentiment</div>
-                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">Sentiment scoring</div>
-                    </div>
-                    <div class="skill-card">
-                        <div class="skill-name">📊 Market Analysis</div>
-                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">Technical & fundamental</div>
-                    </div>
-                    <div class="skill-card">
-                        <div class="skill-name">₿ Crypto Analysis</div>
-                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">Crypto market tracking</div>
-                    </div>
-                    <div class="skill-card">
-                        <div class="skill-name">📈 Micha Stocks</div>
-                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">Micha.Stocks methodology</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">🏢 Sectors (8 Total)</div>
-                <div class="sectors-grid">
-                    <div class="sector-card">
-                        <div class="sector-name">🔬 Nuclear-Space</div>
-                        <div class="sector-count">11 stocks</div>
-                    </div>
-                    <div class="sector-card">
-                        <div class="sector-name">💊 BioPharma</div>
-                        <div class="sector-count">16 stocks</div>
-                    </div>
-                    <div class="sector-card">
-                        <div class="sector-name">⚛️ Quantum</div>
-                        <div class="sector-count">5 stocks</div>
-                    </div>
-                    <div class="sector-card">
-                        <div class="sector-name">📊 Earnings Reports</div>
-                        <div class="sector-count">Active</div>
-                    </div>
-                    <div class="sector-card">
-                        <div class="sector-name">₿ Crypto</div>
-                        <div class="sector-count">7 stocks</div>
-                    </div>
-                    <div class="sector-card">
-                        <div class="sector-name">📈 Options</div>
-                        <div class="sector-count">Active</div>
-                    </div>
-                    <div class="sector-card">
-                        <div class="sector-name">🔍 Under $1B</div>
-                        <div class="sector-count">3 stocks</div>
-                    </div>
-                    <div class="sector-card">
-                        <div class="sector-name">🇮🇱 Israel TASE</div>
-                        <div class="sector-count">Active</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tab 3: QuantClaw -->
-        <div id="quantclaw" class="tab-content">
-            <div class="card">
-                <div class="card-title">📊 QuantClaw Data Platform<span class="highlight-new">NEW</span></div>
-                <div style="text-align: center; padding: 2rem;">
-                    <div style="font-size: 4rem; margin-bottom: 1rem;">🦞📊</div>
-                    <div style="font-size: 1.5rem; font-weight: 700; color: #a78bfa; margin-bottom: 1rem;">Bloomberg Terminal Alternative</div>
-                    <div style="font-size: 1.25rem; color: #34d399; font-weight: 700; margin-bottom: 2rem;">$0/month • No Authentication Needed</div>
-                </div>
-            </div>
-
-            <div class="stats-bar">
-                <div class="stat">
-                    <span class="stat-value" data-count="699">0</span>
-                    <span class="stat-label">Modules</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-value">354K+</span>
-                    <span class="stat-label">Lines of Code</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-value" data-count="112">0</span>
-                    <span class="stat-label">Data Sources</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-value" data-count="40">0</span>
-                    <span class="stat-label">Countries</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-value" data-count="8">0</span>
-                    <span class="stat-label">API Endpoints</span>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">🔌 API Endpoints (8 Verified)</div>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; margin-top: 1rem;">
-                    <div style="background: #0f1117; padding: 1.25rem; border-radius: 0.5rem; border: 1px solid #34d399;">
-                        <div style="font-weight: 700; color: #34d399; margin-bottom: 0.5rem;">💰 Price Data</div>
-                        <div style="font-size: 0.75rem; color: #9ca3af; margin-bottom: 0.5rem; font-family: monospace;">/api/price/{symbol}</div>
-                        <div style="color: #9ca3af; font-size: 0.875rem;">Real-time & historical pricing</div>
-                    </div>
-                    <div style="background: #0f1117; padding: 1.25rem; border-radius: 0.5rem; border: 1px solid #60a5fa;">
-                        <div style="font-weight: 700; color: #60a5fa; margin-bottom: 0.5rem;">📊 GEX (Gamma Exposure)</div>
-                        <div style="font-size: 0.75rem; color: #9ca3af; margin-bottom: 0.5rem; font-family: monospace;">/api/gex/{symbol}</div>
-                        <div style="color: #9ca3af; font-size: 0.875rem;">Options gamma exposure analysis</div>
-                    </div>
-                    <div style="background: #0f1117; padding: 1.25rem; border-radius: 0.5rem; border: 1px solid #a78bfa;">
-                        <div style="font-weight: 700; color: #a78bfa; margin-bottom: 0.5rem;">📍 Pin Risk</div>
-                        <div style="font-size: 0.75rem; color: #9ca3af; margin-bottom: 0.5rem; font-family: monospace;">/api/pin-risk/{symbol}</div>
-                        <div style="color: #9ca3af; font-size: 0.875rem;">Options pinning detection</div>
-                    </div>
-                    <div style="background: #0f1117; padding: 1.25rem; border-radius: 0.5rem; border: 1px solid #34d399;">
-                        <div style="font-weight: 700; color: #34d399; margin-bottom: 0.5rem;">🔄 Hedging Flow</div>
-                        <div style="font-size: 0.75rem; color: #9ca3af; margin-bottom: 0.5rem; font-family: monospace;">/api/hedging-flow/{symbol}</div>
-                        <div style="color: #9ca3af; font-size: 0.875rem;">Institutional hedging patterns</div>
-                    </div>
-                    <div style="background: #0f1117; padding: 1.25rem; border-radius: 0.5rem; border: 1px solid #60a5fa;">
-                        <div style="font-weight: 700; color: #60a5fa; margin-bottom: 0.5rem;">💼 Smart Money</div>
-                        <div style="font-size: 0.75rem; color: #9ca3af; margin-bottom: 0.5rem; font-family: monospace;">/api/smart-money/{symbol}</div>
-                        <div style="color: #9ca3af; font-size: 0.875rem;">Institutional positioning</div>
-                    </div>
-                    <div style="background: #0f1117; padding: 1.25rem; border-radius: 0.5rem; border: 1px solid #a78bfa;">
-                        <div style="font-weight: 700; color: #a78bfa; margin-bottom: 0.5rem;">📈 Fama-French</div>
-                        <div style="font-size: 0.75rem; color: #9ca3af; margin-bottom: 0.5rem; font-family: monospace;">/api/fama-french/{symbol}</div>
-                        <div style="color: #9ca3af; font-size: 0.875rem;">Factor analysis & exposures</div>
-                    </div>
-                    <div style="background: #0f1117; padding: 1.25rem; border-radius: 0.5rem; border: 1px solid #34d399;">
-                        <div style="font-weight: 700; color: #34d399; margin-bottom: 0.5rem;">📰 News</div>
-                        <div style="font-size: 0.75rem; color: #9ca3af; margin-bottom: 0.5rem; font-family: monospace;">/api/news/{symbol}</div>
-                        <div style="color: #9ca3af; font-size: 0.875rem;">Financial news & sentiment</div>
-                    </div>
-                    <div style="background: #0f1117; padding: 1.25rem; border-radius: 0.5rem; border: 1px solid #60a5fa;">
-                        <div style="font-weight: 700; color: #60a5fa; margin-bottom: 0.5rem;">🔍 Screener</div>
-                        <div style="font-size: 0.75rem; color: #9ca3af; margin-bottom: 0.5rem; font-family: monospace;">/api/screener</div>
-                        <div style="color: #9ca3af; font-size: 0.875rem;">Advanced stock screening</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">🌐 Access Points</div>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;">
-                    <div style="background: #0f1117; padding: 1.25rem; border-radius: 0.5rem; border-left: 3px solid #34d399;">
-                        <div style="font-weight: 700; color: #34d399; margin-bottom: 0.5rem;">🔗 Live API</div>
-                        <div style="color: #60a5fa; font-size: 0.875rem; margin-bottom: 0.5rem; font-family: monospace;">data.quantclaw.org</div>
-                        <div style="color: #9ca3af; font-size: 0.875rem;">Direct API access • No auth required</div>
-                    </div>
-                    <div style="background: #0f1117; padding: 1.25rem; border-radius: 0.5rem; border-left: 3px solid #60a5fa;">
-                        <div style="font-weight: 700; color: #60a5fa; margin-bottom: 0.5rem;">📊 Dashboard</div>
-                        <div style="color: #60a5fa; font-size: 0.875rem; margin-bottom: 0.5rem; font-family: monospace;">data.quantclaw.org</div>
-                        <div style="color: #9ca3af; font-size: 0.875rem;">Web-based data explorer</div>
-                    </div>
-                    <div style="background: #0f1117; padding: 1.25rem; border-radius: 0.5rem; border-left: 3px solid #a78bfa;">
-                        <div style="font-weight: 700; color: #a78bfa; margin-bottom: 0.5rem;">💻 Terminal</div>
-                        <div style="color: #60a5fa; font-size: 0.875rem; margin-bottom: 0.5rem; font-family: monospace;">terminal.quantclaw.org</div>
-                        <div style="color: #9ca3af; font-size: 0.875rem;">Bloomberg-style terminal UI</div>
-                    </div>
-                    <div style="background: #0f1117; padding: 1.25rem; border-radius: 0.5rem; border-left: 3px solid #34d399;">
-                        <div style="font-weight: 700; color: #34d399; margin-bottom: 0.5rem;">📦 Source Code</div>
-                        <div style="color: #60a5fa; font-size: 0.875rem; margin-bottom: 0.5rem; font-family: monospace;">github.com/ofs100private/YonniAssiaQuant</div>
-                        <div style="color: #9ca3af; font-size: 0.875rem;">Full source code available</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">✨ Integration Status</div>
-                <div style="padding: 1rem; background: #0f1117; border-radius: 0.5rem; border-left: 3px solid #34d399;">
-                    <div style="font-weight: 700; color: #34d399; margin-bottom: 0.5rem;">✅ Fully Integrated</div>
-                    <div style="color: #9ca3af; font-size: 0.875rem; line-height: 1.8;">
-                        • <strong style="color: #60a5fa;">Ben Agent:</strong> New <code style="background: #2d3748; padding: 0.125rem 0.5rem; border-radius: 0.25rem;">quantclaw</code> skill added<br>
-                        • <strong style="color: #60a5fa;">OfsInvest Agent:</strong> 11th skill - full QuantClaw module access<br>
-                        • <strong style="color: #60a5fa;">Master Investing Skill:</strong> Complete Micha methodology framework<br>
-                        • <strong style="color: #60a5fa;">Infrastructure:</strong> Zero-cost Bloomberg alternative operational<br>
-                        • <strong style="color: #60a5fa;">Data Sources:</strong> 112 sources across 40 countries ready
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tab 4: V2 Architecture -->
-        <div id="architecture" class="tab-content">
-            <div class="card research-card">
-                <div class="research-header" onclick="toggleResearch(this)">
-                    <div>
-                        <div class="research-title">🗄️ Brain Database</div>
-                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.25rem;">
-                            Neo4j vs Postgres+JSON vs SurrealDB
-                        </div>
-                    </div>
-                    <div>
-                        <span class="badge">Research Complete ✅</span>
-                        <span class="expand-icon">▼</span>
-                    </div>
-                </div>
-                <div class="research-content">
-                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #2d3748;">
-                        <div style="margin-bottom: 1rem;">
-                            <strong style="color: #34d399;">Recommended: Postgres + JSONB</strong>
-                        </div>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
-                            <div style="background: #0f1117; padding: 1rem; border-radius: 0.5rem;">
-                                <div style="font-weight: 700; color: #60a5fa; margin-bottom: 0.5rem;">Neo4j</div>
-                                <div style="font-size: 0.875rem; color: #9ca3af;">
-                                    ✅ Best for relationships<br>
-                                    ✅ Fast traversals<br>
-                                    ❌ Overhead for simple data<br>
-                                    ❌ Learning curve
-                                </div>
-                            </div>
-                            <div style="background: #0f1117; padding: 1rem; border-radius: 0.5rem;">
-                                <div style="font-weight: 700; color: #34d399; margin-bottom: 0.5rem;">Postgres+JSON</div>
-                                <div style="font-size: 0.875rem; color: #9ca3af;">
-                                    ✅ Mature & reliable<br>
-                                    ✅ JSONB flexibility<br>
-                                    ✅ Extensions (pgvector)<br>
-                                    ✅ Best balance
-                                </div>
-                            </div>
-                            <div style="background: #0f1117; padding: 1rem; border-radius: 0.5rem;">
-                                <div style="font-weight: 700; color: #a78bfa; margin-bottom: 0.5rem;">SurrealDB</div>
-                                <div style="font-size: 0.875rem; color: #9ca3af;">
-                                    ✅ Multi-model<br>
-                                    ✅ Modern & flexible<br>
-                                    ❌ Less mature<br>
-                                    ❌ Smaller community
-                                </div>
-                            </div>
-                        </div>
-                        <div style="margin-top: 1rem; padding: 1rem; background: #0f1117; border-radius: 0.5rem; border-left: 3px solid #34d399;">
-                            <strong>Key Finding:</strong> Postgres+JSONB offers the best balance of maturity, flexibility, and ecosystem support for 100K+ agents.
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card research-card">
-                <div class="research-header" onclick="toggleResearch(this)">
-                    <div>
-                        <div class="research-title">⚡ Cache Database</div>
-                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.25rem;">
-                            Redis Cluster vs Valkey vs DragonflyDB
-                        </div>
-                    </div>
-                    <div>
-                        <span class="badge">Research Complete ✅</span>
-                        <span class="expand-icon">▼</span>
-                    </div>
-                </div>
-                <div class="research-content">
-                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #2d3748;">
-                        <div style="margin-bottom: 1rem;">
-                            <strong style="color: #34d399;">Recommended: Valkey (open-source) or DragonflyDB (performance)</strong>
-                        </div>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
-                            <div style="background: #0f1117; padding: 1rem; border-radius: 0.5rem;">
-                                <div style="font-weight: 700; color: #60a5fa; margin-bottom: 0.5rem;">Redis Cluster</div>
-                                <div style="font-size: 0.875rem; color: #9ca3af;">
-                                    ✅ Most mature<br>
-                                    ✅ ~100K ops/sec<br>
-                                    ❌ License issues (SSPL)<br>
-                                    💰 $100-500/mo
-                                </div>
-                            </div>
-                            <div style="background: #0f1117; padding: 1rem; border-radius: 0.5rem;">
-                                <div style="font-weight: 700; color: #34d399; margin-bottom: 0.5rem;">Valkey</div>
-                                <div style="font-size: 0.875rem; color: #9ca3af;">
-                                    ✅ Redis fork (BSD)<br>
-                                    ✅ Drop-in replacement<br>
-                                    ✅ Open-source<br>
-                                    💰 $100-500/mo
-                                </div>
-                            </div>
-                            <div style="background: #0f1117; padding: 1rem; border-radius: 0.5rem;">
-                                <div style="font-weight: 700; color: #a78bfa; margin-bottom: 0.5rem;">DragonflyDB</div>
-                                <div style="font-size: 0.875rem; color: #9ca3af;">
-                                    ✅ 20-50x faster<br>
-                                    ✅ Multi-threaded<br>
-                                    ✅ 50% less memory<br>
-                                    💰 $50-300/mo
-                                </div>
-                            </div>
-                        </div>
-                        <div style="margin-top: 1rem; padding: 1rem; background: #0f1117; border-radius: 0.5rem; border-left: 3px solid #34d399;">
-                            <strong>Key Finding:</strong> Valkey for licensing/compatibility, DragonflyDB for raw performance at scale.
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card research-card">
-                <div class="research-header" onclick="toggleResearch(this)">
-                    <div>
-                        <div class="research-title">🤖 LLM Routing & Self-Hosting</div>
-                        <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.25rem;">
-                            vLLM vs Ollama vs TGI
-                        </div>
-                    </div>
-                    <div>
-                        <span class="badge">Research Complete ✅</span>
-                        <span class="expand-icon">▼</span>
-                    </div>
-                </div>
-                <div class="research-content">
-                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #2d3748;">
-                        <div style="margin-bottom: 1rem;">
-                            <strong style="color: #34d399;">Recommended: vLLM for production</strong>
-                        </div>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
-                            <div style="background: #0f1117; padding: 1rem; border-radius: 0.5rem;">
-                                <div style="font-weight: 700; color: #34d399; margin-bottom: 0.5rem;">vLLM</div>
-                                <div style="font-size: 0.875rem; color: #9ca3af;">
-                                    ✅ 200-400 tokens/sec<br>
-                                    ✅ PagedAttention<br>
-                                    ✅ Production-ready<br>
-                                    ✅ OpenAI API compatible
-                                </div>
-                            </div>
-                            <div style="background: #0f1117; padding: 1rem; border-radius: 0.5rem;">
-                                <div style="font-weight: 700; color: #60a5fa; margin-bottom: 0.5rem;">Ollama</div>
-                                <div style="font-size: 0.875rem; color: #9ca3af;">
-                                    ✅ Easy setup<br>
-                                    ✅ 10-40 tokens/sec<br>
-                                    ❌ Not for production scale<br>
-                                    ✅ Great for dev
-                                </div>
-                            </div>
-                            <div style="background: #0f1117; padding: 1rem; border-radius: 0.5rem;">
-                                <div style="font-weight: 700; color: #a78bfa; margin-bottom: 0.5rem;">TGI</div>
-                                <div style="font-size: 0.875rem; color: #9ca3af;">
-                                    ✅ 150-350 tokens/sec<br>
-                                    ✅ HuggingFace native<br>
-                                    ✅ Tensor parallelism<br>
-                                    ⚖️ Comparable to vLLM
-                                </div>
-                            </div>
-                        </div>
-                        <div style="margin-top: 1rem; padding: 1rem; background: #0f1117; border-radius: 0.5rem; border-left: 3px solid #34d399;">
-                            <strong>Key Finding:</strong> Self-hosting breaks even at ~100K tokens/day. vLLM best for production; use Hetzner GPU (A100 ~€1.5/hr) or Vast.ai (~$0.3-0.8/hr).
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tab 5: Model Costs -->
-        <div id="costs" class="tab-content">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                <h2 style="font-size: 1.5rem; font-weight: 700;">Cost Analytics</h2>
-                <button class="btn" onclick="refreshCosts()">
-                    <span id="refreshIcon">🔄</span>
-                    Refresh
-                </button>
-            </div>
-
-            <div class="stats-bar" id="costSummary">
-                <div class="stat">
-                    <span class="stat-value" id="totalCost">$0.00</span>
-                    <span class="stat-label">Total Today</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-value" id="opusCost">$0.00</span>
-                    <span class="stat-label">Opus Cost</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-value">$0.00</span>
-                    <span class="stat-label">Grok Cost (Free)</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-value" id="sessionsActive">0</span>
-                    <span class="stat-label">Active Sessions</span>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">💸 Session Costs</div>
-                <div id="costsTableContainer">
-                    <div class="loading">Loading cost data...</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tab 6: Activity Log -->
-        <div id="activity" class="tab-content">
-            <div class="card">
-                <div class="card-title">📅 Recent Activity</div>
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <div class="timeline-dot" style="background: #a78bfa; box-shadow: 0 0 0 4px #1a1d27, 0 0 0 6px #a78bfa;"></div>
-                        <div class="timeline-time">2026-02-26 09:00 GMT+2</div>
-                        <div class="timeline-content"><strong style="color: #a78bfa;">QuantClaw integration</strong> — 699 modules, 112 data sources absorbed into Ben & OfsInvest</div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot" style="background: #34d399; box-shadow: 0 0 0 4px #1a1d27, 0 0 0 6px #34d399;"></div>
-                        <div class="timeline-time">2026-02-26 08:30 GMT+2</div>
-                        <div class="timeline-content"><strong style="color: #34d399;">Master investing skill built</strong> for Ben — full Micha.Stocks methodology framework</div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot" style="background: #60a5fa; box-shadow: 0 0 0 4px #1a1d27, 0 0 0 6px #60a5fa;"></div>
-                        <div class="timeline-time">2026-02-26 06:00 GMT+2</div>
-                        <div class="timeline-content"><strong style="color: #60a5fa;">Group security hardened</strong> — ofs100claw_friends, bot promoted to admin</div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot" style="background: #a78bfa; box-shadow: 0 0 0 4px #1a1d27, 0 0 0 6px #a78bfa;"></div>
-                        <div class="timeline-time">2026-02-26 05:20 GMT+2</div>
-                        <div class="timeline-content"><strong style="color: #a78bfa;">Ports changed</strong> — Gateway: 41920, Memclawz: 6031, Ollama: 16343</div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-time">2026-02-25 22:30 GMT+2</div>
-                        <div class="timeline-content">Full portfolio pulled — 15 positions, +6.4% return</div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-time">2026-02-25 18:55 GMT+2</div>
-                        <div class="timeline-content">eToro skill built for OfsInvest (10th skill)</div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-time">2026-02-25 18:50 GMT+2</div>
-                        <div class="timeline-content">eToro API connected — 53 endpoints, portfolio live</div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-time">20:00 GMT+2</div>
-                        <div class="timeline-content">Lightstreamer/Performance deep dive complete (Architect)</div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-time">19:59 GMT+2</div>
-                        <div class="timeline-content">eToro API spec learned (53 endpoints, skill created)</div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-time">12:56 GMT+2</div>
-                        <div class="timeline-content">Use Case Map dashboard built</div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-time">09:15 GMT+2</div>
-                        <div class="timeline-content">Added 5 new sectors (Earnings, Crypto, Options, Under $1B, Israel TASE)</div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-time">09:05 GMT+2</div>
-                        <div class="timeline-content">Architect agent created (Grok, free research)</div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-time">08:25 GMT+2</div>
-                        <div class="timeline-content">OpenClaw upgraded to 2026.2.24</div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-time">07:37 GMT+2</div>
-                        <div class="timeline-content">Brain map rebuilt</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tab 7: Use Case Map -->
-        <div id="usecases" class="tab-content">
-            <div class="card">
-                <div class="card-title">📊 Use Case Statistics</div>
-                <div class="stats-bar">
-                    <div class="stat">
-                        <span class="stat-value">9</span>
-                        <span class="stat-label">Total Use Cases</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-value" style="color: #a78bfa;">4</span>
-                        <span class="stat-label">Opus ($$)</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-value" style="color: #60a5fa;">1</span>
-                        <span class="stat-label">Sonnet ($)</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-value" style="color: #34d399;">4</span>
-                        <span class="stat-label">Grok (FREE)</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-value" style="color: #34d399;">44%</span>
-                        <span class="stat-label">Free Tier</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">🎯 Active Use Cases</div>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 1rem;">
-                    
-                    <!-- Card 1: Main Chat -->
-                    <div style="background: linear-gradient(135deg, #1a1d27, #2d3748); padding: 1.5rem; border-radius: 0.75rem; border: 1px solid #a78bfa; display: flex; flex-direction: column; gap: 1rem;">
-                        <div style="font-size: 3rem; text-align: center;">💬</div>
-                        <div>
-                            <div style="font-size: 1.25rem; font-weight: 700; color: white; margin-bottom: 0.5rem;">Main Chat</div>
-                            <div style="color: #9ca3af; font-size: 0.875rem; line-height: 1.5;">Primary Telegram assistant</div>
-                        </div>
-                        <div style="margin-top: auto; display: flex; align-items: center; gap: 0.5rem;">
-                            <div style="width: 8px; height: 8px; border-radius: 50%; background: #a78bfa;"></div>
-                            <span style="font-size: 0.875rem; color: #a78bfa; font-weight: 600;">Claude Opus 4.6</span>
-                        </div>
-                    </div>
-
-                    <!-- Card 2: Stock Trading -->
-                    <div style="background: linear-gradient(135deg, #1a1d27, #2d3748); padding: 1.5rem; border-radius: 0.75rem; border: 1px solid #34d399; display: flex; flex-direction: column; gap: 1rem;">
-                        <div style="font-size: 3rem; text-align: center;">📈</div>
-                        <div>
-                            <div style="font-size: 1.25rem; font-weight: 700; color: white; margin-bottom: 0.5rem;">Stock Trading</div>
-                            <div style="color: #9ca3af; font-size: 0.875rem; line-height: 1.5;">OfsInvest - Micha.Stocks methodology, 8 sectors, QuantClaw data</div>
-                        </div>
-                        <div style="margin-top: auto; display: flex; align-items: center; gap: 0.5rem;">
-                            <div style="width: 8px; height: 8px; border-radius: 50%; background: #34d399;"></div>
-                            <span style="font-size: 0.875rem; color: #34d399; font-weight: 600;">Grok 4</span>
-                            <span style="background: #34d399; color: #0f1117; padding: 0.125rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 700; margin-left: auto;">FREE</span>
-                        </div>
-                    </div>
-
-                    <!-- Card 3: Daily Stock Scan -->
-                    <div style="background: linear-gradient(135deg, #1a1d27, #2d3748); padding: 1.5rem; border-radius: 0.75rem; border: 1px solid #34d399; display: flex; flex-direction: column; gap: 1rem;">
-                        <div style="font-size: 3rem; text-align: center;">🔍</div>
-                        <div>
-                            <div style="font-size: 1.25rem; font-weight: 700; color: white; margin-bottom: 0.5rem;">Daily Stock Scan</div>
-                            <div style="color: #9ca3af; font-size: 0.875rem; line-height: 1.5;">Watchlist scanner with news & technical scores</div>
-                        </div>
-                        <div style="margin-top: auto; display: flex; align-items: center; gap: 0.5rem;">
-                            <div style="width: 8px; height: 8px; border-radius: 50%; background: #34d399;"></div>
-                            <span style="font-size: 0.875rem; color: #34d399; font-weight: 600;">Grok 4</span>
-                            <span style="background: #34d399; color: #0f1117; padding: 0.125rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 700; margin-left: auto;">FREE</span>
-                        </div>
-                    </div>
-
-                    <!-- Card 4: Architecture Research -->
-                    <div style="background: linear-gradient(135deg, #1a1d27, #2d3748); padding: 1.5rem; border-radius: 0.75rem; border: 1px solid #34d399; display: flex; flex-direction: column; gap: 1rem;">
-                        <div style="font-size: 3rem; text-align: center;">🏗️</div>
-                        <div>
-                            <div style="font-size: 1.25rem; font-weight: 700; color: white; margin-bottom: 0.5rem;">Architecture Research</div>
-                            <div style="color: #9ca3af; font-size: 0.875rem; line-height: 1.5;">Clouds, databases, Databricks deep dives</div>
-                        </div>
-                        <div style="margin-top: auto; display: flex; align-items: center; gap: 0.5rem;">
-                            <div style="width: 8px; height: 8px; border-radius: 50%; background: #34d399;"></div>
-                            <span style="font-size: 0.875rem; color: #34d399; font-weight: 600;">Grok 4</span>
-                            <span style="background: #34d399; color: #0f1117; padding: 0.125rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 700; margin-left: auto;">FREE</span>
-                        </div>
-                    </div>
-
-                    <!-- Card 5: Budget Management -->
-                    <div style="background: linear-gradient(135deg, #1a1d27, #2d3748); padding: 1.5rem; border-radius: 0.75rem; border: 1px solid #60a5fa; display: flex; flex-direction: column; gap: 1rem;">
-                        <div style="font-size: 3rem; text-align: center;">💰</div>
-                        <div>
-                            <div style="font-size: 1.25rem; font-weight: 700; color: white; margin-bottom: 0.5rem;">Budget Management</div>
-                            <div style="color: #9ca3af; font-size: 0.875rem; line-height: 1.5;">Family budget tracking</div>
-                        </div>
-                        <div style="margin-top: auto; display: flex; align-items: center; gap: 0.5rem;">
-                            <div style="width: 8px; height: 8px; border-radius: 50%; background: #60a5fa;"></div>
-                            <span style="font-size: 0.875rem; color: #60a5fa; font-weight: 600;">Claude Sonnet 4.5</span>
-                        </div>
-                    </div>
-
-                    <!-- Card 6: Social Media -->
-                    <div style="background: linear-gradient(135deg, #1a1d27, #2d3748); padding: 1.5rem; border-radius: 0.75rem; border: 1px solid #a78bfa; display: flex; flex-direction: column; gap: 1rem;">
-                        <div style="font-size: 3rem; text-align: center;">📱</div>
-                        <div>
-                            <div style="font-size: 1.25rem; font-weight: 700; color: white; margin-bottom: 0.5rem;">Social Media</div>
-                            <div style="color: #9ca3af; font-size: 0.875rem; line-height: 1.5;">LinkedIn content & posting (with approval)</div>
-                        </div>
-                        <div style="margin-top: auto; display: flex; align-items: center; gap: 0.5rem;">
-                            <div style="width: 8px; height: 8px; border-radius: 50%; background: #a78bfa;"></div>
-                            <span style="font-size: 0.875rem; color: #a78bfa; font-weight: 600;">Claude Opus 4.6</span>
-                        </div>
-                    </div>
-
-                    <!-- Card 7: AI News Summary -->
-                    <div style="background: linear-gradient(135deg, #1a1d27, #2d3748); padding: 1.5rem; border-radius: 0.75rem; border: 1px solid #34d399; display: flex; flex-direction: column; gap: 1rem;">
-                        <div style="font-size: 3rem; text-align: center;">📰</div>
-                        <div>
-                            <div style="font-size: 1.25rem; font-weight: 700; color: white; margin-bottom: 0.5rem;">AI News Summary</div>
-                            <div style="color: #9ca3af; font-size: 0.875rem; line-height: 1.5;">Daily AI/tech news digest</div>
-                        </div>
-                        <div style="margin-top: auto; display: flex; align-items: center; gap: 0.5rem;">
-                            <div style="width: 8px; height: 8px; border-radius: 50%; background: #34d399;"></div>
-                            <span style="font-size: 0.875rem; color: #34d399; font-weight: 600;">Grok 4</span>
-                            <span style="background: #34d399; color: #0f1117; padding: 0.125rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 700; margin-left: auto;">FREE</span>
-                        </div>
-                    </div>
-
-                    <!-- Card 8: Code & Analysis -->
-                    <div style="background: linear-gradient(135deg, #1a1d27, #2d3748); padding: 1.5rem; border-radius: 0.75rem; border: 1px solid #a78bfa; display: flex; flex-direction: column; gap: 1rem;">
-                        <div style="font-size: 3rem; text-align: center;">🧠</div>
-                        <div>
-                            <div style="font-size: 1.25rem; font-weight: 700; color: white; margin-bottom: 0.5rem;">Code & Analysis</div>
-                            <div style="color: #9ca3af; font-size: 0.875rem; line-height: 1.5;">Code, debugging, technical analysis</div>
-                        </div>
-                        <div style="margin-top: auto; display: flex; align-items: center; gap: 0.5rem;">
-                            <div style="width: 8px; height: 8px; border-radius: 50%; background: #a78bfa;"></div>
-                            <span style="font-size: 0.875rem; color: #a78bfa; font-weight: 600;">Claude Opus 4.6</span>
-                        </div>
-                    </div>
-
-                    <!-- Card 9: Planning -->
-                    <div style="background: linear-gradient(135deg, #1a1d27, #2d3748); padding: 1.5rem; border-radius: 0.75rem; border: 1px solid #a78bfa; display: flex; flex-direction: column; gap: 1rem;">
-                        <div style="font-size: 3rem; text-align: center;">📋</div>
-                        <div>
-                            <div style="font-size: 1.25rem; font-weight: 700; color: white; margin-bottom: 0.5rem;">Planning</div>
-                            <div style="color: #9ca3af; font-size: 0.875rem; line-height: 1.5;">Multi-step tasks & orchestration</div>
-                        </div>
-                        <div style="margin-top: auto; display: flex; align-items: center; gap: 0.5rem;">
-                            <div style="width: 8px; height: 8px; border-radius: 50%; background: #a78bfa;"></div>
-                            <span style="font-size: 0.875rem; color: #a78bfa; font-weight: 600;">Claude Opus 4.6</span>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div style="margin-top: 2rem; text-align: center;">
-                    <a href="https://ofs100private.github.io/clawbot-reports/usecase-map.html" target="_blank" class="btn">
-                        🗺️ Open Full Interactive Map →
-                    </a>
-                </div>
-            </div>
+        <div class="legend-item">
+            <span style="font-size: 10px;">💡 Click nodes to expand • Drag to move • Scroll to zoom</span>
         </div>
     </div>
 
-    <footer>
-        <div>OpenClaw 2026.2.24 • Built with 🧠 by Ben • WSL2 on DESKTOP-OT4750D</div>
-        <div style="margin-top: 0.5rem; font-size: 0.875rem;">Last updated: <span id="footerTimestamp">Thu, Feb 26, 2026, 02:30:00 PM</span> | Gateway: 41920 • Memclawz: 6031 • Ollama: 16343</div>
-    </footer>
-
     <script>
-        // Neural Network Background
-        function generateNeuralBg() {
-            const bg = document.getElementById('neuralBg');
-            const nodeCount = 30;
-            for (let i = 0; i < nodeCount; i++) {
-                const node = document.createElement('div');
-                node.className = 'neural-node';
-                node.style.left = Math.random() * 100 + '%';
-                node.style.top = Math.random() * 100 + '%';
-                node.style.animationDelay = Math.random() * 3 + 's';
-                bg.appendChild(node);
-            }
-        }
-
-        // Update Timestamp
-        function updateTimestamp() {
-            const now = new Date();
-            const options = { 
-                timeZone: 'Asia/Jerusalem', 
-                weekday: 'short', 
-                year: 'numeric', 
-                month: 'short', 
-                day: 'numeric', 
-                hour: '2-digit', 
-                minute: '2-digit',
-                second: '2-digit'
-            };
-            const formatted = now.toLocaleString('en-US', options);
-            document.getElementById('timestamp').textContent = formatted;
-            document.getElementById('footerTimestamp').textContent = formatted;
-        }
-
-        // Tab Switching
-        function switchTab(tabName) {
-            const tabs = document.querySelectorAll('.tab-content');
-            const buttons = document.querySelectorAll('.tab-btn');
-            
-            tabs.forEach(tab => tab.classList.remove('active'));
-            buttons.forEach(btn => btn.classList.remove('active'));
-            
-            document.getElementById(tabName).classList.add('active');
-            event.target.classList.add('active');
-
-            // Load costs when tab is opened
-            if (tabName === 'costs' && !window.costsLoaded) {
-                refreshCosts();
-            }
-        }
-
-        // Animated Counter
-        function animateCounter(element, target) {
-            const duration = 1500;
-            const start = 0;
-            const increment = target / (duration / 16);
-            let current = start;
-
-            const timer = setInterval(() => {
-                current += increment;
-                if (current >= target) {
-                    element.textContent = target.toLocaleString();
-                    clearInterval(timer);
-                } else {
-                    element.textContent = Math.floor(current).toLocaleString();
-                }
-            }, 16);
-        }
-
-        // Initialize Counters
-        function initCounters() {
-            document.querySelectorAll('.stat-value[data-count]').forEach(element => {
-                const target = parseInt(element.getAttribute('data-count'));
-                animateCounter(element, target);
+        // Animated background stars
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const stars = [];
+        const starCount = 150;
+        
+        for (let i = 0; i < starCount; i++) {
+            stars.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 1.5,
+                speed: Math.random() * 0.3 + 0.1,
+                opacity: Math.random()
             });
         }
-
-        // Table Sorting
-        function sortTable(columnIndex) {
-            const table = document.getElementById('knowledgeTable');
-            const tbody = table.querySelector('tbody');
-            const rows = Array.from(tbody.querySelectorAll('tr'));
+        
+        function animateStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#0a0e27';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            rows.sort((a, b) => {
-                let aVal = a.cells[columnIndex].textContent;
-                let bVal = b.cells[columnIndex].textContent;
+            stars.forEach(star => {
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
+                ctx.fill();
                 
-                // Try numeric sort for lines column
-                if (columnIndex === 1) {
-                    return parseInt(bVal) - parseInt(aVal);
+                star.opacity += star.speed * 0.01;
+                if (star.opacity > 1 || star.opacity < 0.2) {
+                    star.speed = -star.speed;
                 }
-                
-                return aVal.localeCompare(bVal);
             });
             
-            rows.forEach(row => tbody.appendChild(row));
+            requestAnimationFrame(animateStars);
         }
-
-        // Toggle Research Card
-        function toggleResearch(header) {
-            const content = header.nextElementSibling;
-            const icon = header.querySelector('.expand-icon');
+        
+        animateStars();
+        
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+        
+        // D3.js Force-Directed Graph
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        
+        const svg = d3.select('#graph')
+            .attr('width', width)
+            .attr('height', height);
+        
+        const g = svg.append('g');
+        
+        // Data structure
+        const nodes = [
+            // Center node
+            { id: 'center', label: 'My Skills', icon: '🧠', type: 'center', size: 50, color: '#00ffff', tooltip: 'Ben\'s Core Knowledge Base\n9 major skill areas\n13 sub-systems\n432 files total' },
             
-            content.classList.toggle('expanded');
-            icon.classList.toggle('expanded');
-        }
-
-        // Refresh Costs
-        async function refreshCosts() {
-            const icon = document.getElementById('refreshIcon');
-            const container = document.getElementById('costsTableContainer');
+            // Major skill nodes (connected to center)
+            { id: 'security', label: 'Security Gate', icon: '🔒', type: 'skill', size: 35, color: '#ff6b6b', tooltip: 'Security Gate\nPrompt injection defense\nCode scanning\nCredential protection\nSocial engineering detection' },
+            { id: 'technical', label: 'Technical Analysis', icon: '📊', type: 'skill', size: 35, color: '#4ecdc4', tooltip: 'Technical Analysis\nChart patterns\nMA150 system\nDarvas Box\nElliott Wave\nATR sizing\nFibonacci levels' },
+            { id: 'buysell', label: 'Buy/Sell Signal', icon: '📈', type: 'skill', size: 35, color: '#45b7d1', tooltip: 'Buy/Sell Signal\nTriple confirmation\nGrok model integration\nEntry scanner\nStop loss automation' },
+            { id: 'news', label: 'Market News', icon: '📰', type: 'skill', size: 35, color: '#96ceb4', tooltip: 'Market News Sentiment\nMulti-source aggregation\nNLP analysis\nCrypto Fear & Greed index' },
+            { id: 'analyst', label: 'Analyst Targets', icon: '🎯', type: 'skill', size: 35, color: '#ffeaa7', tooltip: 'Analyst Targets\nTipRanks integration\nConsensus ratings\nUpside calculator\nPrice target tracking' },
+            { id: 'investing', label: 'Investing', icon: '💰', type: 'skill', size: 35, color: '#dfe6e9', tooltip: 'Investing Strategy\nMicha Method\nRisk management\nPortfolio construction\n3-tier allocation\n10x DNA stocks' },
+            { id: 'chartpatterns', label: 'Chart Patterns', icon: '📉', type: 'skill', size: 35, color: '#74b9ff', tooltip: 'Chart Patterns\nCup & Handle\nHead & Shoulders\nFlags & Pennants\nTriangles\nWedges\nDouble Bottom' },
+            { id: 'quantclaw', label: 'QuantClaw', icon: '🌐', type: 'skill', size: 35, color: '#a29bfe', tooltip: 'QuantClaw System\n699 modules\n112 data sources\nFama-French factors\nGamma exposure\nSmart money tracking\n$0/month cost' },
+            { id: 'etoro', label: 'eToro API', icon: '💹', type: 'skill', size: 35, color: '#fd79a8', tooltip: 'eToro Integration\n53 API endpoints\nPortfolio live sync\n15 active positions\nWatchlist management\nWebSocket streaming' },
+            { id: 'social', label: 'Social Media', icon: '📱', type: 'skill', size: 35, color: '#fdcb6e', tooltip: 'Social Media Management\nLinkedIn automation\nContent strategy\nPost scheduling\nEngagement optimization' },
+            { id: 'healthcare', label: 'Healthcare', icon: '🏥', type: 'skill', size: 35, color: '#e17055', tooltip: 'Healthcare Sector\nGLP-1 therapeutics\nImmunotherapy\nGene therapy\nAI drug discovery' },
+            { id: 'sectors', label: 'Sectors', icon: '🔬', type: 'skill', size: 35, color: '#00b894', tooltip: 'Sector Coverage\nNuclear & Space\nBioPharma\nQuantum computing\nCrypto\nOptions trading\nUnder $1B market cap' },
+            { id: 'sentiment', label: 'Market Sentiment', icon: '🧠', type: 'skill', size: 35, color: '#6c5ce7', tooltip: 'Market Sentiment Analysis\nVIX tracking\nPut/Call ratios\nFear & Greed index\nCapitulation signals\nSector rotation' },
             
-            icon.style.animation = 'spin 1s linear infinite';
-            container.innerHTML = '<div class="loading">Fetching live data...</div>';
+            // Infrastructure nodes (NOT connected to center)
+            { id: 'gateway', label: 'Gateway', icon: '🌐', type: 'infra', size: 40, color: '#2196f3', tooltip: 'OpenClaw Gateway\nVersion 2026.2.24\nPort 41920\nWSL2 on DESKTOP-OT4750D' },
+            { id: 'channels', label: 'Channels', icon: '💬', type: 'infra', size: 40, color: '#9c27b0', tooltip: 'Communication Channels\nTelegram DM (primary)\nTelegram Group\nLinkedIn integration' },
+            { id: 'agents', label: 'Agents', icon: '🤖', type: 'infra', size: 40, color: '#ff9800', tooltip: 'AI Agents\n• Ben: Opus 4.6, 432 files, main assistant\n• OfsInvest: Grok 4, 82 files, 13,716 lines, 9.3/10 score\n• Architect: Grok 4, V2 research\n• Budget: Sonnet 4.5, family budget' },
+            { id: 'cron', label: 'Cron Jobs', icon: '⏰', type: 'infra', size: 40, color: '#f44336', tooltip: 'Scheduled Tasks\n9 active cron jobs\nHeartbeat checks\nMemory backups\nMarket monitoring' },
+            { id: 'models', label: 'Models', icon: '📊', type: 'infra', size: 40, color: '#ff5722', tooltip: 'AI Models\n• Opus 4.6 (main)\n• Grok 4 (news/research, free)\n• Sonnet 4.5 (sub-agents, efficient)' },
+            { id: 'apps', label: 'Apps', icon: '🔌', type: 'infra', size: 40, color: '#4caf50', tooltip: 'Connected Apps\neToro (53 endpoints)\nQuantClaw (699 modules)\nLinkedIn\nGmail\nGitHub' }
+        ];
+        
+        // Add sub-nodes (initially hidden)
+        const subNodes = [
+            // Security Gate subs
+            { id: 'sec-1', label: 'Prompt Injection', parent: 'security', type: 'sub', size: 8, color: '#ff8a80', visible: false },
+            { id: 'sec-2', label: 'Code Scanning', parent: 'security', type: 'sub', size: 8, color: '#ff8a80', visible: false },
+            { id: 'sec-3', label: 'Credential Protection', parent: 'security', type: 'sub', size: 8, color: '#ff8a80', visible: false },
+            { id: 'sec-4', label: 'Social Engineering', parent: 'security', type: 'sub', size: 8, color: '#ff8a80', visible: false },
             
-            try {
-                const response = await fetch('http://127.0.0.1:41920/api/sessions?activeMinutes=1440&messageLimit=0', {
-                    headers: {
-                        'Authorization': 'Bearer 0d04dc8adb5f793aa7c6d078d84755799f1a9ccf0566b77a'
-                    }
+            // Technical Analysis subs
+            { id: 'tech-1', label: 'Chart Patterns', parent: 'technical', type: 'sub', size: 8, color: '#80deea', visible: false },
+            { id: 'tech-2', label: 'MA150 System', parent: 'technical', type: 'sub', size: 8, color: '#80deea', visible: false },
+            { id: 'tech-3', label: 'Darvas Box', parent: 'technical', type: 'sub', size: 8, color: '#80deea', visible: false },
+            { id: 'tech-4', label: 'Elliott Wave', parent: 'technical', type: 'sub', size: 8, color: '#80deea', visible: false },
+            { id: 'tech-5', label: 'ATR Sizing', parent: 'technical', type: 'sub', size: 8, color: '#80deea', visible: false },
+            { id: 'tech-6', label: 'Fibonacci', parent: 'technical', type: 'sub', size: 8, color: '#80deea', visible: false },
+            
+            // Buy/Sell Signal subs
+            { id: 'bs-1', label: 'Triple Confirm', parent: 'buysell', type: 'sub', size: 8, color: '#81d4fa', visible: false },
+            { id: 'bs-2', label: 'Grok Model', parent: 'buysell', type: 'sub', size: 8, color: '#81d4fa', visible: false },
+            { id: 'bs-3', label: 'Entry Scanner', parent: 'buysell', type: 'sub', size: 8, color: '#81d4fa', visible: false },
+            { id: 'bs-4', label: 'Stop Loss', parent: 'buysell', type: 'sub', size: 8, color: '#81d4fa', visible: false },
+            
+            // Market News subs
+            { id: 'news-1', label: 'Multi-Source', parent: 'news', type: 'sub', size: 8, color: '#a5d6a7', visible: false },
+            { id: 'news-2', label: 'News NLP', parent: 'news', type: 'sub', size: 8, color: '#a5d6a7', visible: false },
+            { id: 'news-3', label: 'Crypto Fear & Greed', parent: 'news', type: 'sub', size: 8, color: '#a5d6a7', visible: false },
+            
+            // Analyst Targets subs
+            { id: 'analyst-1', label: 'TipRanks', parent: 'analyst', type: 'sub', size: 8, color: '#fff59d', visible: false },
+            { id: 'analyst-2', label: 'Consensus Rating', parent: 'analyst', type: 'sub', size: 8, color: '#fff59d', visible: false },
+            { id: 'analyst-3', label: 'Upside Calc', parent: 'analyst', type: 'sub', size: 8, color: '#fff59d', visible: false },
+            { id: 'analyst-4', label: 'Price Targets', parent: 'analyst', type: 'sub', size: 8, color: '#fff59d', visible: false },
+            
+            // Investing subs
+            { id: 'inv-1', label: 'Micha Method', parent: 'investing', type: 'sub', size: 8, color: '#eceff1', visible: false },
+            { id: 'inv-2', label: 'Risk Management', parent: 'investing', type: 'sub', size: 8, color: '#eceff1', visible: false },
+            { id: 'inv-3', label: 'Portfolio Construction', parent: 'investing', type: 'sub', size: 8, color: '#eceff1', visible: false },
+            { id: 'inv-4', label: '3-Tier Allocation', parent: 'investing', type: 'sub', size: 8, color: '#eceff1', visible: false },
+            { id: 'inv-5', label: '10x DNA', parent: 'investing', type: 'sub', size: 8, color: '#eceff1', visible: false },
+            
+            // Chart Patterns subs
+            { id: 'chart-1', label: 'Cup & Handle', parent: 'chartpatterns', type: 'sub', size: 8, color: '#90caf9', visible: false },
+            { id: 'chart-2', label: 'H&S', parent: 'chartpatterns', type: 'sub', size: 8, color: '#90caf9', visible: false },
+            { id: 'chart-3', label: 'Flags', parent: 'chartpatterns', type: 'sub', size: 8, color: '#90caf9', visible: false },
+            { id: 'chart-4', label: 'Triangles', parent: 'chartpatterns', type: 'sub', size: 8, color: '#90caf9', visible: false },
+            { id: 'chart-5', label: 'Wedges', parent: 'chartpatterns', type: 'sub', size: 8, color: '#90caf9', visible: false },
+            { id: 'chart-6', label: 'Double Bottom', parent: 'chartpatterns', type: 'sub', size: 8, color: '#90caf9', visible: false },
+            
+            // QuantClaw subs
+            { id: 'qc-1', label: '699 Modules', parent: 'quantclaw', type: 'sub', size: 8, color: '#b39ddb', visible: false },
+            { id: 'qc-2', label: 'Fama-French', parent: 'quantclaw', type: 'sub', size: 8, color: '#b39ddb', visible: false },
+            { id: 'qc-3', label: 'GEX', parent: 'quantclaw', type: 'sub', size: 8, color: '#b39ddb', visible: false },
+            { id: 'qc-4', label: 'Smart Money', parent: 'quantclaw', type: 'sub', size: 8, color: '#b39ddb', visible: false },
+            { id: 'qc-5', label: 'Screener', parent: 'quantclaw', type: 'sub', size: 8, color: '#b39ddb', visible: false },
+            
+            // eToro API subs
+            { id: 'etoro-1', label: 'Portfolio', parent: 'etoro', type: 'sub', size: 8, color: '#f48fb1', visible: false },
+            { id: 'etoro-2', label: 'Watchlists', parent: 'etoro', type: 'sub', size: 8, color: '#f48fb1', visible: false },
+            { id: 'etoro-3', label: 'Trading', parent: 'etoro', type: 'sub', size: 8, color: '#f48fb1', visible: false },
+            { id: 'etoro-4', label: 'Market Data', parent: 'etoro', type: 'sub', size: 8, color: '#f48fb1', visible: false },
+            { id: 'etoro-5', label: 'WebSocket', parent: 'etoro', type: 'sub', size: 8, color: '#f48fb1', visible: false },
+            
+            // Social Media subs
+            { id: 'social-1', label: 'LinkedIn', parent: 'social', type: 'sub', size: 8, color: '#ffe082', visible: false },
+            { id: 'social-2', label: 'Content Strategy', parent: 'social', type: 'sub', size: 8, color: '#ffe082', visible: false },
+            { id: 'social-3', label: 'Scheduling', parent: 'social', type: 'sub', size: 8, color: '#ffe082', visible: false },
+            
+            // Healthcare subs
+            { id: 'health-1', label: 'GLP-1', parent: 'healthcare', type: 'sub', size: 8, color: '#ffab91', visible: false },
+            { id: 'health-2', label: 'Immunotherapy', parent: 'healthcare', type: 'sub', size: 8, color: '#ffab91', visible: false },
+            { id: 'health-3', label: 'Gene Therapy', parent: 'healthcare', type: 'sub', size: 8, color: '#ffab91', visible: false },
+            { id: 'health-4', label: 'AI Drug Discovery', parent: 'healthcare', type: 'sub', size: 8, color: '#ffab91', visible: false },
+            
+            // Sectors subs
+            { id: 'sector-1', label: 'Nuclear/Space', parent: 'sectors', type: 'sub', size: 8, color: '#80cbc4', visible: false },
+            { id: 'sector-2', label: 'BioPharma', parent: 'sectors', type: 'sub', size: 8, color: '#80cbc4', visible: false },
+            { id: 'sector-3', label: 'Quantum', parent: 'sectors', type: 'sub', size: 8, color: '#80cbc4', visible: false },
+            { id: 'sector-4', label: 'Crypto', parent: 'sectors', type: 'sub', size: 8, color: '#80cbc4', visible: false },
+            { id: 'sector-5', label: 'Options', parent: 'sectors', type: 'sub', size: 8, color: '#80cbc4', visible: false },
+            { id: 'sector-6', label: 'Under $1B', parent: 'sectors', type: 'sub', size: 8, color: '#80cbc4', visible: false },
+            
+            // Market Sentiment subs
+            { id: 'sent-1', label: 'VIX', parent: 'sentiment', type: 'sub', size: 8, color: '#9575cd', visible: false },
+            { id: 'sent-2', label: 'Put/Call', parent: 'sentiment', type: 'sub', size: 8, color: '#9575cd', visible: false },
+            { id: 'sent-3', label: 'Fear & Greed', parent: 'sentiment', type: 'sub', size: 8, color: '#9575cd', visible: false },
+            { id: 'sent-4', label: 'Capitulation', parent: 'sentiment', type: 'sub', size: 8, color: '#9575cd', visible: false },
+            { id: 'sent-5', label: 'Sector Rotation', parent: 'sentiment', type: 'sub', size: 8, color: '#9575cd', visible: false }
+        ];
+        
+        nodes.push(...subNodes);
+        
+        // Create links
+        const links = [];
+        
+        // Connect skills to center
+        nodes.filter(n => n.type === 'skill').forEach(node => {
+            links.push({ source: 'center', target: node.id, type: 'main' });
+        });
+        
+        // Connect sub-nodes to their parents
+        subNodes.forEach(sub => {
+            links.push({ source: sub.parent, target: sub.id, type: 'sub' });
+        });
+        
+        // Create force simulation
+        const simulation = d3.forceSimulation(nodes)
+            .force('link', d3.forceLink(links).id(d => d.id).distance(d => d.type === 'sub' ? 60 : 150))
+            .force('charge', d3.forceManyBody().strength(d => {
+                if (d.type === 'center') return -800;
+                if (d.type === 'infra') return -400;
+                if (d.type === 'skill') return -300;
+                return -50;
+            }))
+            .force('center', d3.forceCenter(width / 2, height / 2))
+            .force('collision', d3.forceCollide().radius(d => d.size + 20))
+            .alphaDecay(0.01);
+        
+        // Position infrastructure nodes around the edges
+        nodes.filter(n => n.type === 'infra').forEach((node, i) => {
+            const angle = (i / 6) * Math.PI * 2 - Math.PI / 2;
+            const radius = Math.min(width, height) * 0.4;
+            node.fx = width / 2 + Math.cos(angle) * radius;
+            node.fy = height / 2 + Math.sin(angle) * radius;
+        });
+        
+        // Draw links
+        const link = g.append('g')
+            .selectAll('line')
+            .data(links)
+            .enter().append('line')
+            .attr('class', d => `link ${d.type === 'main' ? 'link-main' : 'link-sub'}`)
+            .style('opacity', d => {
+                if (d.type === 'sub') {
+                    const target = nodes.find(n => n.id === d.target);
+                    return target.visible ? 0.4 : 0;
+                }
+                return 0.6;
+            });
+        
+        // Draw nodes
+        const node = g.append('g')
+            .selectAll('g')
+            .data(nodes)
+            .enter().append('g')
+            .attr('class', 'node')
+            .style('opacity', d => d.type === 'sub' && !d.visible ? 0 : 1)
+            .call(d3.drag()
+                .on('start', dragStarted)
+                .on('drag', dragged)
+                .on('end', dragEnded));
+        
+        // Node circles
+        node.append('circle')
+            .attr('class', 'node-circle')
+            .attr('r', d => d.size)
+            .attr('fill', d => d.color)
+            .attr('stroke', d => d.color);
+        
+        // Node icons
+        node.append('text')
+            .attr('class', 'node-icon')
+            .attr('dy', '0.35em')
+            .style('font-size', d => d.type === 'center' ? '32px' : d.type === 'sub' ? '10px' : '20px')
+            .text(d => d.icon || '');
+        
+        // Node labels
+        node.append('text')
+            .attr('class', 'node-text')
+            .attr('dy', d => d.size + 15)
+            .style('font-size', d => d.type === 'sub' ? '9px' : '12px')
+            .text(d => d.label);
+        
+        // Tooltip
+        const tooltip = d3.select('#tooltip');
+        
+        node.on('mouseover', function(event, d) {
+            if (d.tooltip) {
+                tooltip.select('.tooltip-title').text(d.label);
+                tooltip.select('.tooltip-content').html(d.tooltip.replace(/\n/g, '<br>'));
+                tooltip.classed('visible', true);
+            }
+        })
+        .on('mousemove', function(event) {
+            tooltip
+                .style('left', (event.pageX + 15) + 'px')
+                .style('top', (event.pageY + 15) + 'px');
+        })
+        .on('mouseout', function() {
+            tooltip.classed('visible', false);
+        });
+        
+        // Click to expand/collapse sub-nodes
+        node.on('click', function(event, d) {
+            if (d.type === 'skill') {
+                const subs = nodes.filter(n => n.parent === d.id);
+                const isExpanded = subs[0].visible;
+                
+                subs.forEach(sub => {
+                    sub.visible = !isExpanded;
                 });
                 
-                const data = await response.json();
-                window.costsLoaded = true;
+                // Update visibility
+                node.style('opacity', n => n.type === 'sub' && !n.visible ? 0 : 1)
+                    .transition().duration(300);
                 
-                // Calculate costs
-                let totalCost = 0;
-                let opusCost = 0;
-                let sessionsActive = data.sessions ? data.sessions.length : 0;
+                link.style('opacity', l => {
+                    if (l.type === 'sub') {
+                        const target = nodes.find(n => n.id === l.target);
+                        return target.visible ? 0.4 : 0;
+                    }
+                    return 0.6;
+                }).transition().duration(300);
                 
-                let tableHTML = '<table class="data-table"><thead><tr><th>Session</th><th>Model</th><th>Tokens In</th><th>Tokens Out</th><th>Est. Cost</th></tr></thead><tbody>';
-                
-                if (data.sessions) {
-                    data.sessions.forEach(session => {
-                        const model = session.defaultModel || 'unknown';
-                        const tokensIn = session.usage?.totalInputTokens || 0;
-                        const tokensOut = session.usage?.totalOutputTokens || 0;
-                        
-                        let cost = 0;
-                        if (model.includes('opus')) {
-                            cost = (tokensIn / 1000000 * 15) + (tokensOut / 1000000 * 75);
-                            opusCost += cost;
-                        } else if (model.includes('sonnet')) {
-                            cost = (tokensIn / 1000000 * 3) + (tokensOut / 1000000 * 15);
-                        }
-                        // Grok is free
-                        
-                        totalCost += cost;
-                        
-                        tableHTML += `<tr>
-                            <td>${session.id || 'unknown'}</td>
-                            <td>${model}</td>
-                            <td>${tokensIn.toLocaleString()}</td>
-                            <td>${tokensOut.toLocaleString()}</td>
-                            <td>$${cost.toFixed(3)}</td>
-                        </tr>`;
-                    });
-                }
-                
-                tableHTML += '</tbody></table>';
-                container.innerHTML = tableHTML;
-                
-                // Update summary
-                document.getElementById('totalCost').textContent = '$' + totalCost.toFixed(2);
-                document.getElementById('opusCost').textContent = '$' + opusCost.toFixed(2);
-                document.getElementById('sessionsActive').textContent = sessionsActive;
-                
-            } catch (error) {
-                container.innerHTML = `<div class="loading" style="color: #f59e0b;">Error loading data: ${error.message}</div>`;
+                simulation.alpha(0.3).restart();
             }
-            
-            icon.style.animation = '';
-        }
-
-        // Initialize on load
-        document.addEventListener('DOMContentLoaded', () => {
-            generateNeuralBg();
-            updateTimestamp();
-            initCounters();
-            setInterval(updateTimestamp, 1000);
         });
-
-        // Add spin animation
-        const style = document.createElement('style');
-        style.textContent = '@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }';
-        document.head.appendChild(style);
+        
+        // Tick function
+        simulation.on('tick', () => {
+            link
+                .attr('x1', d => d.source.x)
+                .attr('y1', d => d.source.y)
+                .attr('x2', d => d.target.x)
+                .attr('y2', d => d.target.y);
+            
+            node.attr('transform', d => `translate(${d.x},${d.y})`);
+        });
+        
+        // Drag functions
+        function dragStarted(event, d) {
+            if (!event.active) simulation.alphaTarget(0.3).restart();
+            d.fx = d.x;
+            d.fy = d.y;
+        }
+        
+        function dragged(event, d) {
+            d.fx = event.x;
+            d.fy = event.y;
+        }
+        
+        function dragEnded(event, d) {
+            if (!event.active) simulation.alphaTarget(0);
+            if (d.type !== 'infra') {
+                d.fx = null;
+                d.fy = null;
+            }
+        }
+        
+        // Zoom functionality
+        const zoom = d3.zoom()
+            .scaleExtent([0.3, 3])
+            .on('zoom', (event) => {
+                g.attr('transform', event.transform);
+            });
+        
+        svg.call(zoom);
+        
+        function zoomIn() {
+            svg.transition().call(zoom.scaleBy, 1.3);
+        }
+        
+        function zoomOut() {
+            svg.transition().call(zoom.scaleBy, 0.7);
+        }
+        
+        function resetZoom() {
+            svg.transition().call(zoom.transform, d3.zoomIdentity);
+        }
+        
+        // Add gentle floating animation
+        function addFloatingAnimation() {
+            node.each(function(d, i) {
+                if (d.type !== 'sub') {
+                    d3.select(this)
+                        .transition()
+                        .duration(3000 + Math.random() * 2000)
+                        .ease(d3.easeSinInOut)
+                        .attr('transform', `translate(${d.x},${d.y + Math.sin(i) * 3})`)
+                        .transition()
+                        .duration(3000 + Math.random() * 2000)
+                        .ease(d3.easeSinInOut)
+                        .attr('transform', `translate(${d.x},${d.y - Math.sin(i) * 3})`)
+                        .on('end', function repeat() {
+                            d3.select(this)
+                                .transition()
+                                .duration(3000 + Math.random() * 2000)
+                                .ease(d3.easeSinInOut)
+                                .attr('transform', `translate(${d.x},${d.y + Math.sin(i) * 3})`)
+                                .transition()
+                                .duration(3000 + Math.random() * 2000)
+                                .ease(d3.easeSinInOut)
+                                .attr('transform', `translate(${d.x},${d.y - Math.sin(i) * 3})`)
+                                .on('end', repeat);
+                        });
+                }
+            });
+        }
+        
+        // Start floating after initial layout
+        setTimeout(addFloatingAnimation, 2000);
     </script>
 </body>
 </html>
