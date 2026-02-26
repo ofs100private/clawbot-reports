@@ -6,7 +6,7 @@
   },
   "micha": {
     "name": "Micha Fan",
-    "strategy": "MA-150 Trend Following \u2022 6 Entry Types \u2022 Chart Patterns \u2022 ATR Sizing \u2022 Risk Discipline",
+    "strategy": "MA-150 Trend Following • 6 Entry Types • Chart Patterns • ATR Sizing • Risk Discipline",
     "cash": 549.27,
     "holdings": [
       {
@@ -43,13 +43,87 @@
   },
   "yoni": {
     "name": "Yoni Fan",
-    "strategy": "QuantClaw Signals \u2022 Smart Money Flow \u2022 GEX Regime \u2022 Fama-French Alpha \u2022 Factor Screening",
-    "cash": 1000,
-    "holdings": [],
-    "trades": [],
+    "strategy": "QuantClaw Signals • Smart Money Flow • GEX Regime • Fama-French Alpha • Factor Screening",
+    "cash": 0,
+    "holdings": [
+      {
+        "sym": "NVDA",
+        "units": 1.3522,
+        "avgPrice": 184.89,
+        "currentPrice": 184.89,
+        "pnl": 0
+      },
+      {
+        "sym": "AMD",
+        "units": 1.2274,
+        "avgPrice": 203.68,
+        "currentPrice": 203.68,
+        "pnl": 0
+      },
+      {
+        "sym": "AVGO",
+        "units": 0.7771,
+        "avgPrice": 321.70,
+        "currentPrice": 321.70,
+        "pnl": 0
+      },
+      {
+        "sym": "GOOGL",
+        "units": 0.8134,
+        "avgPrice": 307.38,
+        "currentPrice": 307.38,
+        "pnl": 0
+      }
+    ],
+    "trades": [
+      {
+        "date": "2026-02-27T01:05:00+02:00",
+        "action": "buy",
+        "ticker": "NVDA",
+        "units": 1.3522,
+        "price": 184.89,
+        "amount": 250,
+        "reason": "SM Score 100 (accumulating) with positive GEX regime (0.46 total), indicating strong institutional accumulation and dealer support.",
+        "pnl": 0
+      },
+      {
+        "date": "2026-02-27T01:05:00+02:00",
+        "action": "buy",
+        "ticker": "AMD",
+        "units": 1.2274,
+        "price": 203.68,
+        "amount": 250,
+        "reason": "SM Score 100 (accumulating) with positive GEX regime (0.15 total), signaling institutional buying and market stabilization.",
+        "pnl": 0
+      },
+      {
+        "date": "2026-02-27T01:05:00+02:00",
+        "action": "buy",
+        "ticker": "AVGO",
+        "units": 0.7771,
+        "price": 321.70,
+        "amount": 250,
+        "reason": "SM Score 100 (accumulating) with positive GEX regime (0.17 total), showing accumulation and positive dealer impact.",
+        "pnl": 0
+      },
+      {
+        "date": "2026-02-27T01:05:00+02:00",
+        "action": "buy",
+        "ticker": "GOOGL",
+        "units": 0.8134,
+        "price": 307.38,
+        "amount": 250,
+        "reason": "SM Score 100 (accumulating) with positive GEX regime (0.12 total), indicating bullish smart money flow and support.",
+        "pnl": 0
+      }
+    ],
     "pnlHistory": [
       {
         "date": "2026-02-26",
+        "pnl": 0
+      },
+      {
+        "date": "2026-02-27",
         "pnl": 0
       }
     ],
@@ -59,29 +133,50 @@
     {
       "time": "2026-02-26T22:10:00",
       "agent": "system",
-      "msg": "\ud83c\udfc6 Competition started \u2014 each trader gets $1,000 cash to trade freely. May the best strategy win!"
+      "msg": "🏆 Competition started — each trader gets $1,000 cash to trade freely. May the best strategy win!"
     },
     {
       "time": "2026-02-27T01:04:00+02:00",
       "agent": "micha",
       "msg": "Bought 2.4378 shares of NVDA at 184.89 for $450.73. Reason: Trend continuation above MA-150."
+    },
+    {
+      "time": "2026-02-27T01:05:00+02:00",
+      "agent": "yoni",
+      "msg": "Bought 1.3522 shares of NVDA at 184.89 for 250. Reason: SM Score 100 (accumulating) with positive GEX regime (0.46 total), indicating strong institutional accumulation and dealer support."
+    },
+    {
+      "time": "2026-02-27T01:05:00+02:00",
+      "agent": "yoni",
+      "msg": "Bought 1.2274 shares of AMD at 203.68 for 250. Reason: SM Score 100 (accumulating) with positive GEX regime (0.15 total), signaling institutional buying and market stabilization."
+    },
+    {
+      "time": "2026-02-27T01:05:00+02:00",
+      "agent": "yoni",
+      "msg": "Bought 0.7771 shares of AVGO at 321.70 for 250. Reason: SM Score 100 (accumulating) with positive GEX regime (0.17 total), showing accumulation and positive dealer impact."
+    },
+    {
+      "time": "2026-02-27T01:05:00+02:00",
+      "agent": "yoni",
+      "msg": "Bought 0.8134 shares of GOOGL at 307.38 for 250. Reason: SM Score 100 (accumulating) with positive GEX regime (0.12 total), indicating bullish smart money flow and support."
     }
   ],
-  "lastUpdate": "2026-02-27T01:04:00+02:00",
+  "lastUpdate": "2026-02-27T01:05:00+02:00",
   "prices": {
-    "NVDA": 184.88999938964844,
-    "QQQ": 609.239990234375,
-    "HOOD": 79.44999694824219,
-    "CVX": 184.16000366210938,
-    "CAT": 752.9299926757812,
-    "CRM": 199.47000122070312,
-    "XLU": 47.18000030517578,
-    "ARKX": 32.400001525878906,
-    "AAPL": 272.95001220703125,
-    "MSFT": 401.7200012207031,
-    "GOOGL": 307.3800048828125,
-    "AMD": 203.67999267578125,
-    "AVGO": 321.70001220703125,
-    "TSM": 376.80999755859375
+    "NVDA": 184.89,
+    "QQQ": 609.24,
+    "HOOD": 79.45,
+    "CVX": 184.16,
+    "CAT": 752.93,
+    "CRM": 199.47,
+    "XLU": 47.18,
+    "ARKX": 32.40,
+    "AAPL": 272.95,
+    "MSFT": 401.72,
+    "GOOGL": 307.38,
+    "AMD": 203.68,
+    "AVGO": 321.70,
+    "TSM": 376.81,
+    "PLTR": 135.94
   }
 }
