@@ -6,310 +6,204 @@
 <title>Ben's Brain Map</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#0a0e27;overflow:hidden;font-family:'Segoe UI',sans-serif;color:#fff}
-#app{width:100vw;height:100vh;position:relative}
-.legend{position:fixed;top:15px;left:15px;z-index:10;background:rgba(10,14,39,0.9);border:1px solid #00ffff55;border-radius:10px;padding:14px 18px;font-size:13px;backdrop-filter:blur(8px)}
+body{background:#0a0e27;font-family:'Segoe UI',Tahoma,sans-serif;color:#fff;overflow:hidden;width:100vw;height:100vh}
+#world{position:absolute;top:0;left:0;width:100%;height:100%;transform-origin:0 0}
+.node{position:absolute;text-align:center;cursor:pointer;transition:transform 0.2s;user-select:none}
+.node:hover{transform:scale(1.15)!important;z-index:100}
+.node-circle{border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto;border:2px solid;transition:all 0.2s}
+.node:hover .node-circle{border-width:3px;box-shadow:0 0 20px currentColor}
+.node-label{font-size:11px;font-weight:bold;margin-top:4px;white-space:nowrap;text-shadow:0 1px 4px rgba(0,0,0,0.8)}
+.node-icon{font-size:22px;line-height:1}
+.sub .node-circle{width:18px;height:18px;border-width:1px}
+.sub .node-label{font-size:8px;font-weight:normal;opacity:0.6}
+.sub .node-icon{font-size:8px}
+.link{position:absolute;height:1px;transform-origin:0 0;pointer-events:none}
+.legend{position:fixed;top:15px;left:15px;z-index:50;background:rgba(10,14,39,0.92);border:1px solid #00ffff55;border-radius:12px;padding:14px 18px;font-size:13px;backdrop-filter:blur(8px)}
 .legend h3{color:#00ffff;margin-bottom:8px;font-size:15px}
 .legend-item{display:flex;align-items:center;gap:8px;margin:4px 0}
-.legend-dot{width:12px;height:12px;border-radius:50%;display:inline-block;border:1px solid rgba(255,255,255,0.3)}
-.controls{position:fixed;bottom:20px;right:20px;z-index:10;display:flex;flex-direction:column;gap:8px}
-.controls button{width:40px;height:40px;border-radius:50%;border:1px solid #00ffff;background:rgba(10,14,39,0.85);color:#00ffff;font-size:20px;cursor:pointer;transition:all 0.2s}
+.legend-dot{width:12px;height:12px;border-radius:50%;display:inline-block;border:1px solid rgba(255,255,255,0.2)}
+.controls{position:fixed;bottom:20px;right:20px;z-index:50;display:flex;flex-direction:column;gap:8px}
+.controls button{width:42px;height:42px;border-radius:50%;border:1.5px solid #00ffff;background:rgba(10,14,39,0.85);color:#00ffff;font-size:20px;cursor:pointer;transition:all 0.2s}
 .controls button:hover{background:#00ffff33;transform:scale(1.1)}
-#tooltip{position:fixed;z-index:20;background:rgba(10,14,39,0.95);border:1px solid #00ffff88;border-radius:8px;padding:10px 14px;font-size:12px;pointer-events:none;display:none;max-width:280px;line-height:1.6;backdrop-filter:blur(8px)}
-.stats{position:fixed;bottom:20px;left:15px;z-index:10;font-size:11px;opacity:0.5}
+.tooltip{position:fixed;z-index:100;background:rgba(10,14,39,0.96);border:1px solid #00ffff88;border-radius:8px;padding:12px 16px;font-size:12px;pointer-events:none;display:none;max-width:280px;line-height:1.7;backdrop-filter:blur(8px)}
+.stats{position:fixed;bottom:20px;left:15px;z-index:50;font-size:11px;opacity:0.4}
+canvas{position:fixed;top:0;left:0;z-index:0}
 </style>
 </head>
 <body>
-<div id="app">
 <canvas id="stars"></canvas>
-<svg id="graph" xmlns="http://www.w3.org/2000/svg"></svg>
-</div>
 
 <div class="legend">
   <h3>🧠 Ben's Brain Map</h3>
   <div class="legend-item"><span class="legend-dot" style="background:#00ffff"></span> Core Skills</div>
   <div class="legend-item"><span class="legend-dot" style="background:#ff6b6b"></span> Infrastructure</div>
-  <div class="legend-item"><span class="legend-dot" style="background:rgba(255,255,255,0.4)"></span> Sub-skills</div>
-  <div style="margin-top:8px;font-size:11px;opacity:0.5">🖱 Click to expand • Drag to move • Scroll to zoom</div>
+  <div class="legend-item"><span class="legend-dot" style="background:rgba(255,255,255,0.35)"></span> Sub-skills</div>
+  <div style="margin-top:8px;font-size:11px;opacity:0.45">🖱 Drag to pan • Scroll to zoom</div>
 </div>
 
 <div class="controls">
-  <button onclick="zoomBy(1.3)" title="Zoom in">+</button>
-  <button onclick="zoomBy(0.7)" title="Zoom out">−</button>
-  <button onclick="resetView()" title="Reset">↻</button>
+  <button onclick="zoom(1.3)">+</button>
+  <button onclick="zoom(0.7)">−</button>
+  <button onclick="resetView()">↻</button>
 </div>
 
-<div id="tooltip"></div>
-<div class="stats">Ben v9.3 • 432 files • 13,716 lines • Updated Feb 2026</div>
+<div class="tooltip" id="tip"></div>
+<div class="stats">Ben v9.3 · 432 files · 13,716 lines · Feb 2026</div>
+
+<div id="world"></div>
 
 <script>
 // Stars
-const canvas = document.getElementById('stars');
-const ctx = canvas.getContext('2d');
-function resizeCanvas(){ canvas.width=innerWidth; canvas.height=innerHeight; }
-resizeCanvas();
-addEventListener('resize', resizeCanvas);
-const stars=Array.from({length:180},()=>({x:Math.random()*2000,y:Math.random()*2000,r:Math.random()*1.2+0.3,a:Math.random(),s:Math.random()*0.015+0.003}));
-(function drawStars(){ctx.clearRect(0,0,canvas.width,canvas.height);stars.forEach(s=>{s.a+=s.s;if(s.a>1||s.a<0.15)s.s=-s.s;ctx.beginPath();ctx.arc(s.x%canvas.width,s.y%canvas.height,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(255,255,255,${s.a})`;ctx.fill()});requestAnimationFrame(drawStars)})();
+const c=document.getElementById('stars'),x=c.getContext('2d');
+function rs(){c.width=innerWidth;c.height=innerHeight}rs();addEventListener('resize',rs);
+const S=Array.from({length:160},()=>({x:Math.random()*3000,y:Math.random()*2000,r:Math.random()*1.3+0.2,a:Math.random(),d:Math.random()*0.012+0.003}));
+!function f(){x.clearRect(0,0,c.width,c.height);S.forEach(s=>{s.a+=s.d;if(s.a>1||s.a<0.1)s.d=-s.d;x.beginPath();x.arc(s.x%c.width,s.y%c.height,s.r,0,6.28);x.fillStyle=`rgba(255,255,255,${s.a})`;x.fill()});requestAnimationFrame(f)}();
 
-// Data
-const skills = [
-  {id:'investing',label:'Investing',icon:'💰',color:'#ffee58',tip:'Master Micha methodology\nRisk management • 3-tier allocation\n10x DNA framework\n81-stock universe',
-   subs:['Micha Method','Risk Mgmt','3-Tier Alloc','10x DNA','81 Stocks','Portfolio']},
-  {id:'technical',label:'Technical Analysis',icon:'📊',color:'#4dd0e1',tip:'MA150 system • 12 chart patterns\nATR position sizing\nFibonacci zones\nDarvas Box method',
-   subs:['MA150 System','Chart Patterns','Darvas Box','ATR Sizing','Fibonacci','Elliott Wave']},
-  {id:'quantclaw',label:'QuantClaw',icon:'🔬',color:'#42a5f5',tip:'699 modules • 112 data sources\nFama-French alpha • GEX regime\nSmart money flow • Screener\n$0/month Bloomberg alternative',
-   subs:['Fama-French','GEX','Smart Money','Screener','News','Pin Risk']},
-  {id:'signal',label:'Buy/Sell Signal',icon:'📈',color:'#66bb6a',tip:'Triple confirmation engine\nTechnical + Quant + Fundamental\nConfidence scoring system',
-   subs:['Triple Confirm','Entry Scanner','Stop Loss','Grok Research']},
-  {id:'sentiment',label:'Market Sentiment',icon:'🧠',color:'#ab47bc',tip:'10-source composite score\nFear & Greed • VIX\nPut/Call ratio • Capitulation signals',
-   subs:['VIX','Fear & Greed','Put/Call','Capitulation','Sector Rotation','NVDA Barometer']},
-  {id:'etoro',label:'eToro API',icon:'💹',color:'#26a69a',tip:'53 endpoints • Live portfolio\n15 positions • $36,379 invested\n+6.4% return\nReal-time market data',
-   subs:['Portfolio','Watchlists','Trading','Market Data','WebSocket']},
-  {id:'sectors',label:'8 Sectors',icon:'🔭',color:'#7e57c2',tip:'Nuclear/Space • BioPharma\nQuantum • Crypto • Options\nUnder $1B • Israel TASE • Earnings',
-   subs:['Nuclear/Space','BioPharma','Quantum','Crypto','Options','Under $1B']},
-  {id:'security',label:'Security Gate',icon:'🔒',color:'#ff6b6b',tip:'Prompt injection defense\nCode scanning • Credential guard\nSocial engineering protection',
-   subs:['Prompt Injection','Code Scanning','Credential Guard','Social Engineering']},
-  {id:'social',label:'Social Media',icon:'📱',color:'#ec407a',tip:'LinkedIn API connected\nContent strategy & scheduling\nDraft + approval workflow',
-   subs:['LinkedIn','Content Strategy','Scheduling']},
-  {id:'analyst',label:'Analyst Data',icon:'🎯',color:'#ffa726',tip:'Rating aggregation\nPrice target analysis\nSmart money overlay\nEarnings revisions',
-   subs:['Consensus Rating','Price Targets','Upside Calc','Earnings Rev']},
-  {id:'patterns',label:'Chart Patterns',icon:'📉',color:'#26c6da',tip:'12 patterns with entry rules\nEntry • Stop • Target levels\nVolume confirmation required',
-   subs:['Cup & Handle','Head & Shoulders','Bull Flag','Triangles','Wedges','Double Bottom']},
-  {id:'healthcare',label:'Healthcare',icon:'🏥',color:'#ef5350',tip:'GLP-1/Obesity pipeline\nImmunotherapy • Gene therapy\nAI drug discovery\n3x peak sales valuation',
-   subs:['GLP-1','Immunotherapy','Gene Therapy','AI Discovery']},
+// Layout
+const W=innerWidth, H=innerHeight, CX=W/2, CY=H/2;
+
+const skills=[
+{id:'investing',label:'Investing',icon:'💰',color:'#ffee58',tip:'Master Micha methodology\nRisk management · 3-tier allocation\n10x DNA framework · 81-stock universe',subs:['Micha Method','Risk Mgmt','3-Tier','10x DNA','81 Stocks','Portfolio']},
+{id:'technical',label:'Technical Analysis',icon:'📊',color:'#4dd0e1',tip:'MA150 system · 12 chart patterns\nATR sizing · Fibonacci · Darvas Box',subs:['MA150','Chart Patterns','Darvas Box','ATR Sizing','Fibonacci','Elliott Wave']},
+{id:'quantclaw',label:'QuantClaw',icon:'🔬',color:'#42a5f5',tip:'699 modules · 112 data sources\nFama-French · GEX · Smart Money\n$0/month Bloomberg alternative',subs:['Fama-French','GEX','Smart Money','Screener','News','Pin Risk']},
+{id:'signal',label:'Buy/Sell Signal',icon:'📈',color:'#66bb6a',tip:'Triple confirmation engine\nTechnical + Quant + Fundamental',subs:['Triple Confirm','Entry Scanner','Stop Loss','Grok']},
+{id:'sentiment',label:'Market Sentiment',icon:'🧠',color:'#ab47bc',tip:'10-source composite · Fear & Greed\nVIX · Put/Call · Capitulation signals',subs:['VIX','Fear & Greed','Put/Call','Capitulation','Rotation','NVDA']},
+{id:'etoro',label:'eToro API',icon:'💹',color:'#26a69a',tip:'53 endpoints · 15 positions live\n$36,379 invested · +6.4% return',subs:['Portfolio','Watchlists','Trading','Market Data','WebSocket']},
+{id:'sectors',label:'8 Sectors',icon:'🔭',color:'#7e57c2',tip:'Nuclear/Space · BioPharma · Quantum\nCrypto · Options · Under $1B',subs:['Nuclear/Space','BioPharma','Quantum','Crypto','Options','Under $1B']},
+{id:'security',label:'Security',icon:'🔒',color:'#ff6b6b',tip:'Prompt injection defense\nCode scanning · Credential guard',subs:['Prompt Inject','Code Scan','Credentials','Social Eng']},
+{id:'social',label:'Social Media',icon:'📱',color:'#ec407a',tip:'LinkedIn API · Content strategy\nDraft + approval workflow',subs:['LinkedIn','Content','Scheduling']},
+{id:'analyst',label:'Analyst Data',icon:'🎯',color:'#ffa726',tip:'Rating aggregation · Price targets\nSmart money · Earnings revisions',subs:['Consensus','Price Targets','Upside','Earnings']},
+{id:'patterns',label:'Chart Patterns',icon:'📉',color:'#26c6da',tip:'12 patterns · Entry/Stop/Target\nVolume confirmation required',subs:['Cup&Handle','H&S','Bull Flag','Triangles','Wedges','Dbl Bottom']},
+{id:'healthcare',label:'Healthcare',icon:'🏥',color:'#ef5350',tip:'GLP-1/Obesity · Immunotherapy\nGene therapy · AI drug discovery',subs:['GLP-1','Immuno','Gene Therapy','AI Disc']},
 ];
 
-const infra = [
-  {id:'gateway',label:'OpenClaw Gateway',icon:'🌐',color:'#42a5f5',tip:'Version 2026.2.24\nPort 41920 • WSL2\nSystemd managed'},
-  {id:'channels',label:'Telegram',icon:'💬',color:'#ab47bc',tip:'DM (Ben → Ofer)\nGroup: Ofs100claw_friends\n7 members • Grok routed'},
-  {id:'agents',label:'4 Agents',icon:'🤖',color:'#ff7043',tip:'Ben (Opus) — Primary\nOfsInvest (Grok) — Investing\nArchitect (Grok) — Research\nBudget (Sonnet) — Finance'},
-  {id:'cron',label:'Cron System',icon:'⏰',color:'#ef5350',tip:'9 active jobs\nGit push every 6h\nDaily report 09:00\nLinkedIn draft 10:30'},
-  {id:'models',label:'3 Models',icon:'🧪',color:'#ffa726',tip:'Opus 4.6 (main)\nGrok 4 (free research)\nSonnet 4.5 (sub-agents)'},
-  {id:'apps',label:'Integrations',icon:'🔌',color:'#66bb6a',tip:'eToro API • QuantClaw\nLinkedIn • Gmail\nGitHub • Memclawz'},
-  {id:'memory',label:'Memory System',icon:'💾',color:'#78909c',tip:'QMD working memory\nMemclawz hnswlib\nDaily notes + MEMORY.md\nGit versioned (v101+)'},
-  {id:'github',label:'GitHub',icon:'📦',color:'#e0e0e0',tip:'clawbot_ofs100 (private)\nclawbot-reports (pages)\nAuto-push every 6h\nVersioned commits'},
+const infra=[
+{id:'gateway',label:'Gateway',icon:'🌐',color:'#42a5f5',tip:'OpenClaw v2026.2.24\nPort 41920 · WSL2'},
+{id:'channels',label:'Telegram',icon:'💬',color:'#ab47bc',tip:'DM + Group (7 members)\nGrok routed for groups'},
+{id:'agents',label:'4 Agents',icon:'🤖',color:'#ff7043',tip:'Ben (Opus) · OfsInvest (Grok)\nArchitect (Grok) · Budget (Sonnet)'},
+{id:'cron',label:'Cron',icon:'⏰',color:'#ef5350',tip:'9 jobs · Git push 6h\nDaily report · News briefing'},
+{id:'models',label:'3 Models',icon:'🧪',color:'#ffa726',tip:'Opus 4.6 · Grok 4 (free)\nSonnet 4.5 (sub-agents)'},
+{id:'apps',label:'Integrations',icon:'🔌',color:'#66bb6a',tip:'eToro · QuantClaw · LinkedIn\nGmail · GitHub · Memclawz'},
+{id:'memory',label:'Memory',icon:'💾',color:'#78909c',tip:'QMD · Memclawz hnswlib\nDaily notes · MEMORY.md'},
+{id:'github',label:'GitHub',icon:'📦',color:'#e0e0e0',tip:'clawbot_ofs100 (private)\nclawbot-reports (pages)'},
 ];
 
-// Layout: use viewBox-based coordinates (1000x1000 centered at 500,500)
-const VW = 1000, VH = 1000, CX = VW/2, CY = VH/2;
+const world=document.getElementById('world');
+const tip=document.getElementById('tip');
+const allNodes=[];
 
-const nodes = [];
-const links = [];
+function makeNode(px,py,size,icon,label,color,tipText,type,parentEl){
+  const el=document.createElement('div');
+  el.className='node'+(type==='sub'?' sub':'');
+  el.style.left=(px-size/2)+'px';
+  el.style.top=(py-size/2)+'px';
+  el.style.width=size+'px';
+  el.style.zIndex=type==='sub'?'1':type==='center'?'5':'3';
+  
+  const circle=document.createElement('div');
+  circle.className='node-circle';
+  circle.style.width=size+'px';
+  circle.style.height=size+'px';
+  circle.style.borderColor=color;
+  circle.style.color=color;
+  circle.style.background=color+(type==='sub'?'22':'1a');
+  circle.style.boxShadow=type==='sub'?'none':`0 0 ${size/3}px ${color}44`;
+  
+  const ic=document.createElement('div');
+  ic.className='node-icon';
+  ic.style.fontSize=(type==='center'?size*0.45:type==='sub'?'7px':size*0.4)+'px';
+  ic.textContent=icon;
+  circle.appendChild(ic);
+  el.appendChild(circle);
+  
+  const lbl=document.createElement('div');
+  lbl.className='node-label';
+  lbl.textContent=label;
+  el.appendChild(lbl);
+  
+  el.addEventListener('mouseenter',e=>{
+    tip.style.display='block';
+    tip.innerHTML='<b>'+icon+' '+label+'</b><br>'+tipText.replace(/\n/g,'<br>');
+  });
+  el.addEventListener('mousemove',e=>{
+    tip.style.left=(e.clientX+15)+'px';tip.style.top=(e.clientY+15)+'px';
+  });
+  el.addEventListener('mouseleave',()=>{tip.style.display='none'});
+  
+  (parentEl||world).appendChild(el);
+  allNodes.push({el,x:px,y:py});
+  return {el,x:px,y:py};
+}
 
-// Center node
-nodes.push({x:CX, y:CY, r:38, label:'Ben\'s Brain', icon:'🧠', color:'#00ffff',
-  tip:'Score: 9.3/10\n432 files • 13,716 lines\n12 skills • 8 sectors\n4 agents • 9 cron jobs', id:'center', type:'center'});
+function drawLine(x1,y1,x2,y2,color,width){
+  const dx=x2-x1,dy=y2-y1;
+  const len=Math.sqrt(dx*dx+dy*dy);
+  const ang=Math.atan2(dy,dx)*180/Math.PI;
+  const line=document.createElement('div');
+  line.className='link';
+  line.style.left=x1+'px';line.style.top=y1+'px';
+  line.style.width=len+'px';
+  line.style.height=(width||1.5)+'px';
+  line.style.background=color||'rgba(0,255,255,0.2)';
+  line.style.transform=`rotate(${ang}deg)`;
+  world.appendChild(line);
+}
+
+// Center
+const centerSize=80;
+makeNode(CX,CY,centerSize,'🧠','Ben\'s Brain','#00ffff','Score: 9.3/10\n432 files · 13,716 lines\n12 skills · 8 sectors · 4 agents','center');
 
 // Skills ring
-const skillR = 200;
-skills.forEach((s,i) => {
-  const a = (i/skills.length)*Math.PI*2 - Math.PI/2;
-  const x = CX + Math.cos(a)*skillR;
-  const y = CY + Math.sin(a)*skillR;
-  nodes.push({x, y, r:20, label:s.label, icon:s.icon, color:s.color, tip:s.tip, id:s.id, type:'skill'});
-  links.push({src:'center', dst:s.id});
-
-  // Sub-nodes
-  const subR = 50 + s.subs.length*4;
-  s.subs.forEach((sub,j) => {
-    const sa = a + ((j - (s.subs.length-1)/2) * 0.35);
-    const sx = x + Math.cos(sa)*subR;
-    const sy = y + Math.sin(sa)*subR;
-    const subId = s.id+'-sub-'+j;
-    nodes.push({x:sx, y:sy, r:5, label:sub, icon:'', color:s.color, tip:sub, id:subId, type:'sub'});
-    links.push({src:s.id, dst:subId});
+const skillR=Math.min(W,H)*0.27;
+skills.forEach((s,i)=>{
+  const a=(i/skills.length)*Math.PI*2 - Math.PI/2;
+  const px=CX+Math.cos(a)*skillR;
+  const py=CY+Math.sin(a)*skillR;
+  makeNode(px,py,50,s.icon,s.label,s.color,s.tip,'skill');
+  drawLine(CX,CY,px,py,s.color+'33',1.5);
+  
+  // Subs
+  const subR=65+s.subs.length*6;
+  s.subs.forEach((sub,j)=>{
+    const sa=a+((j-(s.subs.length-1)/2)*0.3);
+    const sx=px+Math.cos(sa)*subR;
+    const sy=py+Math.sin(sa)*subR;
+    makeNode(sx,sy,20,'·',sub,s.color,sub,'sub');
+    drawLine(px,py,sx,sy,s.color+'18',0.7);
   });
 });
 
-// Infrastructure ring
-const infraR = 420;
-infra.forEach((inf,i) => {
-  const a = (i/infra.length)*Math.PI*2 + Math.PI/8;
-  const x = CX + Math.cos(a)*infraR;
-  const y = CY + Math.sin(a)*infraR;
-  nodes.push({x, y, r:26, label:inf.label, icon:inf.icon, color:inf.color, tip:inf.tip, id:inf.id, type:'infra'});
+// Infra ring
+const infraR=Math.min(W,H)*0.44;
+infra.forEach((inf,i)=>{
+  const a=(i/infra.length)*Math.PI*2+Math.PI/8;
+  const px=CX+Math.cos(a)*infraR;
+  const py=CY+Math.sin(a)*infraR;
+  makeNode(px,py,58,inf.icon,inf.label,inf.color,inf.tip,'infra');
 });
 
-// Build lookup
-const nodeMap = {};
-nodes.forEach(n => nodeMap[n.id] = n);
-
-// SVG Setup
-const svg = document.getElementById('graph');
-svg.style.position='fixed';svg.style.top='0';svg.style.left='0';svg.style.width='100vw';svg.style.height='100vh';
-svg.setAttribute('viewBox', '0 0 1000 1000');
-svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
-
-const NS = 'http://www.w3.org/2000/svg';
-const defs = document.createElementNS(NS,'defs');
-
-// Glow filter
-const glow = document.createElementNS(NS,'filter');
-glow.id='glow'; glow.setAttribute('x','-50%'); glow.setAttribute('y','-50%');
-glow.setAttribute('width','200%'); glow.setAttribute('height','200%');
-const blur = document.createElementNS(NS,'feGaussianBlur');
-blur.setAttribute('stdDeviation','3'); blur.setAttribute('result','b');
-const merge = document.createElementNS(NS,'feMerge');
-const m1 = document.createElementNS(NS,'feMergeNode'); m1.setAttribute('in','b');
-const m2 = document.createElementNS(NS,'feMergeNode'); m2.setAttribute('in','SourceGraphic');
-merge.appendChild(m1); merge.appendChild(m2);
-glow.appendChild(blur); glow.appendChild(merge);
-defs.appendChild(glow);
-svg.appendChild(defs);
-
-const mainG = document.createElementNS(NS,'g');
-mainG.id='world';
-svg.appendChild(mainG);
-
-// Draw links
-links.forEach(l => {
-  const s = nodeMap[l.src], d = nodeMap[l.dst];
-  if(!s||!d) return;
-  const line = document.createElementNS(NS,'line');
-  line.setAttribute('x1',s.x); line.setAttribute('y1',s.y);
-  line.setAttribute('x2',d.x); line.setAttribute('y2',d.y);
-  const isSub = d.type==='sub';
-  line.setAttribute('stroke', isSub ? 'rgba(255,255,255,0.1)' : d.color ? d.color+'55' : '#00ffff44');
-  line.setAttribute('stroke-width', isSub ? '0.5' : '1.2');
-  line.setAttribute('stroke-dasharray', isSub ? '2,2' : 'none');
-  line._src = l.src; line._dst = l.dst;
-  mainG.appendChild(line);
-});
-
-const lineEls = mainG.querySelectorAll('line');
-const tooltip = document.getElementById('tooltip');
-const nodeEls = [];
-
-// Draw nodes
-nodes.forEach(n => {
-  const g = document.createElementNS(NS,'g');
-  g.setAttribute('transform',`translate(${n.x},${n.y})`);
-  g.style.cursor='pointer';
-
-  if(n.type!=='sub'){
-    const glowC = document.createElementNS(NS,'circle');
-    glowC.setAttribute('r', n.r+5);
-    glowC.setAttribute('fill', n.color+'18');
-    glowC.setAttribute('filter','url(#glow)');
-    g.appendChild(glowC);
-  }
-
-  const c = document.createElementNS(NS,'circle');
-  c.setAttribute('r', n.r);
-  c.setAttribute('fill', n.type==='sub' ? n.color+'33' : n.color+'22');
-  c.setAttribute('stroke', n.color);
-  c.setAttribute('stroke-width', n.type==='sub' ? '0.5' : n.type==='center' ? '2.5' : '1.5');
-  g.appendChild(c);
-
-  if(n.icon){
-    const t = document.createElementNS(NS,'text');
-    t.setAttribute('text-anchor','middle');
-    t.setAttribute('dominant-baseline','central');
-    t.setAttribute('font-size', n.type==='center' ? '24' : n.type==='infra' ? '16' : '13');
-    t.textContent = n.icon;
-    g.appendChild(t);
-  }
-
-  const label = document.createElementNS(NS,'text');
-  label.setAttribute('text-anchor','middle');
-  label.setAttribute('y', n.r + (n.type==='sub' ? 10 : 14));
-  label.setAttribute('fill','#fff');
-  label.setAttribute('font-size', n.type==='sub' ? '5' : n.type==='center' ? '9' : '7');
-  label.setAttribute('font-weight', n.type==='sub' ? 'normal' : 'bold');
-  label.setAttribute('opacity', n.type==='sub' ? '0.6' : '0.9');
-  label.textContent = n.label;
-  g.appendChild(label);
-
-  // Pulse animation for center
-  if(n.type==='center'){
-    const pulse = document.createElementNS(NS,'circle');
-    pulse.setAttribute('r', n.r);
-    pulse.setAttribute('fill','none');
-    pulse.setAttribute('stroke', n.color);
-    pulse.setAttribute('stroke-width','1');
-    const anim = document.createElementNS(NS,'animate');
-    anim.setAttribute('attributeName','r'); anim.setAttribute('from',String(n.r));
-    anim.setAttribute('to',String(n.r+20)); anim.setAttribute('dur','3s');
-    anim.setAttribute('repeatCount','indefinite');
-    const animO = document.createElementNS(NS,'animate');
-    animO.setAttribute('attributeName','opacity'); animO.setAttribute('from','0.6');
-    animO.setAttribute('to','0'); animO.setAttribute('dur','3s');
-    animO.setAttribute('repeatCount','indefinite');
-    pulse.appendChild(anim); pulse.appendChild(animO);
-    g.appendChild(pulse);
-  }
-
-  g.addEventListener('mouseenter', e => {
-    tooltip.style.display='block';
-    tooltip.innerHTML = (n.icon?'<b>'+n.icon+' '+n.label+'</b>':'<b>'+n.label+'</b>')+'<br>'+n.tip.replace(/\n/g,'<br>');
-    c.setAttribute('stroke-width', n.type==='sub'?'1.5':'3');
-    c.setAttribute('fill', n.type==='sub' ? n.color+'55' : n.color+'44');
-  });
-  g.addEventListener('mousemove', e => {
-    tooltip.style.left=(e.clientX+15)+'px';
-    tooltip.style.top=(e.clientY+15)+'px';
-  });
-  g.addEventListener('mouseleave', () => {
-    tooltip.style.display='none';
-    c.setAttribute('stroke-width', n.type==='sub'?'0.5':n.type==='center'?'2.5':'1.5');
-    c.setAttribute('fill', n.type==='sub' ? n.color+'33' : n.color+'22');
-  });
-
-  g._node = n;
-  nodeEls.push(g);
-  mainG.appendChild(g);
-});
-
-// Pan & Zoom via viewBox
-let vx=0, vy=0, vw=1000, vh=1000;
-function setVB(){ svg.setAttribute('viewBox',`${vx} ${vy} ${vw} ${vh}`); }
-
-svg.addEventListener('wheel', e => {
+// Pan & zoom
+let scale=1, tx=0, ty=0;
+function apply(){world.style.transform=`translate(${tx}px,${ty}px) scale(${scale})`}
+let panning=false,ps;
+world.addEventListener('mousedown',e=>{panning=true;ps={x:e.clientX-tx,y:e.clientY-ty};e.preventDefault()});
+addEventListener('mousemove',e=>{if(panning){tx=e.clientX-ps.x;ty=e.clientY-ps.y;apply()}});
+addEventListener('mouseup',()=>{panning=false});
+addEventListener('wheel',e=>{
   e.preventDefault();
-  const f = e.deltaY > 0 ? 1.08 : 0.92;
-  const rect = svg.getBoundingClientRect();
-  const mx = (e.clientX - rect.left)/rect.width;
-  const my = (e.clientY - rect.top)/rect.height;
-  const nvw = vw*f, nvh = vh*f;
-  vx += (vw-nvw)*mx;
-  vy += (vh-nvh)*my;
-  vw = Math.max(200, Math.min(3000, nvw));
-  vh = Math.max(200, Math.min(3000, nvh));
-  setVB();
-});
+  const f=e.deltaY>0?0.92:1.08;
+  const rect=world.getBoundingClientRect();
+  const ox=(e.clientX-rect.left)/scale;
+  const oy=(e.clientY-rect.top)/scale;
+  const ns=Math.max(0.3,Math.min(4,scale*f));
+  tx+= ox*(scale-ns); ty+= oy*(scale-ns);
+  scale=ns; apply();
+},{passive:false});
 
-let panning=false, panStart;
-svg.addEventListener('mousedown', e => { panning=true; panStart={x:e.clientX,y:e.clientY,vx,vy}; });
-svg.addEventListener('mousemove', e => {
-  if(!panning) return;
-  const rect = svg.getBoundingClientRect();
-  const sx = vw/rect.width, sy = vh/rect.height;
-  vx = panStart.vx - (e.clientX-panStart.x)*sx;
-  vy = panStart.vy - (e.clientY-panStart.y)*sy;
-  setVB();
-});
-svg.addEventListener('mouseup', ()=>{ panning=false; });
-svg.addEventListener('mouseleave', ()=>{ panning=false; });
+function zoom(f){scale=Math.max(0.3,Math.min(4,scale*f));apply()}
+function resetView(){scale=1;tx=0;ty=0;apply()}
 
-function zoomBy(f){ const cx=vx+vw/2, cy=vy+vh/2; vw/=f; vh/=f; vx=cx-vw/2; vy=cy-vh/2; vw=Math.max(200,Math.min(3000,vw)); vh=Math.max(200,Math.min(3000,vh)); setVB(); }
-function resetView(){ vx=0; vy=0; vw=1000; vh=1000; setVB(); }
-
-// Gentle float
-let t=0;
-(function float(){
-  t+=0.008;
-  nodeEls.forEach((el,i)=>{
-    const n=el._node;
-    if(n.type==='center') return;
-    const ox = Math.sin(t+i*0.7)*1.2;
-    const oy = Math.cos(t+i*0.5)*1.2;
-    el.setAttribute('transform',`translate(${n.x+ox},${n.y+oy})`);
-  });
-  requestAnimationFrame(float);
-})();
-
-console.log('Brain map loaded:', nodes.length, 'nodes,', links.length, 'links');
+console.log('Brain map v4: '+allNodes.length+' nodes rendered');
 </script>
 </body>
 </html>
