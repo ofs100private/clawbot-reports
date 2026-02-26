@@ -4,25 +4,9 @@
     "end": "2026-03-08T22:00:00+02:00",
     "startCapital": 1000
   },
-  "portfolio": [
-    {"sym":"QQQ","name":"Invesco QQQ Trust","amt":5000,"open":609.02,"lev":1,"units":8.21},
-    {"sym":"NVDA","name":"NVIDIA Corp","amt":3508,"open":167.96,"lev":1,"units":20.88},
-    {"sym":"SPX500","name":"S&P 500 Index","amt":4000,"open":6759.63,"lev":1,"units":0.592},
-    {"sym":"BTC","name":"Bitcoin","amt":5292,"open":69198,"lev":1,"units":0.076},
-    {"sym":"XLC","name":"Communication Services","amt":5000,"open":84.72,"lev":2,"units":118.04},
-    {"sym":"CAT","name":"Caterpillar Inc","amt":2723,"open":733.10,"lev":1,"units":3.71},
-    {"sym":"XLU","name":"Utilities Select Sector","amt":2340,"open":75.87,"lev":1,"units":30.84},
-    {"sym":"COPX","name":"Global X Copper Miners","amt":2026,"open":33.62,"lev":1,"units":60.27},
-    {"sym":"CVX","name":"Chevron Corp","amt":1860,"open":185.05,"lev":1,"units":10.05},
-    {"sym":"CRM","name":"Salesforce Inc","amt":1608,"open":186.57,"lev":2,"units":17.23},
-    {"sym":"HOOD","name":"Robinhood Markets","amt":1000,"open":120.12,"lev":2,"units":16.65},
-    {"sym":"ARKX","name":"ARK Space Exploration","amt":927,"open":43.34,"lev":2,"units":42.78},
-    {"sym":"SOL","name":"Solana","amt":831,"open":84.80,"lev":1,"units":9.80},
-    {"sym":"UUUU","name":"Energy Fuels Inc","amt":264,"open":20.98,"lev":2,"units":25.19}
-  ],
   "micha": {
     "name": "Micha Fan",
-    "strategy": "MA-150 Trend Following • 6 Entry Types • Chart Patterns • ATR Sizing • Risk Discipline",
+    "strategy": "MA-150 Trend Following \u2022 6 Entry Types \u2022 Chart Patterns \u2022 ATR Sizing \u2022 Risk Discipline",
     "cash": 549.27,
     "holdings": [
       {
@@ -46,23 +30,42 @@
       }
     ],
     "pnlHistory": [
-      {"date":"2026-02-26","pnl":0},
-      {"date":"2026-02-27","pnl":0}
+      {
+        "date": "2026-02-26",
+        "pnl": 0
+      },
+      {
+        "date": "2026-02-27",
+        "pnl": 0
+      }
     ],
     "totalPnl": 0
   },
   "yoni": {
     "name": "Yoni Fan",
-    "strategy": "QuantClaw Signals • Smart Money Flow • GEX Regime • Fama-French Alpha • Factor Screening",
+    "strategy": "QuantClaw Signals \u2022 Smart Money Flow \u2022 GEX Regime \u2022 Fama-French Alpha \u2022 Factor Screening",
     "cash": 1000,
     "holdings": [],
     "trades": [],
-    "pnlHistory": [{"date":"2026-02-26","pnl":0}],
+    "pnlHistory": [
+      {
+        "date": "2026-02-26",
+        "pnl": 0
+      }
+    ],
     "totalPnl": 0
   },
   "audit": [
-    {"time":"2026-02-26T22:10:00","agent":"system","msg":"🏆 Competition started — each trader gets $1,000 cash to trade freely. May the best strategy win!"},
-    {"time":"2026-02-27T01:04:00+02:00","agent":"micha","msg":"Bought 2.4378 shares of NVDA at 184.89 for $450.73. Reason: Trend continuation above MA-150."}
+    {
+      "time": "2026-02-26T22:10:00",
+      "agent": "system",
+      "msg": "\ud83c\udfc6 Competition started \u2014 each trader gets $1,000 cash to trade freely. May the best strategy win!"
+    },
+    {
+      "time": "2026-02-27T01:04:00+02:00",
+      "agent": "micha",
+      "msg": "Bought 2.4378 shares of NVDA at 184.89 for $450.73. Reason: Trend continuation above MA-150."
+    }
   ],
   "lastUpdate": "2026-02-27T01:04:00+02:00",
   "prices": {

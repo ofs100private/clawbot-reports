@@ -21,7 +21,7 @@ body { background: #0a0e17; color: #e0e6ed; font-family: 'Segoe UI', system-ui, 
 .ticker-item .up { color: #3fb950; }
 .ticker-item .down { color: #f85149; }
 
-.main { display: grid; grid-template-columns: 1fr 1.2fr 1fr; gap: 0; min-height: calc(100vh - 100px); }
+.main { display: grid; grid-template-columns: 1fr 1fr; gap: 0; min-height: calc(100vh - 100px); }
 
 .trader-panel { padding: 16px; }
 .trader-panel.left { border-right: 1px solid #21262d; }
@@ -130,17 +130,6 @@ canvas { width: 100%; height: 100%; }
     <div id="micha-trades"><div class="waiting"><span class="spinner">⏳</span> Waiting for first analysis cycle...</div></div>
   </div>
 
-  <!-- CENTER PORTFOLIO -->
-  <div class="portfolio-panel">
-    <h3>💼 Starting Portfolio (Ofer's eToro — $36,379)</h3>
-    <div class="pos-header"><span>Ticker</span><span>Name</span><span style="text-align:right">Invested</span><span style="text-align:right">Open $</span><span style="text-align:right">Lev</span></div>
-    <div id="portfolio-list"></div>
-    <div class="copy-section">
-      <h4>🪞 CopyTrader: Space-Investor</h4>
-      <p>Investment: $3,150 • 100+ positions • Space & Defense focus</p>
-    </div>
-  </div>
-
   <!-- YONI FAN (Right) -->
   <div class="trader-panel right yoni">
     <div class="trader-header">
@@ -232,18 +221,7 @@ function renderTicker() {
   }).join('');
 }
 
-function renderPortfolio() {
-  const el = document.getElementById('portfolio-list');
-  el.innerHTML = data.portfolio
-    .sort((a, b) => b.amt - a.amt)
-    .map(p => `<div class="pos-row">
-      <span class="sym">${p.sym}</span>
-      <span class="name">${p.name}</span>
-      <span class="val">$${p.amt.toLocaleString('en',{maximumFractionDigits:0})}</span>
-      <span class="val">$${p.open.toLocaleString('en',{minimumFractionDigits:2})}</span>
-      <span class="val">${p.lev > 1 ? p.lev + 'x' : '—'}</span>
-    </div>`).join('');
-}
+function renderPortfolio() {}
 
 function renderAgent(agent) {
   const d = data[agent];
@@ -255,17 +233,18 @@ function renderAgent(agent) {
 
   // Holdings
   const hEl = document.getElementById(agent + '-holdings');
+  const cashLine = `<div class="holding" style="border-bottom:1px solid #21262d;margin-bottom:4px;padding-bottom:6px;"><span class="sym" style="color:#f0b90b">💵 CASH</span><span class="units"></span><span class="pnl-sm" style="color:#f0b90b">$${(d.cash||0).toFixed(2)}</span></div>`;
   if (d.holdings && d.holdings.length > 0) {
-    hEl.innerHTML = d.holdings.map(h => {
+    hEl.innerHTML = cashLine + d.holdings.map(h => {
       const pnlColor = (h.pnl || 0) >= 0 ? '#3fb950' : '#f85149';
       return `<div class="holding">
         <span class="sym">${h.sym}</span>
-        <span class="units">${h.units} units</span>
+        <span class="units">${h.units} @ $${(h.avgPrice||0).toFixed(2)}</span>
         <span class="pnl-sm" style="color:${pnlColor}">${(h.pnl||0) >= 0 ? '+' : ''}$${(h.pnl||0).toFixed(2)}</span>
       </div>`;
     }).join('');
   } else {
-    hEl.innerHTML = '<div class="waiting"><span class="spinner">⏳</span> Identical to starting portfolio (no trades yet)</div>';
+    hEl.innerHTML = cashLine + '<div class="waiting">No positions yet</div>';
   }
 
   // Trades
