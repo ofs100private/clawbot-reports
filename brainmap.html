@@ -1,723 +1,337 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ben's Brain Map - Interactive Skills & Infrastructure</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #0a0e27;
-            overflow: hidden;
-            color: white;
-        }
-        
-        #canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1;
-        }
-        
-        #graph {
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 2;
-            cursor: grab;
-        }
-        
-        #graph.dragging {
-            cursor: grabbing;
-        }
-        
-        .node {
-            cursor: pointer;
-            transition: filter 0.3s ease;
-        }
-        
-        .node:hover {
-            filter: brightness(1.5);
-        }
-        
-        .node-circle {
-            stroke-width: 2px;
-            filter: drop-shadow(0 0 8px currentColor);
-        }
-        
-        .node-text {
-            font-size: 12px;
-            fill: white;
-            text-anchor: middle;
-            pointer-events: none;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
-        }
-        
-        .node-icon {
-            font-size: 24px;
-            text-anchor: middle;
-            dominant-baseline: central;
-            pointer-events: none;
-        }
-        
-        .link {
-            stroke-opacity: 0.6;
-            stroke-width: 1.5px;
-            fill: none;
-        }
-        
-        .link-main {
-            stroke: #00ffff;
-            stroke-width: 2px;
-            filter: drop-shadow(0 0 3px #00ffff);
-        }
-        
-        .link-sub {
-            stroke: #4dd0e1;
-            stroke-width: 1px;
-            stroke-opacity: 0.4;
-        }
-        
-        .tooltip {
-            position: fixed;
-            background: rgba(10, 14, 39, 0.95);
-            border: 1px solid #00ffff;
-            border-radius: 8px;
-            padding: 12px;
-            pointer-events: none;
-            z-index: 1000;
-            font-size: 13px;
-            line-height: 1.6;
-            max-width: 300px;
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
-            opacity: 0;
-            transition: opacity 0.2s;
-        }
-        
-        .tooltip.visible {
-            opacity: 1;
-        }
-        
-        .tooltip-title {
-            font-size: 16px;
-            font-weight: bold;
-            color: #00ffff;
-            margin-bottom: 8px;
-        }
-        
-        .tooltip-detail {
-            color: #b0bec5;
-            margin: 4px 0;
-        }
-        
-        .zoom-controls {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 100;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        
-        .zoom-btn {
-            background: rgba(0, 255, 255, 0.2);
-            border: 1px solid #00ffff;
-            color: #00ffff;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            font-size: 20px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .zoom-btn:hover {
-            background: rgba(0, 255, 255, 0.4);
-            transform: scale(1.1);
-        }
-        
-        .legend {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            background: rgba(10, 14, 39, 0.8);
-            border: 1px solid #00ffff;
-            border-radius: 8px;
-            padding: 15px;
-            z-index: 100;
-            font-size: 12px;
-        }
-        
-        .legend-title {
-            font-size: 16px;
-            font-weight: bold;
-            color: #00ffff;
-            margin-bottom: 10px;
-        }
-        
-        .legend-item {
-            margin: 5px 0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .legend-color {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            border: 2px solid currentColor;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ben's Brain Map</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0e27;overflow:hidden;font-family:'Segoe UI',sans-serif;color:#fff}
+canvas{position:fixed;top:0;left:0;z-index:0}
+svg{position:fixed;top:0;left:0;z-index:1}
+.legend{position:fixed;top:15px;left:15px;z-index:10;background:rgba(10,14,39,0.85);border:1px solid #00ffff44;border-radius:10px;padding:12px 16px;font-size:13px}
+.legend h3{color:#00ffff;margin-bottom:6px;font-size:14px}
+.legend-item{display:flex;align-items:center;gap:6px;margin:3px 0}
+.legend-dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+.controls{position:fixed;bottom:20px;right:20px;z-index:10;display:flex;flex-direction:column;gap:6px}
+.controls button{width:36px;height:36px;border-radius:50%;border:1px solid #00ffff;background:rgba(10,14,39,0.8);color:#00ffff;font-size:18px;cursor:pointer}
+.controls button:hover{background:#00ffff33}
+#tooltip{position:fixed;z-index:20;background:rgba(10,14,39,0.95);border:1px solid #00ffff88;border-radius:8px;padding:10px 14px;font-size:12px;pointer-events:none;display:none;max-width:250px;white-space:pre-line;line-height:1.5}
+</style>
 </head>
 <body>
-    <canvas id="canvas"></canvas>
-    <svg id="graph"></svg>
-    
-    <div class="tooltip" id="tooltip">
-        <div class="tooltip-title"></div>
-        <div class="tooltip-content"></div>
-    </div>
-    
-    <div class="zoom-controls">
-        <button class="zoom-btn" onclick="zoomIn()">+</button>
-        <button class="zoom-btn" onclick="zoomOut()">−</button>
-        <button class="zoom-btn" onclick="resetZoom()">⟲</button>
-    </div>
-    
-    <div class="legend">
-        <div class="legend-title">Ben's Brain Map</div>
-        <div class="legend-item">
-            <span class="legend-color" style="color: #00ffff;"></span>
-            <span>Core Skills</span>
-        </div>
-        <div class="legend-item">
-            <span class="legend-color" style="color: #ff6b6b;"></span>
-            <span>Infrastructure</span>
-        </div>
-        <div class="legend-item">
-            <span style="font-size: 10px;">💡 Drag to pan • Scroll to zoom</span>
-        </div>
-    </div>
+<canvas id="stars"></canvas>
+<svg id="graph"></svg>
+<div class="legend">
+  <h3>Ben's Brain Map</h3>
+  <div class="legend-item"><span class="legend-dot" style="background:#00ffff"></span> Core Skills</div>
+  <div class="legend-item"><span class="legend-dot" style="background:#ff6b6b"></span> Infrastructure</div>
+  <div class="legend-item"><span class="legend-dot" style="background:#80cbc4"></span> Sub-skills</div>
+  <div style="margin-top:6px;font-size:11px;opacity:0.6">🖱️ Drag nodes • Scroll to zoom</div>
+</div>
+<div class="controls">
+  <button onclick="zoomBy(1.3)">+</button>
+  <button onclick="zoomBy(0.7)">−</button>
+  <button onclick="resetZoom()">↻</button>
+</div>
+<div id="tooltip"></div>
 
-    <script>
-        console.log('Brain map initializing...');
-        
-        // Animated background stars
-        const canvas = document.getElementById('canvas');
-        const ctx = canvas.getContext('2d');
-        
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        
-        console.log('Canvas size:', canvas.width, 'x', canvas.height);
-        
-        const stars = [];
-        const starCount = 150;
-        
-        for (let i = 0; i < starCount; i++) {
-            stars.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                radius: Math.random() * 1.5,
-                speed: Math.random() * 0.3 + 0.1,
-                opacity: Math.random()
-            });
-        }
-        
-        console.log('Created', stars.length, 'stars');
-        
-        function animateStars() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#0a0e27';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            stars.forEach(star => {
-                ctx.beginPath();
-                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
-                ctx.fill();
-                
-                star.opacity += star.speed * 0.01;
-                if (star.opacity > 1 || star.opacity < 0.2) {
-                    star.speed = -star.speed;
-                }
-            });
-            
-            requestAnimationFrame(animateStars);
-        }
-        
-        animateStars();
-        console.log('Stars animation started');
-        
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            console.log('Canvas resized:', canvas.width, 'x', canvas.height);
-        });
-        
-        // Graph setup
-        const width = window.innerWidth;
-        const height = window.innerHeight;
-        const centerX = width / 2;
-        const centerY = height / 2;
-        
-        console.log('Graph center:', centerX, centerY);
-        
-        // Data structure with ALL nodes visible
-        const nodes = [
-            // Center node
-            { id: 'center', label: 'My Skills', icon: '🧠', type: 'center', size: 50, color: '#00ffff', tooltip: "Ben's Core Knowledge Base\n9 major skill areas\n13 sub-systems\n432 files total" },
-            
-            // Major skill nodes (connected to center)
-            { id: 'security', label: 'Security Gate', icon: '🔒', type: 'skill', size: 35, color: '#ff6b6b', tooltip: 'Security Gate\nPrompt injection defense\nCode scanning\nCredential protection\nSocial engineering detection' },
-            { id: 'technical', label: 'Technical Analysis', icon: '📊', type: 'skill', size: 35, color: '#4ecdc4', tooltip: 'Technical Analysis\nChart patterns\nMA150 system\nDarvas Box\nElliott Wave\nATR sizing\nFibonacci levels' },
-            { id: 'buysell', label: 'Buy/Sell Signal', icon: '📈', type: 'skill', size: 35, color: '#45b7d1', tooltip: 'Buy/Sell Signal\nTriple confirmation\nGrok model integration\nEntry scanner\nStop loss automation' },
-            { id: 'news', label: 'Market News', icon: '📰', type: 'skill', size: 35, color: '#96ceb4', tooltip: 'Market News Sentiment\nMulti-source aggregation\nNLP analysis\nCrypto Fear & Greed index' },
-            { id: 'analyst', label: 'Analyst Targets', icon: '🎯', type: 'skill', size: 35, color: '#ffeaa7', tooltip: 'Analyst Targets\nTipRanks integration\nConsensus ratings\nUpside calculator\nPrice target tracking' },
-            { id: 'investing', label: 'Investing', icon: '💰', type: 'skill', size: 35, color: '#dfe6e9', tooltip: 'Investing Strategy\nMicha Method\nRisk management\nPortfolio construction\n3-tier allocation\n10x DNA stocks' },
-            { id: 'chartpatterns', label: 'Chart Patterns', icon: '📉', type: 'skill', size: 35, color: '#74b9ff', tooltip: 'Chart Patterns\nCup & Handle\nHead & Shoulders\nFlags & Pennants\nTriangles\nWedges\nDouble Bottom' },
-            { id: 'quantclaw', label: 'QuantClaw', icon: '🌐', type: 'skill', size: 35, color: '#a29bfe', tooltip: 'QuantClaw System\n699 modules\n112 data sources\nFama-French factors\nGamma exposure\nSmart money tracking\n$0/month cost' },
-            { id: 'etoro', label: 'eToro API', icon: '💹', type: 'skill', size: 35, color: '#fd79a8', tooltip: 'eToro Integration\n53 API endpoints\nPortfolio live sync\n15 active positions\nWatchlist management\nWebSocket streaming' },
-            { id: 'social', label: 'Social Media', icon: '📱', type: 'skill', size: 35, color: '#fdcb6e', tooltip: 'Social Media Management\nLinkedIn automation\nContent strategy\nPost scheduling\nEngagement optimization' },
-            { id: 'healthcare', label: 'Healthcare', icon: '🏥', type: 'skill', size: 35, color: '#e17055', tooltip: 'Healthcare Sector\nGLP-1 therapeutics\nImmunotherapy\nGene therapy\nAI drug discovery' },
-            { id: 'sectors', label: 'Sectors', icon: '🔬', type: 'skill', size: 35, color: '#00b894', tooltip: 'Sector Coverage\nNuclear & Space\nBioPharma\nQuantum computing\nCrypto\nOptions trading\nUnder $1B market cap' },
-            { id: 'sentiment', label: 'Market Sentiment', icon: '🧠', type: 'skill', size: 35, color: '#6c5ce7', tooltip: 'Market Sentiment Analysis\nVIX tracking\nPut/Call ratios\nFear & Greed index\nCapitulation signals\nSector rotation' },
-            
-            // Infrastructure nodes (NOT connected to center)
-            { id: 'gateway', label: 'Gateway', icon: '🌐', type: 'infra', size: 40, color: '#2196f3', tooltip: 'OpenClaw Gateway\nVersion 2026.2.24\nPort 41920\nWSL2 on DESKTOP-OT4750D' },
-            { id: 'channels', label: 'Channels', icon: '💬', type: 'infra', size: 40, color: '#9c27b0', tooltip: 'Communication Channels\nTelegram DM (primary)\nTelegram Group\nLinkedIn integration' },
-            { id: 'agents', label: 'Agents', icon: '🤖', type: 'infra', size: 40, color: '#ff9800', tooltip: 'AI Agents\n• Ben: Opus 4.6, 432 files, main assistant\n• OfsInvest: Grok 4, 88 files, 18,766 lines, 9.3/10 score\n• Architect: Grok 4, V2 research\n• Budget: Sonnet 4.5, family budget' },
-            { id: 'cron', label: 'Cron Jobs', icon: '⏰', type: 'infra', size: 40, color: '#f44336', tooltip: 'Scheduled Tasks\n9 active cron jobs\nHeartbeat checks\nMemory backups\nMarket monitoring' },
-            { id: 'models', label: 'Models', icon: '📊', type: 'infra', size: 40, color: '#ff5722', tooltip: 'AI Models\n• Opus 4.6 (main)\n• Grok 4 (news/research, free)\n• Sonnet 4.5 (sub-agents, efficient)' },
-            { id: 'apps', label: 'Apps', icon: '🔌', type: 'infra', size: 40, color: '#4caf50', tooltip: 'Connected Apps\neToro (53 endpoints)\nQuantClaw (699 modules)\nLinkedIn\nGmail\nGitHub' },
-            
-            // Sub-nodes - ALL VISIBLE by default
-            // Security Gate subs
-            { id: 'sec-1', label: 'Prompt Injection', parent: 'security', type: 'sub', size: 8, color: '#ff8a80' },
-            { id: 'sec-2', label: 'Code Scanning', parent: 'security', type: 'sub', size: 8, color: '#ff8a80' },
-            { id: 'sec-3', label: 'Credential Protection', parent: 'security', type: 'sub', size: 8, color: '#ff8a80' },
-            { id: 'sec-4', label: 'Social Engineering', parent: 'security', type: 'sub', size: 8, color: '#ff8a80' },
-            
-            // Technical Analysis subs
-            { id: 'tech-1', label: 'Chart Patterns', parent: 'technical', type: 'sub', size: 8, color: '#80deea' },
-            { id: 'tech-2', label: 'MA150 System', parent: 'technical', type: 'sub', size: 8, color: '#80deea' },
-            { id: 'tech-3', label: 'Darvas Box', parent: 'technical', type: 'sub', size: 8, color: '#80deea' },
-            { id: 'tech-4', label: 'Elliott Wave', parent: 'technical', type: 'sub', size: 8, color: '#80deea' },
-            { id: 'tech-5', label: 'ATR Sizing', parent: 'technical', type: 'sub', size: 8, color: '#80deea' },
-            { id: 'tech-6', label: 'Fibonacci', parent: 'technical', type: 'sub', size: 8, color: '#80deea' },
-            
-            // Buy/Sell Signal subs
-            { id: 'bs-1', label: 'Triple Confirm', parent: 'buysell', type: 'sub', size: 8, color: '#81d4fa' },
-            { id: 'bs-2', label: 'Grok Model', parent: 'buysell', type: 'sub', size: 8, color: '#81d4fa' },
-            { id: 'bs-3', label: 'Entry Scanner', parent: 'buysell', type: 'sub', size: 8, color: '#81d4fa' },
-            { id: 'bs-4', label: 'Stop Loss', parent: 'buysell', type: 'sub', size: 8, color: '#81d4fa' },
-            
-            // Market News subs
-            { id: 'news-1', label: 'Multi-Source', parent: 'news', type: 'sub', size: 8, color: '#a5d6a7' },
-            { id: 'news-2', label: 'News NLP', parent: 'news', type: 'sub', size: 8, color: '#a5d6a7' },
-            { id: 'news-3', label: 'Crypto Fear & Greed', parent: 'news', type: 'sub', size: 8, color: '#a5d6a7' },
-            
-            // Analyst Targets subs
-            { id: 'analyst-1', label: 'TipRanks', parent: 'analyst', type: 'sub', size: 8, color: '#fff59d' },
-            { id: 'analyst-2', label: 'Consensus Rating', parent: 'analyst', type: 'sub', size: 8, color: '#fff59d' },
-            { id: 'analyst-3', label: 'Upside Calc', parent: 'analyst', type: 'sub', size: 8, color: '#fff59d' },
-            { id: 'analyst-4', label: 'Price Targets', parent: 'analyst', type: 'sub', size: 8, color: '#fff59d' },
-            
-            // Investing subs
-            { id: 'inv-1', label: 'Micha Method', parent: 'investing', type: 'sub', size: 8, color: '#eceff1' },
-            { id: 'inv-2', label: 'Risk Management', parent: 'investing', type: 'sub', size: 8, color: '#eceff1' },
-            { id: 'inv-3', label: 'Portfolio Construction', parent: 'investing', type: 'sub', size: 8, color: '#eceff1' },
-            { id: 'inv-4', label: '3-Tier Allocation', parent: 'investing', type: 'sub', size: 8, color: '#eceff1' },
-            { id: 'inv-5', label: '10x DNA', parent: 'investing', type: 'sub', size: 8, color: '#eceff1' },
-            
-            // Chart Patterns subs
-            { id: 'chart-1', label: 'Cup & Handle', parent: 'chartpatterns', type: 'sub', size: 8, color: '#90caf9' },
-            { id: 'chart-2', label: 'H&S', parent: 'chartpatterns', type: 'sub', size: 8, color: '#90caf9' },
-            { id: 'chart-3', label: 'Flags', parent: 'chartpatterns', type: 'sub', size: 8, color: '#90caf9' },
-            { id: 'chart-4', label: 'Triangles', parent: 'chartpatterns', type: 'sub', size: 8, color: '#90caf9' },
-            { id: 'chart-5', label: 'Wedges', parent: 'chartpatterns', type: 'sub', size: 8, color: '#90caf9' },
-            { id: 'chart-6', label: 'Double Bottom', parent: 'chartpatterns', type: 'sub', size: 8, color: '#90caf9' },
-            
-            // QuantClaw subs
-            { id: 'qc-1', label: '699 Modules', parent: 'quantclaw', type: 'sub', size: 8, color: '#b39ddb' },
-            { id: 'qc-2', label: 'Fama-French', parent: 'quantclaw', type: 'sub', size: 8, color: '#b39ddb' },
-            { id: 'qc-3', label: 'GEX', parent: 'quantclaw', type: 'sub', size: 8, color: '#b39ddb' },
-            { id: 'qc-4', label: 'Smart Money', parent: 'quantclaw', type: 'sub', size: 8, color: '#b39ddb' },
-            { id: 'qc-5', label: 'Screener', parent: 'quantclaw', type: 'sub', size: 8, color: '#b39ddb' },
-            
-            // eToro API subs
-            { id: 'etoro-1', label: 'Portfolio', parent: 'etoro', type: 'sub', size: 8, color: '#f48fb1' },
-            { id: 'etoro-2', label: 'Watchlists', parent: 'etoro', type: 'sub', size: 8, color: '#f48fb1' },
-            { id: 'etoro-3', label: 'Trading', parent: 'etoro', type: 'sub', size: 8, color: '#f48fb1' },
-            { id: 'etoro-4', label: 'Market Data', parent: 'etoro', type: 'sub', size: 8, color: '#f48fb1' },
-            { id: 'etoro-5', label: 'WebSocket', parent: 'etoro', type: 'sub', size: 8, color: '#f48fb1' },
-            
-            // Social Media subs
-            { id: 'social-1', label: 'LinkedIn', parent: 'social', type: 'sub', size: 8, color: '#ffe082' },
-            { id: 'social-2', label: 'Content Strategy', parent: 'social', type: 'sub', size: 8, color: '#ffe082' },
-            { id: 'social-3', label: 'Scheduling', parent: 'social', type: 'sub', size: 8, color: '#ffe082' },
-            
-            // Healthcare subs
-            { id: 'health-1', label: 'GLP-1', parent: 'healthcare', type: 'sub', size: 8, color: '#ffab91' },
-            { id: 'health-2', label: 'Immunotherapy', parent: 'healthcare', type: 'sub', size: 8, color: '#ffab91' },
-            { id: 'health-3', label: 'Gene Therapy', parent: 'healthcare', type: 'sub', size: 8, color: '#ffab91' },
-            { id: 'health-4', label: 'AI Drug Discovery', parent: 'healthcare', type: 'sub', size: 8, color: '#ffab91' },
-            
-            // Sectors subs
-            { id: 'sector-1', label: 'Nuclear/Space', parent: 'sectors', type: 'sub', size: 8, color: '#80cbc4' },
-            { id: 'sector-2', label: 'BioPharma', parent: 'sectors', type: 'sub', size: 8, color: '#80cbc4' },
-            { id: 'sector-3', label: 'Quantum', parent: 'sectors', type: 'sub', size: 8, color: '#80cbc4' },
-            { id: 'sector-4', label: 'Crypto', parent: 'sectors', type: 'sub', size: 8, color: '#80cbc4' },
-            { id: 'sector-5', label: 'Options', parent: 'sectors', type: 'sub', size: 8, color: '#80cbc4' },
-            { id: 'sector-6', label: 'Under $1B', parent: 'sectors', type: 'sub', size: 8, color: '#80cbc4' },
-            
-            // Market Sentiment subs
-            { id: 'sent-1', label: 'VIX', parent: 'sentiment', type: 'sub', size: 8, color: '#9575cd' },
-            { id: 'sent-2', label: 'Put/Call', parent: 'sentiment', type: 'sub', size: 8, color: '#9575cd' },
-            { id: 'sent-3', label: 'Fear & Greed', parent: 'sentiment', type: 'sub', size: 8, color: '#9575cd' },
-            { id: 'sent-4', label: 'Capitulation', parent: 'sentiment', type: 'sub', size: 8, color: '#9575cd' },
-            { id: 'sent-5', label: 'Sector Rotation', parent: 'sentiment', type: 'sub', size: 8, color: '#9575cd' }
-        ];
-        
-        console.log('Total nodes:', nodes.length);
-        console.log('- Center:', nodes.filter(n => n.type === 'center').length);
-        console.log('- Skills:', nodes.filter(n => n.type === 'skill').length);
-        console.log('- Infrastructure:', nodes.filter(n => n.type === 'infra').length);
-        console.log('- Sub-nodes:', nodes.filter(n => n.type === 'sub').length);
-        
-        // Calculate fixed positions - radial layout
-        function calculatePositions() {
-            console.log('Calculating node positions...');
-            
-            // Center node
-            const centerNode = nodes.find(n => n.type === 'center');
-            centerNode.x = centerX;
-            centerNode.y = centerY;
-            console.log('Center node at:', centerNode.x, centerNode.y);
-            
-            // Skill nodes in a circle around center
-            const skillNodes = nodes.filter(n => n.type === 'skill');
-            const skillRadius = Math.min(width, height) * 0.25;
-            skillNodes.forEach((node, i) => {
-                const angle = (i / skillNodes.length) * Math.PI * 2 - Math.PI / 2;
-                node.x = centerX + Math.cos(angle) * skillRadius;
-                node.y = centerY + Math.sin(angle) * skillRadius;
-            });
-            console.log('Positioned', skillNodes.length, 'skill nodes at radius', skillRadius);
-            
-            // Infrastructure nodes around edges
-            const infraNodes = nodes.filter(n => n.type === 'infra');
-            const infraRadius = Math.min(width, height) * 0.4;
-            infraNodes.forEach((node, i) => {
-                const angle = (i / infraNodes.length) * Math.PI * 2 - Math.PI / 2;
-                node.x = centerX + Math.cos(angle) * infraRadius;
-                node.y = centerY + Math.sin(angle) * infraRadius;
-            });
-            console.log('Positioned', infraNodes.length, 'infra nodes at radius', infraRadius);
-            
-            // Sub-nodes around their parents
-            const subNodes = nodes.filter(n => n.type === 'sub');
-            const nodesByParent = {};
-            subNodes.forEach(sub => {
-                if (!nodesByParent[sub.parent]) {
-                    nodesByParent[sub.parent] = [];
-                }
-                nodesByParent[sub.parent].push(sub);
-            });
-            
-            Object.keys(nodesByParent).forEach(parentId => {
-                const parent = nodes.find(n => n.id === parentId);
-                const subs = nodesByParent[parentId];
-                const subRadius = 60;
-                
-                subs.forEach((sub, i) => {
-                    const angle = (i / subs.length) * Math.PI * 2;
-                    sub.x = parent.x + Math.cos(angle) * subRadius;
-                    sub.y = parent.y + Math.sin(angle) * subRadius;
-                });
-            });
-            console.log('Positioned', subNodes.length, 'sub-nodes around their parents');
-        }
-        
-        calculatePositions();
-        
-        // Create links
-        const links = [];
-        
-        // Connect skills to center
-        nodes.filter(n => n.type === 'skill').forEach(node => {
-            links.push({ source: node.id, target: 'center', type: 'main' });
-        });
-        
-        // Connect sub-nodes to their parents
-        nodes.filter(n => n.type === 'sub').forEach(sub => {
-            links.push({ source: sub.id, target: sub.parent, type: 'sub' });
-        });
-        
-        console.log('Created', links.length, 'links');
-        console.log('- Main links:', links.filter(l => l.type === 'main').length);
-        console.log('- Sub links:', links.filter(l => l.type === 'sub').length);
-        
-        // SVG setup
-        const svg = document.getElementById('graph');
-        svg.setAttribute('width', width);
-        svg.setAttribute('height', height);
-        
-        // Create container group for zoom/pan
-        const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-        svg.appendChild(g);
-        
-        // Helper to get node by id
-        function getNode(id) {
-            return nodes.find(n => n.id === id);
-        }
-        
-        // Draw links
-        console.log('Drawing links...');
-        const linkGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-        g.appendChild(linkGroup);
-        
-        links.forEach(link => {
-            const sourceNode = getNode(link.source);
-            const targetNode = getNode(link.target);
-            
-            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-            line.setAttribute('class', `link ${link.type === 'main' ? 'link-main' : 'link-sub'}`);
-            line.setAttribute('x1', sourceNode.x);
-            line.setAttribute('y1', sourceNode.y);
-            line.setAttribute('x2', targetNode.x);
-            line.setAttribute('y2', targetNode.y);
-            linkGroup.appendChild(line);
-            
-            link.element = line;
-        });
-        console.log('Links drawn');
-        
-        // Draw nodes
-        console.log('Drawing nodes...');
-        const nodeGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-        g.appendChild(nodeGroup);
-        
-        nodes.forEach(node => {
-            const nodeEl = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-            nodeEl.setAttribute('class', 'node');
-            nodeEl.setAttribute('transform', `translate(${node.x}, ${node.y})`);
-            nodeEl.setAttribute('data-id', node.id);
-            
-            // Circle
-            const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-            circle.setAttribute('class', 'node-circle');
-            circle.setAttribute('r', node.size);
-            circle.setAttribute('fill', node.color);
-            circle.setAttribute('stroke', node.color);
-            nodeEl.appendChild(circle);
-            
-            // Icon
-            if (node.icon) {
-                const icon = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-                icon.setAttribute('class', 'node-icon');
-                icon.setAttribute('dy', '0.35em');
-                icon.style.fontSize = node.type === 'center' ? '32px' : node.type === 'sub' ? '10px' : '20px';
-                icon.textContent = node.icon;
-                nodeEl.appendChild(icon);
-            }
-            
-            // Label
-            const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-            label.setAttribute('class', 'node-text');
-            label.setAttribute('dy', node.size + 15);
-            label.style.fontSize = node.type === 'sub' ? '9px' : '12px';
-            label.textContent = node.label;
-            nodeEl.appendChild(label);
-            
-            nodeGroup.appendChild(nodeEl);
-            node.element = nodeEl;
-        });
-        console.log('Nodes drawn');
-        
-        // Tooltip functionality
-        const tooltip = document.getElementById('tooltip');
-        const tooltipTitle = tooltip.querySelector('.tooltip-title');
-        const tooltipContent = tooltip.querySelector('.tooltip-content');
-        
-        nodes.forEach(node => {
-            if (node.tooltip) {
-                node.element.addEventListener('mouseenter', (e) => {
-                    tooltipTitle.textContent = node.label;
-                    tooltipContent.innerHTML = node.tooltip.replace(/\n/g, '<br>');
-                    tooltip.classList.add('visible');
-                });
-                
-                node.element.addEventListener('mousemove', (e) => {
-                    tooltip.style.left = (e.pageX + 15) + 'px';
-                    tooltip.style.top = (e.pageY + 15) + 'px';
-                });
-                
-                node.element.addEventListener('mouseleave', () => {
-                    tooltip.classList.remove('visible');
-                });
-            }
-        });
-        
-        // Drag nodes
-        let draggedNode = null;
-        let dragOffsetX = 0;
-        let dragOffsetY = 0;
-        
-        nodes.forEach(node => {
-            node.element.addEventListener('mousedown', (e) => {
-                draggedNode = node;
-                const transform = node.element.getAttribute('transform');
-                const match = transform.match(/translate\(([\d.]+),\s*([\d.]+)\)/);
-                if (match) {
-                    dragOffsetX = e.clientX - parseFloat(match[1]);
-                    dragOffsetY = e.clientY - parseFloat(match[2]);
-                }
-                e.preventDefault();
-            });
-        });
-        
-        document.addEventListener('mousemove', (e) => {
-            if (draggedNode) {
-                const newX = e.clientX - dragOffsetX;
-                const newY = e.clientY - dragOffsetY;
-                
-                draggedNode.x = newX;
-                draggedNode.y = newY;
-                draggedNode.element.setAttribute('transform', `translate(${newX}, ${newY})`);
-                
-                // Update connected links
-                links.forEach(link => {
-                    if (link.source === draggedNode.id || link.target === draggedNode.id) {
-                        const sourceNode = getNode(link.source);
-                        const targetNode = getNode(link.target);
-                        link.element.setAttribute('x1', sourceNode.x);
-                        link.element.setAttribute('y1', sourceNode.y);
-                        link.element.setAttribute('x2', targetNode.x);
-                        link.element.setAttribute('y2', targetNode.y);
-                    }
-                });
-            }
-        });
-        
-        document.addEventListener('mouseup', () => {
-            draggedNode = null;
-        });
-        
-        // Pan and zoom
-        let scale = 1;
-        let translateX = 0;
-        let translateY = 0;
-        let isPanning = false;
-        let panStartX = 0;
-        let panStartY = 0;
-        
-        function updateTransform() {
-            g.setAttribute('transform', `translate(${translateX}, ${translateY}) scale(${scale})`);
-        }
-        
-        // Mouse wheel zoom
-        svg.addEventListener('wheel', (e) => {
-            e.preventDefault();
-            
-            const delta = e.deltaY > 0 ? 0.9 : 1.1;
-            const newScale = Math.max(0.3, Math.min(3, scale * delta));
-            
-            // Zoom towards mouse position
-            const rect = svg.getBoundingClientRect();
-            const mouseX = e.clientX - rect.left;
-            const mouseY = e.clientY - rect.top;
-            
-            translateX = mouseX - (mouseX - translateX) * (newScale / scale);
-            translateY = mouseY - (mouseY - translateY) * (newScale / scale);
-            scale = newScale;
-            
-            updateTransform();
-            console.log('Zoom:', scale.toFixed(2));
-        });
-        
-        // Pan with drag
-        svg.addEventListener('mousedown', (e) => {
-            if (e.target === svg || e.target === g) {
-                isPanning = true;
-                panStartX = e.clientX - translateX;
-                panStartY = e.clientY - translateY;
-                svg.classList.add('dragging');
-            }
-        });
-        
-        document.addEventListener('mousemove', (e) => {
-            if (isPanning) {
-                translateX = e.clientX - panStartX;
-                translateY = e.clientY - panStartY;
-                updateTransform();
-            }
-        });
-        
-        document.addEventListener('mouseup', () => {
-            if (isPanning) {
-                isPanning = false;
-                svg.classList.remove('dragging');
-            }
-        });
-        
-        // Zoom buttons
-        window.zoomIn = function() {
-            scale = Math.min(3, scale * 1.3);
-            updateTransform();
-            console.log('Zoom in:', scale.toFixed(2));
-        };
-        
-        window.zoomOut = function() {
-            scale = Math.max(0.3, scale * 0.7);
-            updateTransform();
-            console.log('Zoom out:', scale.toFixed(2));
-        };
-        
-        window.resetZoom = function() {
-            scale = 1;
-            translateX = 0;
-            translateY = 0;
-            updateTransform();
-            console.log('Zoom reset');
-        };
-        
-        // Recalculate positions on resize
-        window.addEventListener('resize', () => {
-            const newWidth = window.innerWidth;
-            const newHeight = window.innerHeight;
-            svg.setAttribute('width', newWidth);
-            svg.setAttribute('height', newHeight);
-            calculatePositions();
-            
-            // Update all elements
-            nodes.forEach(node => {
-                node.element.setAttribute('transform', `translate(${node.x}, ${node.y})`);
-            });
-            
-            links.forEach(link => {
-                const sourceNode = getNode(link.source);
-                const targetNode = getNode(link.target);
-                link.element.setAttribute('x1', sourceNode.x);
-                link.element.setAttribute('y1', sourceNode.y);
-                link.element.setAttribute('x2', targetNode.x);
-                link.element.setAttribute('y2', targetNode.y);
-            });
-            
-            console.log('Resized and repositioned');
-        });
-        
-        console.log('Brain map fully initialized and ready!');
-        console.log('All', nodes.length, 'nodes are visible');
-        console.log('Use mouse wheel to zoom, drag to pan, drag nodes to reposition');
-    </script>
+<script>
+// Stars background
+const canvas = document.getElementById('stars');
+const ctx = canvas.getContext('2d');
+canvas.width = innerWidth;
+canvas.height = innerHeight;
+const stars = Array.from({length:200}, () => ({
+  x: Math.random()*canvas.width, y: Math.random()*canvas.height,
+  r: Math.random()*1.5+0.3, a: Math.random(), s: Math.random()*0.02+0.005
+}));
+function drawStars(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  stars.forEach(s=>{
+    s.a += s.s; if(s.a>1||s.a<0.2) s.s=-s.s;
+    ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+    ctx.fillStyle=`rgba(255,255,255,${s.a})`;ctx.fill();
+  });
+  requestAnimationFrame(drawStars);
+}
+drawStars();
+addEventListener('resize',()=>{canvas.width=innerWidth;canvas.height=innerHeight});
+
+// Data
+const W = innerWidth, H = innerHeight, CX = W/2, CY = H/2;
+
+const skills = [
+  {id:'security',label:'Security Gate',icon:'🔒',color:'#ff6b6b',tip:'Prompt injection defense\nCode scanning\nCredential protection',
+   subs:['Prompt Injection','Code Scanning','Credential Guard','Social Engineering']},
+  {id:'technical',label:'Technical Analysis',icon:'📊',color:'#4dd0e1',tip:'MA150 system\n12 chart patterns\nATR sizing\nFibonacci zones',
+   subs:['Chart Patterns','MA150 System','Darvas Box','ATR Sizing','Fibonacci','Elliott Wave']},
+  {id:'signal',label:'Buy/Sell Signal',icon:'📈',color:'#66bb6a',tip:'Triple confirmation engine\nTechnical + Quant + Fundamental\nConfidence scoring',
+   subs:['Triple Confirm','Entry Scanner','Stop Loss','Grok Model']},
+  {id:'sentiment',label:'Market Sentiment',icon:'🧠',color:'#ab47bc',tip:'10-source composite score\nFear & Greed\nVIX\nPut/Call ratio',
+   subs:['VIX','Fear & Greed','Put/Call','Capitulation','Sector Rotation','NVDA Barometer']},
+  {id:'analyst',label:'Analyst Consensus',icon:'🎯',color:'#ffa726',tip:'Rating aggregation\nPrice targets\nSmart money overlay\nEarnings revisions',
+   subs:['TipRanks','Consensus Rating','Upside Calc','Price Targets']},
+  {id:'investing',label:'Investing',icon:'💰',color:'#ffee58',tip:'Master Micha methodology\nRisk management\n3-tier allocation\n10x DNA framework',
+   subs:['Micha Method','Risk Mgmt','Portfolio','3-Tier Allocation','10x DNA','81 Stocks']},
+  {id:'patterns',label:'Chart Patterns',icon:'📉',color:'#26c6da',tip:'12 patterns with rules\nEntry/Stop/Target\nVolume confirmation',
+   subs:['Cup & Handle','H&S','Bull Flag','Triangles','Wedges','Double Bottom']},
+  {id:'quantclaw',label:'QuantClaw',icon:'🌐',color:'#42a5f5',tip:'699 modules\n112 data sources\n$0/month\nBloomberg alternative',
+   subs:['699 Modules','Fama-French','GEX','Smart Money','Screener','News']},
+  {id:'etoro',label:'eToro API',icon:'💹',color:'#26a69a',tip:'53 endpoints\n15 positions live\n$36,379 invested\n+6.4% return',
+   subs:['Portfolio','Watchlists','Trading','Market Data','WebSocket']},
+  {id:'social',label:'Social Media',icon:'📱',color:'#ec407a',tip:'LinkedIn API\nContent strategy\nDraft + approval workflow',
+   subs:['LinkedIn','Content Strategy','Scheduling']},
+  {id:'healthcare',label:'Healthcare',icon:'🏥',color:'#ef5350',tip:'GLP-1/Obesity\nImmunotherapy\nGene therapy\nAI drug discovery',
+   subs:['GLP-1','Immunotherapy','Gene Therapy','AI Discovery']},
+  {id:'sectors',label:'Sectors',icon:'🔬',color:'#7e57c2',tip:'8 active sectors\nNuclear/Space\nBioPharma\nQuantum\nCrypto',
+   subs:['Nuclear/Space','BioPharma','Quantum','Crypto','Options','Under $1B']},
+  {id:'qmd',label:'Memory/QMD',icon:'💾',color:'#78909c',tip:'QMD working memory\nMemclawz hnswlib\nDaily memory files',
+   subs:['QMD Zvec','Daily Notes','MEMORY.md']},
+];
+
+const infra = [
+  {id:'gateway',label:'Gateway',icon:'🌐',color:'#42a5f5',tip:'OpenClaw v2026.2.24\nPort 41920\nWSL2'},
+  {id:'channels',label:'Channels',icon:'💬',color:'#ab47bc',tip:'Telegram DM\nTelegram Group\n7 members'},
+  {id:'agent',label:'Agent',icon:'🤖',color:'#ff7043',tip:'Ben (Opus)\nOfsInvest (Grok)\nArchitect (Grok)\nBudget (Sonnet)'},
+  {id:'cron',label:'Cron Jobs',icon:'⏰',color:'#ef5350',tip:'9 active jobs\nGit push 6h\nDaily report 09:00\nNews briefing 04:20'},
+  {id:'models',label:'Models',icon:'🧪',color:'#ffa726',tip:'Opus 4.6 (main)\nGrok 4 (free)\nSonnet 4.5 (sub-agents)'},
+  {id:'apps',label:'Apps',icon:'🔌',color:'#66bb6a',tip:'eToro API\nQuantClaw\nLinkedIn\nGmail\nGitHub'},
+];
+
+// Build flat node list with positions
+const nodes = [];
+const links = [];
+
+// Center
+nodes.push({x:CX, y:CY, r:40, label:'My Skills', icon:'🧠', color:'#00ffff', tip:'Ben\'s Brain\n9 skills • 432 files\nOfsInvest 9.3/10\n13,716 lines knowledge', id:'center', type:'center'});
+
+// Skills in a circle
+const skillR = Math.min(W,H)*0.28;
+skills.forEach((s,i) => {
+  const a = (i/skills.length)*Math.PI*2 - Math.PI/2;
+  const x = CX + Math.cos(a)*skillR;
+  const y = CY + Math.sin(a)*skillR;
+  nodes.push({x, y, r:22, label:s.label, icon:s.icon, color:s.color, tip:s.tip, id:s.id, type:'skill'});
+  links.push({x1:CX, y1:CY, x2:x, y2:y, type:'main'});
+  
+  // Sub-nodes
+  const subR = 55 + s.subs.length*3;
+  s.subs.forEach((sub,j) => {
+    const sa = (j/s.subs.length)*Math.PI*2 + a*0.3;
+    const sx = x + Math.cos(sa)*subR;
+    const sy = y + Math.sin(sa)*subR;
+    nodes.push({x:sx, y:sy, r:6, label:sub, icon:'', color:s.color+'99', tip:sub, id:s.id+'-'+j, type:'sub'});
+    links.push({x1:x, y1:y, x2:sx, y2:sy, type:'sub'});
+  });
+});
+
+// Infrastructure around outer edge
+const infraR = Math.min(W,H)*0.43;
+infra.forEach((inf,i) => {
+  const a = (i/infra.length)*Math.PI*2 + Math.PI/6;
+  const x = CX + Math.cos(a)*infraR;
+  const y = CY + Math.sin(a)*infraR;
+  nodes.push({x, y, r:28, label:inf.label, icon:inf.icon, color:inf.color, tip:inf.tip, id:inf.id, type:'infra'});
+});
+
+// Render SVG
+const svg = document.getElementById('graph');
+svg.setAttribute('width', W);
+svg.setAttribute('height', H);
+const NS = 'http://www.w3.org/2000/svg';
+
+// Defs for glow
+const defs = document.createElementNS(NS,'defs');
+const filter = document.createElementNS(NS,'filter');
+filter.id = 'glow';
+const blur = document.createElementNS(NS,'feGaussianBlur');
+blur.setAttribute('stdDeviation','4');
+blur.setAttribute('result','blur');
+const merge = document.createElementNS(NS,'feMerge');
+const m1 = document.createElementNS(NS,'feMergeNode');m1.setAttribute('in','blur');
+const m2 = document.createElementNS(NS,'feMergeNode');m2.setAttribute('in','SourceGraphic');
+merge.appendChild(m1);merge.appendChild(m2);
+filter.appendChild(blur);filter.appendChild(merge);
+defs.appendChild(filter);
+svg.appendChild(defs);
+
+const mainG = document.createElementNS(NS,'g');
+mainG.id = 'main-group';
+svg.appendChild(mainG);
+
+// Draw links
+links.forEach(l => {
+  const line = document.createElementNS(NS,'line');
+  line.setAttribute('x1',l.x1);line.setAttribute('y1',l.y1);
+  line.setAttribute('x2',l.x2);line.setAttribute('y2',l.y2);
+  line.setAttribute('stroke', l.type==='main'?'#00ffff44':'#ffffff22');
+  line.setAttribute('stroke-width', l.type==='main'?'1.5':'0.8');
+  line._data = l;
+  mainG.appendChild(line);
+});
+
+// Draw nodes
+const tooltip = document.getElementById('tooltip');
+const nodeEls = [];
+
+nodes.forEach(n => {
+  const g = document.createElementNS(NS,'g');
+  g.setAttribute('transform',`translate(${n.x},${n.y})`);
+  g.style.cursor = 'pointer';
+  
+  // Outer glow circle
+  if(n.type !== 'sub'){
+    const glow = document.createElementNS(NS,'circle');
+    glow.setAttribute('r', n.r+6);
+    glow.setAttribute('fill', n.color+'22');
+    glow.setAttribute('filter','url(#glow)');
+    g.appendChild(glow);
+  }
+  
+  // Main circle
+  const c = document.createElementNS(NS,'circle');
+  c.setAttribute('r', n.r);
+  c.setAttribute('fill', n.type==='sub'? n.color : n.color+'33');
+  c.setAttribute('stroke', n.color);
+  c.setAttribute('stroke-width', n.type==='sub'?'1':'2');
+  g.appendChild(c);
+  
+  // Icon
+  if(n.icon){
+    const t = document.createElementNS(NS,'text');
+    t.setAttribute('text-anchor','middle');
+    t.setAttribute('dominant-baseline','central');
+    t.setAttribute('font-size', n.type==='center'?'28':n.type==='infra'?'20':'16');
+    t.textContent = n.icon;
+    g.appendChild(t);
+  }
+  
+  // Label
+  const label = document.createElementNS(NS,'text');
+  label.setAttribute('text-anchor','middle');
+  label.setAttribute('y', n.r + (n.type==='sub'?12:16));
+  label.setAttribute('fill','#fff');
+  label.setAttribute('font-size', n.type==='sub'?'9':'11');
+  label.setAttribute('font-weight', n.type==='sub'?'normal':'bold');
+  label.setAttribute('opacity', n.type==='sub'?'0.7':'0.9');
+  label.textContent = n.label;
+  g.appendChild(label);
+  
+  // Hover
+  g.addEventListener('mouseenter', e => {
+    tooltip.style.display = 'block';
+    tooltip.textContent = (n.icon?n.icon+' ':'')+n.label+'\n'+n.tip;
+    c.setAttribute('stroke-width', n.type==='sub'?'2':'3');
+  });
+  g.addEventListener('mousemove', e => {
+    tooltip.style.left = (e.clientX+15)+'px';
+    tooltip.style.top = (e.clientY+15)+'px';
+  });
+  g.addEventListener('mouseleave', () => {
+    tooltip.style.display = 'none';
+    c.setAttribute('stroke-width', n.type==='sub'?'1':'2');
+  });
+  
+  // Drag
+  let dragging = false, ox, oy;
+  g.addEventListener('mousedown', e => {
+    dragging = true;
+    ox = e.clientX - n.x*currentZoom - panX;
+    oy = e.clientY - n.y*currentZoom - panY;
+    e.stopPropagation();
+  });
+  
+  g._node = n;
+  g._circle = c;
+  nodeEls.push(g);
+  mainG.appendChild(g);
+});
+
+// Drag handling
+let currentZoom = 1, panX = 0, panY = 0;
+let dragNode = null, dragEl = null;
+
+document.addEventListener('mousemove', e => {
+  if(dragNode){
+    dragNode.x = (e.clientX - panX) / currentZoom - dragNode._ox;
+    dragNode.y = (e.clientY - panY) / currentZoom - dragNode._oy;
+    updatePositions();
+  }
+});
+
+nodeEls.forEach(el => {
+  el.addEventListener('mousedown', e => {
+    dragNode = el._node;
+    dragNode._ox = (e.clientX - panX)/currentZoom - dragNode.x;
+    dragNode._oy = (e.clientY - panY)/currentZoom - dragNode.y;
+    dragEl = el;
+    e.preventDefault();
+    e.stopPropagation();
+  });
+});
+
+document.addEventListener('mouseup', () => { dragNode = null; dragEl = null; });
+
+function updatePositions(){
+  nodeEls.forEach(el => {
+    const n = el._node;
+    el.setAttribute('transform',`translate(${n.x},${n.y})`);
+  });
+  // Update links
+  const lineEls = mainG.querySelectorAll('line');
+  lineEls.forEach(line => {
+    const d = line._data;
+    if(d){
+      // Find matching nodes
+      const src = nodes.find(n => n.x===d.x1 && n.y===d.y1) || {x:d.x1,y:d.y1};
+      line.setAttribute('x1',d.x1);line.setAttribute('y1',d.y1);
+      line.setAttribute('x2',d.x2);line.setAttribute('y2',d.y2);
+    }
+  });
+}
+
+// Zoom
+function applyTransform(){
+  mainG.setAttribute('transform',`translate(${panX},${panY}) scale(${currentZoom})`);
+}
+svg.addEventListener('wheel', e => {
+  e.preventDefault();
+  const d = e.deltaY > 0 ? 0.9 : 1.1;
+  currentZoom *= d;
+  currentZoom = Math.max(0.2, Math.min(5, currentZoom));
+  applyTransform();
+});
+
+// Pan
+let panning = false, px, py;
+svg.addEventListener('mousedown', e => {
+  if(!dragNode){ panning=true; px=e.clientX-panX; py=e.clientY-panY; }
+});
+svg.addEventListener('mousemove', e => {
+  if(panning && !dragNode){ panX=e.clientX-px; panY=e.clientY-py; applyTransform(); }
+});
+svg.addEventListener('mouseup', () => { panning=false; });
+
+function zoomBy(f){ currentZoom*=f; currentZoom=Math.max(0.2,Math.min(5,currentZoom)); applyTransform(); }
+function resetZoom(){ currentZoom=1; panX=0; panY=0; applyTransform(); }
+
+// Gentle floating animation
+let t = 0;
+function float(){
+  t += 0.01;
+  nodeEls.forEach((el,i) => {
+    const n = el._node;
+    if(n.type==='center') return;
+    const ox = Math.sin(t + i*0.7) * 0.5;
+    const oy = Math.cos(t + i*0.5) * 0.5;
+    el.setAttribute('transform',`translate(${n.x+ox},${n.y+oy})`);
+  });
+  requestAnimationFrame(float);
+}
+float();
+
+console.log('Brain map loaded:', nodes.length, 'nodes,', links.length, 'links');
+</script>
 </body>
 </html>
