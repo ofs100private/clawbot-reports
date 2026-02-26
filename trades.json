@@ -23,10 +23,32 @@
   "micha": {
     "name": "Micha Fan",
     "strategy": "MA-150 Trend Following • 6 Entry Types • Chart Patterns • ATR Sizing • Risk Discipline",
-    "cash": 1000,
-    "holdings": [],
-    "trades": [],
-    "pnlHistory": [{"date":"2026-02-26","pnl":0}],
+    "cash": 549.27,
+    "holdings": [
+      {
+        "sym": "NVDA",
+        "units": 2.4378,
+        "avgPrice": 184.89,
+        "currentPrice": 184.89,
+        "pnl": 0
+      }
+    ],
+    "trades": [
+      {
+        "date": "2026-02-27T01:04:00+02:00",
+        "action": "buy",
+        "ticker": "NVDA",
+        "units": 2.4378,
+        "price": 184.89,
+        "amount": 450.73,
+        "reason": "Trend continuation (entry type 6) above MA-150 (183.42) in quality leader NVDA. Current price 184.89. Stop loss at 176.69 (MA150 - ATR). Risk limited to 2% ($20).",
+        "pnl": 0
+      }
+    ],
+    "pnlHistory": [
+      {"date":"2026-02-26","pnl":0},
+      {"date":"2026-02-27","pnl":0}
+    ],
     "totalPnl": 0
   },
   "yoni": {
@@ -39,8 +61,24 @@
     "totalPnl": 0
   },
   "audit": [
-    {"time":"2026-02-26T22:10:00","agent":"system","msg":"🏆 Competition started — each trader gets $1,000 cash to trade freely. May the best strategy win!"}
+    {"time":"2026-02-26T22:10:00","agent":"system","msg":"🏆 Competition started — each trader gets $1,000 cash to trade freely. May the best strategy win!"},
+    {"time":"2026-02-27T01:04:00+02:00","agent":"micha","msg":"Bought 2.4378 shares of NVDA at 184.89 for $450.73. Reason: Trend continuation above MA-150."}
   ],
-  "lastUpdate": "2026-02-26T22:10:00+02:00",
-  "prices": {}
+  "lastUpdate": "2026-02-27T01:04:00+02:00",
+  "prices": {
+    "NVDA": 184.88999938964844,
+    "QQQ": 609.239990234375,
+    "HOOD": 79.44999694824219,
+    "CVX": 184.16000366210938,
+    "CAT": 752.9299926757812,
+    "CRM": 199.47000122070312,
+    "XLU": 47.18000030517578,
+    "ARKX": 32.400001525878906,
+    "AAPL": 272.95001220703125,
+    "MSFT": 401.7200012207031,
+    "GOOGL": 307.3800048828125,
+    "AMD": 203.67999267578125,
+    "AVGO": 321.70001220703125,
+    "TSM": 376.80999755859375
+  }
 }
