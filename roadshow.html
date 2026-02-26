@@ -171,8 +171,8 @@ tr:hover{background:#0d1230}
 
 <script>
 // === CONFIG ===
-const START = new Date('2026-02-26T19:00:00Z'); // 21:00 IST = 19:00 UTC
-const END = new Date('2026-03-05T19:00:00Z');
+const START = new Date('2026-02-26T19:25:00Z'); // 21:25 IST = 19:25 UTC (NOW)
+const END = new Date('2026-03-05T19:25:00Z');   // 7 days = next Thursday same time
 const STARTING_CAPITAL = 50000;
 const REFRESH_MS = 30000;
 
@@ -210,6 +210,20 @@ function loadState() {
 }
 function saveState() { localStorage.setItem('roadshow-v2', JSON.stringify(state)); }
 
+// === TICKER MAPPING (QuantClaw uses different symbols) ===
+const TICKER_MAP = {
+  'BTC': 'BTC-USD',
+  'ETH': 'ETH-USD',
+  'SOL': 'SOL-USD',
+  'SPX500': 'SPY',  // SPX500 doesn't exist on QuantClaw, use SPY
+};
+
+// eToro prices differ from market for some instruments
+// These are eToro-specific conversion factors (eToro price / market price)
+const ETORO_SCALE = {
+  'SPX500': 1, // SPX500 on eToro IS the index value, SPY is ~1/10th
+};
+
 // === PRICES ===
 async function fetchPrices() {
   const tickers = [...new Set([
@@ -218,36 +232,54 @@ async function fetchPrices() {
     ...state.yoni.positions.map(p=>p.ticker),
   ])];
   
+  let fetched = 0;
   const promises = tickers.map(async t => {
+    const qcTicker = TICKER_MAP[t] || t;
     try {
-      const r = await fetch(`https://data.quantclaw.org/api/v1/price?ticker=${t}`);
+      const r = await fetch(`https://data.quantclaw.org/api/v1/price?ticker=${qcTicker}`);
       const d = await r.json();
-      if (d.price) prices[t] = d.price;
+      if (d.price && d.price > 0) {
+        // For SPX500: QuantClaw returns SPY (~689), eToro uses SPX500 index (~6900)
+        if (t === 'SPX500') {
+          prices[t] = d.price * 10.015; // SPY→SPX500 approximate conversion
+        } else if (t === 'ETH') {
+          // eToro ETH instrument is ~$86, QuantClaw ETH-USD is ~$2024
+          // Use ratio from open prices to get eToro-equivalent
+          prices[t] = d.price * (84.80 / 2024); // eToro scale
+        } else if (t === 'SOL') {
+          // eToro SOL is ~$117, market SOL-USD might differ
+          prices[t] = d.price;
+        } else {
+          prices[t] = d.price;
+        }
+        fetched++;
+      }
     } catch(e) {}
   });
   await Promise.all(promises);
   
-  // Also try crypto with -USD suffix
-  for (const t of ['BTC','ETH']) {
-    if (!prices[t]) {
-      try {
-        const r = await fetch(`https://data.quantclaw.org/api/v1/price?ticker=${t}-USD`);
-        const d = await r.json();
-        if (d.price) prices[t] = d.price;
-      } catch(e) {}
+  // Fallback: use eToro API prices file if available
+  try {
+    const r = await fetch('./prices.json?t=' + Date.now());
+    const d = await r.json();
+    if (d && d.prices) {
+      for (const [k,v] of Object.entries(d.prices)) {
+        if (!prices[k] || v > 0) prices[k] = v;
+      }
+      fetched = Object.keys(prices).length;
     }
-  }
+  } catch(e) {}
   
   updateUI();
-  document.getElementById('status-left').textContent = `✅ Prices updated: ${new Date().toLocaleTimeString()} | ${Object.keys(prices).length} tickers`;
+  document.getElementById('status-left').textContent = `✅ Prices updated: ${new Date().toLocaleTimeString()} | ${fetched} tickers loaded`;
 }
 
 // === TIMER ===
 function updateTimer() {
   const now = new Date();
-  const totalDays = (END - START) / 86400000;
-  const elapsed = Math.max(0, (now - START) / 86400000);
-  const day = Math.min(Math.ceil(elapsed) || 1, 10);
+  const totalMs = END - START;
+  const elapsedMs = Math.max(0, now - START);
+  const day = Math.min(Math.ceil(elapsedMs / 86400000) || 1, 7);
   const remaining = Math.max(0, END - now);
   
   if (remaining <= 0) {
@@ -258,7 +290,7 @@ function updateTimer() {
   const d = Math.floor(remaining / 86400000);
   const h = Math.floor((remaining % 86400000) / 3600000);
   const m = Math.floor((remaining % 3600000) / 60000);
-  document.getElementById('timer').textContent = `Day ${day} of 10 | ⏱ ${d}d ${h}h ${m}m remaining`;
+  document.getElementById('timer').textContent = `Day ${day} of 7 | ⏱ ${d}d ${h}h ${m}m remaining`;
 }
 
 // === FEAR & GREED GAUGE ===
