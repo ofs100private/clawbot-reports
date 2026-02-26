@@ -1,8 +1,8 @@
 {
   "competition": {
-    "start": "2026-02-26T22:00:00+02:00",
+    "start": "2026-02-26T22:10:00+02:00",
     "end": "2026-03-08T22:00:00+02:00",
-    "startCapital": 36379
+    "startCapital": 1000
   },
   "portfolio": [
     {"sym":"QQQ","name":"Invesco QQQ Trust","amt":5000,"open":609.02,"lev":1,"units":8.21},
@@ -23,34 +23,24 @@
   "micha": {
     "name": "Micha Fan",
     "strategy": "MA-150 Trend Following • 6 Entry Types • Chart Patterns • ATR Sizing • Risk Discipline",
-    "cash": 36379,
+    "cash": 1000,
     "holdings": [],
     "trades": [],
-    "pnlHistory": [{"date":"2026-02-26","pnl":0}, {"date":"2026-02-27","pnl":0}],
+    "pnlHistory": [{"date":"2026-02-26","pnl":0}],
     "totalPnl": 0
   },
   "yoni": {
     "name": "Yoni Fan",
     "strategy": "QuantClaw Signals • Smart Money Flow • GEX Regime • Fama-French Alpha • Factor Screening",
-    "cash": 0,
+    "cash": 1000,
     "holdings": [],
     "trades": [],
     "pnlHistory": [{"date":"2026-02-26","pnl":0}],
     "totalPnl": 0
   },
   "audit": [
-    {"time":"2026-02-26T22:00:00","agent":"system","msg":"🏆 Competition started — both agents receive identical portfolio ($36,379)"},
-    {"time":"2026-02-27T00:52:00","agent":"micha","msg":"Initial analysis: No clear setups without MA-150 data. Holding cash."}
+    {"time":"2026-02-26T22:10:00","agent":"system","msg":"🏆 Competition started — each trader gets $1,000 cash to trade freely. May the best strategy win!"}
   ],
-  "lastUpdate": "2026-02-27T00:52:00+02:00",
-  "prices": {
-    "NVDA": 184.88999938964844,
-    "QQQ": 609.239990234375,
-    "HOOD": 79.44999694824219,
-    "CVX": 184.16000366210938,
-    "CAT": 752.9299926757812,
-    "CRM": 199.47000122070312,
-    "XLU": 47.18000030517578,
-    "ARKX": 32.400001525878906
-  }
+  "lastUpdate": "2026-02-26T22:10:00+02:00",
+  "prices": {}
 }
