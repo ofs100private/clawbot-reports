@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ben's Brain Map - Interactive Skills & Infrastructure</title>
-    <script src="https://d3js.org/d3.v7.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -31,11 +30,16 @@
             top: 0;
             left: 0;
             z-index: 2;
+            cursor: grab;
+        }
+        
+        #graph.dragging {
+            cursor: grabbing;
         }
         
         .node {
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: filter 0.3s ease;
         }
         
         .node:hover {
@@ -199,17 +203,21 @@
             <span>Infrastructure</span>
         </div>
         <div class="legend-item">
-            <span style="font-size: 10px;">💡 Click nodes to expand • Drag to move • Scroll to zoom</span>
+            <span style="font-size: 10px;">💡 Drag to pan • Scroll to zoom</span>
         </div>
     </div>
 
     <script>
+        console.log('Brain map initializing...');
+        
         // Animated background stars
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
         
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
+        
+        console.log('Canvas size:', canvas.width, 'x', canvas.height);
         
         const stars = [];
         const starCount = 150;
@@ -223,6 +231,8 @@
                 opacity: Math.random()
             });
         }
+        
+        console.log('Created', stars.length, 'stars');
         
         function animateStars() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -245,26 +255,26 @@
         }
         
         animateStars();
+        console.log('Stars animation started');
         
         window.addEventListener('resize', () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
+            console.log('Canvas resized:', canvas.width, 'x', canvas.height);
         });
         
-        // D3.js Force-Directed Graph
+        // Graph setup
         const width = window.innerWidth;
         const height = window.innerHeight;
+        const centerX = width / 2;
+        const centerY = height / 2;
         
-        const svg = d3.select('#graph')
-            .attr('width', width)
-            .attr('height', height);
+        console.log('Graph center:', centerX, centerY);
         
-        const g = svg.append('g');
-        
-        // Data structure
+        // Data structure with ALL nodes visible
         const nodes = [
             // Center node
-            { id: 'center', label: 'My Skills', icon: '🧠', type: 'center', size: 50, color: '#00ffff', tooltip: 'Ben\'s Core Knowledge Base\n9 major skill areas\n13 sub-systems\n432 files total' },
+            { id: 'center', label: 'My Skills', icon: '🧠', type: 'center', size: 50, color: '#00ffff', tooltip: "Ben's Core Knowledge Base\n9 major skill areas\n13 sub-systems\n432 files total" },
             
             // Major skill nodes (connected to center)
             { id: 'security', label: 'Security Gate', icon: '🔒', type: 'skill', size: 35, color: '#ff6b6b', tooltip: 'Security Gate\nPrompt injection defense\nCode scanning\nCredential protection\nSocial engineering detection' },
@@ -287,309 +297,427 @@
             { id: 'agents', label: 'Agents', icon: '🤖', type: 'infra', size: 40, color: '#ff9800', tooltip: 'AI Agents\n• Ben: Opus 4.6, 432 files, main assistant\n• OfsInvest: Grok 4, 88 files, 18,766 lines, 9.3/10 score\n• Architect: Grok 4, V2 research\n• Budget: Sonnet 4.5, family budget' },
             { id: 'cron', label: 'Cron Jobs', icon: '⏰', type: 'infra', size: 40, color: '#f44336', tooltip: 'Scheduled Tasks\n9 active cron jobs\nHeartbeat checks\nMemory backups\nMarket monitoring' },
             { id: 'models', label: 'Models', icon: '📊', type: 'infra', size: 40, color: '#ff5722', tooltip: 'AI Models\n• Opus 4.6 (main)\n• Grok 4 (news/research, free)\n• Sonnet 4.5 (sub-agents, efficient)' },
-            { id: 'apps', label: 'Apps', icon: '🔌', type: 'infra', size: 40, color: '#4caf50', tooltip: 'Connected Apps\neToro (53 endpoints)\nQuantClaw (699 modules)\nLinkedIn\nGmail\nGitHub' }
-        ];
-        
-        // Add sub-nodes (initially hidden)
-        const subNodes = [
+            { id: 'apps', label: 'Apps', icon: '🔌', type: 'infra', size: 40, color: '#4caf50', tooltip: 'Connected Apps\neToro (53 endpoints)\nQuantClaw (699 modules)\nLinkedIn\nGmail\nGitHub' },
+            
+            // Sub-nodes - ALL VISIBLE by default
             // Security Gate subs
-            { id: 'sec-1', label: 'Prompt Injection', parent: 'security', type: 'sub', size: 8, color: '#ff8a80', visible: false },
-            { id: 'sec-2', label: 'Code Scanning', parent: 'security', type: 'sub', size: 8, color: '#ff8a80', visible: false },
-            { id: 'sec-3', label: 'Credential Protection', parent: 'security', type: 'sub', size: 8, color: '#ff8a80', visible: false },
-            { id: 'sec-4', label: 'Social Engineering', parent: 'security', type: 'sub', size: 8, color: '#ff8a80', visible: false },
+            { id: 'sec-1', label: 'Prompt Injection', parent: 'security', type: 'sub', size: 8, color: '#ff8a80' },
+            { id: 'sec-2', label: 'Code Scanning', parent: 'security', type: 'sub', size: 8, color: '#ff8a80' },
+            { id: 'sec-3', label: 'Credential Protection', parent: 'security', type: 'sub', size: 8, color: '#ff8a80' },
+            { id: 'sec-4', label: 'Social Engineering', parent: 'security', type: 'sub', size: 8, color: '#ff8a80' },
             
             // Technical Analysis subs
-            { id: 'tech-1', label: 'Chart Patterns', parent: 'technical', type: 'sub', size: 8, color: '#80deea', visible: false },
-            { id: 'tech-2', label: 'MA150 System', parent: 'technical', type: 'sub', size: 8, color: '#80deea', visible: false },
-            { id: 'tech-3', label: 'Darvas Box', parent: 'technical', type: 'sub', size: 8, color: '#80deea', visible: false },
-            { id: 'tech-4', label: 'Elliott Wave', parent: 'technical', type: 'sub', size: 8, color: '#80deea', visible: false },
-            { id: 'tech-5', label: 'ATR Sizing', parent: 'technical', type: 'sub', size: 8, color: '#80deea', visible: false },
-            { id: 'tech-6', label: 'Fibonacci', parent: 'technical', type: 'sub', size: 8, color: '#80deea', visible: false },
+            { id: 'tech-1', label: 'Chart Patterns', parent: 'technical', type: 'sub', size: 8, color: '#80deea' },
+            { id: 'tech-2', label: 'MA150 System', parent: 'technical', type: 'sub', size: 8, color: '#80deea' },
+            { id: 'tech-3', label: 'Darvas Box', parent: 'technical', type: 'sub', size: 8, color: '#80deea' },
+            { id: 'tech-4', label: 'Elliott Wave', parent: 'technical', type: 'sub', size: 8, color: '#80deea' },
+            { id: 'tech-5', label: 'ATR Sizing', parent: 'technical', type: 'sub', size: 8, color: '#80deea' },
+            { id: 'tech-6', label: 'Fibonacci', parent: 'technical', type: 'sub', size: 8, color: '#80deea' },
             
             // Buy/Sell Signal subs
-            { id: 'bs-1', label: 'Triple Confirm', parent: 'buysell', type: 'sub', size: 8, color: '#81d4fa', visible: false },
-            { id: 'bs-2', label: 'Grok Model', parent: 'buysell', type: 'sub', size: 8, color: '#81d4fa', visible: false },
-            { id: 'bs-3', label: 'Entry Scanner', parent: 'buysell', type: 'sub', size: 8, color: '#81d4fa', visible: false },
-            { id: 'bs-4', label: 'Stop Loss', parent: 'buysell', type: 'sub', size: 8, color: '#81d4fa', visible: false },
+            { id: 'bs-1', label: 'Triple Confirm', parent: 'buysell', type: 'sub', size: 8, color: '#81d4fa' },
+            { id: 'bs-2', label: 'Grok Model', parent: 'buysell', type: 'sub', size: 8, color: '#81d4fa' },
+            { id: 'bs-3', label: 'Entry Scanner', parent: 'buysell', type: 'sub', size: 8, color: '#81d4fa' },
+            { id: 'bs-4', label: 'Stop Loss', parent: 'buysell', type: 'sub', size: 8, color: '#81d4fa' },
             
             // Market News subs
-            { id: 'news-1', label: 'Multi-Source', parent: 'news', type: 'sub', size: 8, color: '#a5d6a7', visible: false },
-            { id: 'news-2', label: 'News NLP', parent: 'news', type: 'sub', size: 8, color: '#a5d6a7', visible: false },
-            { id: 'news-3', label: 'Crypto Fear & Greed', parent: 'news', type: 'sub', size: 8, color: '#a5d6a7', visible: false },
+            { id: 'news-1', label: 'Multi-Source', parent: 'news', type: 'sub', size: 8, color: '#a5d6a7' },
+            { id: 'news-2', label: 'News NLP', parent: 'news', type: 'sub', size: 8, color: '#a5d6a7' },
+            { id: 'news-3', label: 'Crypto Fear & Greed', parent: 'news', type: 'sub', size: 8, color: '#a5d6a7' },
             
             // Analyst Targets subs
-            { id: 'analyst-1', label: 'TipRanks', parent: 'analyst', type: 'sub', size: 8, color: '#fff59d', visible: false },
-            { id: 'analyst-2', label: 'Consensus Rating', parent: 'analyst', type: 'sub', size: 8, color: '#fff59d', visible: false },
-            { id: 'analyst-3', label: 'Upside Calc', parent: 'analyst', type: 'sub', size: 8, color: '#fff59d', visible: false },
-            { id: 'analyst-4', label: 'Price Targets', parent: 'analyst', type: 'sub', size: 8, color: '#fff59d', visible: false },
+            { id: 'analyst-1', label: 'TipRanks', parent: 'analyst', type: 'sub', size: 8, color: '#fff59d' },
+            { id: 'analyst-2', label: 'Consensus Rating', parent: 'analyst', type: 'sub', size: 8, color: '#fff59d' },
+            { id: 'analyst-3', label: 'Upside Calc', parent: 'analyst', type: 'sub', size: 8, color: '#fff59d' },
+            { id: 'analyst-4', label: 'Price Targets', parent: 'analyst', type: 'sub', size: 8, color: '#fff59d' },
             
             // Investing subs
-            { id: 'inv-1', label: 'Micha Method', parent: 'investing', type: 'sub', size: 8, color: '#eceff1', visible: false },
-            { id: 'inv-2', label: 'Risk Management', parent: 'investing', type: 'sub', size: 8, color: '#eceff1', visible: false },
-            { id: 'inv-3', label: 'Portfolio Construction', parent: 'investing', type: 'sub', size: 8, color: '#eceff1', visible: false },
-            { id: 'inv-4', label: '3-Tier Allocation', parent: 'investing', type: 'sub', size: 8, color: '#eceff1', visible: false },
-            { id: 'inv-5', label: '10x DNA', parent: 'investing', type: 'sub', size: 8, color: '#eceff1', visible: false },
+            { id: 'inv-1', label: 'Micha Method', parent: 'investing', type: 'sub', size: 8, color: '#eceff1' },
+            { id: 'inv-2', label: 'Risk Management', parent: 'investing', type: 'sub', size: 8, color: '#eceff1' },
+            { id: 'inv-3', label: 'Portfolio Construction', parent: 'investing', type: 'sub', size: 8, color: '#eceff1' },
+            { id: 'inv-4', label: '3-Tier Allocation', parent: 'investing', type: 'sub', size: 8, color: '#eceff1' },
+            { id: 'inv-5', label: '10x DNA', parent: 'investing', type: 'sub', size: 8, color: '#eceff1' },
             
             // Chart Patterns subs
-            { id: 'chart-1', label: 'Cup & Handle', parent: 'chartpatterns', type: 'sub', size: 8, color: '#90caf9', visible: false },
-            { id: 'chart-2', label: 'H&S', parent: 'chartpatterns', type: 'sub', size: 8, color: '#90caf9', visible: false },
-            { id: 'chart-3', label: 'Flags', parent: 'chartpatterns', type: 'sub', size: 8, color: '#90caf9', visible: false },
-            { id: 'chart-4', label: 'Triangles', parent: 'chartpatterns', type: 'sub', size: 8, color: '#90caf9', visible: false },
-            { id: 'chart-5', label: 'Wedges', parent: 'chartpatterns', type: 'sub', size: 8, color: '#90caf9', visible: false },
-            { id: 'chart-6', label: 'Double Bottom', parent: 'chartpatterns', type: 'sub', size: 8, color: '#90caf9', visible: false },
+            { id: 'chart-1', label: 'Cup & Handle', parent: 'chartpatterns', type: 'sub', size: 8, color: '#90caf9' },
+            { id: 'chart-2', label: 'H&S', parent: 'chartpatterns', type: 'sub', size: 8, color: '#90caf9' },
+            { id: 'chart-3', label: 'Flags', parent: 'chartpatterns', type: 'sub', size: 8, color: '#90caf9' },
+            { id: 'chart-4', label: 'Triangles', parent: 'chartpatterns', type: 'sub', size: 8, color: '#90caf9' },
+            { id: 'chart-5', label: 'Wedges', parent: 'chartpatterns', type: 'sub', size: 8, color: '#90caf9' },
+            { id: 'chart-6', label: 'Double Bottom', parent: 'chartpatterns', type: 'sub', size: 8, color: '#90caf9' },
             
             // QuantClaw subs
-            { id: 'qc-1', label: '699 Modules', parent: 'quantclaw', type: 'sub', size: 8, color: '#b39ddb', visible: false },
-            { id: 'qc-2', label: 'Fama-French', parent: 'quantclaw', type: 'sub', size: 8, color: '#b39ddb', visible: false },
-            { id: 'qc-3', label: 'GEX', parent: 'quantclaw', type: 'sub', size: 8, color: '#b39ddb', visible: false },
-            { id: 'qc-4', label: 'Smart Money', parent: 'quantclaw', type: 'sub', size: 8, color: '#b39ddb', visible: false },
-            { id: 'qc-5', label: 'Screener', parent: 'quantclaw', type: 'sub', size: 8, color: '#b39ddb', visible: false },
+            { id: 'qc-1', label: '699 Modules', parent: 'quantclaw', type: 'sub', size: 8, color: '#b39ddb' },
+            { id: 'qc-2', label: 'Fama-French', parent: 'quantclaw', type: 'sub', size: 8, color: '#b39ddb' },
+            { id: 'qc-3', label: 'GEX', parent: 'quantclaw', type: 'sub', size: 8, color: '#b39ddb' },
+            { id: 'qc-4', label: 'Smart Money', parent: 'quantclaw', type: 'sub', size: 8, color: '#b39ddb' },
+            { id: 'qc-5', label: 'Screener', parent: 'quantclaw', type: 'sub', size: 8, color: '#b39ddb' },
             
             // eToro API subs
-            { id: 'etoro-1', label: 'Portfolio', parent: 'etoro', type: 'sub', size: 8, color: '#f48fb1', visible: false },
-            { id: 'etoro-2', label: 'Watchlists', parent: 'etoro', type: 'sub', size: 8, color: '#f48fb1', visible: false },
-            { id: 'etoro-3', label: 'Trading', parent: 'etoro', type: 'sub', size: 8, color: '#f48fb1', visible: false },
-            { id: 'etoro-4', label: 'Market Data', parent: 'etoro', type: 'sub', size: 8, color: '#f48fb1', visible: false },
-            { id: 'etoro-5', label: 'WebSocket', parent: 'etoro', type: 'sub', size: 8, color: '#f48fb1', visible: false },
+            { id: 'etoro-1', label: 'Portfolio', parent: 'etoro', type: 'sub', size: 8, color: '#f48fb1' },
+            { id: 'etoro-2', label: 'Watchlists', parent: 'etoro', type: 'sub', size: 8, color: '#f48fb1' },
+            { id: 'etoro-3', label: 'Trading', parent: 'etoro', type: 'sub', size: 8, color: '#f48fb1' },
+            { id: 'etoro-4', label: 'Market Data', parent: 'etoro', type: 'sub', size: 8, color: '#f48fb1' },
+            { id: 'etoro-5', label: 'WebSocket', parent: 'etoro', type: 'sub', size: 8, color: '#f48fb1' },
             
             // Social Media subs
-            { id: 'social-1', label: 'LinkedIn', parent: 'social', type: 'sub', size: 8, color: '#ffe082', visible: false },
-            { id: 'social-2', label: 'Content Strategy', parent: 'social', type: 'sub', size: 8, color: '#ffe082', visible: false },
-            { id: 'social-3', label: 'Scheduling', parent: 'social', type: 'sub', size: 8, color: '#ffe082', visible: false },
+            { id: 'social-1', label: 'LinkedIn', parent: 'social', type: 'sub', size: 8, color: '#ffe082' },
+            { id: 'social-2', label: 'Content Strategy', parent: 'social', type: 'sub', size: 8, color: '#ffe082' },
+            { id: 'social-3', label: 'Scheduling', parent: 'social', type: 'sub', size: 8, color: '#ffe082' },
             
             // Healthcare subs
-            { id: 'health-1', label: 'GLP-1', parent: 'healthcare', type: 'sub', size: 8, color: '#ffab91', visible: false },
-            { id: 'health-2', label: 'Immunotherapy', parent: 'healthcare', type: 'sub', size: 8, color: '#ffab91', visible: false },
-            { id: 'health-3', label: 'Gene Therapy', parent: 'healthcare', type: 'sub', size: 8, color: '#ffab91', visible: false },
-            { id: 'health-4', label: 'AI Drug Discovery', parent: 'healthcare', type: 'sub', size: 8, color: '#ffab91', visible: false },
+            { id: 'health-1', label: 'GLP-1', parent: 'healthcare', type: 'sub', size: 8, color: '#ffab91' },
+            { id: 'health-2', label: 'Immunotherapy', parent: 'healthcare', type: 'sub', size: 8, color: '#ffab91' },
+            { id: 'health-3', label: 'Gene Therapy', parent: 'healthcare', type: 'sub', size: 8, color: '#ffab91' },
+            { id: 'health-4', label: 'AI Drug Discovery', parent: 'healthcare', type: 'sub', size: 8, color: '#ffab91' },
             
             // Sectors subs
-            { id: 'sector-1', label: 'Nuclear/Space', parent: 'sectors', type: 'sub', size: 8, color: '#80cbc4', visible: false },
-            { id: 'sector-2', label: 'BioPharma', parent: 'sectors', type: 'sub', size: 8, color: '#80cbc4', visible: false },
-            { id: 'sector-3', label: 'Quantum', parent: 'sectors', type: 'sub', size: 8, color: '#80cbc4', visible: false },
-            { id: 'sector-4', label: 'Crypto', parent: 'sectors', type: 'sub', size: 8, color: '#80cbc4', visible: false },
-            { id: 'sector-5', label: 'Options', parent: 'sectors', type: 'sub', size: 8, color: '#80cbc4', visible: false },
-            { id: 'sector-6', label: 'Under $1B', parent: 'sectors', type: 'sub', size: 8, color: '#80cbc4', visible: false },
+            { id: 'sector-1', label: 'Nuclear/Space', parent: 'sectors', type: 'sub', size: 8, color: '#80cbc4' },
+            { id: 'sector-2', label: 'BioPharma', parent: 'sectors', type: 'sub', size: 8, color: '#80cbc4' },
+            { id: 'sector-3', label: 'Quantum', parent: 'sectors', type: 'sub', size: 8, color: '#80cbc4' },
+            { id: 'sector-4', label: 'Crypto', parent: 'sectors', type: 'sub', size: 8, color: '#80cbc4' },
+            { id: 'sector-5', label: 'Options', parent: 'sectors', type: 'sub', size: 8, color: '#80cbc4' },
+            { id: 'sector-6', label: 'Under $1B', parent: 'sectors', type: 'sub', size: 8, color: '#80cbc4' },
             
             // Market Sentiment subs
-            { id: 'sent-1', label: 'VIX', parent: 'sentiment', type: 'sub', size: 8, color: '#9575cd', visible: false },
-            { id: 'sent-2', label: 'Put/Call', parent: 'sentiment', type: 'sub', size: 8, color: '#9575cd', visible: false },
-            { id: 'sent-3', label: 'Fear & Greed', parent: 'sentiment', type: 'sub', size: 8, color: '#9575cd', visible: false },
-            { id: 'sent-4', label: 'Capitulation', parent: 'sentiment', type: 'sub', size: 8, color: '#9575cd', visible: false },
-            { id: 'sent-5', label: 'Sector Rotation', parent: 'sentiment', type: 'sub', size: 8, color: '#9575cd', visible: false }
+            { id: 'sent-1', label: 'VIX', parent: 'sentiment', type: 'sub', size: 8, color: '#9575cd' },
+            { id: 'sent-2', label: 'Put/Call', parent: 'sentiment', type: 'sub', size: 8, color: '#9575cd' },
+            { id: 'sent-3', label: 'Fear & Greed', parent: 'sentiment', type: 'sub', size: 8, color: '#9575cd' },
+            { id: 'sent-4', label: 'Capitulation', parent: 'sentiment', type: 'sub', size: 8, color: '#9575cd' },
+            { id: 'sent-5', label: 'Sector Rotation', parent: 'sentiment', type: 'sub', size: 8, color: '#9575cd' }
         ];
         
-        nodes.push(...subNodes);
+        console.log('Total nodes:', nodes.length);
+        console.log('- Center:', nodes.filter(n => n.type === 'center').length);
+        console.log('- Skills:', nodes.filter(n => n.type === 'skill').length);
+        console.log('- Infrastructure:', nodes.filter(n => n.type === 'infra').length);
+        console.log('- Sub-nodes:', nodes.filter(n => n.type === 'sub').length);
+        
+        // Calculate fixed positions - radial layout
+        function calculatePositions() {
+            console.log('Calculating node positions...');
+            
+            // Center node
+            const centerNode = nodes.find(n => n.type === 'center');
+            centerNode.x = centerX;
+            centerNode.y = centerY;
+            console.log('Center node at:', centerNode.x, centerNode.y);
+            
+            // Skill nodes in a circle around center
+            const skillNodes = nodes.filter(n => n.type === 'skill');
+            const skillRadius = Math.min(width, height) * 0.25;
+            skillNodes.forEach((node, i) => {
+                const angle = (i / skillNodes.length) * Math.PI * 2 - Math.PI / 2;
+                node.x = centerX + Math.cos(angle) * skillRadius;
+                node.y = centerY + Math.sin(angle) * skillRadius;
+            });
+            console.log('Positioned', skillNodes.length, 'skill nodes at radius', skillRadius);
+            
+            // Infrastructure nodes around edges
+            const infraNodes = nodes.filter(n => n.type === 'infra');
+            const infraRadius = Math.min(width, height) * 0.4;
+            infraNodes.forEach((node, i) => {
+                const angle = (i / infraNodes.length) * Math.PI * 2 - Math.PI / 2;
+                node.x = centerX + Math.cos(angle) * infraRadius;
+                node.y = centerY + Math.sin(angle) * infraRadius;
+            });
+            console.log('Positioned', infraNodes.length, 'infra nodes at radius', infraRadius);
+            
+            // Sub-nodes around their parents
+            const subNodes = nodes.filter(n => n.type === 'sub');
+            const nodesByParent = {};
+            subNodes.forEach(sub => {
+                if (!nodesByParent[sub.parent]) {
+                    nodesByParent[sub.parent] = [];
+                }
+                nodesByParent[sub.parent].push(sub);
+            });
+            
+            Object.keys(nodesByParent).forEach(parentId => {
+                const parent = nodes.find(n => n.id === parentId);
+                const subs = nodesByParent[parentId];
+                const subRadius = 60;
+                
+                subs.forEach((sub, i) => {
+                    const angle = (i / subs.length) * Math.PI * 2;
+                    sub.x = parent.x + Math.cos(angle) * subRadius;
+                    sub.y = parent.y + Math.sin(angle) * subRadius;
+                });
+            });
+            console.log('Positioned', subNodes.length, 'sub-nodes around their parents');
+        }
+        
+        calculatePositions();
         
         // Create links
         const links = [];
         
         // Connect skills to center
         nodes.filter(n => n.type === 'skill').forEach(node => {
-            links.push({ source: 'center', target: node.id, type: 'main' });
+            links.push({ source: node.id, target: 'center', type: 'main' });
         });
         
         // Connect sub-nodes to their parents
-        subNodes.forEach(sub => {
-            links.push({ source: sub.parent, target: sub.id, type: 'sub' });
+        nodes.filter(n => n.type === 'sub').forEach(sub => {
+            links.push({ source: sub.id, target: sub.parent, type: 'sub' });
         });
         
-        // Create force simulation
-        const simulation = d3.forceSimulation(nodes)
-            .force('link', d3.forceLink(links).id(d => d.id).distance(d => d.type === 'sub' ? 60 : 150))
-            .force('charge', d3.forceManyBody().strength(d => {
-                if (d.type === 'center') return -800;
-                if (d.type === 'infra') return -400;
-                if (d.type === 'skill') return -300;
-                return -50;
-            }))
-            .force('center', d3.forceCenter(width / 2, height / 2))
-            .force('collision', d3.forceCollide().radius(d => d.size + 20))
-            .alphaDecay(0.01);
+        console.log('Created', links.length, 'links');
+        console.log('- Main links:', links.filter(l => l.type === 'main').length);
+        console.log('- Sub links:', links.filter(l => l.type === 'sub').length);
         
-        // Position infrastructure nodes around the edges
-        nodes.filter(n => n.type === 'infra').forEach((node, i) => {
-            const angle = (i / 6) * Math.PI * 2 - Math.PI / 2;
-            const radius = Math.min(width, height) * 0.4;
-            node.fx = width / 2 + Math.cos(angle) * radius;
-            node.fy = height / 2 + Math.sin(angle) * radius;
-        });
+        // SVG setup
+        const svg = document.getElementById('graph');
+        svg.setAttribute('width', width);
+        svg.setAttribute('height', height);
+        
+        // Create container group for zoom/pan
+        const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        svg.appendChild(g);
+        
+        // Helper to get node by id
+        function getNode(id) {
+            return nodes.find(n => n.id === id);
+        }
         
         // Draw links
-        const link = g.append('g')
-            .selectAll('line')
-            .data(links)
-            .enter().append('line')
-            .attr('class', d => `link ${d.type === 'main' ? 'link-main' : 'link-sub'}`)
-            .style('opacity', d => {
-                if (d.type === 'sub') {
-                    const target = nodes.find(n => n.id === d.target);
-                    return target.visible ? 0.4 : 0;
-                }
-                return 0.6;
-            });
+        console.log('Drawing links...');
+        const linkGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        g.appendChild(linkGroup);
+        
+        links.forEach(link => {
+            const sourceNode = getNode(link.source);
+            const targetNode = getNode(link.target);
+            
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('class', `link ${link.type === 'main' ? 'link-main' : 'link-sub'}`);
+            line.setAttribute('x1', sourceNode.x);
+            line.setAttribute('y1', sourceNode.y);
+            line.setAttribute('x2', targetNode.x);
+            line.setAttribute('y2', targetNode.y);
+            linkGroup.appendChild(line);
+            
+            link.element = line;
+        });
+        console.log('Links drawn');
         
         // Draw nodes
-        const node = g.append('g')
-            .selectAll('g')
-            .data(nodes)
-            .enter().append('g')
-            .attr('class', 'node')
-            .style('opacity', d => d.type === 'sub' && !d.visible ? 0 : 1)
-            .call(d3.drag()
-                .on('start', dragStarted)
-                .on('drag', dragged)
-                .on('end', dragEnded));
+        console.log('Drawing nodes...');
+        const nodeGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        g.appendChild(nodeGroup);
         
-        // Node circles
-        node.append('circle')
-            .attr('class', 'node-circle')
-            .attr('r', d => d.size)
-            .attr('fill', d => d.color)
-            .attr('stroke', d => d.color);
-        
-        // Node icons
-        node.append('text')
-            .attr('class', 'node-icon')
-            .attr('dy', '0.35em')
-            .style('font-size', d => d.type === 'center' ? '32px' : d.type === 'sub' ? '10px' : '20px')
-            .text(d => d.icon || '');
-        
-        // Node labels
-        node.append('text')
-            .attr('class', 'node-text')
-            .attr('dy', d => d.size + 15)
-            .style('font-size', d => d.type === 'sub' ? '9px' : '12px')
-            .text(d => d.label);
-        
-        // Tooltip
-        const tooltip = d3.select('#tooltip');
-        
-        node.on('mouseover', function(event, d) {
-            if (d.tooltip) {
-                tooltip.select('.tooltip-title').text(d.label);
-                tooltip.select('.tooltip-content').html(d.tooltip.replace(/\n/g, '<br>'));
-                tooltip.classed('visible', true);
+        nodes.forEach(node => {
+            const nodeEl = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            nodeEl.setAttribute('class', 'node');
+            nodeEl.setAttribute('transform', `translate(${node.x}, ${node.y})`);
+            nodeEl.setAttribute('data-id', node.id);
+            
+            // Circle
+            const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            circle.setAttribute('class', 'node-circle');
+            circle.setAttribute('r', node.size);
+            circle.setAttribute('fill', node.color);
+            circle.setAttribute('stroke', node.color);
+            nodeEl.appendChild(circle);
+            
+            // Icon
+            if (node.icon) {
+                const icon = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                icon.setAttribute('class', 'node-icon');
+                icon.setAttribute('dy', '0.35em');
+                icon.style.fontSize = node.type === 'center' ? '32px' : node.type === 'sub' ? '10px' : '20px';
+                icon.textContent = node.icon;
+                nodeEl.appendChild(icon);
             }
-        })
-        .on('mousemove', function(event) {
-            tooltip
-                .style('left', (event.pageX + 15) + 'px')
-                .style('top', (event.pageY + 15) + 'px');
-        })
-        .on('mouseout', function() {
-            tooltip.classed('visible', false);
+            
+            // Label
+            const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            label.setAttribute('class', 'node-text');
+            label.setAttribute('dy', node.size + 15);
+            label.style.fontSize = node.type === 'sub' ? '9px' : '12px';
+            label.textContent = node.label;
+            nodeEl.appendChild(label);
+            
+            nodeGroup.appendChild(nodeEl);
+            node.element = nodeEl;
         });
+        console.log('Nodes drawn');
         
-        // Click to expand/collapse sub-nodes
-        node.on('click', function(event, d) {
-            if (d.type === 'skill') {
-                const subs = nodes.filter(n => n.parent === d.id);
-                const isExpanded = subs[0].visible;
-                
-                subs.forEach(sub => {
-                    sub.visible = !isExpanded;
+        // Tooltip functionality
+        const tooltip = document.getElementById('tooltip');
+        const tooltipTitle = tooltip.querySelector('.tooltip-title');
+        const tooltipContent = tooltip.querySelector('.tooltip-content');
+        
+        nodes.forEach(node => {
+            if (node.tooltip) {
+                node.element.addEventListener('mouseenter', (e) => {
+                    tooltipTitle.textContent = node.label;
+                    tooltipContent.innerHTML = node.tooltip.replace(/\n/g, '<br>');
+                    tooltip.classList.add('visible');
                 });
                 
-                // Update visibility
-                node.style('opacity', n => n.type === 'sub' && !n.visible ? 0 : 1)
-                    .transition().duration(300);
+                node.element.addEventListener('mousemove', (e) => {
+                    tooltip.style.left = (e.pageX + 15) + 'px';
+                    tooltip.style.top = (e.pageY + 15) + 'px';
+                });
                 
-                link.style('opacity', l => {
-                    if (l.type === 'sub') {
-                        const target = nodes.find(n => n.id === l.target);
-                        return target.visible ? 0.4 : 0;
-                    }
-                    return 0.6;
-                }).transition().duration(300);
-                
-                simulation.alpha(0.3).restart();
+                node.element.addEventListener('mouseleave', () => {
+                    tooltip.classList.remove('visible');
+                });
             }
         });
         
-        // Tick function
-        simulation.on('tick', () => {
-            link
-                .attr('x1', d => d.source.x)
-                .attr('y1', d => d.source.y)
-                .attr('x2', d => d.target.x)
-                .attr('y2', d => d.target.y);
-            
-            node.attr('transform', d => `translate(${d.x},${d.y})`);
-        });
+        // Drag nodes
+        let draggedNode = null;
+        let dragOffsetX = 0;
+        let dragOffsetY = 0;
         
-        // Drag functions
-        function dragStarted(event, d) {
-            if (!event.active) simulation.alphaTarget(0.3).restart();
-            d.fx = d.x;
-            d.fy = d.y;
-        }
-        
-        function dragged(event, d) {
-            d.fx = event.x;
-            d.fy = event.y;
-        }
-        
-        function dragEnded(event, d) {
-            if (!event.active) simulation.alphaTarget(0);
-            if (d.type !== 'infra') {
-                d.fx = null;
-                d.fy = null;
-            }
-        }
-        
-        // Zoom functionality
-        const zoom = d3.zoom()
-            .scaleExtent([0.3, 3])
-            .on('zoom', (event) => {
-                g.attr('transform', event.transform);
-            });
-        
-        svg.call(zoom);
-        
-        function zoomIn() {
-            svg.transition().call(zoom.scaleBy, 1.3);
-        }
-        
-        function zoomOut() {
-            svg.transition().call(zoom.scaleBy, 0.7);
-        }
-        
-        function resetZoom() {
-            svg.transition().call(zoom.transform, d3.zoomIdentity);
-        }
-        
-        // Add gentle floating animation
-        function addFloatingAnimation() {
-            node.each(function(d, i) {
-                if (d.type !== 'sub') {
-                    d3.select(this)
-                        .transition()
-                        .duration(3000 + Math.random() * 2000)
-                        .ease(d3.easeSinInOut)
-                        .attr('transform', `translate(${d.x},${d.y + Math.sin(i) * 3})`)
-                        .transition()
-                        .duration(3000 + Math.random() * 2000)
-                        .ease(d3.easeSinInOut)
-                        .attr('transform', `translate(${d.x},${d.y - Math.sin(i) * 3})`)
-                        .on('end', function repeat() {
-                            d3.select(this)
-                                .transition()
-                                .duration(3000 + Math.random() * 2000)
-                                .ease(d3.easeSinInOut)
-                                .attr('transform', `translate(${d.x},${d.y + Math.sin(i) * 3})`)
-                                .transition()
-                                .duration(3000 + Math.random() * 2000)
-                                .ease(d3.easeSinInOut)
-                                .attr('transform', `translate(${d.x},${d.y - Math.sin(i) * 3})`)
-                                .on('end', repeat);
-                        });
+        nodes.forEach(node => {
+            node.element.addEventListener('mousedown', (e) => {
+                draggedNode = node;
+                const transform = node.element.getAttribute('transform');
+                const match = transform.match(/translate\(([\d.]+),\s*([\d.]+)\)/);
+                if (match) {
+                    dragOffsetX = e.clientX - parseFloat(match[1]);
+                    dragOffsetY = e.clientY - parseFloat(match[2]);
                 }
+                e.preventDefault();
             });
+        });
+        
+        document.addEventListener('mousemove', (e) => {
+            if (draggedNode) {
+                const newX = e.clientX - dragOffsetX;
+                const newY = e.clientY - dragOffsetY;
+                
+                draggedNode.x = newX;
+                draggedNode.y = newY;
+                draggedNode.element.setAttribute('transform', `translate(${newX}, ${newY})`);
+                
+                // Update connected links
+                links.forEach(link => {
+                    if (link.source === draggedNode.id || link.target === draggedNode.id) {
+                        const sourceNode = getNode(link.source);
+                        const targetNode = getNode(link.target);
+                        link.element.setAttribute('x1', sourceNode.x);
+                        link.element.setAttribute('y1', sourceNode.y);
+                        link.element.setAttribute('x2', targetNode.x);
+                        link.element.setAttribute('y2', targetNode.y);
+                    }
+                });
+            }
+        });
+        
+        document.addEventListener('mouseup', () => {
+            draggedNode = null;
+        });
+        
+        // Pan and zoom
+        let scale = 1;
+        let translateX = 0;
+        let translateY = 0;
+        let isPanning = false;
+        let panStartX = 0;
+        let panStartY = 0;
+        
+        function updateTransform() {
+            g.setAttribute('transform', `translate(${translateX}, ${translateY}) scale(${scale})`);
         }
         
-        // Start floating after initial layout
-        setTimeout(addFloatingAnimation, 2000);
+        // Mouse wheel zoom
+        svg.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            
+            const delta = e.deltaY > 0 ? 0.9 : 1.1;
+            const newScale = Math.max(0.3, Math.min(3, scale * delta));
+            
+            // Zoom towards mouse position
+            const rect = svg.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+            
+            translateX = mouseX - (mouseX - translateX) * (newScale / scale);
+            translateY = mouseY - (mouseY - translateY) * (newScale / scale);
+            scale = newScale;
+            
+            updateTransform();
+            console.log('Zoom:', scale.toFixed(2));
+        });
+        
+        // Pan with drag
+        svg.addEventListener('mousedown', (e) => {
+            if (e.target === svg || e.target === g) {
+                isPanning = true;
+                panStartX = e.clientX - translateX;
+                panStartY = e.clientY - translateY;
+                svg.classList.add('dragging');
+            }
+        });
+        
+        document.addEventListener('mousemove', (e) => {
+            if (isPanning) {
+                translateX = e.clientX - panStartX;
+                translateY = e.clientY - panStartY;
+                updateTransform();
+            }
+        });
+        
+        document.addEventListener('mouseup', () => {
+            if (isPanning) {
+                isPanning = false;
+                svg.classList.remove('dragging');
+            }
+        });
+        
+        // Zoom buttons
+        window.zoomIn = function() {
+            scale = Math.min(3, scale * 1.3);
+            updateTransform();
+            console.log('Zoom in:', scale.toFixed(2));
+        };
+        
+        window.zoomOut = function() {
+            scale = Math.max(0.3, scale * 0.7);
+            updateTransform();
+            console.log('Zoom out:', scale.toFixed(2));
+        };
+        
+        window.resetZoom = function() {
+            scale = 1;
+            translateX = 0;
+            translateY = 0;
+            updateTransform();
+            console.log('Zoom reset');
+        };
+        
+        // Recalculate positions on resize
+        window.addEventListener('resize', () => {
+            const newWidth = window.innerWidth;
+            const newHeight = window.innerHeight;
+            svg.setAttribute('width', newWidth);
+            svg.setAttribute('height', newHeight);
+            calculatePositions();
+            
+            // Update all elements
+            nodes.forEach(node => {
+                node.element.setAttribute('transform', `translate(${node.x}, ${node.y})`);
+            });
+            
+            links.forEach(link => {
+                const sourceNode = getNode(link.source);
+                const targetNode = getNode(link.target);
+                link.element.setAttribute('x1', sourceNode.x);
+                link.element.setAttribute('y1', sourceNode.y);
+                link.element.setAttribute('x2', targetNode.x);
+                link.element.setAttribute('y2', targetNode.y);
+            });
+            
+            console.log('Resized and repositioned');
+        });
+        
+        console.log('Brain map fully initialized and ready!');
+        console.log('All', nodes.length, 'nodes are visible');
+        console.log('Use mouse wheel to zoom, drag to pan, drag nodes to reposition');
     </script>
 </body>
 </html>
