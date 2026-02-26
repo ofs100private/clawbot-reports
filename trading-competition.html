@@ -3,368 +3,326 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🏆 Trading Roadshow — Micha Fan vs Yoni Fan</title>
+<title>🏆 Micha Fan vs Yoni Fan</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { background: #0a0e17; color: #e0e6ed; font-family: 'Segoe UI', system-ui, sans-serif; overflow-x: hidden; }
+body { background: #0a0e17; color: #e0e6ed; font-family: -apple-system, 'Segoe UI', system-ui, sans-serif; }
 
-.header { background: linear-gradient(135deg, #1a1f2e, #0d1117); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #21262d; flex-wrap: wrap; gap: 8px; }
-.header h1 { font-size: 1.4em; background: linear-gradient(90deg, #f0b90b, #ff6b35); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-.header .timer { font-size: 1em; color: #8b949e; }
+/* Header */
+.header { background: linear-gradient(135deg, #1a1f2e, #0d1117); padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #21262d; flex-wrap: wrap; gap: 6px; }
+.header h1 { font-size: clamp(1em, 4vw, 1.4em); background: linear-gradient(90deg, #f0b90b, #ff6b35); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.header-right { text-align: right; }
+.header .timer { font-size: 0.9em; color: #8b949e; }
 .header .timer span { color: #58a6ff; font-weight: bold; }
-.header .update { font-size: 0.8em; color: #484f58; }
+.header .update { font-size: 0.75em; color: #484f58; }
 
-.ticker-strip { background: #161b22; padding: 8px 20px; display: flex; gap: 24px; align-items: center; border-bottom: 1px solid #21262d; overflow-x: auto; font-size: 0.85em; }
-.ticker-item { display: flex; gap: 6px; align-items: center; white-space: nowrap; }
+/* Ticker strip */
+.ticker-strip { background: #161b22; padding: 8px 16px; display: flex; gap: 16px; align-items: center; border-bottom: 1px solid #21262d; overflow-x: auto; font-size: 0.82em; -webkit-overflow-scrolling: touch; }
+.ticker-item { display: flex; gap: 5px; align-items: center; white-space: nowrap; }
 .ticker-item .label { color: #8b949e; }
 .ticker-item .price { color: #e0e6ed; font-weight: 600; }
-.ticker-item .up { color: #3fb950; }
-.ticker-item .down { color: #f85149; }
+.up { color: #3fb950; }
+.down { color: #f85149; }
 
-.main { display: grid; grid-template-columns: 1fr 1fr; gap: 0; min-height: calc(100vh - 100px); }
+/* Main grid */
+.main { display: grid; grid-template-columns: 1fr 1fr; min-height: calc(100vh - 100px); }
 
-.trader-panel { padding: 16px; }
-.trader-panel.left { border-right: 1px solid #21262d; }
-.trader-panel.right { border-left: 1px solid #21262d; }
-.trader-header { text-align: center; padding: 14px; border-radius: 12px; margin-bottom: 12px; }
+/* Trader panels */
+.panel { padding: 14px; }
+.panel.left { border-right: 1px solid #21262d; }
+
+.trader-header { text-align: center; padding: 14px; border-radius: 12px; margin-bottom: 14px; }
 .micha .trader-header { background: linear-gradient(135deg, #1a3a2a, #0d2818); border: 1px solid #238636; }
 .yoni .trader-header { background: linear-gradient(135deg, #2a1a3a, #180d28); border: 1px solid #8957e5; }
-.trader-header h2 { font-size: 1.3em; }
-.micha .trader-header h2 { color: #3fb950; }
-.yoni .trader-header h2 { color: #bc8cff; }
-.trader-header .strategy { font-size: 0.78em; color: #8b949e; margin-top: 4px; }
-.trader-header .pnl { font-size: 2em; font-weight: bold; margin-top: 10px; }
-.pnl.positive { color: #3fb950; }
-.pnl.negative { color: #f85149; }
-.pnl.neutral { color: #8b949e; }
-.trader-header .sub { font-size: 0.8em; color: #8b949e; }
+.trader-header h2 { font-size: clamp(1.1em, 3vw, 1.3em); }
+.micha h2 { color: #3fb950; }
+.yoni h2 { color: #bc8cff; }
+.trader-header .strategy { font-size: 0.72em; color: #8b949e; margin-top: 4px; line-height: 1.4; }
+.trader-header .pnl { font-size: clamp(1.4em, 5vw, 2em); font-weight: bold; margin-top: 8px; }
+.trader-header .cash-line { font-size: 0.82em; color: #f0b90b; margin-top: 4px; }
+.pnl.pos { color: #3fb950; }
+.pnl.neg { color: #f85149; }
+.pnl.zero { color: #8b949e; }
 
-.section-title { font-size: 0.9em; color: #8b949e; margin: 12px 0 8px; border-bottom: 1px solid #21262d; padding-bottom: 4px; }
+.section-title { font-size: 0.85em; color: #8b949e; margin: 12px 0 6px; border-bottom: 1px solid #21262d; padding-bottom: 4px; }
 
 /* Holdings */
-.holding { display: flex; justify-content: space-between; align-items: center; padding: 5px 8px; border-radius: 6px; font-size: 0.82em; margin-bottom: 3px; }
+.holding { display: flex; justify-content: space-between; align-items: center; padding: 5px 6px; border-radius: 6px; font-size: 0.8em; margin-bottom: 2px; }
 .holding:nth-child(even) { background: rgba(255,255,255,0.02); }
-.holding .sym { color: #58a6ff; font-weight: 700; min-width: 55px; }
-.holding .units { color: #8b949e; }
+.holding .sym { color: #58a6ff; font-weight: 700; min-width: 50px; }
+.holding .detail { color: #8b949e; font-size: 0.9em; }
 .holding .pnl-sm { font-weight: 600; }
 
-/* Trade log */
-.trade-entry { display: flex; justify-content: space-between; align-items: center; padding: 6px 8px; border-radius: 6px; margin-bottom: 4px; font-size: 0.8em; }
-.trade-entry:nth-child(even) { background: rgba(255,255,255,0.02); }
-.trade-entry .action { font-weight: 700; min-width: 36px; }
-.trade-entry .action.buy { color: #3fb950; }
-.trade-entry .action.sell { color: #f85149; }
-.trade-entry .action.hold { color: #f0b90b; }
-.trade-entry .ticker { color: #58a6ff; font-weight: 600; }
-.trade-entry .reason { color: #8b949e; font-size: 0.9em; flex: 1; margin: 0 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.trade-entry .time { color: #484f58; font-size: 0.85em; }
-
-/* Center portfolio */
-.portfolio-panel { padding: 16px; background: #0d1117; }
-.portfolio-panel h3 { text-align: center; font-size: 1em; color: #8b949e; margin-bottom: 10px; border-bottom: 1px solid #21262d; padding-bottom: 6px; }
-.pos-header { display: grid; grid-template-columns: 65px 1fr 75px 75px 55px; padding: 4px 8px; font-size: 0.72em; color: #484f58; border-bottom: 1px solid #21262d; margin-bottom: 4px; }
-.pos-row { display: grid; grid-template-columns: 65px 1fr 75px 75px 55px; align-items: center; padding: 5px 8px; border-radius: 6px; font-size: 0.82em; }
-.pos-row:nth-child(even) { background: rgba(255,255,255,0.02); }
-.pos-row .sym { color: #58a6ff; font-weight: 700; }
-.pos-row .name { color: #8b949e; font-size: 0.9em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.pos-row .val { text-align: right; }
-
-.copy-section { margin-top: 12px; padding-top: 8px; border-top: 1px solid #21262d; }
-.copy-section h4 { font-size: 0.85em; color: #f0b90b; }
-.copy-section p { font-size: 0.78em; color: #8b949e; margin-top: 4px; }
+/* Trades */
+.trade { padding: 6px; border-radius: 6px; margin-bottom: 3px; font-size: 0.78em; }
+.trade:nth-child(even) { background: rgba(255,255,255,0.02); }
+.trade-top { display: flex; justify-content: space-between; align-items: center; gap: 6px; }
+.trade .action { font-weight: 700; min-width: 32px; }
+.trade .action.buy { color: #3fb950; }
+.trade .action.sell { color: #f85149; }
+.trade .ticker { color: #58a6ff; font-weight: 600; }
+.trade .amt { color: #e0e6ed; }
+.trade .time { color: #484f58; font-size: 0.85em; }
+.trade .reason { color: #6e7681; font-size: 0.88em; margin-top: 2px; line-height: 1.3; }
 
 /* Chart */
-.chart-area { grid-column: 1 / -1; padding: 16px; border-top: 1px solid #21262d; background: #0d1117; }
-.chart-area h3 { text-align: center; color: #8b949e; margin-bottom: 12px; font-size: 0.95em; }
-.chart-container { position: relative; height: 220px; background: #161b22; border-radius: 12px; border: 1px solid #21262d; overflow: hidden; }
+.chart-area { grid-column: 1 / -1; padding: 14px; border-top: 1px solid #21262d; background: #0d1117; }
+.chart-area h3 { text-align: center; color: #8b949e; margin-bottom: 10px; font-size: 0.9em; }
+.chart-box { position: relative; height: 180px; background: #161b22; border-radius: 10px; border: 1px solid #21262d; overflow: hidden; }
 canvas { width: 100%; height: 100%; }
 
 /* Score */
-.score-bar { grid-column: 1 / -1; display: flex; justify-content: center; align-items: center; gap: 40px; padding: 14px; background: linear-gradient(135deg, #1a1f2e, #0d1117); border-top: 1px solid #21262d; flex-wrap: wrap; }
+.score-bar { grid-column: 1 / -1; display: flex; justify-content: center; align-items: center; gap: clamp(16px, 4vw, 40px); padding: 12px; background: linear-gradient(135deg, #1a1f2e, #0d1117); border-top: 1px solid #21262d; flex-wrap: wrap; }
 .score-item { text-align: center; }
-.score-item .label { font-size: 0.75em; color: #8b949e; }
-.score-item .value { font-size: 1.4em; font-weight: bold; }
+.score-item .lbl { font-size: 0.7em; color: #8b949e; }
+.score-item .val { font-size: clamp(1em, 3vw, 1.4em); font-weight: bold; }
 
 /* Audit */
-.audit { grid-column: 1 / -1; padding: 12px 20px; background: #161b22; border-top: 1px solid #21262d; max-height: 180px; overflow-y: auto; }
-.audit h3 { font-size: 0.85em; color: #8b949e; margin-bottom: 6px; }
-.audit-entry { font-size: 0.78em; color: #8b949e; padding: 3px 0; border-bottom: 1px solid #0d1117; display: flex; gap: 12px; }
-.audit-entry .time { color: #484f58; min-width: 140px; }
-.audit-entry .agent { font-weight: 600; min-width: 60px; }
-.audit-entry .agent.micha { color: #3fb950; }
-.audit-entry .agent.yoni { color: #bc8cff; }
-.audit-entry .agent.system { color: #f0b90b; }
+.audit { grid-column: 1 / -1; padding: 10px 16px; background: #161b22; border-top: 1px solid #21262d; max-height: 160px; overflow-y: auto; }
+.audit h3 { font-size: 0.8em; color: #8b949e; margin-bottom: 4px; }
+.audit-row { font-size: 0.75em; color: #8b949e; padding: 2px 0; border-bottom: 1px solid #0d1117; display: flex; gap: 8px; flex-wrap: wrap; }
+.audit-row .time { color: #484f58; min-width: 80px; font-size: 0.9em; }
+.audit-row .who { font-weight: 600; min-width: 50px; }
+.audit-row .who.micha { color: #3fb950; }
+.audit-row .who.yoni { color: #bc8cff; }
+.audit-row .who.system { color: #f0b90b; }
 
-.waiting { text-align: center; color: #484f58; padding: 20px; font-size: 0.85em; }
-.waiting .spinner { animation: pulse 1.5s ease-in-out infinite; display: inline-block; }
-@keyframes pulse { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
+.empty { text-align: center; color: #484f58; padding: 16px; font-size: 0.82em; }
 
-@media (max-width: 900px) {
+/* MOBILE */
+@media (max-width: 680px) {
   .main { grid-template-columns: 1fr; }
-  .trader-panel { border: none !important; border-bottom: 1px solid #21262d !important; }
+  .panel.left { border-right: none; border-bottom: 1px solid #21262d; }
+  .chart-box { height: 150px; }
+  .header { padding: 10px 12px; }
+  .panel { padding: 10px; }
+  .ticker-strip { padding: 6px 12px; gap: 12px; }
 }
 </style>
 </head>
 <body>
 
 <div class="header">
-  <h1>🏆 Trading Roadshow — Micha Fan vs Yoni Fan</h1>
-  <div class="timer">⏱ <span id="days-left">10d</span> remaining | Feb 26 → Mar 8, 2026</div>
-  <div class="update">Last update: <span id="last-update">Loading...</span></div>
+  <h1>🏆 Micha Fan vs Yoni Fan</h1>
+  <div class="header-right">
+    <div class="timer">⏱ <span id="timer">—</span> | $1,000 each</div>
+    <div class="update">Updated: <span id="updated">Loading...</span></div>
+  </div>
 </div>
 
-<div class="ticker-strip" id="ticker-strip"></div>
+<div class="ticker-strip" id="tickers"></div>
 
 <div class="main">
-  <!-- MICHA FAN (Left) -->
-  <div class="trader-panel left micha">
+  <!-- MICHA -->
+  <div class="panel left micha">
     <div class="trader-header">
       <h2>📊 Micha Fan</h2>
-      <div class="strategy">MA-150 Trend Following • 6 Entry Types • Chart Patterns • ATR Sizing • Risk Discipline</div>
-      <div class="pnl neutral" id="micha-pnl">$0.00</div>
-      <div class="sub">Starting: $1,000 cash</div>
+      <div class="strategy">MA-150 Trend Following • Chart Patterns • Risk Discipline</div>
+      <div class="pnl zero" id="m-pnl">$0.00</div>
+      <div class="cash-line">💵 Cash: <span id="m-cash">$1,000.00</span></div>
     </div>
-    <div class="section-title">📦 Current Holdings</div>
-    <div id="micha-holdings"><div class="waiting"><span class="spinner">⏳</span> $1,000 cash — waiting for first entry...</div></div>
-    <div class="section-title">📋 Trade Log (AI Decisions)</div>
-    <div id="micha-trades"><div class="waiting"><span class="spinner">⏳</span> Waiting for first analysis cycle...</div></div>
+    <div class="section-title">📦 Holdings</div>
+    <div id="m-hold"><div class="empty">No positions yet</div></div>
+    <div class="section-title">📋 Trades</div>
+    <div id="m-trades"><div class="empty">Waiting for first analysis...</div></div>
   </div>
 
-  <!-- YONI FAN (Right) -->
-  <div class="trader-panel right yoni">
+  <!-- YONI -->
+  <div class="panel yoni">
     <div class="trader-header">
       <h2>🔬 Yoni Fan</h2>
-      <div class="strategy">QuantClaw API • Smart Money Flow • GEX Regime • Fama-French Alpha • Factor Screening</div>
-      <div class="pnl neutral" id="yoni-pnl">$0.00</div>
-      <div class="sub">Starting: $1,000 cash</div>
+      <div class="strategy">QuantClaw Signals • Smart Money • GEX Regime • Factor Alpha</div>
+      <div class="pnl zero" id="y-pnl">$0.00</div>
+      <div class="cash-line">💵 Cash: <span id="y-cash">$1,000.00</span></div>
     </div>
-    <div class="section-title">📦 Current Holdings</div>
-    <div id="yoni-holdings"><div class="waiting"><span class="spinner">⏳</span> $1,000 cash — waiting for first entry...</div></div>
-    <div class="section-title">📋 Trade Log (AI Decisions)</div>
-    <div id="yoni-trades"><div class="waiting"><span class="spinner">⏳</span> Waiting for first analysis cycle...</div></div>
+    <div class="section-title">📦 Holdings</div>
+    <div id="y-hold"><div class="empty">No positions yet</div></div>
+    <div class="section-title">📋 Trades</div>
+    <div id="y-trades"><div class="empty">Waiting for first analysis...</div></div>
   </div>
 
-  <!-- P&L CHART -->
+  <!-- CHART -->
   <div class="chart-area">
-    <h3>📈 Cumulative P&L — <span style="color:#3fb950">Micha Fan</span> vs <span style="color:#bc8cff">Yoni Fan</span></h3>
-    <div class="chart-container">
-      <canvas id="pnl-chart"></canvas>
-    </div>
+    <h3>📈 P&L — <span style="color:#3fb950">Micha</span> vs <span style="color:#bc8cff">Yoni</span></h3>
+    <div class="chart-box"><canvas id="chart"></canvas></div>
   </div>
 
   <!-- SCOREBOARD -->
   <div class="score-bar">
-    <div class="score-item"><div class="label">Micha Trades</div><div class="value" style="color:#3fb950" id="micha-count">0</div></div>
-    <div class="score-item"><div class="label">Micha Win Rate</div><div class="value" style="color:#3fb950" id="micha-wr">—</div></div>
-    <div class="score-item"><div class="label">🏆 Leader</div><div class="value" style="color:#f0b90b" id="leader">Even</div></div>
-    <div class="score-item"><div class="label">Yoni Win Rate</div><div class="value" style="color:#bc8cff" id="yoni-wr">—</div></div>
-    <div class="score-item"><div class="label">Yoni Trades</div><div class="value" style="color:#bc8cff" id="yoni-count">0</div></div>
+    <div class="score-item"><div class="lbl">Micha Trades</div><div class="val" style="color:#3fb950" id="s-mt">0</div></div>
+    <div class="score-item"><div class="lbl">Micha Win%</div><div class="val" style="color:#3fb950" id="s-mw">—</div></div>
+    <div class="score-item"><div class="lbl">🏆 Leader</div><div class="val" style="color:#f0b90b" id="s-lead">Even</div></div>
+    <div class="score-item"><div class="lbl">Yoni Win%</div><div class="val" style="color:#bc8cff" id="s-yw">—</div></div>
+    <div class="score-item"><div class="lbl">Yoni Trades</div><div class="val" style="color:#bc8cff" id="s-yt">0</div></div>
   </div>
 
   <!-- AUDIT -->
   <div class="audit">
-    <h3>🔍 Full Audit Trail — Every Decision Logged</h3>
-    <div id="audit-log"></div>
+    <h3>🔍 Audit Trail</h3>
+    <div id="audit"></div>
   </div>
 </div>
 
 <script>
-const DATA_URL = 'trades.json';
-let data = null;
-
-async function loadData() {
+let D;
+async function load() {
   try {
-    const r = await fetch(DATA_URL + '?t=' + Date.now());
-    data = await r.json();
+    const r = await fetch('trades.json?_=' + Date.now());
+    D = await r.json();
     render();
-  } catch(e) {
-    console.error('Failed to load trades.json:', e);
-  }
+  } catch(e) { console.error(e); }
 }
+
+function $(id) { return document.getElementById(id); }
+
+function fmtPnl(v) { return (v >= 0 ? '+' : '') + '$' + v.toFixed(2); }
+function pnlCls(v) { return v > 0 ? 'pos' : v < 0 ? 'neg' : 'zero'; }
 
 function render() {
-  if (!data) return;
-  renderTimer();
-  renderTicker();
-  renderPortfolio();
-  renderAgent('micha');
-  renderAgent('yoni');
-  renderScoreboard();
-  renderAudit();
-  renderChart();
-  document.getElementById('last-update').textContent = new Date(data.lastUpdate).toLocaleString();
+  if (!D) return;
+  // Timer
+  const end = new Date(D.competition.end), now = new Date(), diff = end - now;
+  if (diff > 0) {
+    const d = Math.floor(diff/864e5), h = Math.floor((diff%864e5)/36e5);
+    $('timer').textContent = d + 'd ' + h + 'h left';
+  } else $('timer').textContent = 'FINISHED';
+  $('updated').textContent = new Date(D.lastUpdate).toLocaleString();
+
+  // Tickers
+  const prices = D.prices || {};
+  const tks = Object.entries(prices).slice(0, 8);
+  $('tickers').innerHTML = tks.map(([k,v]) =>
+    `<div class="ticker-item"><span class="label">${k}</span> <span class="price">$${Number(v).toFixed(2)}</span></div>`
+  ).join('') || '<div class="ticker-item"><span class="label">Prices load after first trade cycle</span></div>';
+
+  // Agents
+  renderAgent('m', D.micha);
+  renderAgent('y', D.yoni);
+
+  // Scoreboard
+  const mt = D.micha.trades||[], yt = D.yoni.trades||[];
+  $('s-mt').textContent = mt.length;
+  $('s-yt').textContent = yt.length;
+  const mw = mt.filter(t=>(t.pnl||0)>0).length;
+  const yw = yt.filter(t=>(t.pnl||0)>0).length;
+  $('s-mw').textContent = mt.length ? Math.round(mw/mt.length*100)+'%' : '—';
+  $('s-yw').textContent = yt.length ? Math.round(yw/yt.length*100)+'%' : '—';
+  const mp = D.micha.totalPnl||0, yp = D.yoni.totalPnl||0;
+  const ld = $('s-lead');
+  if (mp > yp) { ld.textContent = '📊 Micha'; ld.style.color = '#3fb950'; }
+  else if (yp > mp) { ld.textContent = '🔬 Yoni'; ld.style.color = '#bc8cff'; }
+  else { ld.textContent = 'Even'; ld.style.color = '#f0b90b'; }
+
+  // Audit
+  $('audit').innerHTML = (D.audit||[]).slice(-30).reverse().map(a =>
+    `<div class="audit-row"><span class="time">${(a.time||'').replace(/T/,' ').slice(0,16)}</span><span class="who ${a.agent}">${(a.agent||'').toUpperCase()}</span><span>${a.msg}</span></div>`
+  ).join('');
+
+  drawChart();
 }
 
-function renderTimer() {
-  const end = new Date(data.competition.end);
-  const diff = end - new Date();
-  if (diff <= 0) { document.getElementById('days-left').textContent = 'OVER'; return; }
-  const d = Math.floor(diff / 86400000);
-  const h = Math.floor((diff % 86400000) / 3600000);
-  document.getElementById('days-left').textContent = `${d}d ${h}h`;
-}
-
-function renderTicker() {
-  const el = document.getElementById('ticker-strip');
-  const prices = data.prices || {};
-  const items = [
-    { label: 'S&P 500', key: 'SPY' },
-    { label: 'QQQ', key: 'QQQ' },
-    { label: 'NVDA', key: 'NVDA' },
-    { label: 'BTC', key: 'BTC' },
-    { label: 'VIX', key: 'VIX' },
-  ];
-  el.innerHTML = items.map(i => {
-    const p = prices[i.key];
-    if (!p) return `<div class="ticker-item"><span class="label">${i.label}</span> <span class="price">—</span></div>`;
-    return `<div class="ticker-item"><span class="label">${i.label}</span> <span class="price">$${Number(p).toLocaleString('en',{minimumFractionDigits:2, maximumFractionDigits:2})}</span></div>`;
-  }).join('');
-}
-
-function renderPortfolio() {}
-
-function renderAgent(agent) {
-  const d = data[agent];
+function renderAgent(p, d) {
   // PnL
-  const pnlEl = document.getElementById(agent + '-pnl');
   const pnl = d.totalPnl || 0;
-  pnlEl.textContent = (pnl >= 0 ? '+' : '') + '$' + pnl.toFixed(2);
-  pnlEl.className = 'pnl ' + (pnl > 0 ? 'positive' : pnl < 0 ? 'negative' : 'neutral');
+  const pe = $(p+'-pnl');
+  pe.textContent = fmtPnl(pnl);
+  pe.className = 'pnl ' + pnlCls(pnl);
+  $(p+'-cash').textContent = '$' + (d.cash||0).toFixed(2);
 
   // Holdings
-  const hEl = document.getElementById(agent + '-holdings');
-  const cashLine = `<div class="holding" style="border-bottom:1px solid #21262d;margin-bottom:4px;padding-bottom:6px;"><span class="sym" style="color:#f0b90b">💵 CASH</span><span class="units"></span><span class="pnl-sm" style="color:#f0b90b">$${(d.cash||0).toFixed(2)}</span></div>`;
+  const hEl = $(p+'-hold');
   if (d.holdings && d.holdings.length > 0) {
-    hEl.innerHTML = cashLine + d.holdings.map(h => {
-      const pnlColor = (h.pnl || 0) >= 0 ? '#3fb950' : '#f85149';
+    hEl.innerHTML = d.holdings.map(h => {
+      const hp = h.pnl||0;
       return `<div class="holding">
         <span class="sym">${h.sym}</span>
-        <span class="units">${h.units} @ $${(h.avgPrice||0).toFixed(2)}</span>
-        <span class="pnl-sm" style="color:${pnlColor}">${(h.pnl||0) >= 0 ? '+' : ''}$${(h.pnl||0).toFixed(2)}</span>
+        <span class="detail">${h.units} @ $${(h.avgPrice||0).toFixed(2)}</span>
+        <span class="pnl-sm ${hp>=0?'up':'down'}">${fmtPnl(hp)}</span>
       </div>`;
     }).join('');
   } else {
-    hEl.innerHTML = cashLine + '<div class="waiting">No positions yet</div>';
+    hEl.innerHTML = '<div class="empty">No positions yet</div>';
   }
 
   // Trades
-  const tEl = document.getElementById(agent + '-trades');
+  const tEl = $(p+'-trades');
   if (d.trades && d.trades.length > 0) {
-    tEl.innerHTML = d.trades.slice(-20).reverse().map(t => `
-      <div class="trade-entry">
-        <span class="action ${t.action}">${t.action.toUpperCase()}</span>
-        <span class="ticker">${t.ticker}</span>
-        <span class="reason" title="${t.reason || ''}">${t.reason || ''}</span>
-        <span class="time">${t.date || ''}</span>
-      </div>
-    `).join('');
+    tEl.innerHTML = d.trades.slice(-15).reverse().map(t =>
+      `<div class="trade">
+        <div class="trade-top">
+          <span><span class="action ${t.action}">${t.action.toUpperCase()}</span> <span class="ticker">${t.ticker}</span> <span class="amt">${t.units}u @ $${(t.price||0).toFixed(2)}</span></span>
+          <span class="time">${(t.date||'').replace(/T/,' ').slice(5,16)}</span>
+        </div>
+        ${t.reason ? '<div class="reason">'+t.reason+'</div>' : ''}
+      </div>`
+    ).join('');
   } else {
-    tEl.innerHTML = `<div class="waiting"><span class="spinner">⏳</span> Waiting for first analysis cycle...</div>`;
+    tEl.innerHTML = '<div class="empty">Waiting for first analysis...</div>';
   }
 }
 
-function renderScoreboard() {
-  const m = data.micha, y = data.yoni;
-  document.getElementById('micha-count').textContent = (m.trades || []).length;
-  document.getElementById('yoni-count').textContent = (y.trades || []).length;
+function drawChart() {
+  const c = $('chart'), ctx = c.getContext('2d');
+  const box = c.parentElement.getBoundingClientRect();
+  const dpr = window.devicePixelRatio || 1;
+  c.width = box.width * dpr; c.height = box.height * dpr;
+  ctx.scale(dpr, dpr);
+  const w = box.width, h = box.height;
 
-  const mWins = (m.trades || []).filter(t => (t.pnl || 0) > 0).length;
-  const yWins = (y.trades || []).filter(t => (t.pnl || 0) > 0).length;
-  document.getElementById('micha-wr').textContent = m.trades?.length ? Math.round(mWins / m.trades.length * 100) + '%' : '—';
-  document.getElementById('yoni-wr').textContent = y.trades?.length ? Math.round(yWins / y.trades.length * 100) + '%' : '—';
+  const mH = (D.micha.pnlHistory||[]).map(p=>p.pnl||0);
+  const yH = (D.yoni.pnlHistory||[]).map(p=>p.pnl||0);
+  const all = [...mH, ...yH, 0];
+  const lo = Math.min(...all)-50, hi = Math.max(...all)+50;
+  const len = Math.max(mH.length, yH.length, 2);
 
-  const leader = document.getElementById('leader');
-  if ((m.totalPnl || 0) > (y.totalPnl || 0)) { leader.textContent = '📊 Micha Fan'; leader.style.color = '#3fb950'; }
-  else if ((y.totalPnl || 0) > (m.totalPnl || 0)) { leader.textContent = '🔬 Yoni Fan'; leader.style.color = '#bc8cff'; }
-  else { leader.textContent = 'Even'; leader.style.color = '#f0b90b'; }
-}
-
-function renderAudit() {
-  const el = document.getElementById('audit-log');
-  el.innerHTML = (data.audit || []).slice(-40).reverse().map(a => `
-    <div class="audit-entry">
-      <span class="time">${a.time}</span>
-      <span class="agent ${a.agent}">${a.agent.toUpperCase()}</span>
-      <span>${a.msg}</span>
-    </div>
-  `).join('');
-}
-
-function renderChart() {
-  const canvas = document.getElementById('pnl-chart');
-  const ctx = canvas.getContext('2d');
-  const rect = canvas.parentElement.getBoundingClientRect();
-  canvas.width = rect.width * 2;
-  canvas.height = rect.height * 2;
-  ctx.scale(2, 2);
-  const w = rect.width, h = rect.height;
-
-  const mHist = (data.micha.pnlHistory || []).map(p => p.pnl || 0);
-  const yHist = (data.yoni.pnlHistory || []).map(p => p.pnl || 0);
-  const allV = [...mHist, ...yHist, 0];
-  const minV = Math.min(...allV) - 100;
-  const maxV = Math.max(...allV) + 100;
-  const maxLen = Math.max(mHist.length, yHist.length, 2);
-
-  ctx.clearRect(0, 0, w, h);
+  ctx.clearRect(0,0,w,h);
 
   // Grid
-  ctx.strokeStyle = '#21262d'; ctx.lineWidth = 0.5;
-  for (let i = 0; i < 5; i++) {
-    const y = 20 + (h - 40) * i / 4;
-    ctx.beginPath(); ctx.moveTo(50, y); ctx.lineTo(w - 10, y); ctx.stroke();
-    ctx.fillStyle = '#484f58'; ctx.font = '10px system-ui';
-    ctx.fillText('$' + (maxV - (maxV - minV) * i / 4).toFixed(0), 2, y + 3);
+  for (let i=0;i<5;i++) {
+    const y = 16+(h-32)*i/4;
+    ctx.strokeStyle='#21262d'; ctx.lineWidth=0.5;
+    ctx.beginPath(); ctx.moveTo(44,y); ctx.lineTo(w-8,y); ctx.stroke();
+    ctx.fillStyle='#484f58'; ctx.font='10px system-ui';
+    ctx.fillText('$'+(hi-(hi-lo)*i/4).toFixed(0), 2, y+3);
   }
-
-  // Zero line
-  const zeroY = 20 + (h - 40) * (maxV / (maxV - minV));
-  ctx.strokeStyle = '#f0b90b30'; ctx.setLineDash([4, 4]);
-  ctx.beginPath(); ctx.moveTo(50, zeroY); ctx.lineTo(w - 10, zeroY); ctx.stroke();
+  // Zero
+  const zy = 16+(h-32)*(hi/(hi-lo));
+  ctx.strokeStyle='#f0b90b20'; ctx.setLineDash([3,3]);
+  ctx.beginPath(); ctx.moveTo(44,zy); ctx.lineTo(w-8,zy); ctx.stroke();
   ctx.setLineDash([]);
 
-  function drawLine(pts, color) {
-    if (pts.length < 1) return;
-    // Thick glow
-    ctx.strokeStyle = color + '30'; ctx.lineWidth = 8;
+  function line(pts, col) {
+    if (pts.length<1) return;
+    // Glow
+    ctx.strokeStyle=col+'30'; ctx.lineWidth=7; ctx.lineJoin='round';
     ctx.beginPath();
-    pts.forEach((v, i) => {
-      const x = 50 + (w - 60) * i / (maxLen - 1);
-      const y = 20 + (h - 40) * ((maxV - v) / (maxV - minV));
-      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
-    });
-    ctx.stroke();
-    // Main line
-    ctx.strokeStyle = color; ctx.lineWidth = 3;
+    pts.forEach((v,i)=>{
+      const x=44+(w-52)*i/(len-1), y=16+(h-32)*((hi-v)/(hi-lo));
+      i?ctx.lineTo(x,y):ctx.moveTo(x,y);
+    }); ctx.stroke();
+    // Line
+    ctx.strokeStyle=col; ctx.lineWidth=2.5;
     ctx.beginPath();
-    pts.forEach((v, i) => {
-      const x = 50 + (w - 60) * i / (maxLen - 1);
-      const y = 20 + (h - 40) * ((maxV - v) / (maxV - minV));
-      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
-    });
-    ctx.stroke();
-    // Dot at end
-    if (pts.length > 0) {
-      const lastX = 50 + (w - 60) * (pts.length - 1) / (maxLen - 1);
-      const lastY = 20 + (h - 40) * ((maxV - pts[pts.length - 1]) / (maxV - minV));
-      ctx.fillStyle = color; ctx.beginPath(); ctx.arc(lastX, lastY, 5, 0, Math.PI * 2); ctx.fill();
-    }
+    pts.forEach((v,i)=>{
+      const x=44+(w-52)*i/(len-1), y=16+(h-32)*((hi-v)/(hi-lo));
+      i?ctx.lineTo(x,y):ctx.moveTo(x,y);
+    }); ctx.stroke();
+    // Dot
+    const lx=44+(w-52)*(pts.length-1)/(len-1), ly=16+(h-32)*((hi-pts[pts.length-1])/(hi-lo));
+    ctx.fillStyle=col; ctx.beginPath(); ctx.arc(lx,ly,4,0,Math.PI*2); ctx.fill();
   }
-
-  drawLine(mHist, '#3fb950');
-  drawLine(yHist, '#bc8cff');
+  line(mH,'#3fb950'); line(yH,'#bc8cff');
 
   // Legend
-  ctx.fillStyle = '#3fb950'; ctx.fillRect(w - 180, 10, 12, 12);
-  ctx.fillStyle = '#e0e6ed'; ctx.font = '11px system-ui'; ctx.fillText('Micha Fan', w - 164, 20);
-  ctx.fillStyle = '#bc8cff'; ctx.fillRect(w - 90, 10, 12, 12);
-  ctx.fillStyle = '#e0e6ed'; ctx.fillText('Yoni Fan', w - 74, 20);
+  ctx.fillStyle='#3fb950'; ctx.fillRect(w-150,8,10,10);
+  ctx.fillStyle='#e0e6ed'; ctx.font='10px system-ui'; ctx.fillText('Micha',w-136,17);
+  ctx.fillStyle='#bc8cff'; ctx.fillRect(w-76,8,10,10);
+  ctx.fillStyle='#e0e6ed'; ctx.fillText('Yoni',w-62,17);
 }
 
-// Load and auto-refresh every 5 min
-loadData();
-setInterval(loadData, 300000);
-window.addEventListener('resize', () => data && renderChart());
+load();
+setInterval(load, 300000);
+window.addEventListener('resize', ()=> D && drawChart());
 </script>
 </body>
 </html>
