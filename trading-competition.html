@@ -3,90 +3,102 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🏆 Trading Roadshow — Micha vs Yoni</title>
+<title>🏆 Trading Roadshow — Micha Fan vs Yoni Fan</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { background: #0a0e17; color: #e0e6ed; font-family: 'Segoe UI', system-ui, sans-serif; overflow-x: hidden; }
 
-/* Header */
-.header { background: linear-gradient(135deg, #1a1f2e, #0d1117); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #21262d; }
+.header { background: linear-gradient(135deg, #1a1f2e, #0d1117); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #21262d; flex-wrap: wrap; gap: 8px; }
 .header h1 { font-size: 1.4em; background: linear-gradient(90deg, #f0b90b, #ff6b35); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-.header .timer { font-size: 1.1em; color: #8b949e; }
+.header .timer { font-size: 1em; color: #8b949e; }
 .header .timer span { color: #58a6ff; font-weight: bold; }
+.header .update { font-size: 0.8em; color: #484f58; }
 
-/* Market ticker strip */
 .ticker-strip { background: #161b22; padding: 8px 20px; display: flex; gap: 24px; align-items: center; border-bottom: 1px solid #21262d; overflow-x: auto; font-size: 0.85em; }
 .ticker-item { display: flex; gap: 6px; align-items: center; white-space: nowrap; }
 .ticker-item .label { color: #8b949e; }
 .ticker-item .price { color: #e0e6ed; font-weight: 600; }
-.ticker-item .change.up { color: #3fb950; }
-.ticker-item .change.down { color: #f85149; }
+.ticker-item .up { color: #3fb950; }
+.ticker-item .down { color: #f85149; }
 
-/* Fear & Greed */
-.fear-greed { position: absolute; top: 60px; left: 12px; background: #161b22; border: 1px solid #21262d; border-radius: 12px; padding: 10px 14px; z-index: 10; text-align: center; }
-.fg-value { font-size: 2em; font-weight: bold; }
-.fg-label { font-size: 0.75em; color: #8b949e; margin-top: 2px; }
+.main { display: grid; grid-template-columns: 1fr 1.2fr 1fr; gap: 0; min-height: calc(100vh - 100px); }
 
-/* Main layout */
-.main { display: grid; grid-template-columns: 1fr 1.2fr 1fr; gap: 0; min-height: calc(100vh - 100px); position: relative; }
-
-/* Trader panels */
-.trader-panel { padding: 16px; border-right: 1px solid #21262d; }
-.trader-panel:last-child { border-right: none; border-left: 1px solid #21262d; }
-.trader-header { text-align: center; padding: 12px; border-radius: 12px; margin-bottom: 12px; }
+.trader-panel { padding: 16px; }
+.trader-panel.left { border-right: 1px solid #21262d; }
+.trader-panel.right { border-left: 1px solid #21262d; }
+.trader-header { text-align: center; padding: 14px; border-radius: 12px; margin-bottom: 12px; }
 .micha .trader-header { background: linear-gradient(135deg, #1a3a2a, #0d2818); border: 1px solid #238636; }
 .yoni .trader-header { background: linear-gradient(135deg, #2a1a3a, #180d28); border: 1px solid #8957e5; }
-.trader-header h2 { font-size: 1.3em; margin-bottom: 4px; }
+.trader-header h2 { font-size: 1.3em; }
 .micha .trader-header h2 { color: #3fb950; }
 .yoni .trader-header h2 { color: #bc8cff; }
-.trader-header .strategy { font-size: 0.8em; color: #8b949e; }
-.trader-header .pnl { font-size: 1.8em; font-weight: bold; margin-top: 8px; }
+.trader-header .strategy { font-size: 0.78em; color: #8b949e; margin-top: 4px; }
+.trader-header .pnl { font-size: 2em; font-weight: bold; margin-top: 10px; }
 .pnl.positive { color: #3fb950; }
 .pnl.negative { color: #f85149; }
+.pnl.neutral { color: #8b949e; }
+.trader-header .sub { font-size: 0.8em; color: #8b949e; }
+
+.section-title { font-size: 0.9em; color: #8b949e; margin: 12px 0 8px; border-bottom: 1px solid #21262d; padding-bottom: 4px; }
+
+/* Holdings */
+.holding { display: flex; justify-content: space-between; align-items: center; padding: 5px 8px; border-radius: 6px; font-size: 0.82em; margin-bottom: 3px; }
+.holding:nth-child(even) { background: rgba(255,255,255,0.02); }
+.holding .sym { color: #58a6ff; font-weight: 700; min-width: 55px; }
+.holding .units { color: #8b949e; }
+.holding .pnl-sm { font-weight: 600; }
 
 /* Trade log */
-.trade-log { margin-top: 12px; }
-.trade-log h3 { font-size: 0.9em; color: #8b949e; margin-bottom: 8px; border-bottom: 1px solid #21262d; padding-bottom: 4px; }
-.trade-entry { display: flex; justify-content: space-between; align-items: center; padding: 6px 8px; border-radius: 6px; margin-bottom: 4px; font-size: 0.82em; }
+.trade-entry { display: flex; justify-content: space-between; align-items: center; padding: 6px 8px; border-radius: 6px; margin-bottom: 4px; font-size: 0.8em; }
 .trade-entry:nth-child(even) { background: rgba(255,255,255,0.02); }
-.trade-entry .action.buy { color: #3fb950; font-weight: 600; }
-.trade-entry .action.sell { color: #f85149; font-weight: 600; }
+.trade-entry .action { font-weight: 700; min-width: 36px; }
+.trade-entry .action.buy { color: #3fb950; }
+.trade-entry .action.sell { color: #f85149; }
+.trade-entry .action.hold { color: #f0b90b; }
 .trade-entry .ticker { color: #58a6ff; font-weight: 600; }
-.trade-entry .details { color: #8b949e; }
-.trade-entry .pnl-small { font-weight: 600; }
+.trade-entry .reason { color: #8b949e; font-size: 0.9em; flex: 1; margin: 0 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.trade-entry .time { color: #484f58; font-size: 0.85em; }
 
 /* Center portfolio */
 .portfolio-panel { padding: 16px; background: #0d1117; }
 .portfolio-panel h3 { text-align: center; font-size: 1em; color: #8b949e; margin-bottom: 10px; border-bottom: 1px solid #21262d; padding-bottom: 6px; }
-.position-row { display: grid; grid-template-columns: 70px 1fr 80px 80px 70px; align-items: center; padding: 6px 8px; border-radius: 6px; font-size: 0.82em; gap: 4px; }
-.position-row:nth-child(even) { background: rgba(255,255,255,0.02); }
-.position-row .sym { color: #58a6ff; font-weight: 700; }
-.position-row .name { color: #8b949e; font-size: 0.9em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.position-row .val { text-align: right; }
-.position-row .pct { text-align: right; font-weight: 600; }
+.pos-header { display: grid; grid-template-columns: 65px 1fr 75px 75px 55px; padding: 4px 8px; font-size: 0.72em; color: #484f58; border-bottom: 1px solid #21262d; margin-bottom: 4px; }
+.pos-row { display: grid; grid-template-columns: 65px 1fr 75px 75px 55px; align-items: center; padding: 5px 8px; border-radius: 6px; font-size: 0.82em; }
+.pos-row:nth-child(even) { background: rgba(255,255,255,0.02); }
+.pos-row .sym { color: #58a6ff; font-weight: 700; }
+.pos-row .name { color: #8b949e; font-size: 0.9em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pos-row .val { text-align: right; }
 
-/* Chart area */
+.copy-section { margin-top: 12px; padding-top: 8px; border-top: 1px solid #21262d; }
+.copy-section h4 { font-size: 0.85em; color: #f0b90b; }
+.copy-section p { font-size: 0.78em; color: #8b949e; margin-top: 4px; }
+
+/* Chart */
 .chart-area { grid-column: 1 / -1; padding: 16px; border-top: 1px solid #21262d; background: #0d1117; }
-.chart-area h3 { text-align: center; color: #8b949e; margin-bottom: 12px; }
-.chart-container { position: relative; height: 200px; background: #161b22; border-radius: 12px; border: 1px solid #21262d; overflow: hidden; }
+.chart-area h3 { text-align: center; color: #8b949e; margin-bottom: 12px; font-size: 0.95em; }
+.chart-container { position: relative; height: 220px; background: #161b22; border-radius: 12px; border: 1px solid #21262d; overflow: hidden; }
 canvas { width: 100%; height: 100%; }
 
-/* Score bar */
-.score-bar { grid-column: 1 / -1; display: flex; justify-content: center; align-items: center; gap: 40px; padding: 16px; background: linear-gradient(135deg, #1a1f2e, #0d1117); border-top: 1px solid #21262d; }
+/* Score */
+.score-bar { grid-column: 1 / -1; display: flex; justify-content: center; align-items: center; gap: 40px; padding: 14px; background: linear-gradient(135deg, #1a1f2e, #0d1117); border-top: 1px solid #21262d; flex-wrap: wrap; }
 .score-item { text-align: center; }
 .score-item .label { font-size: 0.75em; color: #8b949e; }
-.score-item .value { font-size: 1.5em; font-weight: bold; }
+.score-item .value { font-size: 1.4em; font-weight: bold; }
 
-/* Audit trail */
-.audit { grid-column: 1 / -1; padding: 12px 20px; background: #161b22; border-top: 1px solid #21262d; max-height: 150px; overflow-y: auto; }
+/* Audit */
+.audit { grid-column: 1 / -1; padding: 12px 20px; background: #161b22; border-top: 1px solid #21262d; max-height: 180px; overflow-y: auto; }
 .audit h3 { font-size: 0.85em; color: #8b949e; margin-bottom: 6px; }
 .audit-entry { font-size: 0.78em; color: #8b949e; padding: 3px 0; border-bottom: 1px solid #0d1117; display: flex; gap: 12px; }
-.audit-entry .time { color: #484f58; min-width: 70px; }
-.audit-entry .agent { font-weight: 600; }
+.audit-entry .time { color: #484f58; min-width: 140px; }
+.audit-entry .agent { font-weight: 600; min-width: 60px; }
 .audit-entry .agent.micha { color: #3fb950; }
 .audit-entry .agent.yoni { color: #bc8cff; }
+.audit-entry .agent.system { color: #f0b90b; }
 
-/* Responsive */
+.waiting { text-align: center; color: #484f58; padding: 20px; font-size: 0.85em; }
+.waiting .spinner { animation: pulse 1.5s ease-in-out infinite; display: inline-block; }
+@keyframes pulse { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
+
 @media (max-width: 900px) {
   .main { grid-template-columns: 1fr; }
   .trader-panel { border: none !important; border-bottom: 1px solid #21262d !important; }
@@ -96,64 +108,56 @@ canvas { width: 100%; height: 100%; }
 <body>
 
 <div class="header">
-  <h1>🏆 Trading Roadshow — Micha vs Yoni</h1>
-  <div class="timer">Competition: <span id="days-left">10</span> days left | Started: <span>Feb 26, 2026</span></div>
+  <h1>🏆 Trading Roadshow — Micha Fan vs Yoni Fan</h1>
+  <div class="timer">⏱ <span id="days-left">10d</span> remaining | Feb 26 → Mar 8, 2026</div>
+  <div class="update">Last update: <span id="last-update">Loading...</span></div>
 </div>
 
-<div class="ticker-strip" id="ticker-strip">
-  <div class="ticker-item"><span class="label">S&P 500</span> <span class="price" id="t-spx">6,872</span> <span class="change down" id="t-spx-chg">-1.06%</span></div>
-  <div class="ticker-item"><span class="label">QQQ</span> <span class="price" id="t-qqq">521.40</span> <span class="change down" id="t-qqq-chg">-1.90%</span></div>
-  <div class="ticker-item"><span class="label">BTC</span> <span class="price" id="t-btc">$86,420</span> <span class="change down" id="t-btc-chg">-2.1%</span></div>
-  <div class="ticker-item"><span class="label">ETH</span> <span class="price" id="t-eth">$2,380</span> <span class="change down" id="t-eth-chg">-3.4%</span></div>
-  <div class="ticker-item"><span class="label">VIX</span> <span class="price" id="t-vix">20.21</span> <span class="change up" id="t-vix-chg">+12.72%</span></div>
-  <div class="ticker-item"><span class="label">Fear & Greed</span> <span class="price" id="t-fg">38</span> <span class="change down">Fear</span></div>
-</div>
+<div class="ticker-strip" id="ticker-strip"></div>
 
 <div class="main">
-  <!-- MICHA (Left) -->
-  <div class="trader-panel micha">
+  <!-- MICHA FAN (Left) -->
+  <div class="trader-panel left micha">
     <div class="trader-header">
       <h2>📊 Micha Fan</h2>
-      <div class="strategy">MA-150 Trend Following • Chart Patterns • Risk Discipline</div>
-      <div class="pnl positive" id="micha-pnl">+$0.00</div>
-      <div style="font-size:0.8em;color:#8b949e">Starting: $36,379</div>
+      <div class="strategy">MA-150 Trend Following • 6 Entry Types • Chart Patterns • ATR Sizing • Risk Discipline</div>
+      <div class="pnl neutral" id="micha-pnl">$0.00</div>
+      <div class="sub">Starting: $36,379</div>
     </div>
-    <div class="trade-log">
-      <h3>📋 Trade Log</h3>
-      <div id="micha-trades"><div style="color:#484f58;text-align:center;padding:20px;">Analyzing positions against MA-150...</div></div>
-    </div>
+    <div class="section-title">📦 Current Holdings</div>
+    <div id="micha-holdings"><div class="waiting"><span class="spinner">⏳</span> Identical to starting portfolio (no trades yet)</div></div>
+    <div class="section-title">📋 Trade Log (AI Decisions)</div>
+    <div id="micha-trades"><div class="waiting"><span class="spinner">⏳</span> Waiting for first analysis cycle...</div></div>
   </div>
 
   <!-- CENTER PORTFOLIO -->
   <div class="portfolio-panel">
-    <h3>💼 Starting Portfolio (Ofer's eToro)</h3>
-    <div style="display:grid;grid-template-columns:70px 1fr 80px 80px 70px;padding:4px 8px;font-size:0.75em;color:#484f58;border-bottom:1px solid #21262d;margin-bottom:4px;">
-      <span>Ticker</span><span>Name</span><span style="text-align:right">Invested</span><span style="text-align:right">Open</span><span style="text-align:right">Lev</span>
-    </div>
+    <h3>💼 Starting Portfolio (Ofer's eToro — $36,379)</h3>
+    <div class="pos-header"><span>Ticker</span><span>Name</span><span style="text-align:right">Invested</span><span style="text-align:right">Open $</span><span style="text-align:right">Lev</span></div>
     <div id="portfolio-list"></div>
-    <div style="margin-top:12px;padding-top:8px;border-top:1px solid #21262d;">
-      <h3 style="font-size:0.85em;color:#f0b90b;">🪞 CopyTrader: Space-Investor</h3>
-      <div style="font-size:0.8em;color:#8b949e;margin-top:4px;">Investment: $3,150 • <span id="copy-positions">100+</span> positions • Space & Defense focus</div>
+    <div class="copy-section">
+      <h4>🪞 CopyTrader: Space-Investor</h4>
+      <p>Investment: $3,150 • 100+ positions • Space & Defense focus</p>
     </div>
   </div>
 
-  <!-- YONI (Right) -->
-  <div class="trader-panel yoni">
+  <!-- YONI FAN (Right) -->
+  <div class="trader-panel right yoni">
     <div class="trader-header">
       <h2>🔬 Yoni Fan</h2>
-      <div class="strategy">QuantClaw Signals • Smart Money • GEX Regime • Factor Alpha</div>
-      <div class="pnl positive" id="yoni-pnl">+$0.00</div>
-      <div style="font-size:0.8em;color:#8b949e">Starting: $36,379</div>
+      <div class="strategy">QuantClaw API • Smart Money Flow • GEX Regime • Fama-French Alpha • Factor Screening</div>
+      <div class="pnl neutral" id="yoni-pnl">$0.00</div>
+      <div class="sub">Starting: $36,379</div>
     </div>
-    <div class="trade-log">
-      <h3>📋 Trade Log</h3>
-      <div id="yoni-trades"><div style="color:#484f58;text-align:center;padding:20px;">Running QuantClaw screener...</div></div>
-    </div>
+    <div class="section-title">📦 Current Holdings</div>
+    <div id="yoni-holdings"><div class="waiting"><span class="spinner">⏳</span> Identical to starting portfolio (no trades yet)</div></div>
+    <div class="section-title">📋 Trade Log (AI Decisions)</div>
+    <div id="yoni-trades"><div class="waiting"><span class="spinner">⏳</span> Waiting for first analysis cycle...</div></div>
   </div>
 
   <!-- P&L CHART -->
   <div class="chart-area">
-    <h3>📈 Cumulative P&L — <span style="color:#3fb950">Micha</span> vs <span style="color:#bc8cff">Yoni</span></h3>
+    <h3>📈 Cumulative P&L — <span style="color:#3fb950">Micha Fan</span> vs <span style="color:#bc8cff">Yoni Fan</span></h3>
     <div class="chart-container">
       <canvas id="pnl-chart"></canvas>
     </div>
@@ -161,154 +165,144 @@ canvas { width: 100%; height: 100%; }
 
   <!-- SCOREBOARD -->
   <div class="score-bar">
-    <div class="score-item"><div class="label">Micha Trades</div><div class="value" style="color:#3fb950" id="micha-trade-count">0</div></div>
-    <div class="score-item"><div class="label">Micha Win Rate</div><div class="value" style="color:#3fb950" id="micha-winrate">—</div></div>
-    <div class="score-item"><div class="label">🏆 Leader</div><div class="value" style="color:#f0b90b" id="leader">TBD</div></div>
-    <div class="score-item"><div class="label">Yoni Win Rate</div><div class="value" style="color:#bc8cff" id="yoni-winrate">—</div></div>
-    <div class="score-item"><div class="label">Yoni Trades</div><div class="value" style="color:#bc8cff" id="yoni-trade-count">0</div></div>
+    <div class="score-item"><div class="label">Micha Trades</div><div class="value" style="color:#3fb950" id="micha-count">0</div></div>
+    <div class="score-item"><div class="label">Micha Win Rate</div><div class="value" style="color:#3fb950" id="micha-wr">—</div></div>
+    <div class="score-item"><div class="label">🏆 Leader</div><div class="value" style="color:#f0b90b" id="leader">Even</div></div>
+    <div class="score-item"><div class="label">Yoni Win Rate</div><div class="value" style="color:#bc8cff" id="yoni-wr">—</div></div>
+    <div class="score-item"><div class="label">Yoni Trades</div><div class="value" style="color:#bc8cff" id="yoni-count">0</div></div>
   </div>
 
-  <!-- AUDIT TRAIL -->
+  <!-- AUDIT -->
   <div class="audit">
-    <h3>🔍 Audit Trail (All Trades Logged)</h3>
+    <h3>🔍 Full Audit Trail — Every Decision Logged</h3>
     <div id="audit-log"></div>
   </div>
 </div>
 
 <script>
-// =================== DATA ===================
-const INSTRUMENT_MAP = {
-  3006:  { sym: 'QQQ',    name: 'Invesco QQQ Trust' },
-  4427:  { sym: 'HOOD',   name: 'Robinhood Markets' },
-  6964:  { sym: 'COPX',   name: 'Global X Copper Miners' },
-  9272:  { sym: 'XLU',    name: 'Utilities Select Sector' },
-  1014:  { sym: 'NVDA',   name: 'NVIDIA Corp' },
-  10805: { sym: 'XLC',    name: 'Communication Services' },
-  1137:  { sym: 'CVX',    name: 'Chevron Corp' },
-  100063:{ sym: 'SOL',    name: 'Solana' },
-  100000:{ sym: 'BTC',    name: 'Bitcoin' },
-  27:    { sym: 'SPX500', name: 'S&P 500 Index' },
-  1012:  { sym: 'CAT',    name: 'Caterpillar Inc' },
-  3013:  { sym: 'ARKX',   name: 'ARK Space Exploration' },
-  14427: { sym: 'UUUU',   name: 'Energy Fuels Inc' },
-  1839:  { sym: 'CRM',    name: 'Salesforce Inc' }
-};
+const DATA_URL = 'trades.json';
+let data = null;
 
-const POSITIONS = [
-  { id: 3006,   amt: 5000.00, open: 609.02,  lev: 1, units: 8.21 },
-  { id: 4427,   amt: 999.98,  open: 120.12,  lev: 2, units: 16.65 },
-  { id: 6964,   amt: 2026.44, open: 33.62,   lev: 1, units: 60.27 },
-  { id: 9272,   amt: 2340.29, open: 75.87,   lev: 1, units: 30.84 },
-  { id: 1014,   amt: 3507.61, open: 167.96,  lev: 1, units: 20.88 },
-  { id: 10805,  amt: 5000.00, open: 84.72,   lev: 2, units: 118.04 },
-  { id: 1137,   amt: 1859.90, open: 185.05,  lev: 1, units: 10.05 },
-  { id: 100063, amt: 830.94,  open: 84.80,   lev: 1, units: 9.80 },
-  { id: 100000, amt: 3330.79, open: 69327.89,lev: 1, units: 0.048 },
-  { id: 27,     amt: 3999.98, open: 6759.63, lev: 1, units: 0.592 },
-  { id: 1012,   amt: 2722.73, open: 733.10,  lev: 1, units: 3.71 },
-  { id: 3013,   amt: 926.90,  open: 43.34,   lev: 2, units: 42.78 },
-  { id: 100000, amt: 1961.41, open: 69068.50,lev: 1, units: 0.028 },
-  { id: 14427,  amt: 264.24,  open: 20.98,   lev: 2, units: 25.19 },
-  { id: 1839,   amt: 1607.52, open: 186.57,  lev: 2, units: 17.23 }
-];
-
-const START_CAPITAL = POSITIONS.reduce((s, p) => s + p.amt, 0);
-
-// =================== STATE ===================
-let state = JSON.parse(localStorage.getItem('roadshow-state') || 'null') || {
-  startDate: '2026-02-26T22:00:00Z',
-  micha: { cash: 0, trades: [], pnlHistory: [0], portfolio: JSON.parse(JSON.stringify(POSITIONS)) },
-  yoni:  { cash: 0, trades: [], pnlHistory: [0], portfolio: JSON.parse(JSON.stringify(POSITIONS)) },
-  audit: [],
-  day: 0,
-  initialized: false
-};
-
-function save() { localStorage.setItem('roadshow-state', JSON.stringify(state)); }
-
-// =================== RENDER ===================
-function renderPortfolio() {
-  const el = document.getElementById('portfolio-list');
-  // Consolidate BTC positions
-  const consolidated = {};
-  POSITIONS.forEach(p => {
-    const info = INSTRUMENT_MAP[p.id] || { sym: '#' + p.id, name: 'Unknown' };
-    const key = info.sym;
-    if (!consolidated[key]) {
-      consolidated[key] = { ...p, sym: info.sym, name: info.name };
-    } else {
-      consolidated[key].amt += p.amt;
-      consolidated[key].units += p.units;
-    }
-  });
-
-  el.innerHTML = Object.values(consolidated)
-    .sort((a, b) => b.amt - a.amt)
-    .map(p => `
-      <div class="position-row">
-        <span class="sym">${p.sym}</span>
-        <span class="name">${p.name}</span>
-        <span class="val">$${p.amt.toLocaleString('en', {minimumFractionDigits:0, maximumFractionDigits:0})}</span>
-        <span class="val">$${p.open.toLocaleString('en', {minimumFractionDigits:2})}</span>
-        <span class="val">${p.lev > 1 ? p.lev + 'x' : '—'}</span>
-      </div>
-    `).join('');
+async function loadData() {
+  try {
+    const r = await fetch(DATA_URL + '?t=' + Date.now());
+    data = await r.json();
+    render();
+  } catch(e) {
+    console.error('Failed to load trades.json:', e);
+  }
 }
 
-function renderTrades(agent) {
-  const trades = state[agent].trades;
-  const el = document.getElementById(agent + '-trades');
-  if (trades.length === 0) {
-    el.innerHTML = `<div style="color:#484f58;text-align:center;padding:20px;">${agent === 'micha' ? 'Analyzing positions against MA-150...' : 'Running QuantClaw screener...'}</div>`;
-    return;
-  }
-  el.innerHTML = trades.slice(-15).reverse().map(t => {
-    const pnlColor = t.pnl >= 0 ? '#3fb950' : '#f85149';
-    return `<div class="trade-entry">
-      <span class="action ${t.action}">${t.action.toUpperCase()}</span>
-      <span class="ticker">${t.ticker}</span>
-      <span class="details">${t.units.toFixed(2)} @ $${t.price.toFixed(2)}</span>
-      <span class="pnl-small" style="color:${pnlColor}">${t.pnl >= 0 ? '+' : ''}$${t.pnl.toFixed(2)}</span>
-    </div>`;
+function render() {
+  if (!data) return;
+  renderTimer();
+  renderTicker();
+  renderPortfolio();
+  renderAgent('micha');
+  renderAgent('yoni');
+  renderScoreboard();
+  renderAudit();
+  renderChart();
+  document.getElementById('last-update').textContent = new Date(data.lastUpdate).toLocaleString();
+}
+
+function renderTimer() {
+  const end = new Date(data.competition.end);
+  const diff = end - new Date();
+  if (diff <= 0) { document.getElementById('days-left').textContent = 'OVER'; return; }
+  const d = Math.floor(diff / 86400000);
+  const h = Math.floor((diff % 86400000) / 3600000);
+  document.getElementById('days-left').textContent = `${d}d ${h}h`;
+}
+
+function renderTicker() {
+  const el = document.getElementById('ticker-strip');
+  const prices = data.prices || {};
+  const items = [
+    { label: 'S&P 500', key: 'SPY' },
+    { label: 'QQQ', key: 'QQQ' },
+    { label: 'NVDA', key: 'NVDA' },
+    { label: 'BTC', key: 'BTC' },
+    { label: 'VIX', key: 'VIX' },
+  ];
+  el.innerHTML = items.map(i => {
+    const p = prices[i.key];
+    if (!p) return `<div class="ticker-item"><span class="label">${i.label}</span> <span class="price">—</span></div>`;
+    return `<div class="ticker-item"><span class="label">${i.label}</span> <span class="price">$${Number(p).toLocaleString('en',{minimumFractionDigits:2, maximumFractionDigits:2})}</span></div>`;
   }).join('');
 }
 
-function renderPnL() {
-  document.getElementById('micha-pnl').textContent = formatPnL(getCurrentPnL('micha'));
-  document.getElementById('yoni-pnl').textContent = formatPnL(getCurrentPnL('yoni'));
-  document.getElementById('micha-pnl').className = 'pnl ' + (getCurrentPnL('micha') >= 0 ? 'positive' : 'negative');
-  document.getElementById('yoni-pnl').className = 'pnl ' + (getCurrentPnL('yoni') >= 0 ? 'positive' : 'negative');
+function renderPortfolio() {
+  const el = document.getElementById('portfolio-list');
+  el.innerHTML = data.portfolio
+    .sort((a, b) => b.amt - a.amt)
+    .map(p => `<div class="pos-row">
+      <span class="sym">${p.sym}</span>
+      <span class="name">${p.name}</span>
+      <span class="val">$${p.amt.toLocaleString('en',{maximumFractionDigits:0})}</span>
+      <span class="val">$${p.open.toLocaleString('en',{minimumFractionDigits:2})}</span>
+      <span class="val">${p.lev > 1 ? p.lev + 'x' : '—'}</span>
+    </div>`).join('');
+}
 
-  const mTrades = state.micha.trades;
-  const yTrades = state.yoni.trades;
-  document.getElementById('micha-trade-count').textContent = mTrades.length;
-  document.getElementById('yoni-trade-count').textContent = yTrades.length;
+function renderAgent(agent) {
+  const d = data[agent];
+  // PnL
+  const pnlEl = document.getElementById(agent + '-pnl');
+  const pnl = d.totalPnl || 0;
+  pnlEl.textContent = (pnl >= 0 ? '+' : '') + '$' + pnl.toFixed(2);
+  pnlEl.className = 'pnl ' + (pnl > 0 ? 'positive' : pnl < 0 ? 'negative' : 'neutral');
 
-  const mWins = mTrades.filter(t => t.pnl > 0).length;
-  const yWins = yTrades.filter(t => t.pnl > 0).length;
-  document.getElementById('micha-winrate').textContent = mTrades.length > 0 ? Math.round(mWins / mTrades.length * 100) + '%' : '—';
-  document.getElementById('yoni-winrate').textContent = yTrades.length > 0 ? Math.round(yWins / yTrades.length * 100) + '%' : '—';
+  // Holdings
+  const hEl = document.getElementById(agent + '-holdings');
+  if (d.holdings && d.holdings.length > 0) {
+    hEl.innerHTML = d.holdings.map(h => {
+      const pnlColor = (h.pnl || 0) >= 0 ? '#3fb950' : '#f85149';
+      return `<div class="holding">
+        <span class="sym">${h.sym}</span>
+        <span class="units">${h.units} units</span>
+        <span class="pnl-sm" style="color:${pnlColor}">${(h.pnl||0) >= 0 ? '+' : ''}$${(h.pnl||0).toFixed(2)}</span>
+      </div>`;
+    }).join('');
+  } else {
+    hEl.innerHTML = '<div class="waiting"><span class="spinner">⏳</span> Identical to starting portfolio (no trades yet)</div>';
+  }
 
-  const mPnl = getCurrentPnL('micha');
-  const yPnl = getCurrentPnL('yoni');
+  // Trades
+  const tEl = document.getElementById(agent + '-trades');
+  if (d.trades && d.trades.length > 0) {
+    tEl.innerHTML = d.trades.slice(-20).reverse().map(t => `
+      <div class="trade-entry">
+        <span class="action ${t.action}">${t.action.toUpperCase()}</span>
+        <span class="ticker">${t.ticker}</span>
+        <span class="reason" title="${t.reason || ''}">${t.reason || ''}</span>
+        <span class="time">${t.date || ''}</span>
+      </div>
+    `).join('');
+  } else {
+    tEl.innerHTML = `<div class="waiting"><span class="spinner">⏳</span> Waiting for first analysis cycle...</div>`;
+  }
+}
+
+function renderScoreboard() {
+  const m = data.micha, y = data.yoni;
+  document.getElementById('micha-count').textContent = (m.trades || []).length;
+  document.getElementById('yoni-count').textContent = (y.trades || []).length;
+
+  const mWins = (m.trades || []).filter(t => (t.pnl || 0) > 0).length;
+  const yWins = (y.trades || []).filter(t => (t.pnl || 0) > 0).length;
+  document.getElementById('micha-wr').textContent = m.trades?.length ? Math.round(mWins / m.trades.length * 100) + '%' : '—';
+  document.getElementById('yoni-wr').textContent = y.trades?.length ? Math.round(yWins / y.trades.length * 100) + '%' : '—';
+
   const leader = document.getElementById('leader');
-  if (mPnl > yPnl) { leader.textContent = '📊 Micha'; leader.style.color = '#3fb950'; }
-  else if (yPnl > mPnl) { leader.textContent = '🔬 Yoni'; leader.style.color = '#bc8cff'; }
-  else { leader.textContent = 'Tied'; leader.style.color = '#f0b90b'; }
-}
-
-function getCurrentPnL(agent) {
-  const h = state[agent].pnlHistory;
-  return h.length > 0 ? h[h.length - 1] : 0;
-}
-
-function formatPnL(v) {
-  return (v >= 0 ? '+' : '') + '$' + v.toFixed(2);
+  if ((m.totalPnl || 0) > (y.totalPnl || 0)) { leader.textContent = '📊 Micha Fan'; leader.style.color = '#3fb950'; }
+  else if ((y.totalPnl || 0) > (m.totalPnl || 0)) { leader.textContent = '🔬 Yoni Fan'; leader.style.color = '#bc8cff'; }
+  else { leader.textContent = 'Even'; leader.style.color = '#f0b90b'; }
 }
 
 function renderAudit() {
   const el = document.getElementById('audit-log');
-  el.innerHTML = state.audit.slice(-30).reverse().map(a => `
+  el.innerHTML = (data.audit || []).slice(-40).reverse().map(a => `
     <div class="audit-entry">
       <span class="time">${a.time}</span>
       <span class="agent ${a.agent}">${a.agent.toUpperCase()}</span>
@@ -326,187 +320,72 @@ function renderChart() {
   ctx.scale(2, 2);
   const w = rect.width, h = rect.height;
 
-  const mData = state.micha.pnlHistory;
-  const yData = state.yoni.pnlHistory;
-  const allVals = [...mData, ...yData];
-  const minV = Math.min(0, ...allVals) - 50;
-  const maxV = Math.max(100, ...allVals) + 50;
-  const maxLen = Math.max(mData.length, yData.length, 2);
+  const mHist = (data.micha.pnlHistory || []).map(p => p.pnl || 0);
+  const yHist = (data.yoni.pnlHistory || []).map(p => p.pnl || 0);
+  const allV = [...mHist, ...yHist, 0];
+  const minV = Math.min(...allV) - 100;
+  const maxV = Math.max(...allV) + 100;
+  const maxLen = Math.max(mHist.length, yHist.length, 2);
 
   ctx.clearRect(0, 0, w, h);
 
   // Grid
-  ctx.strokeStyle = '#21262d';
-  ctx.lineWidth = 0.5;
+  ctx.strokeStyle = '#21262d'; ctx.lineWidth = 0.5;
   for (let i = 0; i < 5; i++) {
     const y = 20 + (h - 40) * i / 4;
-    ctx.beginPath(); ctx.moveTo(40, y); ctx.lineTo(w - 10, y); ctx.stroke();
-    const val = maxV - (maxV - minV) * i / 4;
-    ctx.fillStyle = '#484f58';
-    ctx.font = '10px system-ui';
-    ctx.fillText('$' + val.toFixed(0), 2, y + 3);
+    ctx.beginPath(); ctx.moveTo(50, y); ctx.lineTo(w - 10, y); ctx.stroke();
+    ctx.fillStyle = '#484f58'; ctx.font = '10px system-ui';
+    ctx.fillText('$' + (maxV - (maxV - minV) * i / 4).toFixed(0), 2, y + 3);
   }
 
   // Zero line
   const zeroY = 20 + (h - 40) * (maxV / (maxV - minV));
-  ctx.strokeStyle = '#484f58';
-  ctx.setLineDash([4, 4]);
-  ctx.beginPath(); ctx.moveTo(40, zeroY); ctx.lineTo(w - 10, zeroY); ctx.stroke();
+  ctx.strokeStyle = '#f0b90b30'; ctx.setLineDash([4, 4]);
+  ctx.beginPath(); ctx.moveTo(50, zeroY); ctx.lineTo(w - 10, zeroY); ctx.stroke();
   ctx.setLineDash([]);
 
-  function drawLine(data, color) {
-    if (data.length < 2) return;
-    ctx.strokeStyle = color;
-    ctx.lineWidth = 3;
+  function drawLine(pts, color) {
+    if (pts.length < 1) return;
+    // Thick glow
+    ctx.strokeStyle = color + '30'; ctx.lineWidth = 8;
     ctx.beginPath();
-    data.forEach((v, i) => {
-      const x = 40 + (w - 50) * i / (maxLen - 1);
+    pts.forEach((v, i) => {
+      const x = 50 + (w - 60) * i / (maxLen - 1);
       const y = 20 + (h - 40) * ((maxV - v) / (maxV - minV));
       i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
     });
     ctx.stroke();
-
-    // Glow
-    ctx.strokeStyle = color + '40';
-    ctx.lineWidth = 8;
+    // Main line
+    ctx.strokeStyle = color; ctx.lineWidth = 3;
     ctx.beginPath();
-    data.forEach((v, i) => {
-      const x = 40 + (w - 50) * i / (maxLen - 1);
+    pts.forEach((v, i) => {
+      const x = 50 + (w - 60) * i / (maxLen - 1);
       const y = 20 + (h - 40) * ((maxV - v) / (maxV - minV));
       i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
     });
     ctx.stroke();
+    // Dot at end
+    if (pts.length > 0) {
+      const lastX = 50 + (w - 60) * (pts.length - 1) / (maxLen - 1);
+      const lastY = 20 + (h - 40) * ((maxV - pts[pts.length - 1]) / (maxV - minV));
+      ctx.fillStyle = color; ctx.beginPath(); ctx.arc(lastX, lastY, 5, 0, Math.PI * 2); ctx.fill();
+    }
   }
 
-  drawLine(mData, '#3fb950');
-  drawLine(yData, '#bc8cff');
+  drawLine(mHist, '#3fb950');
+  drawLine(yHist, '#bc8cff');
 
   // Legend
-  ctx.fillStyle = '#3fb950'; ctx.fillRect(w - 160, 10, 12, 12);
-  ctx.fillStyle = '#e0e6ed'; ctx.font = '11px system-ui'; ctx.fillText('Micha', w - 144, 20);
+  ctx.fillStyle = '#3fb950'; ctx.fillRect(w - 180, 10, 12, 12);
+  ctx.fillStyle = '#e0e6ed'; ctx.font = '11px system-ui'; ctx.fillText('Micha Fan', w - 164, 20);
   ctx.fillStyle = '#bc8cff'; ctx.fillRect(w - 90, 10, 12, 12);
-  ctx.fillStyle = '#e0e6ed'; ctx.fillText('Yoni', w - 74, 20);
+  ctx.fillStyle = '#e0e6ed'; ctx.fillText('Yoni Fan', w - 74, 20);
 }
 
-// =================== TIMER ===================
-function updateTimer() {
-  const start = new Date('2026-02-26T22:00:00+02:00');
-  const end = new Date('2026-03-08T22:00:00+02:00');
-  const now = new Date();
-  const diff = end - now;
-  if (diff <= 0) {
-    document.getElementById('days-left').textContent = '0 — COMPETITION OVER';
-    return;
-  }
-  const days = Math.floor(diff / 86400000);
-  const hours = Math.floor((diff % 86400000) / 3600000);
-  document.getElementById('days-left').textContent = `${days}d ${hours}h`;
-}
-
-// =================== SIMULATION ENGINE ===================
-// Micha's AI: MA-150 trend following, risk discipline, chart patterns
-// Yoni's AI: QuantClaw signals, smart money, GEX, factor alpha
-
-function simulateTradingDay() {
-  const day = state.day + 1;
-  state.day = day;
-  const timestamp = new Date(Date.now()).toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' });
-
-  // Simulate price movements (random walk with slight positive bias)
-  const mPrevPnl = state.micha.pnlHistory[state.micha.pnlHistory.length - 1] || 0;
-  const yPrevPnl = state.yoni.pnlHistory[state.yoni.pnlHistory.length - 1] || 0;
-
-  // Micha: conservative, follows trends, fewer but higher-conviction trades
-  const michaMove = (Math.random() - 0.45) * 200 * (1 + day * 0.05);
-  const michaPnl = mPrevPnl + michaMove;
-
-  // Yoni: quant-driven, more frequent trades, data-driven alpha
-  const yoniMove = (Math.random() - 0.42) * 180 * (1 + day * 0.05);
-  const yoniPnl = yPrevPnl + yoniMove;
-
-  state.micha.pnlHistory.push(Math.round(michaPnl * 100) / 100);
-  state.yoni.pnlHistory.push(Math.round(yoniPnl * 100) / 100);
-
-  // Generate trades based on strategies
-  if (Math.random() > 0.5) {
-    const tickers = Object.values(INSTRUMENT_MAP).map(i => i.sym);
-    const ticker = tickers[Math.floor(Math.random() * tickers.length)];
-    const isBuy = michaMove > 0;
-    const trade = {
-      action: isBuy ? 'buy' : 'sell',
-      ticker,
-      units: Math.round(Math.random() * 10 * 100) / 100,
-      price: Math.round((50 + Math.random() * 500) * 100) / 100,
-      pnl: Math.round(michaMove * (0.3 + Math.random() * 0.7) * 100) / 100,
-      reason: isBuy ? 'Above MA-150, bullish pattern' : 'Below MA-150, risk cut',
-      day
-    };
-    state.micha.trades.push(trade);
-    state.audit.push({ time: timestamp, agent: 'micha', msg: `${trade.action.toUpperCase()} ${trade.units} ${trade.ticker} @ $${trade.price} — ${trade.reason}` });
-  }
-
-  if (Math.random() > 0.4) {
-    const tickers = Object.values(INSTRUMENT_MAP).map(i => i.sym);
-    const ticker = tickers[Math.floor(Math.random() * tickers.length)];
-    const isBuy = yoniMove > 0;
-    const trade = {
-      action: isBuy ? 'buy' : 'sell',
-      ticker,
-      units: Math.round(Math.random() * 8 * 100) / 100,
-      price: Math.round((50 + Math.random() * 500) * 100) / 100,
-      pnl: Math.round(yoniMove * (0.3 + Math.random() * 0.7) * 100) / 100,
-      reason: isBuy ? 'Smart money accumulating, +GEX' : 'Distribution signal, -GEX regime',
-      day
-    };
-    state.yoni.trades.push(trade);
-    state.audit.push({ time: timestamp, agent: 'yoni', msg: `${trade.action.toUpperCase()} ${trade.units} ${trade.ticker} @ $${trade.price} — ${trade.reason}` });
-  }
-
-  save();
-}
-
-// =================== INIT ===================
-function init() {
-  renderPortfolio();
-  
-  if (!state.initialized) {
-    state.initialized = true;
-    state.audit.push({ time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), agent: 'micha', msg: '🟢 Competition started — Analyzing portfolio with MA-150 framework' });
-    state.audit.push({ time: new Date().toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }), agent: 'yoni', msg: '🟢 Competition started — Running QuantClaw full-spectrum analysis' });
-    save();
-  }
-
-  // Simulate a trading update every 30 seconds
-  simulateTradingDay();
-  setInterval(simulateTradingDay, 30000);
-
-  renderTrades('micha');
-  renderTrades('yoni');
-  renderPnL();
-  renderAudit();
-  renderChart();
-  updateTimer();
-
-  setInterval(() => {
-    renderTrades('micha');
-    renderTrades('yoni');
-    renderPnL();
-    renderAudit();
-    renderChart();
-    updateTimer();
-  }, 30000);
-
-  // Resize chart on window resize
-  window.addEventListener('resize', renderChart);
-}
-
-// Reset button (hidden, accessible via console)
-window.resetCompetition = function() {
-  localStorage.removeItem('roadshow-state');
-  location.reload();
-};
-
-init();
+// Load and auto-refresh every 5 min
+loadData();
+setInterval(loadData, 300000);
+window.addEventListener('resize', () => data && renderChart());
 </script>
 </body>
 </html>
