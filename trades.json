@@ -23,10 +23,10 @@
   "micha": {
     "name": "Micha Fan",
     "strategy": "MA-150 Trend Following • 6 Entry Types • Chart Patterns • ATR Sizing • Risk Discipline",
-    "cash": 0,
+    "cash": 36379,
     "holdings": [],
     "trades": [],
-    "pnlHistory": [{"date":"2026-02-26","pnl":0}],
+    "pnlHistory": [{"date":"2026-02-26","pnl":0}, {"date":"2026-02-27","pnl":0}],
     "totalPnl": 0
   },
   "yoni": {
@@ -39,8 +39,18 @@
     "totalPnl": 0
   },
   "audit": [
-    {"time":"2026-02-26T22:00:00","agent":"system","msg":"🏆 Competition started — both agents receive identical portfolio ($36,379)"}
+    {"time":"2026-02-26T22:00:00","agent":"system","msg":"🏆 Competition started — both agents receive identical portfolio ($36,379)"},
+    {"time":"2026-02-27T00:52:00","agent":"micha","msg":"Initial analysis: No clear setups without MA-150 data. Holding cash."}
   ],
-  "lastUpdate": "2026-02-26T22:00:00+02:00",
-  "prices": {}
+  "lastUpdate": "2026-02-27T00:52:00+02:00",
+  "prices": {
+    "NVDA": 184.88999938964844,
+    "QQQ": 609.239990234375,
+    "HOOD": 79.44999694824219,
+    "CVX": 184.16000366210938,
+    "CAT": 752.9299926757812,
+    "CRM": 199.47000122070312,
+    "XLU": 47.18000030517578,
+    "ARKX": 32.400001525878906
+  }
 }
