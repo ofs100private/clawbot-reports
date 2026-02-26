@@ -166,7 +166,7 @@ tr:hover{background:#0d1230}
 
 <div class="status-bar">
   <span id="status-left">⏳ Connecting to QuantClaw...</span>
-  <span id="status-right">v2 | Prices: QuantClaw API (30s refresh)</span>
+  <span id="status-right">v3 | Prices: eToro API (2min refresh via prices.json)</span>
 </div>
 
 <script>
@@ -210,68 +210,22 @@ function loadState() {
 }
 function saveState() { localStorage.setItem('roadshow-v2', JSON.stringify(state)); }
 
-// === TICKER MAPPING (QuantClaw uses different symbols) ===
-const TICKER_MAP = {
-  'BTC': 'BTC-USD',
-  'ETH': 'ETH-USD',
-  'SOL': 'SOL-USD',
-  'SPX500': 'SPY',  // SPX500 doesn't exist on QuantClaw, use SPY
-};
-
-// eToro prices differ from market for some instruments
-// These are eToro-specific conversion factors (eToro price / market price)
-const ETORO_SCALE = {
-  'SPX500': 1, // SPX500 on eToro IS the index value, SPY is ~1/10th
-};
-
-// === PRICES ===
+// === PRICES (eToro API via prices.json) ===
 async function fetchPrices() {
-  const tickers = [...new Set([
-    ...PORTFOLIO.map(p=>p.ticker),
-    ...state.micha.positions.map(p=>p.ticker),
-    ...state.yoni.positions.map(p=>p.ticker),
-  ])];
-  
-  let fetched = 0;
-  const promises = tickers.map(async t => {
-    const qcTicker = TICKER_MAP[t] || t;
-    try {
-      const r = await fetch(`https://data.quantclaw.org/api/v1/price?ticker=${qcTicker}`);
-      const d = await r.json();
-      if (d.price && d.price > 0) {
-        // For SPX500: QuantClaw returns SPY (~689), eToro uses SPX500 index (~6900)
-        if (t === 'SPX500') {
-          prices[t] = d.price * 10.015; // SPY→SPX500 approximate conversion
-        } else if (t === 'ETH') {
-          // eToro ETH instrument is ~$86, QuantClaw ETH-USD is ~$2024
-          // Use ratio from open prices to get eToro-equivalent
-          prices[t] = d.price * (84.80 / 2024); // eToro scale
-        } else if (t === 'SOL') {
-          // eToro SOL is ~$117, market SOL-USD might differ
-          prices[t] = d.price;
-        } else {
-          prices[t] = d.price;
-        }
-        fetched++;
-      }
-    } catch(e) {}
-  });
-  await Promise.all(promises);
-  
-  // Fallback: use eToro API prices file if available
   try {
-    const r = await fetch('./prices.json?t=' + Date.now());
+    const r = await fetch('https://ofs100private.github.io/clawbot-reports/prices.json?t=' + Date.now());
     const d = await r.json();
     if (d && d.prices) {
       for (const [k,v] of Object.entries(d.prices)) {
-        if (!prices[k] || v > 0) prices[k] = v;
+        prices[k] = v;
       }
-      fetched = Object.keys(prices).length;
+      const updated = d.updated ? new Date(d.updated * 1000).toLocaleTimeString() : '?';
+      document.getElementById('status-left').textContent = `✅ eToro prices loaded: ${updated} | ${Object.keys(prices).length} tickers`;
     }
-  } catch(e) {}
-  
+  } catch(e) {
+    document.getElementById('status-left').textContent = `⚠️ Price fetch failed: ${e.message}`;
+  }
   updateUI();
-  document.getElementById('status-left').textContent = `✅ Prices updated: ${new Date().toLocaleTimeString()} | ${fetched} tickers loaded`;
 }
 
 // === TIMER ===
