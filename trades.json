@@ -14,7 +14,7 @@
         "units": 2.4378,
         "avgPrice": 184.89,
         "currentPrice": 184.89,
-        "pnl": 0
+        "pnl": 0.0
       }
     ],
     "trades": [
@@ -36,10 +36,10 @@
       },
       {
         "date": "2026-02-27",
-        "pnl": 0
+        "pnl": 0.0
       }
     ],
-    "totalPnl": 0
+    "totalPnl": 0.0
   },
   "yoni": {
     "name": "Yoni Fan",
@@ -51,28 +51,28 @@
         "units": 0.7771,
         "avgPrice": 321.7,
         "currentPrice": 321.7,
-        "pnl": 0
+        "pnl": 0.0
       },
       {
         "sym": "GOOGL",
         "units": 0.8134,
         "avgPrice": 307.38,
         "currentPrice": 307.38,
-        "pnl": 0
+        "pnl": 0.0
       },
       {
         "sym": "COIN",
         "units": 1.3806,
         "avgPrice": 181.06,
         "currentPrice": 181.06,
-        "pnl": 0
+        "pnl": 0.0
       },
       {
         "sym": "RIOT",
         "units": 14.6284,
         "avgPrice": 17.09,
         "currentPrice": 17.09,
-        "pnl": 0
+        "pnl": 0.0
       }
     ],
     "trades": [
@@ -164,10 +164,10 @@
       },
       {
         "date": "2026-02-27",
-        "pnl": 0
+        "pnl": 0.0
       }
     ],
-    "totalPnl": 0
+    "totalPnl": 0.0
   },
   "audit": [
     {
@@ -226,32 +226,21 @@
       "msg": "Bought 14.6284 shares of RIOT at 17.09 for 250. Reason: SM Score 69.58 (accumulating) with GEX negative (-0.33); SM >60 indicates buy despite volatility."
     }
   ],
-  "lastUpdate": "2026-02-27T05:09:00+02:00",
+  "lastUpdate": "2026-02-27T07:25:00+02:00",
   "prices": {
-    "NVDA": 184.89,
-    "QQQ": 609.24,
-    "HOOD": 79.45,
-    "CVX": 184.16,
-    "CAT": 752.93,
-    "CRM": 199.47,
-    "XLU": 47.18,
-    "ARKX": 32.4,
-    "AAPL": 272.95,
-    "MSFT": 401.72,
-    "GOOGL": 307.38,
-    "AMD": 203.68,
-    "AVGO": 321.7,
-    "TSM": 376.81,
-    "PLTR": 135.94,
-    "META": 657.01,
-    "AMZN": 207.92,
     "SPY": 689.3,
-    "COST": 986.74,
-    "NFLX": 84.59,
-    "LLY": 1022.02,
-    "SOFI": 19.1,
+    "QQQ": 609.24,
+    "GLD": 477.48,
+    "SLV": 80.45,
+    "USO": 79.77,
+    "COPX": 94.45,
+    "BTC": 67871.91,
+    "ETH": 2046.15,
+    "SOL": 87.74,
+    "AVGO": 321.7,
     "COIN": 181.06,
-    "MARA": 8.45,
-    "RIOT": 17.09
+    "GOOGL": 307.38,
+    "RIOT": 17.09,
+    "NVDA": 184.89
   }
 }

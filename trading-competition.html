@@ -165,7 +165,21 @@ canvas { width: 100%; height: 100%; }
 
 <script>
 let D;
+let liveCrypto = {};
+
+// Real-time crypto from CoinGecko (free, CORS OK, ~20s delay)
+async function fetchCrypto() {
+  try {
+    const r = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd');
+    const d = await r.json();
+    if (d.bitcoin) liveCrypto.BTC = d.bitcoin.usd;
+    if (d.ethereum) liveCrypto.ETH = d.ethereum.usd;
+    if (d.solana) liveCrypto.SOL = d.solana.usd;
+  } catch(e) { console.log('Crypto price fetch error:', e); }
+}
+
 async function load() {
+  await fetchCrypto();
   try {
     const r = await fetch('trades.json?_=' + Date.now());
     D = await r.json();
@@ -188,12 +202,21 @@ function render() {
   } else $('timer').textContent = 'FINISHED';
   $('updated').textContent = new Date(D.lastUpdate).toLocaleString();
 
-  // Tickers
-  const prices = D.prices || {};
-  const tks = Object.entries(prices).slice(0, 8);
-  $('tickers').innerHTML = tks.map(([k,v]) =>
-    `<div class="ticker-item"><span class="label">${k}</span> <span class="price">$${Number(v).toFixed(2)}</span></div>`
-  ).join('') || '<div class="ticker-item"><span class="label">Prices load after first trade cycle</span></div>';
+  // Ticker strip — 10 fixed assets in Ofer's order
+  const TC = [
+    {key:'SPY',label:'S&P 500',d:2}, {key:'QQQ',label:'Nasdaq',d:2},
+    {key:'GLD',label:'Gold',d:2}, {key:'SLV',label:'Silver',d:2},
+    {key:'BTC',label:'BTC',d:0}, {key:'ETH',label:'ETH',d:2},
+    {key:'SOL',label:'SOL',d:2}, {key:'USO',label:'Oil',d:2},
+    {key:'COPX',label:'Copper',d:2}, {key:'VIX',label:'VIX',d:2}
+  ];
+  const prices = {...(D.prices||{}), ...liveCrypto};
+  $('tickers').innerHTML = TC.map(t => {
+    const p = prices[t.key];
+    if (!p) return `<div class="ticker-item"><span class="label">${t.label}</span> <span class="price">—</span></div>`;
+    const f = t.d===0 ? '$'+Number(p).toLocaleString('en',{maximumFractionDigits:0}) : '$'+Number(p).toLocaleString('en',{minimumFractionDigits:2,maximumFractionDigits:2});
+    return `<div class="ticker-item"><span class="label">${t.label}</span> <span class="price">${f}</span></div>`;
+  }).join('');
 
   // Agents
   renderAgent('m', D.micha);
