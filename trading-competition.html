@@ -389,7 +389,7 @@ function openAsset(agent, sym, idx) {
       <div class="asset-row"><span class="lbl">Stop Loss</span><span class="val"><span class="tag tag-sl">$${h.stopLoss || '—'}</span></span></div>
       <div class="asset-row"><span class="lbl">Take Profit</span><span class="val"><span class="tag tag-tp">$${h.takeProfit || '—'}</span></span></div>
       <div class="asset-row"><span class="lbl">Trailing Stop</span><span class="val"><span class="tag tag-tsl">${h.trailingStopPct || '—'}%</span></span></div>
-      <div class="asset-row"><span class="lbl">Leverage</span><span class="val"><span class="tag tag-lev">${h.leverage || 1}x</span></span></div>
+      <div class="asset-row"><span class="lbl">Leverage</span><span class="val"><span class="tag tag-lev">${h.leverage || 1}x</span> <span style="color:#484f58;font-size:0.85em">/ max ${h.maxLeverage || 5}x (eToro)</span></span></div>
       
       <div class="asset-section">📊 TRADE HISTORY (${trades.length} trades)</div>
       <div class="asset-row"><span class="lbl">Buys / Sells</span><span class="val">${buys.length} / ${sells.length}</span></div>
