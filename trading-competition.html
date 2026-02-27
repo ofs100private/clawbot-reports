@@ -74,12 +74,15 @@ body { background: #0a0e17; color: #e0e6ed; font-family: -apple-system, 'Segoe U
 .trade .time { color: #484f58; font-size: 0.85em; }
 .trade .reason { color: #6e7681; font-size: 0.88em; margin-top: 2px; line-height: 1.3; }
 
-/* Chart — clickable to fullscreen */
+/* Chart — Alpha Arena style */
 .chart-area { grid-column: 1 / -1; padding: 14px; border-top: 1px solid #21262d; background: #0d1117; }
-.chart-area h3 { text-align: center; color: #8b949e; margin-bottom: 10px; font-size: 0.9em; }
-.chart-box { position: relative; height: 200px; background: #161b22; border-radius: 10px; border: 1px solid #21262d; overflow: hidden; cursor: pointer; transition: box-shadow 0.3s; }
+.chart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding: 0 4px; }
+.chart-header .chart-title { font-size: 0.85em; color: #8b949e; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+.chart-header .chart-legend { display: flex; gap: 14px; font-size: 0.78em; }
+.chart-header .chart-legend span { display: flex; align-items: center; gap: 4px; }
+.chart-header .chart-legend .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.chart-box { position: relative; height: 240px; background: #0d1117; border-radius: 10px; border: 1px solid #21262d; overflow: hidden; cursor: pointer; transition: box-shadow 0.3s; }
 .chart-box:hover { box-shadow: 0 0 20px rgba(88,166,255,0.15); }
-.chart-box::after { content: '🔍 Click to expand'; position: absolute; bottom: 6px; right: 10px; font-size: 0.7em; color: #484f58; pointer-events: none; }
 canvas { width: 100%; height: 100%; }
 
 /* Fullscreen chart modal */
@@ -189,7 +192,14 @@ canvas { width: 100%; height: 100%; }
   </div>
 
   <div class="chart-area">
-
+    <div class="chart-header">
+      <span class="chart-title">Total Account Value</span>
+      <div class="chart-legend">
+        <span><span class="dot" style="background:#3fb950"></span> Micha Fan</span>
+        <span><span class="dot" style="background:#bc8cff"></span> Yoni Fan</span>
+        <span><span class="dot" style="background:#484f58;border:1px dashed #8b949e"></span> $1,000 Start</span>
+      </div>
+    </div>
     <div class="chart-box" onclick="openChart()"><canvas id="chart"></canvas></div>
   </div>
 
@@ -322,13 +332,11 @@ function renderAgent(p, d) {
   // Trades moved to trades.html
 }
 
-// ===== CHART ENGINE =====
-function computePnl(agent) {
+// ===== CHART ENGINE (Alpha Arena style) =====
+function computeAccountValue(agent) {
   const d = D[agent];
-  let unrealized = 0;
-  (d.holdings||[]).forEach(h => { unrealized += ((h.currentPrice||h.avgPrice||0) - (h.avgPrice||0)) * (h.units||0); });
-  const realized = (d.trades||[]).filter(t => t.action === 'sell').reduce((s,t) => s + (t.pnl||0), 0);
-  return Math.round((unrealized + realized) * 100) / 100;
+  const holdingsVal = (d.holdings||[]).reduce((s,h) => s + (h.units||0) * (h.currentPrice||h.avgPrice||0), 0);
+  return Math.round(((d.cash||0) + holdingsVal) * 100) / 100;
 }
 
 function drawChart(canvasId, isFullscreen) {
@@ -338,34 +346,34 @@ function drawChart(canvasId, isFullscreen) {
   c.width = box.width * dpr; c.height = box.height * dpr;
   ctx.scale(dpr, dpr);
   const w = box.width, h = box.height;
-  const pad = isFullscreen ? {top:30,bottom:36,left:60,right:16} : {top:24,bottom:28,left:50,right:12};
+  const pad = isFullscreen ? {top:20,bottom:40,left:65,right:90} : {top:16,bottom:30,left:52,right:80};
   const cw = w-pad.left-pad.right, ch = h-pad.top-pad.bottom;
 
-  let mH = (D.micha.pnlHistory||[]).map(p=>({date:p.date,pnl:p.pnl||0}));
-  let yH = (D.yoni.pnlHistory||[]).map(p=>({date:p.date,pnl:p.pnl||0}));
+  // Convert P&L history to account value (start=1000)
+  const START = D.competition.startCapital || 1000;
+  let mH = (D.micha.pnlHistory||[]).map(p=>({date:p.date, val: START + (p.pnl||0)}));
+  let yH = (D.yoni.pnlHistory||[]).map(p=>({date:p.date, val: START + (p.pnl||0)}));
 
-  // Apply zoom filter
   if (chartZoom !== 'all') {
     const days = chartZoom === '1d' ? 1 : chartZoom === '3d' ? 3 : chartZoom === '5d' ? 5 : 7;
     mH = mH.slice(-days); yH = yH.slice(-days);
   }
 
-  // Live P&L at end
-  const mLive = computePnl('micha'), yLive = computePnl('yoni');
-  if (mH.length > 0) mH[mH.length-1].pnl = mLive;
-  if (yH.length > 0) yH[yH.length-1].pnl = yLive;
+  // Live value at end
+  const mLive = computeAccountValue('micha'), yLive = computeAccountValue('yoni');
+  if (mH.length > 0) mH[mH.length-1].val = mLive;
+  if (yH.length > 0) yH[yH.length-1].val = yLive;
 
-  const mPts = mH.map(p=>p.pnl), yPts = yH.map(p=>p.pnl);
+  const mPts = mH.map(p=>p.val), yPts = yH.map(p=>p.val);
   const allDates = [...new Set([...mH.map(p=>p.date),...yH.map(p=>p.date)])].sort();
-  const len = Math.max(mPts.length, yPts.length, 2);
-  const all = [...mPts,...yPts,0];
+  const all = [...mPts,...yPts, START];
   let lo = Math.min(...all), hi = Math.max(...all);
-  const range = (hi-lo) || 20; lo -= range*0.15; hi += range*0.15;
+  const range = (hi-lo) || 50; lo -= range*0.12; hi += range*0.12;
 
   ctx.clearRect(0,0,w,h);
-  ctx.fillStyle = '#161b22'; ctx.fillRect(0,0,w,h);
+  ctx.fillStyle = '#0d1117'; ctx.fillRect(0,0,w,h);
 
-  // Grid
+  // Horizontal grid lines
   const gridLines = isFullscreen ? 8 : 5;
   ctx.textAlign = 'right';
   for (let i=0; i<gridLines; i++) {
@@ -373,128 +381,86 @@ function drawChart(canvasId, isFullscreen) {
     const val = hi - (hi-lo)*i/(gridLines-1);
     ctx.strokeStyle = '#21262d'; ctx.lineWidth = 0.5;
     ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(w-pad.right, y); ctx.stroke();
-    ctx.fillStyle = '#484f58'; ctx.font = (isFullscreen?'12':'10') + 'px system-ui';
-    ctx.fillText('$'+val.toFixed(0), pad.left-6, y+4);
+    ctx.fillStyle = '#6e7681'; ctx.font = (isFullscreen?'12':'10') + 'px system-ui';
+    ctx.fillText('$'+val.toLocaleString('en',{maximumFractionDigits:0}), pad.left-8, y+4);
   }
 
-  // Zero line
-  if (lo < 0 && hi > 0) {
-    const zy = pad.top + ch*(hi/(hi-lo));
-    ctx.strokeStyle = '#f0b90b40'; ctx.lineWidth = 1; ctx.setLineDash([4,4]);
-    ctx.beginPath(); ctx.moveTo(pad.left,zy); ctx.lineTo(w-pad.right,zy); ctx.stroke();
-    ctx.setLineDash([]);
-  }
+  // $1000 start line (dashed)
+  const startY = pad.top + ch*((hi-START)/(hi-lo));
+  ctx.strokeStyle = '#8b949e'; ctx.lineWidth = 1; ctx.setLineDash([6,4]);
+  ctx.beginPath(); ctx.moveTo(pad.left, startY); ctx.lineTo(w-pad.right, startY); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#8b949e'; ctx.font = '10px system-ui'; ctx.textAlign = 'left';
+  ctx.fillText('$'+START.toLocaleString(), pad.left+4, startY-6);
 
   // X dates
-  ctx.textAlign = 'center'; ctx.fillStyle = '#484f58'; ctx.font = (isFullscreen?'11':'9')+'px system-ui';
+  ctx.textAlign = 'center'; ctx.fillStyle = '#6e7681'; ctx.font = (isFullscreen?'11':'9')+'px system-ui';
+  const maxLabels = isFullscreen ? 12 : 6;
+  const step = Math.max(1, Math.floor(allDates.length / maxLabels));
   allDates.forEach((d,i) => {
+    if (i % step !== 0 && i !== allDates.length-1) return;
     const x = pad.left + cw*i/(Math.max(allDates.length,2)-1);
-    ctx.fillText(d.slice(5), x, h-6);
+    const label = d.slice(5).replace('-',' ');
+    ctx.fillText(label, x, h-8);
   });
 
-  function drawLine(pts, color) {
+  function drawLine(pts, color, label, emoji) {
     if (pts.length < 1) return;
     const n = Math.max(pts.length, 2);
-    const lw = isFullscreen ? 4 : 3;
+    const lw = isFullscreen ? 3 : 2.5;
 
-    // Area gradient
-    const grad = ctx.createLinearGradient(0, pad.top, 0, pad.top+ch);
-    grad.addColorStop(0, color+'25'); grad.addColorStop(1, color+'05');
-    ctx.fillStyle = grad; ctx.beginPath();
+    // Smooth line
+    ctx.strokeStyle = color; ctx.lineWidth = lw; ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+    ctx.beginPath();
     pts.forEach((v,i) => {
       const x = pad.left+cw*i/(n-1), y = pad.top+ch*((hi-v)/(hi-lo));
       i ? ctx.lineTo(x,y) : ctx.moveTo(x,y);
     });
-    ctx.lineTo(pad.left+cw*(pts.length-1)/(n-1), pad.top+ch);
-    ctx.lineTo(pad.left, pad.top+ch);
-    ctx.closePath(); ctx.fill();
-
-    // Glow
-    ctx.strokeStyle = color+'40'; ctx.lineWidth = lw+4; ctx.lineJoin = 'round'; ctx.lineCap = 'round';
-    ctx.beginPath();
-    pts.forEach((v,i) => { const x=pad.left+cw*i/(n-1), y=pad.top+ch*((hi-v)/(hi-lo)); i?ctx.lineTo(x,y):ctx.moveTo(x,y); });
     ctx.stroke();
 
-    // Line
-    ctx.strokeStyle = color; ctx.lineWidth = lw;
+    // End label badge (like Alpha Arena)
+    const lastVal = pts[pts.length-1];
+    const lx = pad.left+cw*(pts.length-1)/(n-1);
+    const ly = pad.top+ch*((hi-lastVal)/(hi-lo));
+
+    // Dot
+    ctx.fillStyle = '#0d1117'; ctx.beginPath(); ctx.arc(lx,ly,5,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = color; ctx.beginPath(); ctx.arc(lx,ly,3.5,0,Math.PI*2); ctx.fill();
+
+    // Label badge
+    const valStr = '$'+lastVal.toLocaleString('en',{minimumFractionDigits:2,maximumFractionDigits:2});
+    const fs = isFullscreen ? 12 : 10;
+    ctx.font = 'bold '+fs+'px system-ui';
+    const tw = ctx.measureText(valStr).width;
+    const bx = lx+10, by = ly-fs/2-4, bw = tw+12, bh = fs+8;
+
+    // Badge background
+    ctx.fillStyle = color+'20';
+    ctx.strokeStyle = color+'60';
+    ctx.lineWidth = 1;
     ctx.beginPath();
-    pts.forEach((v,i) => { const x=pad.left+cw*i/(n-1), y=pad.top+ch*((hi-v)/(hi-lo)); i?ctx.lineTo(x,y):ctx.moveTo(x,y); });
-    ctx.stroke();
+    ctx.roundRect(bx, by, bw, bh, 4);
+    ctx.fill(); ctx.stroke();
 
-    // End dot + label
-    const lx = pad.left+cw*(pts.length-1)/(n-1), ly = pad.top+ch*((hi-pts[pts.length-1])/(hi-lo));
-    ctx.fillStyle = '#0a0e17'; ctx.beginPath(); ctx.arc(lx,ly,6,0,Math.PI*2); ctx.fill();
-    ctx.fillStyle = color; ctx.beginPath(); ctx.arc(lx,ly,4,0,Math.PI*2); ctx.fill();
-    ctx.fillStyle = color; ctx.font = 'bold '+(isFullscreen?'13':'11')+'px system-ui'; ctx.textAlign = 'left';
-    ctx.fillText((pts[pts.length-1]>=0?'+':'')+('$'+pts[pts.length-1].toFixed(2)), lx+8, ly+4);
+    // Badge text
+    ctx.fillStyle = color; ctx.textAlign = 'left';
+    ctx.fillText(valStr, bx+6, by+fs+2);
   }
 
-  // Draw Yoni first, Micha on top (green visible)
-  drawLine(yPts, '#bc8cff');
-  drawLine(mPts, '#3fb950');
+  // Draw Yoni first, Micha on top
+  drawLine(yPts, '#bc8cff', 'Yoni Fan', '🔬');
+  drawLine(mPts, '#3fb950', 'Micha Fan', '📊');
 
-  // Trade markers — filter by zoom range
-  const startD = new Date(D.competition.start), endD = new Date(D.competition.end), totMs = endD-startD;
-  let zoomStartD = startD;
-  if (chartZoom !== 'all') {
-    const zDays = chartZoom==='1d'?1:chartZoom==='3d'?3:chartZoom==='5d'?5:7;
-    zoomStartD = new Date(endD.getTime() - zDays*864e5);
+  // Highest label
+  const mMax = Math.max(...mPts), yMax = Math.max(...yPts);
+  const highest = mMax >= yMax ? 'Micha' : 'Yoni';
+  const highColor = mMax >= yMax ? '#3fb950' : '#bc8cff';
+  if (isFullscreen) {
+    ctx.fillStyle = '#6e7681'; ctx.font = '11px system-ui'; ctx.textAlign = 'right';
+    ctx.fillText('HIGHEST: ', w-pad.right-60, 14);
+    ctx.fillStyle = highColor; ctx.font = 'bold 12px system-ui';
+    ctx.fillText(highest + ' $' + Math.max(mMax,yMax).toFixed(2), w-pad.right, 14);
   }
-
-  function markers(agent, color, yOff) {
-    const trades = (D[agent].trades||[]).filter(t => {
-      const td = new Date(t.date);
-      return td >= zoomStartD && td <= endD;
-    });
-    trades.forEach(t => {
-      const td = new Date(t.date);
-      // Map trade time to chart X within zoom window
-      const zoomMs = endD - zoomStartD;
-      const prog = (td - zoomStartD) / zoomMs;
-      if (prog < 0 || prog > 1) return;
-      const x = pad.left + cw * Math.max(0, Math.min(1, prog));
-      const isBuy = t.action === 'buy';
-      const my = isBuy ? pad.top + 8 + yOff : pad.top + ch - 8 - yOff;
-      const sz = isFullscreen ? 8 : 5;
-
-      // Vertical line from marker to chart
-      ctx.strokeStyle = (isBuy ? '#3fb950' : '#f85149') + '25';
-      ctx.lineWidth = 1; ctx.setLineDash([2,3]);
-      ctx.beginPath(); ctx.moveTo(x, pad.top); ctx.lineTo(x, pad.top+ch); ctx.stroke();
-      ctx.setLineDash([]);
-
-      // Triangle
-      ctx.fillStyle = isBuy ? '#3fb950' : '#f85149';
-      ctx.beginPath();
-      if (isBuy) { ctx.moveTo(x,my); ctx.lineTo(x-sz,my+sz*1.6); ctx.lineTo(x+sz,my+sz*1.6); }
-      else { ctx.moveTo(x,my); ctx.lineTo(x-sz,my-sz*1.6); ctx.lineTo(x+sz,my-sz*1.6); }
-      ctx.closePath(); ctx.fill();
-
-      // Labels
-      if (isFullscreen) {
-        ctx.fillStyle = color; ctx.font = 'bold 9px system-ui'; ctx.textAlign = 'center';
-        const label = t.ticker + (t.action==='sell' && t.pnl ? ' ' + (t.pnl>0?'+':'') + '$' + t.pnl.toFixed(0) : '');
-        ctx.fillText(label, x, isBuy ? my+sz*1.6+12 : my-sz*1.6-5);
-      } else if (trades.length <= 20) {
-        // Show ticker on small chart too if not too crowded
-        ctx.fillStyle = color+'90'; ctx.font = 'bold 7px system-ui'; ctx.textAlign = 'center';
-        ctx.fillText(t.ticker, x, isBuy ? my+sz*1.6+9 : my-sz*1.6-3);
-      }
-    });
-  }
-  markers('micha','#3fb950',0); markers('yoni','#bc8cff',isFullscreen?20:12);
-
-  // Legend
-  ctx.textAlign = 'left';
-  ctx.fillStyle='#3fb950'; ctx.fillRect(w-170,8,10,10);
-  ctx.fillStyle='#e0e6ed'; ctx.font=(isFullscreen?'12':'10')+'px system-ui'; ctx.fillText('Micha Fan',w-156,17);
-  ctx.fillStyle='#bc8cff'; ctx.fillRect(w-80,8,10,10);
-  ctx.fillStyle='#e0e6ed'; ctx.fillText('Yoni Fan',w-66,17);
-
-  // Buy/sell legend
-  ctx.fillStyle='#3fb950'; ctx.font='9px system-ui'; ctx.textAlign='left';
-  ctx.fillText('▲ Buy', pad.left, h-(isFullscreen?16:6));
-  ctx.fillStyle='#f85149'; ctx.fillText('▼ Sell', pad.left+42, h-(isFullscreen?16:6));
 }
 
 // ===== FULLSCREEN CHART =====
