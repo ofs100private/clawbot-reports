@@ -6,8 +6,8 @@
   },
   "micha": {
     "name": "Micha Fan",
-    "strategy": "MA-150 Trend Following • 6 Entry Types • Chart Patterns • ATR Sizing • Risk Discipline",
-    "cash": 549.27,
+    "strategy": "MA-150 Trend Following \u2022 6 Entry Types \u2022 Chart Patterns \u2022 ATR Sizing \u2022 Risk Discipline",
+    "cash": 549.28,
     "holdings": [
       {
         "sym": "NVDA",
@@ -43,8 +43,8 @@
   },
   "yoni": {
     "name": "Yoni Fan",
-    "strategy": "QuantClaw Signals • Smart Money Flow • GEX Regime • Fama-French Alpha • Factor Screening",
-    "cash": 0,
+    "strategy": "QuantClaw Signals \u2022 Smart Money Flow \u2022 GEX Regime \u2022 Fama-French Alpha \u2022 Factor Screening",
+    "cash": 0.01,
     "holdings": [
       {
         "sym": "AVGO",
@@ -101,7 +101,7 @@
         "action": "buy",
         "ticker": "AVGO",
         "units": 0.7771,
-        "price": 321.70,
+        "price": 321.7,
         "amount": 250,
         "reason": "SM Score 100 (accumulating) with positive GEX regime (0.17 total), showing accumulation and positive dealer impact.",
         "pnl": 0
@@ -173,7 +173,7 @@
     {
       "time": "2026-02-26T22:10:00",
       "agent": "system",
-      "msg": "🏆 Competition started — each trader gets $1,000 cash to trade freely. May the best strategy win!"
+      "msg": "\ud83c\udfc6 Competition started \u2014 each trader gets $1,000 cash to trade freely. May the best strategy win!"
     },
     {
       "time": "2026-02-27T01:04:00+02:00",
@@ -235,7 +235,7 @@
     "CAT": 752.93,
     "CRM": 199.47,
     "XLU": 47.18,
-    "ARKX": 32.40,
+    "ARKX": 32.4,
     "AAPL": 272.95,
     "MSFT": 401.72,
     "GOOGL": 307.38,

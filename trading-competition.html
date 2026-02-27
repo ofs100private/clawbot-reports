@@ -222,23 +222,27 @@ function render() {
 }
 
 function renderAgent(p, d) {
-  // Total value = cash + holdings value
+  // Total value = cash + holdings value (always round to $1000 base)
   const holdingsVal = (d.holdings||[]).reduce((s,h) => s + (h.units||0) * (h.currentPrice||h.avgPrice||0), 0);
-  const totalVal = (d.cash||0) + holdingsVal;
-  const pnl = totalVal - 1000;
+  const totalVal = Math.round(((d.cash||0) + holdingsVal) * 100) / 100;
+  const displayTotal = totalVal < 999.95 || totalVal > 1000.05 ? totalVal : 1000;
+  const pnl = displayTotal - 1000;
   const pe = $(p+'-pnl');
-  pe.textContent = '$' + totalVal.toFixed(2);
-  pe.className = 'pnl ' + (totalVal > 1000 ? 'pos' : totalVal < 1000 ? 'neg' : 'zero');
-  $(p+'-cash').textContent = '$' + (d.cash||0).toFixed(2) + ' cash · P&L: ' + fmtPnl(pnl);
+  pe.textContent = '$' + displayTotal.toLocaleString('en',{minimumFractionDigits:2, maximumFractionDigits:2});
+  pe.className = 'pnl ' + (pnl > 0.01 ? 'pos' : pnl < -0.01 ? 'neg' : 'zero');
+  const cashAmt = (d.cash||0);
+  const investedAmt = holdingsVal;
+  $(p+'-cash').textContent = '$' + cashAmt.toFixed(0) + ' cash · $' + Math.round(investedAmt) + ' invested';
 
   // Holdings
   const hEl = $(p+'-hold');
   if (d.holdings && d.holdings.length > 0) {
     hEl.innerHTML = d.holdings.map(h => {
+      const val = (h.units||0) * (h.currentPrice||h.avgPrice||0);
       const hp = h.pnl||0;
       return `<div class="holding">
         <span class="sym">${h.sym}</span>
-        <span class="detail">${h.units} @ $${(h.avgPrice||0).toFixed(2)}</span>
+        <span class="detail">${h.units} @ $${(h.avgPrice||0).toFixed(2)} = <b>$${Math.round(val)}</b></span>
         <span class="pnl-sm ${hp>=0?'up':'down'}">${fmtPnl(hp)}</span>
       </div>`;
     }).join('');
