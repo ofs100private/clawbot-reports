@@ -159,9 +159,14 @@
       "time": "2026-02-27T01:05:00+02:00",
       "agent": "yoni",
       "msg": "Bought 0.8134 shares of GOOGL at 307.38 for 250. Reason: SM Score 100 (accumulating) with positive GEX regime (0.12 total), indicating bullish smart money flow and support."
+    },
+    {
+      "time": "2026-02-27T05:04:00+02:00",
+      "agent": "micha",
+      "msg": "No new trades. Holding NVDA position as price remains stable above MA-150. Patience is key."
     }
   ],
-  "lastUpdate": "2026-02-27T01:05:00+02:00",
+  "lastUpdate": "2026-02-27T05:04:00+02:00",
   "prices": {
     "NVDA": 184.89,
     "QQQ": 609.24,
@@ -175,8 +180,14 @@
     "MSFT": 401.72,
     "GOOGL": 307.38,
     "AMD": 203.68,
-    "AVGO": 321.70,
+    "AVGO": 321.7,
     "TSM": 376.81,
-    "PLTR": 135.94
+    "PLTR": 135.94,
+    "META": 657.01,
+    "AMZN": 207.92,
+    "SPY": 689.3,
+    "COST": 986.74,
+    "NFLX": 84.59,
+    "LLY": 1022.02
   }
 }
