@@ -6,7 +6,7 @@
 <title>🏆 Micha Fan vs Yoni Fan</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { background: #0a0e17; color: #e0e6ed; font-family: -apple-system, 'Segoe UI', system-ui, sans-serif; }
+body { background: #0a0e17; color: #e0e6ed; font-family: -apple-system, 'Segoe UI', system-ui, sans-serif; overflow-x: hidden; }
 
 /* Header */
 .header { background: linear-gradient(135deg, #1a1f2e, #0d1117); padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #21262d; flex-wrap: wrap; gap: 6px; }
@@ -16,19 +16,22 @@ body { background: #0a0e17; color: #e0e6ed; font-family: -apple-system, 'Segoe U
 .header .timer span { color: #58a6ff; font-weight: bold; }
 .header .update { font-size: 0.75em; color: #484f58; }
 
-/* Ticker strip */
-.ticker-strip { background: #161b22; padding: 8px 16px; display: flex; gap: 16px; align-items: center; border-bottom: 1px solid #21262d; overflow-x: auto; font-size: 0.82em; -webkit-overflow-scrolling: touch; }
-.ticker-item { display: flex; gap: 5px; align-items: center; white-space: nowrap; }
+/* Scrolling ticker strip */
+.ticker-wrap { background: #161b22; border-bottom: 1px solid #21262d; overflow: hidden; position: relative; height: 32px; }
+.ticker-track { display: flex; gap: 32px; align-items: center; height: 100%; animation: scroll 40s linear infinite; white-space: nowrap; padding: 0 16px; width: max-content; }
+.ticker-track:hover { animation-play-state: paused; }
+@keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+.ticker-item { display: inline-flex; gap: 5px; align-items: center; font-size: 0.82em; }
 .ticker-item .label { color: #8b949e; }
-.ticker-item .price { color: #e0e6ed; font-weight: 600; }
-.up { color: #3fb950; }
-.down { color: #f85149; }
-.flash-up { animation: flashGreen 1.5s ease-out; }
-.flash-down { animation: flashRed 1.5s ease-out; }
-@keyframes flashGreen { 0% { color: #3fb950; text-shadow: 0 0 8px #3fb95080; } 100% { color: #e0e6ed; text-shadow: none; } }
-@keyframes flashRed { 0% { color: #f85149; text-shadow: 0 0 8px #f8514980; } 100% { color: #e0e6ed; text-shadow: none; } }
-.live-dot { color: #3fb950; font-size: 0.5em; margin-left: 3px; animation: pulse 2s infinite; vertical-align: super; }
-@keyframes pulse { 0%,100% { opacity: 0.3; } 50% { opacity: 1; } }
+.ticker-item .price { color: #e0e6ed; font-weight: 600; transition: color 0.3s; }
+.up { color: #3fb950 !important; }
+.down { color: #f85149 !important; }
+.flash-up { animation: flashG 1.5s ease-out; }
+.flash-down { animation: flashR 1.5s ease-out; }
+@keyframes flashG { 0% { color: #3fb950; text-shadow: 0 0 10px #3fb95080; } 100% { color: #e0e6ed; text-shadow: none; } }
+@keyframes flashR { 0% { color: #f85149; text-shadow: 0 0 10px #f8514980; } 100% { color: #e0e6ed; text-shadow: none; } }
+.live-dot { color: #3fb950; font-size: 0.45em; margin-left: 2px; animation: blink 2s infinite; vertical-align: super; }
+@keyframes blink { 0%,100% { opacity: 0.2; } 50% { opacity: 1; } }
 
 /* Main grid */
 .main { display: grid; grid-template-columns: 1fr 1fr; min-height: calc(100vh - 100px); }
@@ -36,15 +39,15 @@ body { background: #0a0e17; color: #e0e6ed; font-family: -apple-system, 'Segoe U
 /* Trader panels */
 .panel { padding: 14px; }
 .panel.left { border-right: 1px solid #21262d; }
-
-.trader-header { text-align: center; padding: 14px; border-radius: 12px; margin-bottom: 14px; }
+.trader-header { text-align: center; padding: 14px; border-radius: 12px; margin-bottom: 14px; transition: transform 0.2s; }
+.trader-header:hover { transform: scale(1.01); }
 .micha .trader-header { background: linear-gradient(135deg, #1a3a2a, #0d2818); border: 1px solid #238636; }
 .yoni .trader-header { background: linear-gradient(135deg, #2a1a3a, #180d28); border: 1px solid #8957e5; }
 .trader-header h2 { font-size: clamp(1.1em, 3vw, 1.3em); }
 .micha h2 { color: #3fb950; }
 .yoni h2 { color: #bc8cff; }
 .trader-header .strategy { font-size: 0.72em; color: #8b949e; margin-top: 4px; line-height: 1.4; }
-.trader-header .pnl { font-size: clamp(1.4em, 5vw, 2em); font-weight: bold; margin-top: 8px; }
+.trader-header .pnl { font-size: clamp(1.4em, 5vw, 2em); font-weight: bold; margin-top: 8px; transition: all 0.5s; }
 .trader-header .cash-line { font-size: 0.82em; color: #f0b90b; margin-top: 4px; }
 .pnl.pos { color: #3fb950; }
 .pnl.neg { color: #f85149; }
@@ -52,15 +55,15 @@ body { background: #0a0e17; color: #e0e6ed; font-family: -apple-system, 'Segoe U
 
 .section-title { font-size: 0.85em; color: #8b949e; margin: 12px 0 6px; border-bottom: 1px solid #21262d; padding-bottom: 4px; }
 
-/* Holdings */
-.holding { display: flex; justify-content: space-between; align-items: center; padding: 5px 6px; border-radius: 6px; font-size: 0.8em; margin-bottom: 2px; }
+.holding { display: flex; justify-content: space-between; align-items: center; padding: 5px 6px; border-radius: 6px; font-size: 0.8em; margin-bottom: 2px; transition: background 0.2s; }
+.holding:hover { background: rgba(255,255,255,0.05); }
 .holding:nth-child(even) { background: rgba(255,255,255,0.02); }
 .holding .sym { color: #58a6ff; font-weight: 700; min-width: 50px; }
 .holding .detail { color: #8b949e; font-size: 0.9em; }
 .holding .pnl-sm { font-weight: 600; }
 
-/* Trades */
-.trade { padding: 6px; border-radius: 6px; margin-bottom: 3px; font-size: 0.78em; }
+.trade { padding: 6px; border-radius: 6px; margin-bottom: 3px; font-size: 0.78em; transition: background 0.2s; }
+.trade:hover { background: rgba(255,255,255,0.04); }
 .trade:nth-child(even) { background: rgba(255,255,255,0.02); }
 .trade-top { display: flex; justify-content: space-between; align-items: center; gap: 6px; }
 .trade .action { font-weight: 700; min-width: 32px; }
@@ -71,38 +74,52 @@ body { background: #0a0e17; color: #e0e6ed; font-family: -apple-system, 'Segoe U
 .trade .time { color: #484f58; font-size: 0.85em; }
 .trade .reason { color: #6e7681; font-size: 0.88em; margin-top: 2px; line-height: 1.3; }
 
-/* Chart */
+/* Chart — clickable to fullscreen */
 .chart-area { grid-column: 1 / -1; padding: 14px; border-top: 1px solid #21262d; background: #0d1117; }
 .chart-area h3 { text-align: center; color: #8b949e; margin-bottom: 10px; font-size: 0.9em; }
-.chart-box { position: relative; height: 180px; background: #161b22; border-radius: 10px; border: 1px solid #21262d; overflow: hidden; }
+.chart-box { position: relative; height: 200px; background: #161b22; border-radius: 10px; border: 1px solid #21262d; overflow: hidden; cursor: pointer; transition: box-shadow 0.3s; }
+.chart-box:hover { box-shadow: 0 0 20px rgba(88,166,255,0.15); }
+.chart-box::after { content: '🔍 Click to expand'; position: absolute; bottom: 6px; right: 10px; font-size: 0.7em; color: #484f58; pointer-events: none; }
 canvas { width: 100%; height: 100%; }
+
+/* Fullscreen chart modal */
+.chart-modal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #0a0e17ee; z-index: 1000; align-items: center; justify-content: center; flex-direction: column; }
+.chart-modal.open { display: flex; }
+.chart-modal .close-btn { position: absolute; top: 16px; right: 20px; color: #e0e6ed; font-size: 2em; cursor: pointer; z-index: 1001; background: none; border: none; }
+.chart-modal .close-btn:hover { color: #f0b90b; }
+.chart-modal .full-chart { width: 95vw; height: 75vh; background: #161b22; border-radius: 12px; border: 1px solid #21262d; }
+.chart-modal h3 { color: #8b949e; margin-bottom: 12px; font-size: 1.1em; }
+.zoom-controls { display: flex; gap: 10px; margin-top: 10px; }
+.zoom-btn { background: #21262d; color: #e0e6ed; border: 1px solid #30363d; border-radius: 8px; padding: 8px 16px; cursor: pointer; font-size: 1em; transition: background 0.2s; }
+.zoom-btn:hover { background: #30363d; }
+.zoom-btn.active { background: #58a6ff; color: #0d1117; }
 
 /* Score */
 .score-bar { grid-column: 1 / -1; display: flex; justify-content: center; align-items: center; gap: clamp(16px, 4vw, 40px); padding: 12px; background: linear-gradient(135deg, #1a1f2e, #0d1117); border-top: 1px solid #21262d; flex-wrap: wrap; }
-.score-item { text-align: center; }
+.score-item { text-align: center; transition: transform 0.2s; }
+.score-item:hover { transform: scale(1.1); }
 .score-item .lbl { font-size: 0.7em; color: #8b949e; }
 .score-item .val { font-size: clamp(1em, 3vw, 1.4em); font-weight: bold; }
 
 /* Audit */
 .audit { grid-column: 1 / -1; padding: 10px 16px; background: #161b22; border-top: 1px solid #21262d; max-height: 160px; overflow-y: auto; }
 .audit h3 { font-size: 0.8em; color: #8b949e; margin-bottom: 4px; }
-.audit-row { font-size: 0.75em; color: #8b949e; padding: 2px 0; border-bottom: 1px solid #0d1117; display: flex; gap: 8px; flex-wrap: wrap; }
+.audit-row { font-size: 0.75em; color: #8b949e; padding: 2px 0; border-bottom: 1px solid #0d1117; display: flex; gap: 8px; flex-wrap: wrap; transition: background 0.2s; }
+.audit-row:hover { background: rgba(255,255,255,0.03); }
 .audit-row .time { color: #484f58; min-width: 80px; font-size: 0.9em; }
 .audit-row .who { font-weight: 600; min-width: 50px; }
 .audit-row .who.micha { color: #3fb950; }
 .audit-row .who.yoni { color: #bc8cff; }
 .audit-row .who.system { color: #f0b90b; }
-
 .empty { text-align: center; color: #484f58; padding: 16px; font-size: 0.82em; }
 
-/* MOBILE */
 @media (max-width: 680px) {
   .main { grid-template-columns: 1fr; }
   .panel.left { border-right: none; border-bottom: 1px solid #21262d; }
-  .chart-box { height: 150px; }
+  .chart-box { height: 160px; }
   .header { padding: 10px 12px; }
   .panel { padding: 10px; }
-  .ticker-strip { padding: 6px 12px; gap: 12px; }
+  .chart-modal .full-chart { width: 98vw; height: 60vh; }
 }
 </style>
 </head>
@@ -116,10 +133,24 @@ canvas { width: 100%; height: 100%; }
   </div>
 </div>
 
-<div class="ticker-strip" id="tickers"></div>
+<div class="ticker-wrap">
+  <div class="ticker-track" id="tickers"></div>
+</div>
+
+<!-- Fullscreen chart modal -->
+<div class="chart-modal" id="chartModal">
+  <button class="close-btn" onclick="closeChart()">✕</button>
+  <h3>📈 P&L — <span style="color:#3fb950">Micha Fan</span> vs <span style="color:#bc8cff">Yoni Fan</span></h3>
+  <canvas class="full-chart" id="fullChart"></canvas>
+  <div class="zoom-controls">
+    <button class="zoom-btn" onclick="setZoom('all')">All</button>
+    <button class="zoom-btn" onclick="setZoom('5d')">5 Days</button>
+    <button class="zoom-btn" onclick="setZoom('3d')">3 Days</button>
+    <button class="zoom-btn" onclick="setZoom('1d')">1 Day</button>
+  </div>
+</div>
 
 <div class="main">
-  <!-- MICHA -->
   <div class="panel left micha">
     <div class="trader-header">
       <h2>📊 Micha Fan</h2>
@@ -133,7 +164,6 @@ canvas { width: 100%; height: 100%; }
     <div id="m-trades"><div class="empty">Waiting for first analysis...</div></div>
   </div>
 
-  <!-- YONI -->
   <div class="panel yoni">
     <div class="trader-header">
       <h2>🔬 Yoni Fan</h2>
@@ -147,13 +177,11 @@ canvas { width: 100%; height: 100%; }
     <div id="y-trades"><div class="empty">Waiting for first analysis...</div></div>
   </div>
 
-  <!-- CHART -->
   <div class="chart-area">
-    <h3>📈 P&L — <span style="color:#3fb950">Micha</span> vs <span style="color:#bc8cff">Yoni</span></h3>
-    <div class="chart-box"><canvas id="chart"></canvas></div>
+    <h3>📈 P&L — <span style="color:#3fb950">Micha</span> vs <span style="color:#bc8cff">Yoni</span> <span style="font-size:0.7em;color:#484f58">(click to expand)</span></h3>
+    <div class="chart-box" onclick="openChart()"><canvas id="chart"></canvas></div>
   </div>
 
-  <!-- SCOREBOARD -->
   <div class="score-bar">
     <div class="score-item"><div class="lbl">Micha Trades</div><div class="val" style="color:#3fb950" id="s-mt">0</div></div>
     <div class="score-item"><div class="lbl">Micha Win%</div><div class="val" style="color:#3fb950" id="s-mw">—</div></div>
@@ -162,7 +190,6 @@ canvas { width: 100%; height: 100%; }
     <div class="score-item"><div class="lbl">Yoni Trades</div><div class="val" style="color:#bc8cff" id="s-yt">0</div></div>
   </div>
 
-  <!-- AUDIT -->
   <div class="audit">
     <h3>🔍 Audit Trail</h3>
     <div id="audit"></div>
@@ -170,19 +197,15 @@ canvas { width: 100%; height: 100%; }
 </div>
 
 <script>
-let D;
-let livePrices = {};
-let lastCryptoFetch = 0;
-let lastDataFetch = 0;
-let priceFlash = {};
+let D, livePrices = {}, priceFlash = {}, lastCrypto = 0, lastData = 0, chartZoom = 'all';
 
-// Real-time crypto from CoinGecko (free, CORS OK)
+// ===== CRYPTO LIVE PRICES (30s) =====
 async function fetchCrypto() {
-  if (Date.now() - lastCryptoFetch < 30000) return; // throttle 30s
+  if (Date.now() - lastCrypto < 30000) return;
   try {
-    const r = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,ripple&vs_currencies=usd&include_24hr_change=true');
+    const r = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd');
     const d = await r.json();
-    const map = {bitcoin:'BTC', ethereum:'ETH', solana:'SOL', ripple:'XRP'};
+    const map = {bitcoin:'BTC', ethereum:'ETH', solana:'SOL'};
     for (const [id, sym] of Object.entries(map)) {
       if (d[id]) {
         const old = livePrices[sym];
@@ -190,35 +213,27 @@ async function fetchCrypto() {
         if (old && old !== d[id].usd) priceFlash[sym] = d[id].usd > old ? 'up' : 'down';
       }
     }
-    lastCryptoFetch = Date.now();
+    lastCrypto = Date.now();
   } catch(e) {}
 }
 
-// Also try CoinGecko for gold/silver spot via proxy tokens
-async function fetchCommodities() {
-  // Gold/Silver spot via GLD/SLV in trades.json (updated by cron)
-  // VIX also from cron. No client-side source available.
-}
-
+// ===== DATA LOAD =====
 async function load() {
   await fetchCrypto();
-  const now = Date.now();
-  // Only reload trades.json every 60s (GitHub CDN caches anyway)
-  if (now - lastDataFetch > 60000 || !D) {
+  if (Date.now() - lastData > 60000 || !D) {
     try {
-      const r = await fetch('trades.json?_=' + now);
+      const r = await fetch('trades.json?_=' + Date.now());
       D = await r.json();
-      lastDataFetch = now;
-    } catch(e) { console.error(e); return; }
+      lastData = Date.now();
+    } catch(e) { return; }
   }
   render();
 }
 
 function $(id) { return document.getElementById(id); }
-
 function fmtPnl(v) { return (v >= 0 ? '+' : '') + '$' + v.toFixed(2); }
-function pnlCls(v) { return v > 0 ? 'pos' : v < 0 ? 'neg' : 'zero'; }
 
+// ===== RENDER =====
 function render() {
   if (!D) return;
   // Timer
@@ -229,7 +244,7 @@ function render() {
   } else $('timer').textContent = 'FINISHED';
   $('updated').textContent = new Date(D.lastUpdate).toLocaleString();
 
-  // Ticker strip — 10 fixed assets with live crypto overlay
+  // Scrolling ticker — duplicate for seamless loop
   const TC = [
     {key:'SPY',label:'S&P 500',d:2}, {key:'QQQ',label:'Nasdaq',d:2},
     {key:'GLD',label:'Gold',d:2}, {key:'SLV',label:'Silver',d:2},
@@ -237,17 +252,18 @@ function render() {
     {key:'SOL',label:'SOL',d:2,live:true}, {key:'USO',label:'Oil',d:2},
     {key:'COPX',label:'Copper',d:2}, {key:'VIX',label:'VIX',d:2}
   ];
-  const allPrices = {...(D.prices||{}), ...livePrices};
-  $('tickers').innerHTML = TC.map(t => {
-    const p = allPrices[t.key];
+  const ap = {...(D.prices||{}), ...livePrices};
+  const tickerHTML = TC.map(t => {
+    const p = ap[t.key];
     if (!p) return `<div class="ticker-item"><span class="label">${t.label}</span> <span class="price">—</span></div>`;
     const f = t.d===0 ? '$'+Number(p).toLocaleString('en',{maximumFractionDigits:0}) : '$'+Number(p).toLocaleString('en',{minimumFractionDigits:2,maximumFractionDigits:2});
-    const flash = priceFlash[t.key] || '';
-    const cls = flash === 'up' ? 'flash-up' : flash === 'down' ? 'flash-down' : '';
+    const fl = priceFlash[t.key] || '';
+    const cls = fl === 'up' ? 'flash-up' : fl === 'down' ? 'flash-down' : '';
     const dot = t.live ? '<span class="live-dot">●</span>' : '';
     return `<div class="ticker-item"><span class="label">${t.label}</span> <span class="price ${cls}">${f}</span>${dot}</div>`;
   }).join('');
-  // Clear flashes after render
+  // Duplicate for seamless scroll
+  $('tickers').innerHTML = tickerHTML + '<span style="width:60px;display:inline-block"></span>' + tickerHTML;
   setTimeout(() => { priceFlash = {}; }, 1500);
 
   // Agents
@@ -258,10 +274,10 @@ function render() {
   const mt = D.micha.trades||[], yt = D.yoni.trades||[];
   $('s-mt').textContent = mt.length;
   $('s-yt').textContent = yt.length;
-  const mw = mt.filter(t=>(t.pnl||0)>0).length;
-  const yw = yt.filter(t=>(t.pnl||0)>0).length;
-  $('s-mw').textContent = mt.length ? Math.round(mw/mt.length*100)+'%' : '—';
-  $('s-yw').textContent = yt.length ? Math.round(yw/yt.length*100)+'%' : '—';
+  const mw = mt.filter(t=>(t.pnl||0)>0).length, ms = mt.filter(t=>t.action==='sell').length;
+  const yw = yt.filter(t=>(t.pnl||0)>0).length, ys = yt.filter(t=>t.action==='sell').length;
+  $('s-mw').textContent = ms ? Math.round(mw/ms*100)+'%' : '—';
+  $('s-yw').textContent = ys ? Math.round(yw/ys*100)+'%' : '—';
   const mp = D.micha.totalPnl||0, yp = D.yoni.totalPnl||0;
   const ld = $('s-lead');
   if (mp > yp) { ld.textContent = '📊 Micha'; ld.style.color = '#3fb950'; }
@@ -273,260 +289,211 @@ function render() {
     `<div class="audit-row"><span class="time">${(a.time||'').replace(/T/,' ').slice(0,16)}</span><span class="who ${a.agent}">${(a.agent||'').toUpperCase()}</span><span>${a.msg}</span></div>`
   ).join('');
 
-  drawChart();
+  drawChart('chart', false);
+  if ($('chartModal').classList.contains('open')) drawChart('fullChart', true);
 }
 
 function renderAgent(p, d) {
-  // Total value = cash + holdings value (always round to $1000 base)
   const holdingsVal = (d.holdings||[]).reduce((s,h) => s + (h.units||0) * (h.currentPrice||h.avgPrice||0), 0);
   const totalVal = Math.round(((d.cash||0) + holdingsVal) * 100) / 100;
-  const displayTotal = totalVal < 999.95 || totalVal > 1000.05 ? totalVal : 1000;
+  const displayTotal = totalVal < 999.5 || totalVal > 1000.5 ? totalVal : 1000;
   const pnl = displayTotal - 1000;
   const pe = $(p+'-pnl');
   pe.textContent = '$' + displayTotal.toLocaleString('en',{minimumFractionDigits:2, maximumFractionDigits:2});
   pe.className = 'pnl ' + (pnl > 0.01 ? 'pos' : pnl < -0.01 ? 'neg' : 'zero');
-  const cashAmt = (d.cash||0);
-  const investedAmt = holdingsVal;
-  $(p+'-cash').textContent = '$' + cashAmt.toFixed(0) + ' cash · $' + Math.round(investedAmt) + ' invested';
+  $(p+'-cash').textContent = '$' + (d.cash||0).toFixed(0) + ' cash · $' + Math.round(holdingsVal) + ' invested';
 
-  // Holdings
   const hEl = $(p+'-hold');
   if (d.holdings && d.holdings.length > 0) {
     hEl.innerHTML = d.holdings.map(h => {
       const val = (h.units||0) * (h.currentPrice||h.avgPrice||0);
       const hp = h.pnl||0;
-      return `<div class="holding">
-        <span class="sym">${h.sym}</span>
-        <span class="detail">${h.units} @ $${(h.avgPrice||0).toFixed(2)} = <b>$${Math.round(val)}</b></span>
-        <span class="pnl-sm ${hp>=0?'up':'down'}">${fmtPnl(hp)}</span>
-      </div>`;
+      return `<div class="holding"><span class="sym">${h.sym}</span><span class="detail">${h.units} @ $${(h.avgPrice||0).toFixed(2)} = <b>$${Math.round(val)}</b></span><span class="pnl-sm ${hp>=0?'up':'down'}">${fmtPnl(hp)}</span></div>`;
     }).join('');
-  } else {
-    hEl.innerHTML = '<div class="empty">No positions yet</div>';
-  }
+  } else hEl.innerHTML = '<div class="empty">No positions yet</div>';
 
-  // Trades
   const tEl = $(p+'-trades');
   if (d.trades && d.trades.length > 0) {
     tEl.innerHTML = d.trades.slice(-15).reverse().map(t =>
-      `<div class="trade">
-        <div class="trade-top">
-          <span><span class="action ${t.action}">${t.action.toUpperCase()}</span> <span class="ticker">${t.ticker}</span> <span class="amt">${t.units}u @ $${(t.price||0).toFixed(2)}</span></span>
-          <span class="time">${(t.date||'').replace(/T/,' ').slice(5,16)}</span>
-        </div>
-        ${t.reason ? '<div class="reason">'+t.reason+'</div>' : ''}
-      </div>`
+      `<div class="trade"><div class="trade-top"><span><span class="action ${t.action}">${t.action.toUpperCase()}</span> <span class="ticker">${t.ticker}</span> <span class="amt">${t.units}u @ $${(t.price||0).toFixed(2)}</span></span><span class="time">${(t.date||'').replace(/T/,' ').slice(5,16)}</span></div>${t.reason ? '<div class="reason">'+t.reason+'</div>' : ''}</div>`
     ).join('');
-  } else {
-    tEl.innerHTML = '<div class="empty">Waiting for first analysis...</div>';
-  }
+  } else tEl.innerHTML = '<div class="empty">Waiting for analysis...</div>';
 }
 
+// ===== CHART ENGINE =====
 function computePnl(agent) {
-  // Calculate real P&L from holdings: (currentPrice - avgPrice) * units
   const d = D[agent];
   let unrealized = 0;
-  (d.holdings||[]).forEach(h => {
-    const cur = h.currentPrice || h.avgPrice || 0;
-    const avg = h.avgPrice || 0;
-    unrealized += (cur - avg) * (h.units || 0);
-  });
-  // Add realized P&L from closed trades
+  (d.holdings||[]).forEach(h => { unrealized += ((h.currentPrice||h.avgPrice||0) - (h.avgPrice||0)) * (h.units||0); });
   const realized = (d.trades||[]).filter(t => t.action === 'sell').reduce((s,t) => s + (t.pnl||0), 0);
   return Math.round((unrealized + realized) * 100) / 100;
 }
 
-function drawChart() {
-  const c = $('chart'), ctx = c.getContext('2d');
+function drawChart(canvasId, isFullscreen) {
+  const c = $(canvasId), ctx = c.getContext('2d');
   const box = c.parentElement.getBoundingClientRect();
   const dpr = window.devicePixelRatio || 1;
   c.width = box.width * dpr; c.height = box.height * dpr;
   ctx.scale(dpr, dpr);
   const w = box.width, h = box.height;
-  const pad = { top: 24, bottom: 28, left: 50, right: 12 };
-  const cw = w - pad.left - pad.right, ch = h - pad.top - pad.bottom;
+  const pad = isFullscreen ? {top:30,bottom:36,left:60,right:16} : {top:24,bottom:28,left:50,right:12};
+  const cw = w-pad.left-pad.right, ch = h-pad.top-pad.bottom;
 
-  // Build P&L series - use total portfolio value relative to $1000
-  const mHist = (D.micha.pnlHistory||[]).map(p => p.pnl||0);
-  const yHist = (D.yoni.pnlHistory||[]).map(p => p.pnl||0);
-  const mDates = (D.micha.pnlHistory||[]).map(p => p.date||'');
-  const yDates = (D.yoni.pnlHistory||[]).map(p => p.date||'');
+  let mH = (D.micha.pnlHistory||[]).map(p=>({date:p.date,pnl:p.pnl||0}));
+  let yH = (D.yoni.pnlHistory||[]).map(p=>({date:p.date,pnl:p.pnl||0}));
 
-  // If both lines are identical (overlapping), nudge Micha up slightly so both visible
-  const identical = mHist.length === yHist.length && mHist.every((v,i) => Math.abs(v - yHist[i]) < 0.01);
-  if (identical && mHist.length > 0) {
-    mHist[mHist.length - 1] += 0.3; // tiny visual offset
+  // Apply zoom filter
+  if (chartZoom !== 'all') {
+    const days = chartZoom === '1d' ? 1 : chartZoom === '3d' ? 3 : 5;
+    mH = mH.slice(-days); yH = yH.slice(-days);
   }
 
-  // Replace last value with live computed P&L
-  const mLive = computePnl('micha');
-  const yLive = computePnl('yoni');
-  if (mHist.length > 0) mHist[mHist.length-1] = mLive;
-  if (yHist.length > 0) yHist[yHist.length-1] = yLive;
+  // Live P&L at end
+  const mLive = computePnl('micha'), yLive = computePnl('yoni');
+  if (mH.length > 0) mH[mH.length-1].pnl = mLive;
+  if (yH.length > 0) yH[yH.length-1].pnl = yLive;
 
-  // Ensure at least 2 points for a line
-  const allDates = [...new Set([...mDates, ...yDates])].sort();
-  const len = Math.max(allDates.length, mHist.length, yHist.length, 2);
-  const all = [...mHist, ...yHist, 0];
+  const mPts = mH.map(p=>p.pnl), yPts = yH.map(p=>p.pnl);
+  const allDates = [...new Set([...mH.map(p=>p.date),...yH.map(p=>p.date)])].sort();
+  const len = Math.max(mPts.length, yPts.length, 2);
+  const all = [...mPts,...yPts,0];
   let lo = Math.min(...all), hi = Math.max(...all);
-  // Add padding, ensure range isn't zero
-  const range = hi - lo || 20;
-  lo -= range * 0.15; hi += range * 0.15;
+  const range = (hi-lo) || 20; lo -= range*0.15; hi += range*0.15;
 
-  ctx.clearRect(0, 0, w, h);
+  ctx.clearRect(0,0,w,h);
+  ctx.fillStyle = '#161b22'; ctx.fillRect(0,0,w,h);
 
-  // Background
-  ctx.fillStyle = '#161b22';
-  ctx.fillRect(0, 0, w, h);
-
-  // Grid lines + labels
+  // Grid
+  const gridLines = isFullscreen ? 8 : 5;
   ctx.textAlign = 'right';
-  for (let i = 0; i < 5; i++) {
-    const y = pad.top + ch * i / 4;
-    const val = hi - (hi - lo) * i / 4;
+  for (let i=0; i<gridLines; i++) {
+    const y = pad.top + ch*i/(gridLines-1);
+    const val = hi - (hi-lo)*i/(gridLines-1);
     ctx.strokeStyle = '#21262d'; ctx.lineWidth = 0.5;
-    ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(w - pad.right, y); ctx.stroke();
-    ctx.fillStyle = '#484f58'; ctx.font = '10px system-ui';
-    ctx.fillText('$' + val.toFixed(0), pad.left - 6, y + 3);
+    ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(w-pad.right, y); ctx.stroke();
+    ctx.fillStyle = '#484f58'; ctx.font = (isFullscreen?'12':'10') + 'px system-ui';
+    ctx.fillText('$'+val.toFixed(0), pad.left-6, y+4);
   }
 
-  // Zero line (highlighted)
+  // Zero line
   if (lo < 0 && hi > 0) {
-    const zy = pad.top + ch * (hi / (hi - lo));
-    ctx.strokeStyle = '#f0b90b40'; ctx.lineWidth = 1; ctx.setLineDash([4, 4]);
-    ctx.beginPath(); ctx.moveTo(pad.left, zy); ctx.lineTo(w - pad.right, zy); ctx.stroke();
+    const zy = pad.top + ch*(hi/(hi-lo));
+    ctx.strokeStyle = '#f0b90b40'; ctx.lineWidth = 1; ctx.setLineDash([4,4]);
+    ctx.beginPath(); ctx.moveTo(pad.left,zy); ctx.lineTo(w-pad.right,zy); ctx.stroke();
     ctx.setLineDash([]);
-    ctx.fillStyle = '#f0b90b60'; ctx.textAlign = 'right'; ctx.font = '9px system-ui';
-    ctx.fillText('$0', pad.left - 6, zy + 3);
   }
 
-  // X-axis date labels
-  ctx.textAlign = 'center'; ctx.fillStyle = '#484f58'; ctx.font = '9px system-ui';
-  const dates = allDates.length > 0 ? allDates : ['Start', 'Now'];
-  dates.forEach((d, i) => {
-    const x = pad.left + cw * i / (Math.max(dates.length, 2) - 1);
-    const label = d.slice(5) || d; // MM-DD
-    ctx.fillText(label, x, h - 6);
+  // X dates
+  ctx.textAlign = 'center'; ctx.fillStyle = '#484f58'; ctx.font = (isFullscreen?'11':'9')+'px system-ui';
+  allDates.forEach((d,i) => {
+    const x = pad.left + cw*i/(Math.max(allDates.length,2)-1);
+    ctx.fillText(d.slice(5), x, h-6);
   });
 
   function drawLine(pts, color) {
     if (pts.length < 1) return;
     const n = Math.max(pts.length, 2);
+    const lw = isFullscreen ? 4 : 3;
 
-    // Area fill (gradient)
-    const grad = ctx.createLinearGradient(0, pad.top, 0, pad.top + ch);
-    grad.addColorStop(0, color + '20');
-    grad.addColorStop(1, color + '05');
-    ctx.fillStyle = grad;
-    ctx.beginPath();
-    pts.forEach((v, i) => {
-      const x = pad.left + cw * i / (n - 1);
-      const y = pad.top + ch * ((hi - v) / (hi - lo));
-      i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+    // Area gradient
+    const grad = ctx.createLinearGradient(0, pad.top, 0, pad.top+ch);
+    grad.addColorStop(0, color+'25'); grad.addColorStop(1, color+'05');
+    ctx.fillStyle = grad; ctx.beginPath();
+    pts.forEach((v,i) => {
+      const x = pad.left+cw*i/(n-1), y = pad.top+ch*((hi-v)/(hi-lo));
+      i ? ctx.lineTo(x,y) : ctx.moveTo(x,y);
     });
-    ctx.lineTo(pad.left + cw * (pts.length - 1) / (n - 1), pad.top + ch);
-    ctx.lineTo(pad.left, pad.top + ch);
-    ctx.closePath();
-    ctx.fill();
+    ctx.lineTo(pad.left+cw*(pts.length-1)/(n-1), pad.top+ch);
+    ctx.lineTo(pad.left, pad.top+ch);
+    ctx.closePath(); ctx.fill();
 
     // Glow
-    ctx.strokeStyle = color + '40'; ctx.lineWidth = 6; ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+    ctx.strokeStyle = color+'40'; ctx.lineWidth = lw+4; ctx.lineJoin = 'round'; ctx.lineCap = 'round';
     ctx.beginPath();
-    pts.forEach((v, i) => {
-      const x = pad.left + cw * i / (n - 1);
-      const y = pad.top + ch * ((hi - v) / (hi - lo));
-      i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
-    });
+    pts.forEach((v,i) => { const x=pad.left+cw*i/(n-1), y=pad.top+ch*((hi-v)/(hi-lo)); i?ctx.lineTo(x,y):ctx.moveTo(x,y); });
     ctx.stroke();
 
-    // Main line (thick)
-    ctx.strokeStyle = color; ctx.lineWidth = 3;
+    // Line
+    ctx.strokeStyle = color; ctx.lineWidth = lw;
     ctx.beginPath();
-    pts.forEach((v, i) => {
-      const x = pad.left + cw * i / (n - 1);
-      const y = pad.top + ch * ((hi - v) / (hi - lo));
-      i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
-    });
+    pts.forEach((v,i) => { const x=pad.left+cw*i/(n-1), y=pad.top+ch*((hi-v)/(hi-lo)); i?ctx.lineTo(x,y):ctx.moveTo(x,y); });
     ctx.stroke();
 
-    // End dot + value label
-    const lx = pad.left + cw * (pts.length - 1) / (n - 1);
-    const ly = pad.top + ch * ((hi - pts[pts.length - 1]) / (hi - lo));
-    ctx.fillStyle = '#0a0e17'; ctx.beginPath(); ctx.arc(lx, ly, 6, 0, Math.PI * 2); ctx.fill();
-    ctx.fillStyle = color; ctx.beginPath(); ctx.arc(lx, ly, 4, 0, Math.PI * 2); ctx.fill();
-    // Value label
-    ctx.fillStyle = color; ctx.font = 'bold 11px system-ui'; ctx.textAlign = 'left';
-    const lbl = (pts[pts.length-1] >= 0 ? '+' : '') + '$' + pts[pts.length-1].toFixed(2);
-    ctx.fillText(lbl, lx + 8, ly + 4);
+    // End dot + label
+    const lx = pad.left+cw*(pts.length-1)/(n-1), ly = pad.top+ch*((hi-pts[pts.length-1])/(hi-lo));
+    ctx.fillStyle = '#0a0e17'; ctx.beginPath(); ctx.arc(lx,ly,6,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = color; ctx.beginPath(); ctx.arc(lx,ly,4,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = color; ctx.font = 'bold '+(isFullscreen?'13':'11')+'px system-ui'; ctx.textAlign = 'left';
+    ctx.fillText((pts[pts.length-1]>=0?'+':'')+('$'+pts[pts.length-1].toFixed(2)), lx+8, ly+4);
   }
 
-  // Draw Yoni first, then Micha on top (so green is visible)
-  drawLine(yHist, '#bc8cff');
-  drawLine(mHist, '#3fb950');
+  // Draw Yoni first, Micha on top (green visible)
+  drawLine(yPts, '#bc8cff');
+  drawLine(mPts, '#3fb950');
 
-  // Draw trade markers (▲ buy, ▼ sell)
-  const startDate = new Date(D.competition.start);
-  const endDate = new Date(D.competition.end);
-  const totalMs = endDate - startDate;
-
-  function drawMarkers(agent, color, yOffset) {
-    const trades = D[agent].trades || [];
-    trades.forEach(t => {
-      const tDate = new Date(t.date);
-      const progress = (tDate - startDate) / totalMs;
-      if (progress < 0 || progress > 1) return;
-      const x = pad.left + cw * Math.max(0, Math.min(1, progress));
-      const isBuy = t.action === 'buy';
-      const markerY = isBuy ? pad.top + 4 + yOffset : pad.top + ch - 4 - yOffset;
-
-      // Triangle marker
+  // Trade markers
+  const startD = new Date(D.competition.start), endD = new Date(D.competition.end), totMs = endD-startD;
+  function markers(agent, color, yOff) {
+    (D[agent].trades||[]).forEach(t => {
+      const prog = (new Date(t.date)-startD)/totMs;
+      if (prog < 0 || prog > 1) return;
+      const x = pad.left+cw*Math.max(0,Math.min(1,prog));
+      const isBuy = t.action==='buy';
+      const my = isBuy ? pad.top+6+yOff : pad.top+ch-6-yOff;
+      const sz = isFullscreen ? 7 : 5;
       ctx.fillStyle = isBuy ? '#3fb950' : '#f85149';
       ctx.beginPath();
-      if (isBuy) {
-        ctx.moveTo(x, markerY + 8); ctx.lineTo(x - 5, markerY + 16); ctx.lineTo(x + 5, markerY + 16);
-      } else {
-        ctx.moveTo(x, markerY - 8); ctx.lineTo(x - 5, markerY - 16); ctx.lineTo(x + 5, markerY - 16);
-      }
+      if (isBuy) { ctx.moveTo(x,my); ctx.lineTo(x-sz,my+sz*1.5); ctx.lineTo(x+sz,my+sz*1.5); }
+      else { ctx.moveTo(x,my); ctx.lineTo(x-sz,my-sz*1.5); ctx.lineTo(x+sz,my-sz*1.5); }
       ctx.closePath(); ctx.fill();
-
-      // Ticker label
-      ctx.fillStyle = color; ctx.font = 'bold 8px system-ui'; ctx.textAlign = 'center';
-      ctx.fillText(t.ticker, x, isBuy ? markerY + 26 : markerY - 18);
-
-      // Vertical dashed line from marker to chart area
-      ctx.strokeStyle = color + '30'; ctx.lineWidth = 0.5; ctx.setLineDash([2, 2]);
-      ctx.beginPath(); ctx.moveTo(x, pad.top); ctx.lineTo(x, pad.top + ch); ctx.stroke();
-      ctx.setLineDash([]);
+      if (isFullscreen) {
+        ctx.fillStyle = color; ctx.font = 'bold 8px system-ui'; ctx.textAlign = 'center';
+        ctx.fillText(t.ticker, x, isBuy ? my+sz*1.5+10 : my-sz*1.5-4);
+      }
     });
   }
+  markers('micha','#3fb950',0); markers('yoni','#bc8cff',isFullscreen?18:12);
 
-  drawMarkers('micha', '#3fb950', 0);
-  drawMarkers('yoni', '#bc8cff', 14);
-
-  // Legend (top right)
+  // Legend
   ctx.textAlign = 'left';
-  ctx.fillStyle = '#3fb950'; ctx.fillRect(w - 160, 6, 10, 10);
-  ctx.fillStyle = '#e0e6ed'; ctx.font = '10px system-ui'; ctx.fillText('Micha Fan', w - 146, 15);
-  ctx.fillStyle = '#bc8cff'; ctx.fillRect(w - 76, 6, 10, 10);
-  ctx.fillStyle = '#e0e6ed'; ctx.fillText('Yoni Fan', w - 62, 15);
+  ctx.fillStyle='#3fb950'; ctx.fillRect(w-170,8,10,10);
+  ctx.fillStyle='#e0e6ed'; ctx.font=(isFullscreen?'12':'10')+'px system-ui'; ctx.fillText('Micha Fan',w-156,17);
+  ctx.fillStyle='#bc8cff'; ctx.fillRect(w-80,8,10,10);
+  ctx.fillStyle='#e0e6ed'; ctx.fillText('Yoni Fan',w-66,17);
 
   // Buy/sell legend
-  ctx.fillStyle = '#3fb950'; ctx.font = '9px system-ui'; ctx.textAlign = 'left';
-  ctx.fillText('▲ Buy', pad.left, h - 4);
-  ctx.fillStyle = '#f85149';
-  ctx.fillText('▼ Sell', pad.left + 40, h - 4);
-
-  // "No P&L movement yet" overlay if all zero
-  if (mHist.every(v => v === 0) && yHist.every(v => v === 0)) {
-    ctx.fillStyle = '#484f5880'; ctx.font = '12px system-ui'; ctx.textAlign = 'center';
-    ctx.fillText('P&L updates when market prices change', w / 2, h / 2 + 20);
-  }
+  ctx.fillStyle='#3fb950'; ctx.font='9px system-ui'; ctx.textAlign='left';
+  ctx.fillText('▲ Buy', pad.left, h-(isFullscreen?16:6));
+  ctx.fillStyle='#f85149'; ctx.fillText('▼ Sell', pad.left+42, h-(isFullscreen?16:6));
 }
 
+// ===== FULLSCREEN CHART =====
+function openChart() {
+  $('chartModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => drawChart('fullChart', true), 50);
+}
+function closeChart() {
+  $('chartModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function setZoom(z) {
+  chartZoom = z;
+  document.querySelectorAll('.zoom-btn').forEach(b => b.classList.toggle('active', b.textContent.toLowerCase().replace(' ','') === z));
+  drawChart('fullChart', true);
+}
+// Close on Escape
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeChart(); });
+
+// ===== INIT =====
 load();
-// Crypto prices refresh every 30s (live), full data every 60s
 setInterval(load, 30000);
-window.addEventListener('resize', ()=> D && drawChart());
+window.addEventListener('resize', () => {
+  if (D) {
+    drawChart('chart', false);
+    if ($('chartModal').classList.contains('open')) drawChart('fullChart', true);
+  }
+});
 </script>
 </body>
 </html>
