@@ -7,14 +7,14 @@
   "micha": {
     "name": "Micha Fan",
     "strategy": "MA-150 Trend Following \u2022 6 Entry Types \u2022 Chart Patterns \u2022 ATR Sizing \u2022 Risk Discipline",
-    "cash": 272.81,
+    "cash": 281.63,
     "holdings": [
       {
         "sym": "GOOGL",
         "units": 0.0162,
         "avgPrice": 335.81,
-        "currentPrice": 296.03,
-        "pnl": -0.64,
+        "currentPrice": 308.11,
+        "pnl": -0.45,
         "stopLoss": 308.9,
         "takeProfit": 361.08,
         "trailingStopPct": 7.6,
@@ -49,8 +49,8 @@
         "sym": "QQQ",
         "units": 0.1121,
         "avgPrice": 526.19,
-        "currentPrice": 529.81,
-        "pnl": 0.41,
+        "currentPrice": 605.99,
+        "pnl": 8.95,
         "stopLoss": 503.96,
         "takeProfit": 649.51,
         "trailingStopPct": 4.1,
@@ -59,10 +59,10 @@
       },
       {
         "sym": "NVDA",
-        "units": 0.0493,
+        "units": 0,
         "avgPrice": 131.16,
-        "currentPrice": 136.6,
-        "pnl": 0.27,
+        "currentPrice": 178.96,
+        "pnl": 0,
         "stopLoss": 125.88,
         "takeProfit": 155.5,
         "trailingStopPct": 9.9,
@@ -97,8 +97,8 @@
         "sym": "META",
         "units": 0.0427,
         "avgPrice": 877.78,
-        "currentPrice": 908.32,
-        "pnl": 1.3,
+        "currentPrice": 641.36,
+        "pnl": -10.1,
         "stopLoss": 855.38,
         "takeProfit": 987.95,
         "trailingStopPct": 9.7,
@@ -109,8 +109,8 @@
         "sym": "SPY",
         "units": 0.2645,
         "avgPrice": 223.86,
-        "currentPrice": 221.97,
-        "pnl": -0.5,
+        "currentPrice": 684.56,
+        "pnl": 121.86,
         "stopLoss": 208.44,
         "takeProfit": 239.05,
         "trailingStopPct": 6.2,
@@ -6690,6 +6690,16 @@
         "riskReward": 1.94,
         "slPct": 7.2,
         "tpPct": 14.0
+      },
+      {
+        "date": "2026-02-27",
+        "action": "sell",
+        "ticker": "NVDA",
+        "units": 0.0493,
+        "price": 178.96,
+        "amount": 8.82,
+        "reason": "Broke below MA-150. Discipline cut.",
+        "pnl": 2.36
       }
     ],
     "pnlHistory": [
@@ -6699,7 +6709,7 @@
       },
       {
         "date": "2026-02-27",
-        "pnl": -9.93
+        "pnl": -295.81
       },
       {
         "date": "2026-02-28",
@@ -6926,7 +6936,31 @@
         "pnl": -298.18
       }
     ],
-    "totalPnl": -298.17
+    "totalPnl": -295.81,
+    "prices": {
+      "NVDA": 178.96,
+      "AAPL": 266.3,
+      "MSFT": 393.06,
+      "GOOGL": 308.11,
+      "AMD": 198.34,
+      "AVGO": 317.42,
+      "TSM": 372.78,
+      "META": 641.36,
+      "AMZN": 209.21,
+      "QQQ": 605.99,
+      "SPY": 684.56,
+      "COST": 1003.22,
+      "NFLX": 95.57,
+      "LLY": 1036.05
+    },
+    "audit": [
+      {
+        "time": "2026-02-27T21:04:00+02:00",
+        "agent": "micha",
+        "msg": "SELL 0.0493 NVDA @ 178.96 \u2192 P&L: 2.36 (MA-150 break)."
+      }
+    ],
+    "lastUpdate": "2026-02-27T21:04:00+02:00"
   },
   "yoni": {
     "name": "Yoni Fan",
