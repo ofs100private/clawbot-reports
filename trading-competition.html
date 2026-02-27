@@ -20,7 +20,7 @@ body { background: #0a0e17; color: #e0e6ed; font-family: -apple-system, 'Segoe U
 .ticker-wrap { background: #161b22; border-bottom: 1px solid #21262d; overflow: hidden; position: relative; height: 32px; }
 .ticker-track { display: flex; gap: 32px; align-items: center; height: 100%; animation: scroll 40s linear infinite; white-space: nowrap; padding: 0 16px; width: max-content; }
 .ticker-track:hover { animation-play-state: paused; }
-@keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+@keyframes scroll { 0% { transform: translateX(-50%); } 100% { transform: translateX(0%); } }
 .ticker-item { display: inline-flex; gap: 5px; align-items: center; font-size: 0.82em; }
 .ticker-item .label { color: #8b949e; }
 .ticker-item .price { color: #e0e6ed; font-weight: 600; transition: color 0.3s; }

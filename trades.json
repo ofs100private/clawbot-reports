@@ -13,22 +13,22 @@
         "sym": "AAPL",
         "units": 0.7693,
         "avgPrice": 267.08,
-        "currentPrice": 250.96,
-        "pnl": -12.4
+        "currentPrice": 272.95,
+        "pnl": 4.52
       },
       {
         "sym": "AVGO",
         "units": 0.7527,
         "avgPrice": 320.08,
-        "currentPrice": 312.2,
-        "pnl": -5.93
+        "currentPrice": 321.7,
+        "pnl": 1.22
       },
       {
         "sym": "COPX",
         "units": 1.5743,
         "avgPrice": 102.76,
-        "currentPrice": 101.48,
-        "pnl": -2.02
+        "currentPrice": 94.45,
+        "pnl": -13.08
       }
     ],
     "trades": [
@@ -395,7 +395,7 @@
         "pnl": -24.07
       }
     ],
-    "totalPnl": -24.07
+    "totalPnl": -7.34
   },
   "yoni": {
     "name": "Yoni Fan",
@@ -406,43 +406,43 @@
         "sym": "SPY",
         "units": 0.2293,
         "avgPrice": 675.35,
-        "currentPrice": 647.14,
-        "pnl": -6.47
+        "currentPrice": 689.3,
+        "pnl": 3.2
       },
       {
         "sym": "COIN",
         "units": 1.8877,
         "avgPrice": 184.36,
-        "currentPrice": 184.7,
-        "pnl": 0.64
+        "currentPrice": 181.06,
+        "pnl": -6.23
       },
       {
         "sym": "RIOT",
         "units": 10.8707,
         "avgPrice": 16.21,
-        "currentPrice": 16.65,
-        "pnl": 4.78
+        "currentPrice": 17.09,
+        "pnl": 9.57
       },
       {
         "sym": "CRM",
         "units": 0.3448,
         "avgPrice": 215.68,
-        "currentPrice": 223.42,
-        "pnl": 2.67
+        "currentPrice": 199.47,
+        "pnl": -5.59
       },
       {
         "sym": "RKLB",
         "units": 1.2437,
         "avgPrice": 62.46,
-        "currentPrice": 61.65,
-        "pnl": -1.01
+        "currentPrice": 72.65,
+        "pnl": 12.67
       },
       {
         "sym": "NVDA",
         "units": 0.0758,
         "avgPrice": 188.02,
-        "currentPrice": 197.0,
-        "pnl": 0.68
+        "currentPrice": 184.89,
+        "pnl": -0.24
       }
     ],
     "trades": [
@@ -1129,7 +1129,7 @@
         "pnl": -33.56
       }
     ],
-    "totalPnl": -33.56
+    "totalPnl": 13.38
   },
   "audit": [
     {
@@ -1638,30 +1638,31 @@
       "msg": "SELL 0.08 GOOGL @ $327.01 \u2192 P&L: $-0.86. Hedging flow shows call selling. Bearish signal confirmed."
     }
   ],
-  "lastUpdate": "2026-03-02T14:00:00+02:00",
+  "lastUpdate": "2026-02-27T09:30:00+02:00",
   "prices": {
-    "NVDA": 197.0,
-    "AMD": 210.11,
-    "AVGO": 312.2,
-    "GOOGL": 327.01,
-    "MSFT": 396.56,
-    "AAPL": 250.96,
-    "META": 670.97,
-    "CRM": 223.42,
-    "TSLA": 461.02,
-    "COIN": 184.7,
-    "RIOT": 16.65,
-    "HOOD": 84.94,
-    "SOFI": 19.16,
-    "RKLB": 61.65,
-    "COPX": 101.48,
-    "XLE": 52.31,
-    "GLD": 468.61,
-    "SLV": 77.93,
-    "QQQ": 547.3,
-    "SPY": 647.14,
-    "BTC": 64194.3,
-    "ETH": 2347.23,
-    "SOL": 77.07
+    "SPY": 689.3,
+    "QQQ": 609.24,
+    "GLD": 477.48,
+    "SLV": 80.45,
+    "USO": 79.77,
+    "COPX": 94.45,
+    "BTC": 67696.2,
+    "ETH": 2032.34,
+    "SOL": 87.34,
+    "NVDA": 184.89,
+    "AMD": 203.68,
+    "AVGO": 321.7,
+    "GOOGL": 307.38,
+    "MSFT": 401.72,
+    "AAPL": 272.95,
+    "META": 657.01,
+    "CRM": 199.47,
+    "TSLA": 408.58,
+    "COIN": 181.06,
+    "RIOT": 17.09,
+    "HOOD": 79.45,
+    "SOFI": 19.1,
+    "RKLB": 72.65,
+    "XLE": 55.05
   }
 }
