@@ -291,11 +291,17 @@ function drawChart() {
   const pad = { top: 24, bottom: 28, left: 50, right: 12 };
   const cw = w - pad.left - pad.right, ch = h - pad.top - pad.bottom;
 
-  // Build P&L series from pnlHistory, but compute current live value too
+  // Build P&L series - use total portfolio value relative to $1000
   const mHist = (D.micha.pnlHistory||[]).map(p => p.pnl||0);
   const yHist = (D.yoni.pnlHistory||[]).map(p => p.pnl||0);
   const mDates = (D.micha.pnlHistory||[]).map(p => p.date||'');
   const yDates = (D.yoni.pnlHistory||[]).map(p => p.date||'');
+
+  // If both lines are identical (overlapping), nudge Micha up slightly so both visible
+  const identical = mHist.length === yHist.length && mHist.every((v,i) => Math.abs(v - yHist[i]) < 0.01);
+  if (identical && mHist.length > 0) {
+    mHist[mHist.length - 1] += 0.3; // tiny visual offset
+  }
 
   // Replace last value with live computed P&L
   const mLive = computePnl('micha');
@@ -399,8 +405,48 @@ function drawChart() {
     ctx.fillText(lbl, lx + 8, ly + 4);
   }
 
-  drawLine(mHist, '#3fb950');
+  // Draw Yoni first, then Micha on top (so green is visible)
   drawLine(yHist, '#bc8cff');
+  drawLine(mHist, '#3fb950');
+
+  // Draw trade markers (▲ buy, ▼ sell)
+  const startDate = new Date(D.competition.start);
+  const endDate = new Date(D.competition.end);
+  const totalMs = endDate - startDate;
+
+  function drawMarkers(agent, color, yOffset) {
+    const trades = D[agent].trades || [];
+    trades.forEach(t => {
+      const tDate = new Date(t.date);
+      const progress = (tDate - startDate) / totalMs;
+      if (progress < 0 || progress > 1) return;
+      const x = pad.left + cw * Math.max(0, Math.min(1, progress));
+      const isBuy = t.action === 'buy';
+      const markerY = isBuy ? pad.top + 4 + yOffset : pad.top + ch - 4 - yOffset;
+
+      // Triangle marker
+      ctx.fillStyle = isBuy ? '#3fb950' : '#f85149';
+      ctx.beginPath();
+      if (isBuy) {
+        ctx.moveTo(x, markerY + 8); ctx.lineTo(x - 5, markerY + 16); ctx.lineTo(x + 5, markerY + 16);
+      } else {
+        ctx.moveTo(x, markerY - 8); ctx.lineTo(x - 5, markerY - 16); ctx.lineTo(x + 5, markerY - 16);
+      }
+      ctx.closePath(); ctx.fill();
+
+      // Ticker label
+      ctx.fillStyle = color; ctx.font = 'bold 8px system-ui'; ctx.textAlign = 'center';
+      ctx.fillText(t.ticker, x, isBuy ? markerY + 26 : markerY - 18);
+
+      // Vertical dashed line from marker to chart area
+      ctx.strokeStyle = color + '30'; ctx.lineWidth = 0.5; ctx.setLineDash([2, 2]);
+      ctx.beginPath(); ctx.moveTo(x, pad.top); ctx.lineTo(x, pad.top + ch); ctx.stroke();
+      ctx.setLineDash([]);
+    });
+  }
+
+  drawMarkers('micha', '#3fb950', 0);
+  drawMarkers('yoni', '#bc8cff', 14);
 
   // Legend (top right)
   ctx.textAlign = 'left';
@@ -409,10 +455,16 @@ function drawChart() {
   ctx.fillStyle = '#bc8cff'; ctx.fillRect(w - 76, 6, 10, 10);
   ctx.fillStyle = '#e0e6ed'; ctx.fillText('Yoni Fan', w - 62, 15);
 
+  // Buy/sell legend
+  ctx.fillStyle = '#3fb950'; ctx.font = '9px system-ui'; ctx.textAlign = 'left';
+  ctx.fillText('▲ Buy', pad.left, h - 4);
+  ctx.fillStyle = '#f85149';
+  ctx.fillText('▼ Sell', pad.left + 40, h - 4);
+
   // "No P&L movement yet" overlay if all zero
   if (mHist.every(v => v === 0) && yHist.every(v => v === 0)) {
-    ctx.fillStyle = '#484f5880'; ctx.font = '13px system-ui'; ctx.textAlign = 'center';
-    ctx.fillText('P&L will update as prices change — next cron cycle in ~4h', w / 2, h / 2);
+    ctx.fillStyle = '#484f5880'; ctx.font = '12px system-ui'; ctx.textAlign = 'center';
+    ctx.fillText('P&L updates when market prices change', w / 2, h / 2 + 20);
   }
 }
 
