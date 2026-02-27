@@ -350,8 +350,8 @@ function renderAgent(p, d) {
     hEl.innerHTML = d.holdings.map((h,i) => {
       const val = (h.units||0) * (h.currentPrice||h.avgPrice||0);
       const hp = h.pnl||0;
-      const levBadge = h.leverage && h.leverage > 1 ? `<span class="tag tag-lev">${h.leverage}x</span> ` : '';
-      return `<div class="holding" onclick="openAsset('${agent}','${h.sym}',${i})">${levBadge}<span class="sym">${h.sym}</span><span class="detail">${h.units} @ $${(h.avgPrice||0).toFixed(2)} = <b>$${Math.round(val)}</b></span><span class="pnl-sm ${hp>=0?'up':'down'}">${fmtPnl(hp)}</span></div>`;
+      const levBadge = h.leverage && h.leverage > 1 ? `<span class="tag tag-lev">${h.leverage}x</span>` : '';
+      return `<div class="holding" onclick="openAsset('${agent}','${h.sym}',${i})"><span class="sym">${h.sym}</span><span class="detail">${h.units} @ $${(h.avgPrice||0).toFixed(2)} = <b>$${Math.round(val)}</b></span><span class="pnl-sm ${hp>=0?'up':'down'}">${fmtPnl(hp)}</span>${levBadge}</div>`;
     }).join('');
   } else hEl.innerHTML = '<div class="empty">No positions yet</div>';
 }
