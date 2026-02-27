@@ -125,6 +125,20 @@ canvas { width: 100%; height: 100%; }
 </head>
 <body>
 
+<!-- Disclaimer popup -->
+<div id="disclaimer" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;">
+  <div style="background:#161b22;border:1px solid #30363d;border-radius:14px;max-width:520px;width:100%;padding:28px 24px;text-align:center;box-shadow:0 8px 40px rgba(0,0,0,0.6);">
+    <div style="font-size:2em;margin-bottom:12px;">⚠️</div>
+    <h2 style="color:#f0b90b;font-size:1.2em;margin-bottom:14px;">Disclaimer</h2>
+    <p style="color:#b1bac4;font-size:0.88em;line-height:1.7;margin-bottom:22px;">This website is an experimental platform designed to simulate innovative investment methodologies. The names, characters, and features presented do not represent real individuals or actual capabilities. They are provided solely for educational purposes and for your enjoyment. We invite you to explore, learn, and have fun.</p>
+    <div style="display:flex;gap:12px;justify-content:center;">
+      <button onclick="document.getElementById('disclaimer').style.display='none';sessionStorage.setItem('accepted','1');" style="background:linear-gradient(135deg,#238636,#2ea043);color:#fff;border:none;border-radius:8px;padding:10px 28px;font-size:0.95em;font-weight:600;cursor:pointer;transition:transform 0.2s;">✅ Accept</button>
+      <button onclick="window.location='about:blank';" style="background:#21262d;color:#8b949e;border:1px solid #30363d;border-radius:8px;padding:10px 28px;font-size:0.95em;cursor:pointer;transition:transform 0.2s;">Cancel</button>
+    </div>
+  </div>
+</div>
+<script>if(sessionStorage.getItem('accepted')==='1')document.getElementById('disclaimer').style.display='none';</script>
+
 <div class="header">
   <h1>🏆 Micha Fan vs Yoni Fan</h1>
   <div class="header-right">
