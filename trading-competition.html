@@ -55,12 +55,36 @@ body { background: #0a0e17; color: #e0e6ed; font-family: -apple-system, 'Segoe U
 
 .section-title { font-size: 0.85em; color: #8b949e; margin: 12px 0 6px; border-bottom: 1px solid #21262d; padding-bottom: 4px; }
 
-.holding { display: flex; justify-content: space-between; align-items: center; padding: 5px 6px; border-radius: 6px; font-size: 0.8em; margin-bottom: 2px; transition: background 0.2s; }
-.holding:hover { background: rgba(255,255,255,0.05); }
+.holding { display: flex; justify-content: space-between; align-items: center; padding: 5px 6px; border-radius: 6px; font-size: 0.8em; margin-bottom: 2px; transition: background 0.2s; cursor: pointer; }
+.holding:hover { background: rgba(88,166,255,0.1); }
 .holding:nth-child(even) { background: rgba(255,255,255,0.02); }
 .holding .sym { color: #58a6ff; font-weight: 700; min-width: 50px; }
 .holding .detail { color: #8b949e; font-size: 0.9em; }
 .holding .pnl-sm { font-weight: 600; }
+.holding .sym::after { content: ' ›'; color: #484f58; font-size: 0.8em; }
+
+/* Asset detail modal */
+.asset-modal { display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); z-index:2000; align-items:center; justify-content:center; padding:16px; }
+.asset-modal.open { display:flex; }
+.asset-card { background:#161b22; border:1px solid #30363d; border-radius:14px; max-width:440px; width:100%; padding:0; overflow:hidden; max-height:85vh; overflow-y:auto; }
+.asset-card-header { padding:16px 18px; border-bottom:1px solid #21262d; display:flex; justify-content:space-between; align-items:center; }
+.asset-card-header h3 { font-size:1.1em; }
+.asset-card-header .close-asset { background:none; border:none; color:#8b949e; font-size:1.4em; cursor:pointer; }
+.asset-card-header .close-asset:hover { color:#f0b90b; }
+.asset-card-body { padding:16px 18px; }
+.asset-row { display:flex; justify-content:space-between; padding:7px 0; border-bottom:1px solid #0d1117; font-size:0.88em; }
+.asset-row .lbl { color:#8b949e; }
+.asset-row .val { font-weight:600; }
+.asset-section { color:#f0b90b; font-size:0.8em; font-weight:600; margin:12px 0 6px; padding-top:8px; border-top:1px solid #21262d; letter-spacing:0.5px; }
+.asset-trades { max-height:200px; overflow-y:auto; }
+.asset-trade-item { padding:6px 0; border-bottom:1px solid #0d1117; font-size:0.82em; }
+.asset-trade-item .at-head { display:flex; justify-content:space-between; gap:6px; }
+.asset-trade-item .at-reason { color:#6e7681; font-size:0.9em; margin-top:2px; }
+.tag { display:inline-block; padding:1px 6px; border-radius:4px; font-size:0.78em; font-weight:600; }
+.tag-sl { background:#f8514920; color:#f85149; }
+.tag-tp { background:#3fb95020; color:#3fb950; }
+.tag-tsl { background:#58a6ff20; color:#58a6ff; }
+.tag-lev { background:#f0b90b20; color:#f0b90b; }
 
 .trade { padding: 6px; border-radius: 6px; margin-bottom: 3px; font-size: 0.78em; transition: background 0.2s; }
 .trade:hover { background: rgba(255,255,255,0.04); }
@@ -320,16 +344,85 @@ function renderAgent(p, d) {
   pe.className = 'pnl ' + (pnl > 0.01 ? 'pos' : pnl < -0.01 ? 'neg' : 'zero');
   $(p+'-cash').textContent = '$' + (d.cash||0).toFixed(0) + ' cash · $' + Math.round(holdingsVal) + ' invested';
 
+  const agent = p === 'm' ? 'micha' : 'yoni';
   const hEl = $(p+'-hold');
   if (d.holdings && d.holdings.length > 0) {
-    hEl.innerHTML = d.holdings.map(h => {
+    hEl.innerHTML = d.holdings.map((h,i) => {
       const val = (h.units||0) * (h.currentPrice||h.avgPrice||0);
       const hp = h.pnl||0;
-      return `<div class="holding"><span class="sym">${h.sym}</span><span class="detail">${h.units} @ $${(h.avgPrice||0).toFixed(2)} = <b>$${Math.round(val)}</b></span><span class="pnl-sm ${hp>=0?'up':'down'}">${fmtPnl(hp)}</span></div>`;
+      const levBadge = h.leverage && h.leverage > 1 ? `<span class="tag tag-lev">${h.leverage}x</span> ` : '';
+      return `<div class="holding" onclick="openAsset('${agent}','${h.sym}',${i})">${levBadge}<span class="sym">${h.sym}</span><span class="detail">${h.units} @ $${(h.avgPrice||0).toFixed(2)} = <b>$${Math.round(val)}</b></span><span class="pnl-sm ${hp>=0?'up':'down'}">${fmtPnl(hp)}</span></div>`;
     }).join('');
   } else hEl.innerHTML = '<div class="empty">No positions yet</div>';
+}
 
-  // Trades moved to trades.html
+// ===== ASSET DETAIL MODAL =====
+function openAsset(agent, sym, idx) {
+  const d = D[agent];
+  const h = d.holdings[idx];
+  if (!h) return;
+  const val = (h.units||0) * (h.currentPrice||h.avgPrice||0);
+  const pnl = h.pnl||0;
+  const retPct = h.avgPrice ? ((h.currentPrice - h.avgPrice) / h.avgPrice * 100).toFixed(2) : '0.00';
+  const color = agent === 'micha' ? '#3fb950' : '#bc8cff';
+  const name = agent === 'micha' ? 'Micha Fan' : 'Yoni Fan';
+  
+  // Find all trades for this ticker
+  const trades = (d.trades||[]).filter(t => t.ticker === sym);
+  const buys = trades.filter(t => t.action === 'buy');
+  const sells = trades.filter(t => t.action === 'sell');
+  const totalCommission = trades.length * 1;
+  
+  let html = `
+    <div class="asset-card-header">
+      <h3 style="color:${color}">${sym} <span style="color:#8b949e;font-size:0.7em">— ${name}</span></h3>
+      <button class="close-asset" onclick="closeAsset()">✕</button>
+    </div>
+    <div class="asset-card-body">
+      <div class="asset-row"><span class="lbl">Current Price</span><span class="val">$${(h.currentPrice||0).toFixed(2)}</span></div>
+      <div class="asset-row"><span class="lbl">Avg Entry Price</span><span class="val">$${(h.avgPrice||0).toFixed(2)}</span></div>
+      <div class="asset-row"><span class="lbl">Units Held</span><span class="val">${h.units}</span></div>
+      <div class="asset-row"><span class="lbl">Position Value</span><span class="val">$${val.toFixed(2)}</span></div>
+      <div class="asset-row"><span class="lbl">Unrealized P&L</span><span class="val" style="color:${pnl>=0?'#3fb950':'#f85149'}">${pnl>=0?'+':''}$${pnl.toFixed(2)} (${retPct}%)</span></div>
+      
+      <div class="asset-section">⚡ RISK MANAGEMENT</div>
+      <div class="asset-row"><span class="lbl">Stop Loss</span><span class="val"><span class="tag tag-sl">$${h.stopLoss || '—'}</span></span></div>
+      <div class="asset-row"><span class="lbl">Take Profit</span><span class="val"><span class="tag tag-tp">$${h.takeProfit || '—'}</span></span></div>
+      <div class="asset-row"><span class="lbl">Trailing Stop</span><span class="val"><span class="tag tag-tsl">${h.trailingStopPct || '—'}%</span></span></div>
+      <div class="asset-row"><span class="lbl">Leverage</span><span class="val"><span class="tag tag-lev">${h.leverage || 1}x</span></span></div>
+      
+      <div class="asset-section">📊 TRADE HISTORY (${trades.length} trades)</div>
+      <div class="asset-row"><span class="lbl">Buys / Sells</span><span class="val">${buys.length} / ${sells.length}</span></div>
+      <div class="asset-row"><span class="lbl">Total Commissions</span><span class="val" style="color:#f85149">$${totalCommission}</span></div>
+      
+      <div class="asset-trades">`;
+  
+  // Show last 10 trades for this ticker
+  trades.slice(-10).reverse().forEach(t => {
+    const isBuy = t.action === 'buy';
+    const dateStr = (t.date||'').replace(/T/,' ').slice(5,16);
+    let details = '';
+    if (isBuy) {
+      details = `<span class="tag tag-sl">SL $${t.stopLoss||'—'}</span> <span class="tag tag-tp">TP $${t.takeProfit||'—'}</span> <span class="tag tag-tsl">TSL ${t.trailingStopPct||'—'}%</span>`;
+      if (t.leverage > 1) details += ` <span class="tag tag-lev">${t.leverage}x</span>`;
+    } else {
+      const exitLabel = (t.exitType||'manual').replace(/_/g,' ');
+      details = `<span class="tag ${t.pnl>=0?'tag-tp':'tag-sl'}">${t.pnl>=0?'+':''}$${(t.pnl||0).toFixed(2)}</span> <span style="color:#8b949e;font-size:0.85em">${exitLabel}${t.holdTimeHours ? ' · '+t.holdTimeHours+'h hold' : ''}</span>`;
+    }
+    html += `<div class="asset-trade-item">
+      <div class="at-head"><span><span style="color:${isBuy?'#3fb950':'#f85149'};font-weight:700">${t.action.toUpperCase()}</span> ${t.units}u @ $${(t.price||0).toFixed(2)}</span><span style="color:#484f58">${dateStr}</span></div>
+      <div style="margin-top:3px">${details}</div>
+      <div class="at-reason">${t.reason||''}</div>
+    </div>`;
+  });
+  
+  html += `</div></div>`;
+  $('assetCard').innerHTML = html;
+  $('assetModal').classList.add('open');
+}
+
+function closeAsset() {
+  $('assetModal').classList.remove('open');
 }
 
 // ===== CHART ENGINE (Alpha Arena style) =====
@@ -492,5 +585,9 @@ window.addEventListener('resize', () => {
   }
 });
 </script>
+<!-- Asset detail modal -->
+<div class="asset-modal" id="assetModal" onclick="if(event.target===this)closeAsset()">
+  <div class="asset-card" id="assetCard"></div>
+</div>
 </body>
 </html>
