@@ -161,8 +161,6 @@ canvas { width: 100%; height: 100%; }
     </div>
     <div class="section-title">📦 Holdings</div>
     <div id="m-hold"><div class="empty">No positions yet</div></div>
-    <div class="section-title">📋 Trades</div>
-    <div id="m-trades"><div class="empty">Waiting for first analysis...</div></div>
   </div>
 
   <div class="panel yoni">
@@ -174,8 +172,6 @@ canvas { width: 100%; height: 100%; }
     </div>
     <div class="section-title">📦 Holdings</div>
     <div id="y-hold"><div class="empty">No positions yet</div></div>
-    <div class="section-title">📋 Trades</div>
-    <div id="y-trades"><div class="empty">Waiting for first analysis...</div></div>
   </div>
 
   <div class="chart-area">
@@ -312,12 +308,7 @@ function renderAgent(p, d) {
     }).join('');
   } else hEl.innerHTML = '<div class="empty">No positions yet</div>';
 
-  const tEl = $(p+'-trades');
-  if (d.trades && d.trades.length > 0) {
-    tEl.innerHTML = d.trades.slice(-15).reverse().map(t =>
-      `<div class="trade"><div class="trade-top"><span><span class="action ${t.action}">${t.action.toUpperCase()}</span> <span class="ticker">${t.ticker}</span> <span class="amt">${t.units}u @ $${(t.price||0).toFixed(2)}</span></span><span class="time">${(t.date||'').replace(/T/,' ').slice(5,16)}</span></div>${t.reason ? '<div class="reason">'+t.reason+'</div>' : ''}</div>`
-    ).join('');
-  } else tEl.innerHTML = '<div class="empty">Waiting for analysis...</div>';
+  // Trades moved to trades.html
 }
 
 // ===== CHART ENGINE =====
