@@ -281,9 +281,6 @@ function render() {
   else { ld.textContent = 'Even'; ld.style.color = '#f0b90b'; }
 
   // Audit removed — see trades.html
-  void((D.audit||[]).slice(-30).reverse().map(a =>
-    `<div class="audit-row"><span class="time">${(a.time||'').replace(/T/,' ').slice(0,16)}</span><span class="who ${a.agent}">${(a.agent||'').toUpperCase()}</span><span>${a.msg}</span></div>`
-  ).join('');
 
   drawChart('chart', false);
   if ($('chartModal').classList.contains('open')) drawChart('fullChart', true);
