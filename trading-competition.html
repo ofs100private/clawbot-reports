@@ -267,6 +267,20 @@ function renderAgent(p, d) {
   }
 }
 
+function computePnl(agent) {
+  // Calculate real P&L from holdings: (currentPrice - avgPrice) * units
+  const d = D[agent];
+  let unrealized = 0;
+  (d.holdings||[]).forEach(h => {
+    const cur = h.currentPrice || h.avgPrice || 0;
+    const avg = h.avgPrice || 0;
+    unrealized += (cur - avg) * (h.units || 0);
+  });
+  // Add realized P&L from closed trades
+  const realized = (d.trades||[]).filter(t => t.action === 'sell').reduce((s,t) => s + (t.pnl||0), 0);
+  return Math.round((unrealized + realized) * 100) / 100;
+}
+
 function drawChart() {
   const c = $('chart'), ctx = c.getContext('2d');
   const box = c.parentElement.getBoundingClientRect();
@@ -274,56 +288,132 @@ function drawChart() {
   c.width = box.width * dpr; c.height = box.height * dpr;
   ctx.scale(dpr, dpr);
   const w = box.width, h = box.height;
+  const pad = { top: 24, bottom: 28, left: 50, right: 12 };
+  const cw = w - pad.left - pad.right, ch = h - pad.top - pad.bottom;
 
-  const mH = (D.micha.pnlHistory||[]).map(p=>p.pnl||0);
-  const yH = (D.yoni.pnlHistory||[]).map(p=>p.pnl||0);
-  const all = [...mH, ...yH, 0];
-  const lo = Math.min(...all)-50, hi = Math.max(...all)+50;
-  const len = Math.max(mH.length, yH.length, 2);
+  // Build P&L series from pnlHistory, but compute current live value too
+  const mHist = (D.micha.pnlHistory||[]).map(p => p.pnl||0);
+  const yHist = (D.yoni.pnlHistory||[]).map(p => p.pnl||0);
+  const mDates = (D.micha.pnlHistory||[]).map(p => p.date||'');
+  const yDates = (D.yoni.pnlHistory||[]).map(p => p.date||'');
 
-  ctx.clearRect(0,0,w,h);
+  // Replace last value with live computed P&L
+  const mLive = computePnl('micha');
+  const yLive = computePnl('yoni');
+  if (mHist.length > 0) mHist[mHist.length-1] = mLive;
+  if (yHist.length > 0) yHist[yHist.length-1] = yLive;
 
-  // Grid
-  for (let i=0;i<5;i++) {
-    const y = 16+(h-32)*i/4;
-    ctx.strokeStyle='#21262d'; ctx.lineWidth=0.5;
-    ctx.beginPath(); ctx.moveTo(44,y); ctx.lineTo(w-8,y); ctx.stroke();
-    ctx.fillStyle='#484f58'; ctx.font='10px system-ui';
-    ctx.fillText('$'+(hi-(hi-lo)*i/4).toFixed(0), 2, y+3);
+  // Ensure at least 2 points for a line
+  const allDates = [...new Set([...mDates, ...yDates])].sort();
+  const len = Math.max(allDates.length, mHist.length, yHist.length, 2);
+  const all = [...mHist, ...yHist, 0];
+  let lo = Math.min(...all), hi = Math.max(...all);
+  // Add padding, ensure range isn't zero
+  const range = hi - lo || 20;
+  lo -= range * 0.15; hi += range * 0.15;
+
+  ctx.clearRect(0, 0, w, h);
+
+  // Background
+  ctx.fillStyle = '#161b22';
+  ctx.fillRect(0, 0, w, h);
+
+  // Grid lines + labels
+  ctx.textAlign = 'right';
+  for (let i = 0; i < 5; i++) {
+    const y = pad.top + ch * i / 4;
+    const val = hi - (hi - lo) * i / 4;
+    ctx.strokeStyle = '#21262d'; ctx.lineWidth = 0.5;
+    ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(w - pad.right, y); ctx.stroke();
+    ctx.fillStyle = '#484f58'; ctx.font = '10px system-ui';
+    ctx.fillText('$' + val.toFixed(0), pad.left - 6, y + 3);
   }
-  // Zero
-  const zy = 16+(h-32)*(hi/(hi-lo));
-  ctx.strokeStyle='#f0b90b20'; ctx.setLineDash([3,3]);
-  ctx.beginPath(); ctx.moveTo(44,zy); ctx.lineTo(w-8,zy); ctx.stroke();
-  ctx.setLineDash([]);
 
-  function line(pts, col) {
-    if (pts.length<1) return;
+  // Zero line (highlighted)
+  if (lo < 0 && hi > 0) {
+    const zy = pad.top + ch * (hi / (hi - lo));
+    ctx.strokeStyle = '#f0b90b40'; ctx.lineWidth = 1; ctx.setLineDash([4, 4]);
+    ctx.beginPath(); ctx.moveTo(pad.left, zy); ctx.lineTo(w - pad.right, zy); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#f0b90b60'; ctx.textAlign = 'right'; ctx.font = '9px system-ui';
+    ctx.fillText('$0', pad.left - 6, zy + 3);
+  }
+
+  // X-axis date labels
+  ctx.textAlign = 'center'; ctx.fillStyle = '#484f58'; ctx.font = '9px system-ui';
+  const dates = allDates.length > 0 ? allDates : ['Start', 'Now'];
+  dates.forEach((d, i) => {
+    const x = pad.left + cw * i / (Math.max(dates.length, 2) - 1);
+    const label = d.slice(5) || d; // MM-DD
+    ctx.fillText(label, x, h - 6);
+  });
+
+  function drawLine(pts, color) {
+    if (pts.length < 1) return;
+    const n = Math.max(pts.length, 2);
+
+    // Area fill (gradient)
+    const grad = ctx.createLinearGradient(0, pad.top, 0, pad.top + ch);
+    grad.addColorStop(0, color + '20');
+    grad.addColorStop(1, color + '05');
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    pts.forEach((v, i) => {
+      const x = pad.left + cw * i / (n - 1);
+      const y = pad.top + ch * ((hi - v) / (hi - lo));
+      i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+    });
+    ctx.lineTo(pad.left + cw * (pts.length - 1) / (n - 1), pad.top + ch);
+    ctx.lineTo(pad.left, pad.top + ch);
+    ctx.closePath();
+    ctx.fill();
+
     // Glow
-    ctx.strokeStyle=col+'30'; ctx.lineWidth=7; ctx.lineJoin='round';
+    ctx.strokeStyle = color + '40'; ctx.lineWidth = 6; ctx.lineJoin = 'round'; ctx.lineCap = 'round';
     ctx.beginPath();
-    pts.forEach((v,i)=>{
-      const x=44+(w-52)*i/(len-1), y=16+(h-32)*((hi-v)/(hi-lo));
-      i?ctx.lineTo(x,y):ctx.moveTo(x,y);
-    }); ctx.stroke();
-    // Line
-    ctx.strokeStyle=col; ctx.lineWidth=2.5;
-    ctx.beginPath();
-    pts.forEach((v,i)=>{
-      const x=44+(w-52)*i/(len-1), y=16+(h-32)*((hi-v)/(hi-lo));
-      i?ctx.lineTo(x,y):ctx.moveTo(x,y);
-    }); ctx.stroke();
-    // Dot
-    const lx=44+(w-52)*(pts.length-1)/(len-1), ly=16+(h-32)*((hi-pts[pts.length-1])/(hi-lo));
-    ctx.fillStyle=col; ctx.beginPath(); ctx.arc(lx,ly,4,0,Math.PI*2); ctx.fill();
-  }
-  line(mH,'#3fb950'); line(yH,'#bc8cff');
+    pts.forEach((v, i) => {
+      const x = pad.left + cw * i / (n - 1);
+      const y = pad.top + ch * ((hi - v) / (hi - lo));
+      i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+    });
+    ctx.stroke();
 
-  // Legend
-  ctx.fillStyle='#3fb950'; ctx.fillRect(w-150,8,10,10);
-  ctx.fillStyle='#e0e6ed'; ctx.font='10px system-ui'; ctx.fillText('Micha',w-136,17);
-  ctx.fillStyle='#bc8cff'; ctx.fillRect(w-76,8,10,10);
-  ctx.fillStyle='#e0e6ed'; ctx.fillText('Yoni',w-62,17);
+    // Main line (thick)
+    ctx.strokeStyle = color; ctx.lineWidth = 3;
+    ctx.beginPath();
+    pts.forEach((v, i) => {
+      const x = pad.left + cw * i / (n - 1);
+      const y = pad.top + ch * ((hi - v) / (hi - lo));
+      i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+    });
+    ctx.stroke();
+
+    // End dot + value label
+    const lx = pad.left + cw * (pts.length - 1) / (n - 1);
+    const ly = pad.top + ch * ((hi - pts[pts.length - 1]) / (hi - lo));
+    ctx.fillStyle = '#0a0e17'; ctx.beginPath(); ctx.arc(lx, ly, 6, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = color; ctx.beginPath(); ctx.arc(lx, ly, 4, 0, Math.PI * 2); ctx.fill();
+    // Value label
+    ctx.fillStyle = color; ctx.font = 'bold 11px system-ui'; ctx.textAlign = 'left';
+    const lbl = (pts[pts.length-1] >= 0 ? '+' : '') + '$' + pts[pts.length-1].toFixed(2);
+    ctx.fillText(lbl, lx + 8, ly + 4);
+  }
+
+  drawLine(mHist, '#3fb950');
+  drawLine(yHist, '#bc8cff');
+
+  // Legend (top right)
+  ctx.textAlign = 'left';
+  ctx.fillStyle = '#3fb950'; ctx.fillRect(w - 160, 6, 10, 10);
+  ctx.fillStyle = '#e0e6ed'; ctx.font = '10px system-ui'; ctx.fillText('Micha Fan', w - 146, 15);
+  ctx.fillStyle = '#bc8cff'; ctx.fillRect(w - 76, 6, 10, 10);
+  ctx.fillStyle = '#e0e6ed'; ctx.fillText('Yoni Fan', w - 62, 15);
+
+  // "No P&L movement yet" overlay if all zero
+  if (mHist.every(v => v === 0) && yHist.every(v => v === 0)) {
+    ctx.fillStyle = '#484f5880'; ctx.font = '13px system-ui'; ctx.textAlign = 'center';
+    ctx.fillText('P&L will update as prices change — next cron cycle in ~4h', w / 2, h / 2);
+  }
 }
 
 load();
