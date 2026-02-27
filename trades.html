@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📋 All Trades — Micha Fan vs Yoni Fan</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0a0e17; color: #e0e6ed; font-family: -apple-system, 'Segoe UI', system-ui, sans-serif; padding: 16px; }
+a { color: #58a6ff; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.back { display: inline-block; margin-bottom: 16px; font-size: 0.9em; }
+h1 { font-size: 1.4em; margin-bottom: 6px; background: linear-gradient(90deg, #f0b90b, #ff6b35); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.subtitle { color: #8b949e; font-size: 0.85em; margin-bottom: 20px; }
+.filters { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+.filters button { background: #21262d; color: #8b949e; border: 1px solid #30363d; border-radius: 6px; padding: 6px 14px; cursor: pointer; font-size: 0.82em; transition: all 0.2s; }
+.filters button:hover, .filters button.active { background: #30363d; color: #e0e6ed; border-color: #58a6ff; }
+table { width: 100%; border-collapse: collapse; font-size: 0.82em; }
+th { text-align: left; color: #8b949e; font-weight: 600; padding: 8px 6px; border-bottom: 2px solid #21262d; position: sticky; top: 0; background: #0a0e17; }
+td { padding: 7px 6px; border-bottom: 1px solid #161b22; }
+tr:hover { background: rgba(255,255,255,0.03); }
+.buy { color: #3fb950; font-weight: 600; }
+.sell { color: #f85149; font-weight: 600; }
+.micha { color: #3fb950; }
+.yoni { color: #bc8cff; }
+.pnl-pos { color: #3fb950; }
+.pnl-neg { color: #f85149; }
+.pnl-zero { color: #8b949e; }
+.reason { color: #8b949e; font-size: 0.92em; max-width: 300px; }
+.summary { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+.summary-card { background: #161b22; border: 1px solid #21262d; border-radius: 10px; padding: 14px; }
+.summary-card h3 { font-size: 0.95em; margin-bottom: 8px; }
+.summary-card .stat { display: flex; justify-content: space-between; font-size: 0.85em; padding: 3px 0; }
+.summary-card .stat .lbl { color: #8b949e; }
+@media (max-width: 680px) {
+  .summary { grid-template-columns: 1fr; }
+  .reason { max-width: 160px; }
+  table { font-size: 0.75em; }
+}
+</style>
+</head>
+<body>
+
+<a href="trading-competition.html" class="back">← Back to Dashboard</a>
+<h1>📋 All Trades</h1>
+<div class="subtitle">Micha Fan vs Yoni Fan — Complete Trade History</div>
+
+<div class="summary">
+  <div class="summary-card">
+    <h3 class="micha">🟢 Micha Fan</h3>
+    <div id="micha-stats"></div>
+  </div>
+  <div class="summary-card">
+    <h3 class="yoni">🟣 Yoni Fan</h3>
+    <div id="yoni-stats"></div>
+  </div>
+</div>
+
+<div class="filters">
+  <button class="active" data-filter="all">All</button>
+  <button data-filter="micha">Micha Fan</button>
+  <button data-filter="yoni">Yoni Fan</button>
+  <button data-filter="buy">Buys Only</button>
+  <button data-filter="sell">Sells Only</button>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Trader</th>
+      <th>Action</th>
+      <th>Ticker</th>
+      <th>Units</th>
+      <th>Price</th>
+      <th>Amount</th>
+      <th>P&L</th>
+      <th>Reason</th>
+    </tr>
+  </thead>
+  <tbody id="tbody"></tbody>
+</table>
+
+<script>
+const $ = id => document.getElementById(id);
+
+async function load() {
+  const r = await fetch('trades.json?v=' + Date.now());
+  const D = await r.json();
+
+  // Merge all trades with trader tag
+  const all = [];
+  (D.micha?.trades || []).forEach(t => all.push({...t, trader: 'micha'}));
+  (D.yoni?.trades || []).forEach(t => all.push({...t, trader: 'yoni'}));
+  all.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  // Stats
+  for (const who of ['micha', 'yoni']) {
+    const trades = D[who]?.trades || [];
+    const buys = trades.filter(t => t.action === 'buy');
+    const sells = trades.filter(t => t.action === 'sell');
+    const wins = sells.filter(t => t.pnl > 0);
+    const losses = sells.filter(t => t.pnl < 0);
+    const totalPnl = sells.reduce((s, t) => s + (t.pnl || 0), 0);
+    const winRate = sells.length ? ((wins.length / sells.length) * 100).toFixed(0) : '—';
+    $(who + '-stats').innerHTML = `
+      <div class="stat"><span class="lbl">Total Trades</span><span>${trades.length}</span></div>
+      <div class="stat"><span class="lbl">Buys / Sells</span><span>${buys.length} / ${sells.length}</span></div>
+      <div class="stat"><span class="lbl">Wins / Losses</span><span class="pnl-pos">${wins.length}</span> / <span class="pnl-neg">${losses.length}</span></div>
+      <div class="stat"><span class="lbl">Win Rate</span><span>${winRate}%</span></div>
+      <div class="stat"><span class="lbl">Realized P&L</span><span class="${totalPnl >= 0 ? 'pnl-pos' : 'pnl-neg'}">$${totalPnl.toFixed(2)}</span></div>
+      <div class="stat"><span class="lbl">Cash</span><span>$${(D[who]?.cash || 0).toFixed(2)}</span></div>
+    `;
+  }
+
+  // Render table
+  function render(filter) {
+    let rows = all;
+    if (filter === 'micha') rows = all.filter(t => t.trader === 'micha');
+    if (filter === 'yoni') rows = all.filter(t => t.trader === 'yoni');
+    if (filter === 'buy') rows = all.filter(t => t.action === 'buy');
+    if (filter === 'sell') rows = all.filter(t => t.action === 'sell');
+
+    $('tbody').innerHTML = rows.map(t => {
+      const date = (t.date || '').replace(/T/, ' ').slice(0, 16);
+      const pnlCls = t.action === 'sell' ? (t.pnl > 0 ? 'pnl-pos' : t.pnl < 0 ? 'pnl-neg' : 'pnl-zero') : 'pnl-zero';
+      const pnlStr = t.action === 'sell' ? '$' + (t.pnl || 0).toFixed(2) : '—';
+      return `<tr>
+        <td>${date}</td>
+        <td class="${t.trader}">${t.trader === 'micha' ? 'Micha' : 'Yoni'}</td>
+        <td class="${t.action}">${t.action.toUpperCase()}</td>
+        <td><strong>${t.ticker}</strong></td>
+        <td>${(t.units || 0).toFixed(4)}</td>
+        <td>$${(t.price || 0).toFixed(2)}</td>
+        <td>$${(t.amount || 0).toFixed(2)}</td>
+        <td class="${pnlCls}">${pnlStr}</td>
+        <td class="reason">${t.reason || ''}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  render('all');
+
+  // Filters
+  document.querySelectorAll('.filters button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filters button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      render(btn.dataset.filter);
+    });
+  });
+}
+
+load();
+</script>
+</body>
+</html>
