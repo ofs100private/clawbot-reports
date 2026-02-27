@@ -144,9 +144,10 @@ canvas { width: 100%; height: 100%; }
   <canvas class="full-chart" id="fullChart"></canvas>
   <div class="zoom-controls">
     <button class="zoom-btn" onclick="setZoom('all')">All</button>
-    <button class="zoom-btn" onclick="setZoom('5d')">5 Days</button>
-    <button class="zoom-btn" onclick="setZoom('3d')">3 Days</button>
-    <button class="zoom-btn" onclick="setZoom('1d')">1 Day</button>
+    <button class="zoom-btn" onclick="setZoom('7d')">7D</button>
+    <button class="zoom-btn" onclick="setZoom('5d')">5D</button>
+    <button class="zoom-btn" onclick="setZoom('3d')">3D</button>
+    <button class="zoom-btn" onclick="setZoom('1d')">1D</button>
   </div>
 </div>
 
@@ -344,7 +345,7 @@ function drawChart(canvasId, isFullscreen) {
 
   // Apply zoom filter
   if (chartZoom !== 'all') {
-    const days = chartZoom === '1d' ? 1 : chartZoom === '3d' ? 3 : 5;
+    const days = chartZoom === '1d' ? 1 : chartZoom === '3d' ? 3 : chartZoom === '5d' ? 5 : 7;
     mH = mH.slice(-days); yH = yH.slice(-days);
   }
 
@@ -431,28 +432,56 @@ function drawChart(canvasId, isFullscreen) {
   drawLine(yPts, '#bc8cff');
   drawLine(mPts, '#3fb950');
 
-  // Trade markers
+  // Trade markers — filter by zoom range
   const startD = new Date(D.competition.start), endD = new Date(D.competition.end), totMs = endD-startD;
+  let zoomStartD = startD;
+  if (chartZoom !== 'all') {
+    const zDays = chartZoom==='1d'?1:chartZoom==='3d'?3:chartZoom==='5d'?5:7;
+    zoomStartD = new Date(endD.getTime() - zDays*864e5);
+  }
+
   function markers(agent, color, yOff) {
-    (D[agent].trades||[]).forEach(t => {
-      const prog = (new Date(t.date)-startD)/totMs;
+    const trades = (D[agent].trades||[]).filter(t => {
+      const td = new Date(t.date);
+      return td >= zoomStartD && td <= endD;
+    });
+    trades.forEach(t => {
+      const td = new Date(t.date);
+      // Map trade time to chart X within zoom window
+      const zoomMs = endD - zoomStartD;
+      const prog = (td - zoomStartD) / zoomMs;
       if (prog < 0 || prog > 1) return;
-      const x = pad.left+cw*Math.max(0,Math.min(1,prog));
-      const isBuy = t.action==='buy';
-      const my = isBuy ? pad.top+6+yOff : pad.top+ch-6-yOff;
-      const sz = isFullscreen ? 7 : 5;
+      const x = pad.left + cw * Math.max(0, Math.min(1, prog));
+      const isBuy = t.action === 'buy';
+      const my = isBuy ? pad.top + 8 + yOff : pad.top + ch - 8 - yOff;
+      const sz = isFullscreen ? 8 : 5;
+
+      // Vertical line from marker to chart
+      ctx.strokeStyle = (isBuy ? '#3fb950' : '#f85149') + '25';
+      ctx.lineWidth = 1; ctx.setLineDash([2,3]);
+      ctx.beginPath(); ctx.moveTo(x, pad.top); ctx.lineTo(x, pad.top+ch); ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Triangle
       ctx.fillStyle = isBuy ? '#3fb950' : '#f85149';
       ctx.beginPath();
-      if (isBuy) { ctx.moveTo(x,my); ctx.lineTo(x-sz,my+sz*1.5); ctx.lineTo(x+sz,my+sz*1.5); }
-      else { ctx.moveTo(x,my); ctx.lineTo(x-sz,my-sz*1.5); ctx.lineTo(x+sz,my-sz*1.5); }
+      if (isBuy) { ctx.moveTo(x,my); ctx.lineTo(x-sz,my+sz*1.6); ctx.lineTo(x+sz,my+sz*1.6); }
+      else { ctx.moveTo(x,my); ctx.lineTo(x-sz,my-sz*1.6); ctx.lineTo(x+sz,my-sz*1.6); }
       ctx.closePath(); ctx.fill();
+
+      // Labels
       if (isFullscreen) {
-        ctx.fillStyle = color; ctx.font = 'bold 8px system-ui'; ctx.textAlign = 'center';
-        ctx.fillText(t.ticker, x, isBuy ? my+sz*1.5+10 : my-sz*1.5-4);
+        ctx.fillStyle = color; ctx.font = 'bold 9px system-ui'; ctx.textAlign = 'center';
+        const label = t.ticker + (t.action==='sell' && t.pnl ? ' ' + (t.pnl>0?'+':'') + '$' + t.pnl.toFixed(0) : '');
+        ctx.fillText(label, x, isBuy ? my+sz*1.6+12 : my-sz*1.6-5);
+      } else if (trades.length <= 20) {
+        // Show ticker on small chart too if not too crowded
+        ctx.fillStyle = color+'90'; ctx.font = 'bold 7px system-ui'; ctx.textAlign = 'center';
+        ctx.fillText(t.ticker, x, isBuy ? my+sz*1.6+9 : my-sz*1.6-3);
       }
     });
   }
-  markers('micha','#3fb950',0); markers('yoni','#bc8cff',isFullscreen?18:12);
+  markers('micha','#3fb950',0); markers('yoni','#bc8cff',isFullscreen?20:12);
 
   // Legend
   ctx.textAlign = 'left';
@@ -479,7 +508,8 @@ function closeChart() {
 }
 function setZoom(z) {
   chartZoom = z;
-  document.querySelectorAll('.zoom-btn').forEach(b => b.classList.toggle('active', b.textContent.toLowerCase().replace(' ','') === z));
+  const map = {'all':'All','7d':'7D','5d':'5D','3d':'3D','1d':'1D'};
+  document.querySelectorAll('.zoom-btn').forEach(b => b.classList.toggle('active', b.textContent === map[z]));
   drawChart('fullChart', true);
 }
 // Close on Escape
