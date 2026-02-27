@@ -6965,27 +6965,34 @@
   "yoni": {
     "name": "Yoni Fan",
     "strategy": "QuantClaw Signals \u2022 Smart Money Flow \u2022 GEX Regime \u2022 Fama-French Alpha \u2022 Factor Screening",
-    "cash": 400.0,
+    "cash": 194.88,
     "holdings": [
-      {
-        "sym": "NVDA",
-        "units": 1.1028,
-        "avgPrice": 181.34,
-        "currentPrice": 181.34,
-        "pnl": 0
-      },
       {
         "sym": "META",
         "units": 0.3091,
         "avgPrice": 647,
-        "currentPrice": 647,
+        "currentPrice": 648.18,
+        "pnl": 0.36
+      },
+      {
+        "sym": "SOFI",
+        "units": 11.2613,
+        "avgPrice": 17.76,
+        "currentPrice": 17.76,
         "pnl": 0
       },
       {
-        "sym": "MSFT",
-        "units": 0.5079,
-        "avgPrice": 393.76,
-        "currentPrice": 393.76,
+        "sym": "AAPL",
+        "units": 0.7574,
+        "avgPrice": 264.18,
+        "currentPrice": 264.18,
+        "pnl": 0
+      },
+      {
+        "sym": "AVGO",
+        "units": 0.6258,
+        "avgPrice": 319.55,
+        "currentPrice": 319.55,
         "pnl": 0
       }
     ],
@@ -7019,15 +7026,69 @@
         "amount": 200,
         "reason": "SM 100|accumulating GEX negative|-0.18",
         "pnl": 0
+      },
+      {
+        "date": "2026-02-28T01:16:00+02:00",
+        "action": "sell",
+        "ticker": "MSFT",
+        "units": 0.5079,
+        "price": 392.74,
+        "amount": 199.5,
+        "reason": "SM:0|distributing GEX:positive|0.58",
+        "pnl": -0.52
+      },
+      {
+        "date": "2026-02-28T01:16:00+02:00",
+        "action": "sell",
+        "ticker": "NVDA",
+        "units": 1.1028,
+        "price": 177.19,
+        "amount": 195.4,
+        "reason": "SM:49.56|neutral GEX:positive|3.94",
+        "pnl": -4.58
+      },
+      {
+        "date": "2026-02-28T01:16:00+02:00",
+        "action": "buy",
+        "ticker": "SOFI",
+        "units": 11.2613,
+        "price": 17.76,
+        "amount": 200,
+        "reason": "SM:100|accumulating GEX:positive|0.24",
+        "pnl": 0
+      },
+      {
+        "date": "2026-02-28T01:16:00+02:00",
+        "action": "buy",
+        "ticker": "AAPL",
+        "units": 0.7574,
+        "price": 264.18,
+        "amount": 200,
+        "reason": "SM:100|accumulating GEX:negative|-0.03",
+        "pnl": 0
+      },
+      {
+        "date": "2026-02-28T01:16:00+02:00",
+        "action": "buy",
+        "ticker": "AVGO",
+        "units": 0.6258,
+        "price": 319.55,
+        "amount": 200,
+        "reason": "SM:70.26|accumulating GEX:negative|-0.02",
+        "pnl": 0
       }
     ],
     "pnlHistory": [
       {
         "date": "2026-02-27",
         "pnl": 0
+      },
+      {
+        "date": "2026-02-28",
+        "pnl": -4.73
       }
     ],
-    "totalPnl": 0
+    "totalPnl": -4.73
   },
   "audit": [
     {
@@ -11039,24 +11100,49 @@
       "time": "2026-02-27T17:16:00+02:00",
       "agent": "yoni",
       "msg": "BUY 0.5079 MSFT @ 393.76 ($200). SM 100 accumulating, GEX negative -0.18 but high SM score."
-    }
+    },
+  {
+    "time": "2026-02-28T01:16:00+02:00",
+    "agent": "yoni",
+    "msg": "SELL 0.5079 MSFT @ 392.74 ($199.5) P&L: -0.52. SM 0|distributing GEX positive|0.58."
+  },
+  {
+    "time": "2026-02-28T01:16:00+02:00",
+    "agent": "yoni",
+    "msg": "SELL 1.1028 NVDA @ 177.19 ($195.4) P&L: -4.58. SM 49.56|neutral GEX positive|3.94."
+  },
+  {
+    "time": "2026-02-28T01:16:00+02:00",
+    "agent": "yoni",
+    "msg": "BUY 11.2613 SOFI @ 17.76 ($200). SM 100|accumulating GEX positive|0.24."
+  },
+  {
+    "time": "2026-02-28T01:16:00+02:00",
+    "agent": "yoni",
+    "msg": "BUY 0.7574 AAPL @ 264.18 ($200). SM 100|accumulating GEX negative|-0.03."
+  },
+  {
+    "time": "2026-02-28T01:16:00+02:00",
+    "agent": "yoni",
+    "msg": "BUY 0.6258 AVGO @ 319.55 ($200). SM 70.26|accumulating GEX negative|-0.02."
+  }
   ],
-  "lastUpdate": "2026-02-27T17:16:00+02:00",
+  "lastUpdate": "2026-02-28T01:16:00+02:00",
   "prices": {
-    "NVDA": 181.34,
-    "AAPL": 268.92,
-    "MSFT": 393.76,
-    "GOOGL": 308.42,
-    "AMD": 200.27,
-    "AVGO": 318.51,
-    "TSM": 375.35,
-    "META": 647,
-    "AMZN": 207.94,
-    "PLTR": 136.59,
-    "SOFI": 17.88,
-    "COIN": 175.78,
-    "MARA": 9.58,
-    "RIOT": 16.75,
+    "NVDA": 177.19,
+    "AAPL": 264.18,
+    "MSFT": 392.74,
+    "GOOGL": 311.76,
+    "AMD": 200.21,
+    "AVGO": 319.55,
+    "TSM": 374.58,
+    "META": 648.18,
+    "AMZN": 210,
+    "PLTR": 137.19,
+    "SOFI": 17.76,
+    "COIN": 175.85,
+    "MARA": 8.94,
+    "RIOT": 16.29,
     "SPY": 684.39,
     "RKLB": 67.97,
     "CRM": 191.64,
