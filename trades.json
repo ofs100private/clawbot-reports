@@ -68,15 +68,95 @@
       "type": "VIRTUAL",
       "color": "#a855f7",
       "icon": "🔮",
-      "cash": 1000.00,
-      "holdings": {},
-      "equity": 0.00,
+      "cash": 0.00,
+      "holdings": [
+        {
+          "sym": "AMD",
+          "units": 1.997,
+          "avgPrice": 200.21,
+          "currentPrice": 200.21,
+          "pnl": 0
+        },
+        {
+          "sym": "TSM",
+          "units": 1.067,
+          "avgPrice": 374.58,
+          "currentPrice": 374.58,
+          "pnl": 0
+        },
+        {
+          "sym": "PLTR",
+          "units": 1.458,
+          "avgPrice": 137.19,
+          "currentPrice": 137.19,
+          "pnl": 0
+        }
+      ],
+      "equity": 1000.00,
       "total_value": 1000.00,
-      "trades": [],
+      "trades": [
+        {
+          "date": "2026-02-28",
+          "action": "buy",
+          "ticker": "AMD",
+          "units": 1.997,
+          "price": 200.21,
+          "amount": 400,
+          "reason": "SM 100 accumulating, GEX positive 0.41 support",
+          "pnl": 0
+        },
+        {
+          "date": "2026-02-28",
+          "action": "buy",
+          "ticker": "TSM",
+          "units": 1.067,
+          "price": 374.58,
+          "amount": 400,
+          "reason": "SM 100 accumulating, GEX positive 0.07 support",
+          "pnl": 0
+        },
+        {
+          "date": "2026-02-28",
+          "action": "buy",
+          "ticker": "PLTR",
+          "units": 1.458,
+          "price": 137.19,
+          "amount": 200,
+          "reason": "SM 65.57 accumulating, GEX negative -0.14 but SM strong >60",
+          "pnl": 0
+        }
+      ],
       "strategy": "Pure QuantClaw methodology",
       "focus": "SM scores, GEX, factor alpha",
       "trades_per_cycle": "2-5",
-      "leverage": "1-5x"
+      "leverage": "1-5x",
+      "totalPnl": 0,
+      "pnlHistory": [
+        {
+          "date": "2026-02-28",
+          "pnl": 0
+        }
+      ],
+      "audit": [
+        "2026-02-28T21:16:00+02:00: Initial buys based on QuantClaw signals"
+      ],
+      "prices": {
+        "NVDA": 177.19,
+        "AAPL": 264.18,
+        "MSFT": 392.74,
+        "GOOGL": 311.76,
+        "AMD": 200.21,
+        "AVGO": 319.55,
+        "TSM": 374.58,
+        "META": 648.18,
+        "AMZN": 210,
+        "PLTR": 137.19,
+        "SOFI": 17.76,
+        "COIN": 175.85,
+        "MARA": 8.94,
+        "RIOT": 16.29
+      },
+      "lastUpdate": "2026-02-28T21:16:00+02:00"
     }
   },
   "settings": {
