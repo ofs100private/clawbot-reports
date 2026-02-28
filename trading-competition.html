@@ -34,7 +34,7 @@ body { background: #0a0e17; color: #e0e6ed; font-family: -apple-system, 'Segoe U
 @keyframes blink { 0%,100% { opacity: 0.2; } 50% { opacity: 1; } }
 
 /* Main grid */
-.main { display: grid; grid-template-columns: 1fr 1fr; min-height: calc(100vh - 100px); }
+.main { display: grid; grid-template-columns: 1fr 1fr 1fr; min-height: calc(100vh - 100px); }
 
 /* Trader panels */
 .panel { padding: 14px; }
@@ -43,9 +43,11 @@ body { background: #0a0e17; color: #e0e6ed; font-family: -apple-system, 'Segoe U
 .trader-header:hover { transform: scale(1.01); }
 .micha .trader-header { background: linear-gradient(135deg, #1a3a2a, #0d2818); border: 1px solid #238636; }
 .yoni .trader-header { background: linear-gradient(135deg, #2a1a3a, #180d28); border: 1px solid #8957e5; }
+.ofsinvest .trader-header { background: linear-gradient(135deg, #3a2a1a, #28180d); border: 1px solid #f0b90b; }
 .trader-header h2 { font-size: clamp(1.1em, 3vw, 1.3em); }
 .micha h2 { color: #3fb950; }
 .yoni h2 { color: #bc8cff; }
+.ofsinvest h2 { color: #f0b90b; }
 .trader-header .strategy { font-size: 0.72em; color: #8b949e; margin-top: 4px; line-height: 1.4; }
 .trader-header .pnl { font-size: clamp(1.4em, 5vw, 2em); font-weight: bold; margin-top: 8px; transition: all 0.5s; }
 .trader-header .cash-line { font-size: 0.82em; color: #f0b90b; margin-top: 4px; }
@@ -140,7 +142,7 @@ canvas { width: 100%; height: 100%; }
 .audit-row .who.system { color: #f0b90b; }
 .empty { text-align: center; color: #484f58; padding: 16px; font-size: 0.82em; }
 
-@media (max-width: 680px) {
+@media (max-width: 980px) {
   .main { grid-template-columns: 1fr; }
   .panel.left { border-right: none; border-bottom: 1px solid #21262d; }
   .chart-box { height: 160px; }
@@ -167,7 +169,7 @@ canvas { width: 100%; height: 100%; }
 <script>if(sessionStorage.getItem('accepted')==='1')document.getElementById('disclaimer').style.display='none';</script>
 
 <div class="header">
-  <div style="display:flex;align-items:center;gap:10px;"><img src="genie.jpg" alt="Genie" style="width:40px;height:40px;border-radius:50%;border:2px solid #f0b90b;"><h1>🏆 Micha Fan vs Yoni Fan</h1></div>
+  <div style="display:flex;align-items:center;gap:10px;"><img src="genie.jpg" alt="Genie" style="width:40px;height:40px;border-radius:50%;border:2px solid #f0b90b;"><h1>🏆 Trading Competition</h1></div>
   <div class="header-right">
     <div class="timer">⏱ <span id="timer">—</span> | $1,000 each</div>
     <div class="update">Updated: <span id="updated">Loading...</span></div>
@@ -181,7 +183,7 @@ canvas { width: 100%; height: 100%; }
 <!-- Fullscreen chart modal -->
 <div class="chart-modal" id="chartModal">
   <button class="close-btn" onclick="closeChart()">✕</button>
-  <h3>📈 P&L — <span style="color:#3fb950">Micha Fan</span> vs <span style="color:#bc8cff">Yoni Fan</span></h3>
+  <h3>📈 P&L — <span style="color:#3fb950">Micha</span> vs <span style="color:#bc8cff">Yoni</span> vs <span style="color:#f0b90b">OfsInvest</span></h3>
   <canvas class="full-chart" id="fullChart"></canvas>
   <div class="zoom-controls">
     <button class="zoom-btn" onclick="setZoom('all')">All</button>
@@ -215,12 +217,24 @@ canvas { width: 100%; height: 100%; }
     <div id="y-hold"><div class="empty">No positions yet</div></div>
   </div>
 
+  <div class="panel ofsinvest">
+    <div class="trader-header">
+      <h2>🧠 OfsInvest</h2>
+      <div class="strategy">Master Trader v3.0 • Micha+Yoni Fusion • Strict Discipline</div>
+      <div class="pnl zero" id="o-pnl">$1,000.00</div>
+      <div class="cash-line">💵 <span id="o-cash">$1,000.00 cash</span></div>
+    </div>
+    <div class="section-title">📦 Holdings</div>
+    <div id="o-hold"><div class="empty">No positions yet</div></div>
+  </div>
+
   <div class="chart-area">
     <div class="chart-header">
       <span class="chart-title">Total Account Value</span>
       <div class="chart-legend">
         <span><span class="dot" style="background:#3fb950"></span> Micha Fan</span>
         <span><span class="dot" style="background:#bc8cff"></span> Yoni Fan</span>
+        <span><span class="dot" style="background:#f0b90b"></span> OfsInvest</span>
         <span><span class="dot" style="background:#484f58;border:1px dashed #8b949e"></span> $1,000 Start</span>
       </div>
     </div>
@@ -228,11 +242,10 @@ canvas { width: 100%; height: 100%; }
   </div>
 
   <div class="score-bar">
-    <div class="score-item"><div class="lbl">Micha Trades</div><div class="val" style="color:#3fb950" id="s-mt">0</div></div>
-    <div class="score-item"><div class="lbl">Micha Win%</div><div class="val" style="color:#3fb950" id="s-mw">—</div></div>
+    <div class="score-item"><div class="lbl">🟢 Micha</div><div class="val" style="color:#3fb950" id="s-m">$1,000</div></div>
+    <div class="score-item"><div class="lbl">🟣 Yoni</div><div class="val" style="color:#bc8cff" id="s-y">$1,000</div></div>
+    <div class="score-item"><div class="lbl">🟡 OfsInvest</div><div class="val" style="color:#f0b90b" id="s-o">$1,000</div></div>
     <div class="score-item"><div class="lbl">🏆 Leader</div><div class="val" style="color:#f0b90b" id="s-lead">Even</div></div>
-    <div class="score-item"><div class="lbl">Yoni Win%</div><div class="val" style="color:#bc8cff" id="s-yw">—</div></div>
-    <div class="score-item"><div class="lbl">Yoni Trades</div><div class="val" style="color:#bc8cff" id="s-yt">0</div></div>
   </div>
 
   <div class="audit" style="text-align:center;padding:14px;">
@@ -313,20 +326,19 @@ function render() {
   // Agents
   renderAgent('m', D.micha);
   renderAgent('y', D.yoni);
+  renderAgent('o', D.ofsinvest || {cash:1000, holdings:[], trades:[], totalPnl:0});
 
   // Scoreboard
-  const mt = D.micha.trades||[], yt = D.yoni.trades||[];
-  $('s-mt').textContent = mt.length;
-  $('s-yt').textContent = yt.length;
-  const mw = mt.filter(t=>(t.pnl||0)>0).length, ms = mt.filter(t=>t.action==='sell').length;
-  const yw = yt.filter(t=>(t.pnl||0)>0).length, ys = yt.filter(t=>t.action==='sell').length;
-  $('s-mw').textContent = ms ? Math.round(mw/ms*100)+'%' : '—';
-  $('s-yw').textContent = ys ? Math.round(yw/ys*100)+'%' : '—';
-  const mp = D.micha.totalPnl||0, yp = D.yoni.totalPnl||0;
+  const mv = computeAccountValue('micha'), yv = computeAccountValue('yoni'), ov = computeAccountValue('ofsinvest');
+  $('s-m').textContent = '$' + Math.round(mv);
+  $('s-y').textContent = '$' + Math.round(yv);
+  $('s-o').textContent = '$' + Math.round(ov);
   const ld = $('s-lead');
-  if (mp > yp) { ld.textContent = '📊 Micha'; ld.style.color = '#3fb950'; }
-  else if (yp > mp) { ld.textContent = '🔬 Yoni'; ld.style.color = '#bc8cff'; }
-  else { ld.textContent = 'Even'; ld.style.color = '#f0b90b'; }
+  const maxVal = Math.max(mv, yv, ov);
+  if (mv === maxVal && yv !== maxVal && ov !== maxVal) { ld.textContent = '📊 Micha'; ld.style.color = '#3fb950'; }
+  else if (yv === maxVal && mv !== maxVal && ov !== maxVal) { ld.textContent = '🔬 Yoni'; ld.style.color = '#bc8cff'; }
+  else if (ov === maxVal && mv !== maxVal && yv !== maxVal) { ld.textContent = '🧠 OfsInvest'; ld.style.color = '#f0b90b'; }
+  else { ld.textContent = 'Tied'; ld.style.color = '#f0b90b'; }
 
   // Audit removed — see trades.html
 
@@ -344,7 +356,7 @@ function renderAgent(p, d) {
   pe.className = 'pnl ' + (pnl > 0.01 ? 'pos' : pnl < -0.01 ? 'neg' : 'zero');
   $(p+'-cash').textContent = '$' + (d.cash||0).toFixed(0) + ' cash · $' + Math.round(holdingsVal) + ' invested';
 
-  const agent = p === 'm' ? 'micha' : 'yoni';
+  const agent = p === 'm' ? 'micha' : p === 'y' ? 'yoni' : 'ofsinvest';
   const hEl = $(p+'-hold');
   if (d.holdings && d.holdings.length > 0) {
     hEl.innerHTML = d.holdings.map((h,i) => {
@@ -428,6 +440,7 @@ function closeAsset() {
 // ===== CHART ENGINE (Alpha Arena style) =====
 function computeAccountValue(agent) {
   const d = D[agent];
+  if (!d) return 1000;
   const holdingsVal = (d.holdings||[]).reduce((s,h) => s + (h.units||0) * (h.currentPrice||h.avgPrice||0), 0);
   return Math.round(((d.cash||0) + holdingsVal) * 100) / 100;
 }
@@ -446,20 +459,22 @@ function drawChart(canvasId, isFullscreen) {
   const START = D.competition.startCapital || 1000;
   let mH = (D.micha.pnlHistory||[]).map(p=>({date:p.date, val: START + (p.pnl||0)}));
   let yH = (D.yoni.pnlHistory||[]).map(p=>({date:p.date, val: START + (p.pnl||0)}));
+  let oH = (D.ofsinvest && D.ofsinvest.pnlHistory ? D.ofsinvest.pnlHistory : []).map(p=>({date:p.date, val: START + (p.pnl||0)}));
 
   if (chartZoom !== 'all') {
     const days = chartZoom === '1d' ? 1 : chartZoom === '3d' ? 3 : chartZoom === '5d' ? 5 : 7;
-    mH = mH.slice(-days); yH = yH.slice(-days);
+    mH = mH.slice(-days); yH = yH.slice(-days); oH = oH.slice(-days);
   }
 
   // Live value at end
-  const mLive = computeAccountValue('micha'), yLive = computeAccountValue('yoni');
+  const mLive = computeAccountValue('micha'), yLive = computeAccountValue('yoni'), oLive = computeAccountValue('ofsinvest');
   if (mH.length > 0) mH[mH.length-1].val = mLive;
   if (yH.length > 0) yH[yH.length-1].val = yLive;
+  if (oH.length > 0) oH[oH.length-1].val = oLive;
 
-  const mPts = mH.map(p=>p.val), yPts = yH.map(p=>p.val);
-  const allDates = [...new Set([...mH.map(p=>p.date),...yH.map(p=>p.date)])].sort();
-  const all = [...mPts,...yPts, START];
+  const mPts = mH.map(p=>p.val), yPts = yH.map(p=>p.val), oPts = oH.map(p=>p.val);
+  const allDates = [...new Set([...mH.map(p=>p.date),...yH.map(p=>p.date),...oH.map(p=>p.date)])].sort();
+  const all = [...mPts,...yPts,...oPts, START];
   let lo = Math.min(...all), hi = Math.max(...all);
   const range = (hi-lo) || 50; lo -= range*0.12; hi += range*0.12;
 
@@ -540,19 +555,25 @@ function drawChart(canvasId, isFullscreen) {
     ctx.fillText(valStr, bx+6, by+fs+2);
   }
 
-  // Draw Yoni first, Micha on top
+  // Draw Yoni first, then Micha, then OfsInvest on top
   drawLine(yPts, '#bc8cff', 'Yoni Fan', '🔬');
   drawLine(mPts, '#3fb950', 'Micha Fan', '📊');
+  if (oPts.length > 0) drawLine(oPts, '#f0b90b', 'OfsInvest', '🧠');
 
   // Highest label
-  const mMax = Math.max(...mPts), yMax = Math.max(...yPts);
-  const highest = mMax >= yMax ? 'Micha' : 'Yoni';
-  const highColor = mMax >= yMax ? '#3fb950' : '#bc8cff';
+  const mMax = mPts.length ? Math.max(...mPts) : 0;
+  const yMax = yPts.length ? Math.max(...yPts) : 0;
+  const oMax = oPts.length ? Math.max(...oPts) : 0;
+  const maxAll = Math.max(mMax, yMax, oMax);
+  let highest = 'Even', highColor = '#f0b90b';
+  if (mMax === maxAll && yMax !== maxAll && oMax !== maxAll) { highest = 'Micha'; highColor = '#3fb950'; }
+  else if (yMax === maxAll && mMax !== maxAll && oMax !== maxAll) { highest = 'Yoni'; highColor = '#bc8cff'; }
+  else if (oMax === maxAll && mMax !== maxAll && yMax !== maxAll) { highest = 'OfsInvest'; highColor = '#f0b90b'; }
   if (isFullscreen) {
     ctx.fillStyle = '#6e7681'; ctx.font = '11px system-ui'; ctx.textAlign = 'right';
     ctx.fillText('HIGHEST: ', w-pad.right-60, 14);
     ctx.fillStyle = highColor; ctx.font = 'bold 12px system-ui';
-    ctx.fillText(highest + ' $' + Math.max(mMax,yMax).toFixed(2), w-pad.right, 14);
+    ctx.fillText(highest + ' $' + maxAll.toFixed(2), w-pad.right, 14);
   }
 }
 
