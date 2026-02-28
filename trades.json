@@ -127,10 +127,10 @@
           "pnl": 0
         },
         {
-          "sym": "PLTR",
-          "units": 1.458,
-          "avgPrice": 137.19,
-          "currentPrice": 137.19,
+          "sym": "COIN",
+          "units": 1.137,
+          "avgPrice": 175.85,
+          "currentPrice": 175.85,
           "pnl": 0
         }
       ],
@@ -166,6 +166,26 @@
           "amount": 200,
           "reason": "SM 65.57 accumulating, GEX negative -0.14 but SM strong >60",
           "pnl": 0
+        },
+        {
+          "date": "2026-03-01",
+          "action": "sell",
+          "ticker": "PLTR",
+          "units": 1.458,
+          "price": 137.19,
+          "amount": 200,
+          "reason": "GEX negative -0.14 indicating potential volatility, SM 70.25|accumulating but rotating to higher conviction",
+          "pnl": 0
+        },
+        {
+          "date": "2026-03-01",
+          "action": "buy",
+          "ticker": "COIN",
+          "units": 1.137,
+          "price": 175.85,
+          "amount": 200,
+          "reason": "SM 100|accumulating with highest score, GEX negative -0.07 minimal volatility",
+          "pnl": 0
         }
       ],
       "strategy": "Pure QuantClaw methodology",
@@ -177,10 +197,15 @@
         {
           "date": "2026-02-28",
           "pnl": 0
+        },
+        {
+          "date": "2026-03-01",
+          "pnl": 0
         }
       ],
       "audit": [
-        "2026-02-28T21:16:00+02:00: Initial buys based on QuantClaw signals"
+        "2026-02-28T21:16:00+02:00: Initial buys based on QuantClaw signals",
+        "2026-03-01T01:16:00+02:00: Rotated PLTR to COIN for stronger SM 100 vs 70.25 and less negative GEX"
       ],
       "prices": {
         "NVDA": 177.19,
@@ -198,7 +223,7 @@
         "MARA": 8.94,
         "RIOT": 16.29
       },
-      "lastUpdate": "2026-02-28T21:16:00+02:00"
+      "lastUpdate": "2026-03-01T01:16:00+02:00"
     }
   },
   "settings": {
