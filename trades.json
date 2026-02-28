@@ -6886,22 +6886,8 @@
   "yoni": {
     "name": "Yoni Fan",
     "strategy": "QuantClaw Signals \u2022 Smart Money Flow \u2022 GEX Regime \u2022 Fama-French Alpha \u2022 Factor Screening",
-    "cash": 194.88,
+    "cash": 195.24,
     "holdings": [
-      {
-        "sym": "META",
-        "units": 0.3091,
-        "avgPrice": 647,
-        "currentPrice": 648.18,
-        "pnl": 0.36
-      },
-      {
-        "sym": "SOFI",
-        "units": 11.2613,
-        "avgPrice": 17.76,
-        "currentPrice": 17.76,
-        "pnl": 0
-      },
       {
         "sym": "AAPL",
         "units": 0.7574,
@@ -6910,10 +6896,24 @@
         "pnl": 0
       },
       {
-        "sym": "AVGO",
-        "units": 0.6258,
-        "avgPrice": 319.55,
-        "currentPrice": 319.55,
+        "sym": "MSFT",
+        "units": 0.5092,
+        "avgPrice": 392.74,
+        "currentPrice": 392.74,
+        "pnl": 0
+      },
+      {
+        "sym": "TSM",
+        "units": 0.5341,
+        "avgPrice": 374.58,
+        "currentPrice": 374.58,
+        "pnl": 0
+      },
+      {
+        "sym": "GOOGL",
+        "units": 0.6414,
+        "avgPrice": 311.76,
+        "currentPrice": 311.76,
         "pnl": 0
       }
     ],
@@ -6997,6 +6997,66 @@
         "amount": 200,
         "reason": "SM:70.26|accumulating GEX:negative|-0.02",
         "pnl": 0
+      },
+      {
+        "date": "2026-02-28",
+        "action": "sell",
+        "ticker": "META",
+        "units": 0.3091,
+        "price": 648.18,
+        "amount": 200.36,
+        "reason": "SM:36.88|distributing GEX:negative|-0.08, SM less than 40 indicating distribution",
+        "pnl": 0.36
+      },
+      {
+        "date": "2026-02-28",
+        "action": "sell",
+        "ticker": "SOFI",
+        "units": 11.2613,
+        "price": 17.76,
+        "amount": 200,
+        "reason": "SM:0|distributing GEX:positive|0.15, SM less than 40 indicating distribution",
+        "pnl": 0
+      },
+      {
+        "date": "2026-02-28",
+        "action": "sell",
+        "ticker": "AVGO",
+        "units": 0.6258,
+        "price": 319.55,
+        "amount": 200,
+        "reason": "SM:0|distributing GEX:negative|-0.22, SM less than 40 indicating distribution",
+        "pnl": 0
+      },
+      {
+        "date": "2026-02-28",
+        "action": "buy",
+        "ticker": "MSFT",
+        "units": 0.5092,
+        "price": 392.74,
+        "amount": 200,
+        "reason": "SM:100|accumulating GEX:positive|0.28, SM greater than 60 indicating accumulation, positive GEX for support",
+        "pnl": 0
+      },
+      {
+        "date": "2026-02-28",
+        "action": "buy",
+        "ticker": "TSM",
+        "units": 0.5341,
+        "price": 374.58,
+        "amount": 200,
+        "reason": "SM:100|accumulating GEX:positive|0.07, SM greater than 60 indicating accumulation, positive GEX for support",
+        "pnl": 0
+      },
+      {
+        "date": "2026-02-28",
+        "action": "buy",
+        "ticker": "GOOGL",
+        "units": 0.6414,
+        "price": 311.76,
+        "amount": 200,
+        "reason": "SM:100|accumulating GEX:negative|-0.26, SM greater than 60 indicating accumulation",
+        "pnl": 0
       }
     ],
     "pnlHistory": [
@@ -7006,10 +7066,10 @@
       },
       {
         "date": "2026-02-28",
-        "pnl": -4.73
+        "pnl": -4.37
       }
     ],
-    "totalPnl": -4.73
+    "totalPnl": -4.37
   },
   "audit": [
     {
@@ -11046,9 +11106,39 @@
       "time": "2026-02-28T01:16:00+02:00",
       "agent": "yoni",
       "msg": "BUY 0.6258 AVGO @ 319.55 ($200). SM 70.26|accumulating GEX negative|-0.02."
+    },
+    {
+      "time": "2026-02-28T05:16:00+02:00",
+      "agent": "yoni",
+      "msg": "SELL 0.3091 META @ 648.18 \u2192 P&L: 0.36. SM:36.88|distributing GEX:negative|-0.08"
+    },
+    {
+      "time": "2026-02-28T05:16:00+02:00",
+      "agent": "yoni",
+      "msg": "SELL 11.2613 SOFI @ 17.76 \u2192 P&L: 0. SM:0|distributing GEX:positive|0.15"
+    },
+    {
+      "time": "2026-02-28T05:16:00+02:00",
+      "agent": "yoni",
+      "msg": "SELL 0.6258 AVGO @ 319.55 \u2192 P&L: 0. SM:0|distributing GEX:negative|-0.22"
+    },
+    {
+      "time": "2026-02-28T05:16:00+02:00",
+      "agent": "yoni",
+      "msg": "BUY 0.5092 MSFT @ 392.74 1x ($200). SM:100|accumulating GEX:positive|0.28"
+    },
+    {
+      "time": "2026-02-28T05:16:00+02:00",
+      "agent": "yoni",
+      "msg": "BUY 0.5341 TSM @ 374.58 1x ($200). SM:100|accumulating GEX:positive|0.07"
+    },
+    {
+      "time": "2026-02-28T05:16:00+02:00",
+      "agent": "yoni",
+      "msg": "BUY 0.6414 GOOGL @ 311.76 1x ($200). SM:100|accumulating GEX:negative|-0.26"
     }
   ],
-  "lastUpdate": "2026-02-28T01:16:00+02:00",
+  "lastUpdate": "2026-02-28T05:16:00+02:00",
   "prices": {
     "NVDA": 177.19,
     "AAPL": 264.18,
@@ -11063,11 +11153,7 @@
     "SOFI": 17.76,
     "COIN": 175.85,
     "MARA": 8.94,
-    "RIOT": 16.29,
-    "SPY": 684.39,
-    "RKLB": 67.97,
-    "CRM": 191.64,
-    "TSLA": 405.01
+    "RIOT": 16.29
   },
   "leverageLimits": {
     "source": "eToro ESMA Retail",
