@@ -7,115 +7,14 @@
   "micha": {
     "name": "Micha Fan",
     "strategy": "MA-150 Trend Following \u2022 6 Entry Types \u2022 Chart Patterns \u2022 ATR Sizing \u2022 Risk Discipline",
-    "cash": 281.63,
+    "cash": 506.055,
     "holdings": [
       {
-        "sym": "GOOGL",
-        "units": 0.0162,
-        "avgPrice": 335.81,
-        "currentPrice": 308.11,
-        "pnl": -0.45,
-        "stopLoss": 308.9,
-        "takeProfit": 361.08,
-        "trailingStopPct": 7.6,
-        "leverage": 1,
-        "maxLeverage": 5
-      },
-      {
-        "sym": "CRM",
-        "units": 0.1512,
-        "avgPrice": 145.3,
-        "currentPrice": 144.09,
-        "pnl": -0.18,
-        "stopLoss": 133.65,
-        "takeProfit": 164.3,
-        "trailingStopPct": 5.9,
-        "leverage": 1,
-        "maxLeverage": 5
-      },
-      {
-        "sym": "XLE",
-        "units": 0.0452,
-        "avgPrice": 52.75,
-        "currentPrice": 50.32,
-        "pnl": -0.11,
-        "stopLoss": 49.77,
-        "takeProfit": 64.83,
-        "trailingStopPct": 9.6,
-        "leverage": 2,
-        "maxLeverage": 5
-      },
-      {
-        "sym": "QQQ",
-        "units": 0.1121,
-        "avgPrice": 526.19,
-        "currentPrice": 605.99,
-        "pnl": 8.95,
-        "stopLoss": 503.96,
-        "takeProfit": 649.51,
-        "trailingStopPct": 4.1,
-        "leverage": 1,
-        "maxLeverage": 5
-      },
-      {
-        "sym": "NVDA",
-        "units": 0,
-        "avgPrice": 131.16,
-        "currentPrice": 178.96,
-        "pnl": 0,
-        "stopLoss": 125.88,
-        "takeProfit": 155.5,
-        "trailingStopPct": 9.9,
-        "leverage": 2,
-        "maxLeverage": 5
-      },
-      {
-        "sym": "GLD",
-        "units": 0.1667,
-        "avgPrice": 408.75,
-        "currentPrice": 427.96,
-        "pnl": 3.2,
-        "stopLoss": 396.38,
-        "takeProfit": 432.92,
-        "trailingStopPct": 4.7,
-        "leverage": 1,
-        "maxLeverage": 20
-      },
-      {
-        "sym": "COPX",
-        "units": 0.2968,
-        "avgPrice": 73.55,
-        "currentPrice": 74.85,
-        "pnl": 0.39,
-        "stopLoss": 71.47,
-        "takeProfit": 91.38,
-        "trailingStopPct": 7.9,
-        "leverage": 1,
-        "maxLeverage": 10
-      },
-      {
-        "sym": "META",
-        "units": 0.0427,
-        "avgPrice": 877.78,
-        "currentPrice": 641.36,
-        "pnl": -10.1,
-        "stopLoss": 855.38,
-        "takeProfit": 987.95,
-        "trailingStopPct": 9.7,
-        "leverage": 2,
-        "maxLeverage": 5
-      },
-      {
-        "sym": "SPY",
-        "units": 0.2645,
-        "avgPrice": 223.86,
-        "currentPrice": 684.56,
-        "pnl": 121.86,
-        "stopLoss": 208.44,
-        "takeProfit": 239.05,
-        "trailingStopPct": 6.2,
-        "leverage": 1,
-        "maxLeverage": 5
+        "sym": "AAPL",
+        "units": 0.75,
+        "avgPrice": 264.18,
+        "currentPrice": 264.18,
+        "pnl": 0
       }
     ],
     "trades": [
@@ -6700,6 +6599,16 @@
         "amount": 8.82,
         "reason": "Broke below MA-150. Discipline cut.",
         "pnl": 2.36
+      },
+      {
+        "date": "2026-02-28",
+        "action": "buy",
+        "ticker": "AAPL",
+        "units": 0.75,
+        "price": 264.18,
+        "amount": 198.135,
+        "reason": "Above MA-150, trend continuation",
+        "pnl": 0
       }
     ],
     "pnlHistory": [
@@ -6934,33 +6843,45 @@
       {
         "date": "2026-04-24",
         "pnl": -298.18
+      },
+      {
+        "date": "2026-02-28",
+        "pnl": -295.81
       }
     ],
     "totalPnl": -295.81,
     "prices": {
-      "NVDA": 178.96,
-      "AAPL": 266.3,
-      "MSFT": 393.06,
-      "GOOGL": 308.11,
-      "AMD": 198.34,
-      "AVGO": 317.42,
-      "TSM": 372.78,
-      "META": 641.36,
-      "AMZN": 209.21,
-      "QQQ": 605.99,
-      "SPY": 684.56,
-      "COST": 1003.22,
-      "NFLX": 95.57,
-      "LLY": 1036.05
+      "date": "2026-02-28",
+      "tickers": {
+        "NVDA": 177.19,
+        "AAPL": 264.18,
+        "MSFT": 392.74,
+        "GOOGL": 311.76,
+        "AMD": 200.21,
+        "AVGO": 319.55,
+        "TSM": 374.58,
+        "META": 648.18,
+        "AMZN": 210,
+        "QQQ": 607.29,
+        "SPY": 685.99,
+        "COST": 1010.79,
+        "NFLX": 96.24,
+        "LLY": 1051.99
+      }
     },
     "audit": [
       {
         "time": "2026-02-27T21:04:00+02:00",
         "agent": "micha",
         "msg": "SELL 0.0493 NVDA @ 178.96 \u2192 P&L: 2.36 (MA-150 break)."
+      },
+      {
+        "time": "2026-02-28T05:04:00+02:00",
+        "agent": "micha",
+        "msg": "BUY 0.75 AAPL @ 264.18 \u2192 P&L: 0. Above MA-150, trend continuation."
       }
     ],
-    "lastUpdate": "2026-02-27T21:04:00+02:00"
+    "lastUpdate": "2026-02-28T05:04:00+02:00"
   },
   "yoni": {
     "name": "Yoni Fan",
@@ -11101,31 +11022,31 @@
       "agent": "yoni",
       "msg": "BUY 0.5079 MSFT @ 393.76 ($200). SM 100 accumulating, GEX negative -0.18 but high SM score."
     },
-  {
-    "time": "2026-02-28T01:16:00+02:00",
-    "agent": "yoni",
-    "msg": "SELL 0.5079 MSFT @ 392.74 ($199.5) P&L: -0.52. SM 0|distributing GEX positive|0.58."
-  },
-  {
-    "time": "2026-02-28T01:16:00+02:00",
-    "agent": "yoni",
-    "msg": "SELL 1.1028 NVDA @ 177.19 ($195.4) P&L: -4.58. SM 49.56|neutral GEX positive|3.94."
-  },
-  {
-    "time": "2026-02-28T01:16:00+02:00",
-    "agent": "yoni",
-    "msg": "BUY 11.2613 SOFI @ 17.76 ($200). SM 100|accumulating GEX positive|0.24."
-  },
-  {
-    "time": "2026-02-28T01:16:00+02:00",
-    "agent": "yoni",
-    "msg": "BUY 0.7574 AAPL @ 264.18 ($200). SM 100|accumulating GEX negative|-0.03."
-  },
-  {
-    "time": "2026-02-28T01:16:00+02:00",
-    "agent": "yoni",
-    "msg": "BUY 0.6258 AVGO @ 319.55 ($200). SM 70.26|accumulating GEX negative|-0.02."
-  }
+    {
+      "time": "2026-02-28T01:16:00+02:00",
+      "agent": "yoni",
+      "msg": "SELL 0.5079 MSFT @ 392.74 ($199.5) P&L: -0.52. SM 0|distributing GEX positive|0.58."
+    },
+    {
+      "time": "2026-02-28T01:16:00+02:00",
+      "agent": "yoni",
+      "msg": "SELL 1.1028 NVDA @ 177.19 ($195.4) P&L: -4.58. SM 49.56|neutral GEX positive|3.94."
+    },
+    {
+      "time": "2026-02-28T01:16:00+02:00",
+      "agent": "yoni",
+      "msg": "BUY 11.2613 SOFI @ 17.76 ($200). SM 100|accumulating GEX positive|0.24."
+    },
+    {
+      "time": "2026-02-28T01:16:00+02:00",
+      "agent": "yoni",
+      "msg": "BUY 0.7574 AAPL @ 264.18 ($200). SM 100|accumulating GEX negative|-0.03."
+    },
+    {
+      "time": "2026-02-28T01:16:00+02:00",
+      "agent": "yoni",
+      "msg": "BUY 0.6258 AVGO @ 319.55 ($200). SM 70.26|accumulating GEX negative|-0.02."
+    }
   ],
   "lastUpdate": "2026-02-28T01:16:00+02:00",
   "prices": {
