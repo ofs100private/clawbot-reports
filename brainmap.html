@@ -1,1188 +1,1000 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🧠 Ben's Brain Map v9.3 — OpenClaw Agent Network</title>
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: #0a0e17; color: #e0e6f0; font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; overflow-x: hidden; }
-  .bg-stars { position: fixed; inset: 0; background: radial-gradient(2px 2px at 20% 30%, white, transparent), radial-gradient(2px 2px at 60% 70%, white, transparent), radial-gradient(1px 1px at 50% 50%, white, transparent), radial-gradient(1px 1px at 80% 10%, white, transparent), radial-gradient(2px 2px at 90% 60%, white, transparent), radial-gradient(1px 1px at 33% 80%, white, transparent); background-size: 200px 200px, 300px 300px, 150px 150px, 250px 250px, 400px 400px, 180px 180px; opacity: 0.4; z-index: 0; animation: twinkle 100s linear infinite; }
-  @keyframes twinkle { 0% { transform: translate(0,0); } 100% { transform: translate(-50px, -50px); } }
-  .container { position: relative; z-index: 1; max-width: 1600px; margin: 0 auto; padding: 1.5rem 1rem; }
-  header { text-align: center; margin-bottom: 1.5rem; }
-  header h1 { font-size: 2.5rem; background: linear-gradient(135deg, #f0b90b, #58a6ff, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: .3rem; }
-  header p { color: #8892a8; font-size: .9rem; }
-  
-  /* Stats Bar */
-  .stats-bar { display: flex; justify-content: center; gap: 1.5rem; margin: 1rem 0; flex-wrap: wrap; background: rgba(255,255,255,.02); border: 1px solid rgba(255,255,255,.05); border-radius: .8rem; padding: .8rem; }
-  .stat { text-align: center; padding: .3rem .8rem; }
-  .stat-num { font-size: 1.8rem; font-weight: 700; background: linear-gradient(135deg, #f0b90b, #58a6ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  .stat-label { font-size: .7rem; color: #8892a8; text-transform: uppercase; letter-spacing: .05em; margin-top: .2rem; }
-
-  /* Tab Bar */
-  .tabs { display: flex; justify-content: center; gap: .3rem; margin: 1.5rem 0; flex-wrap: wrap; position: sticky; top: 0; background: rgba(10,14,23,.95); backdrop-filter: blur(10px); z-index: 100; padding: .8rem 0; border-radius: .5rem; }
-  .tab { background: #161b22; border: 1px solid #21262d; border-radius: .5rem; padding: .6rem 1rem; font-size: .85rem; color: #8892a8; cursor: pointer; transition: all .25s; white-space: nowrap; }
-  .tab:hover { background: rgba(240,185,11,.1); border-color: rgba(240,185,11,.3); color: #f0b90b; transform: translateY(-2px); }
-  .tab.active { background: rgba(240,185,11,.15); border-color: #f0b90b; color: #f0b90b; box-shadow: 0 0 15px rgba(240,185,11,.2); position: relative; }
-  .tab.active::after { content: ''; position: absolute; bottom: -1px; left: 10%; right: 10%; height: 3px; background: #f0b90b; border-radius: 3px 3px 0 0; }
-  
-  .tab-content { display: none; animation: fadeIn .3s; }
-  .tab-content.active { display: block; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-  /* Cards */
-  .grid-2 { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
-  @media(min-width:900px){ .grid-2 { grid-template-columns: 1fr 1fr; } }
-  .grid-3 { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
-  @media(min-width:900px){ .grid-3 { grid-template-columns: repeat(3, 1fr); } }
-  .grid-4 { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
-  @media(min-width:900px){ .grid-4 { grid-template-columns: repeat(4, 1fr); } }
-
-  .card { background: #161b22; border: 1px solid #21262d; border-radius: 1rem; padding: 1.5rem; position: relative; overflow: hidden; transition: transform .25s, border-color .25s, box-shadow .25s; cursor: pointer; }
-  .card:hover { transform: translateY(-4px); border-color: rgba(240,185,11,.4); box-shadow: 0 8px 24px rgba(0,0,0,.3), 0 0 20px rgba(240,185,11,.1); }
-  .card.expanded { cursor: default; }
-  .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
-  .card.gold::before { background: linear-gradient(90deg, #f0b90b, #ffc838); }
-  .card.blue::before { background: linear-gradient(90deg, #58a6ff, #3b82f6); }
-  .card.green::before { background: linear-gradient(90deg, #3fb950, #34d399); }
-  .card.red::before { background: linear-gradient(90deg, #f85149, #ef4444); }
-  .card.purple::before { background: linear-gradient(90deg, #a78bfa, #8b5cf6); }
-  .card.cyan::before { background: linear-gradient(90deg, #4dd0e1, #06b6d4); }
-  .card.pink::before { background: linear-gradient(90deg, #ff6b6b, #ec4899); }
-  .card.yellow::before { background: linear-gradient(90deg, #ffa726, #f59e0b); }
-
-  .card h2 { font-size: 1.3rem; margin-bottom: .8rem; display: flex; align-items: center; gap: .5rem; }
-  .card h3 { font-size: 1rem; color: #b0b8c8; margin: 1rem 0 .5rem; border-bottom: 1px solid rgba(255,255,255,.08); padding-bottom: .3rem; }
-  .card ul { list-style: none; margin-top: .5rem; }
-  .card li { padding: .3rem 0; font-size: .85rem; color: #b0b8c8; padding-left: 1.2rem; position: relative; line-height: 1.5; }
-  .card li::before { content: '▸'; position: absolute; left: 0; color: #f0b90b; font-weight: bold; }
-  
-  .card-detail { display: none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,.08); }
-  .card.expanded .card-detail { display: block; animation: slideDown .3s; }
-  @keyframes slideDown { from { opacity: 0; max-height: 0; } to { opacity: 1; max-height: 1000px; } }
-
-  .badge { display: inline-block; padding: .15rem .6rem; border-radius: 999px; font-size: .7rem; font-weight: 600; }
-  .badge-gold { background: rgba(240,185,11,.15); color: #f0b90b; border: 1px solid rgba(240,185,11,.3); }
-  .badge-blue { background: rgba(88,166,255,.15); color: #58a6ff; border: 1px solid rgba(88,166,255,.3); }
-  .badge-green { background: rgba(63,185,80,.15); color: #3fb950; border: 1px solid rgba(63,185,80,.3); }
-  .badge-red { background: rgba(248,81,73,.15); color: #f85149; border: 1px solid rgba(248,81,73,.3); }
-
-  .skill-tag { display: inline-block; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: .4rem; padding: .2rem .6rem; font-size: .75rem; color: #b0b8c8; margin: .2rem; transition: all .2s; }
-  .skill-tag:hover { background: rgba(240,185,11,.15); border-color: rgba(240,185,11,.3); color: #f0b90b; }
-
-  /* Status Dots */
-  .status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: .5rem; }
-  .status-ok { background: #3fb950; box-shadow: 0 0 8px rgba(63,185,80,.6); animation: pulse-green 2s infinite; }
-  .status-error { background: #f85149; box-shadow: 0 0 8px rgba(248,81,73,.6); animation: pulse-red 2s infinite; }
-  .status-idle { background: #6e7681; }
-  @keyframes pulse-green { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-  @keyframes pulse-red { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
-
-  /* Table */
-  table { width: 100%; border-collapse: collapse; font-size: .85rem; margin-top: .8rem; }
-  th { text-align: left; color: #f0b90b; font-weight: 600; padding: .6rem .5rem; border-bottom: 2px solid rgba(240,185,11,.2); }
-  td { padding: .5rem .5rem; color: #b0b8c8; border-bottom: 1px solid rgba(255,255,255,.05); }
-
-  /* Canvas for Overview */
-  #brain-canvas { width: 100%; height: 600px; border: 1px solid #21262d; border-radius: 1rem; background: radial-gradient(circle at center, rgba(240,185,11,.02) 0%, transparent 70%); cursor: grab; }
-  #brain-canvas:active { cursor: grabbing; }
-
-  .model-card { display: flex; flex-direction: column; gap: .5rem; }
-  .model-card .cost { font-size: .75rem; color: #8892a8; }
-  .model-card .usage { margin-top: .5rem; }
-  .usage-bar { background: rgba(255,255,255,.06); height: 6px; border-radius: 3px; overflow: hidden; margin-top: .3rem; }
-  .usage-fill { height: 100%; border-radius: 3px; transition: width .5s; }
-
-  .sector-card { text-align: center; padding: 1.2rem; }
-  .sector-emoji { font-size: 2.5rem; margin-bottom: .5rem; }
-  .sector-stocks { font-size: .75rem; color: #8892a8; margin-top: .5rem; }
-
-  .connection-card { display: flex; align-items: center; gap: 1rem; }
-  .connection-icon { font-size: 2rem; }
-  .connection-info { flex: 1; }
-  .connection-info h3 { font-size: 1.1rem; margin: 0 0 .3rem 0; border: none; padding: 0; }
-  .connection-info p { font-size: .8rem; color: #8892a8; margin: .2rem 0; }
-
-  .memory-item { background: rgba(255,255,255,.03); padding: .8rem; border-radius: .5rem; margin: .5rem 0; border-left: 3px solid #f0b90b; }
-  .memory-item h4 { font-size: .9rem; color: #f0b90b; margin-bottom: .3rem; }
-  .memory-item p { font-size: .8rem; color: #b0b8c8; }
-
-  .footer { text-align: center; margin-top: 3rem; padding: 1.5rem; color: #4a5268; font-size: .75rem; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ben's Brain Map - v154 (Real Money Ready)</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            color: #e0e0e0;
+            overflow-x: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+        }
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .header .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        .header .version {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            margin-top: 0.5rem;
+            font-weight: bold;
+        }
+        .alert-banner {
+            background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        .stats-bar {
+            display: flex;
+            justify-content: space-around;
+            padding: 1.5rem;
+            background: rgba(30, 58, 138, 0.3);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .stat {
+            text-align: center;
+            flex: 1;
+            min-width: 150px;
+        }
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #60a5fa;
+        }
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 0.3rem;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        .tab {
+            padding: 0.8rem 1.5rem;
+            background: rgba(30, 58, 138, 0.5);
+            border: none;
+            border-radius: 8px;
+            color: #e0e0e0;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        .tab:hover {
+            background: rgba(59, 130, 246, 0.7);
+            transform: translateY(-2px);
+        }
+        .tab.active {
+            background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+            font-weight: bold;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .section {
+            background: rgba(30, 58, 138, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+        .section h2 {
+            color: #60a5fa;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .section h3 {
+            color: #93c5fd;
+            margin: 1rem 0 0.5rem 0;
+            font-size: 1.2rem;
+        }
+        .skill-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .skill-card {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            transition: all 0.3s;
+        }
+        .skill-card:hover {
+            background: rgba(59, 130, 246, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+        .skill-name {
+            font-weight: bold;
+            color: #60a5fa;
+            margin-bottom: 0.3rem;
+        }
+        .skill-desc {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            line-height: 1.4;
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-right: 0.3rem;
+            margin-top: 0.3rem;
+        }
+        .badge-new { background: #10b981; color: white; }
+        .badge-core { background: #3b82f6; color: white; }
+        .badge-critical { background: #dc2626; color: white; animation: pulse 2s infinite; }
+        .list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .list li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        .list li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #60a5fa;
+            font-weight: bold;
+        }
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            opacity: 0.6;
+            font-size: 0.9rem;
+        }
+        .highlight-box {
+            background: rgba(220, 38, 38, 0.2);
+            border-left: 4px solid #dc2626;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+        .info-box {
+            background: rgba(59, 130, 246, 0.2);
+            border-left: 4px solid #3b82f6;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+        .success-box {
+            background: rgba(16, 185, 129, 0.2);
+            border-left: 4px solid #10b981;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+    </style>
 </head>
 <body>
-<div class="bg-stars"></div>
-<div class="container">
-
-<header>
-  <h1>🧠 Ben's Brain Map v9.3</h1>
-  <p>OpenClaw Agent Network — Ofer Sasson's AI Infrastructure</p>
-</header>
-
-<!-- Stats Bar -->
-<div class="stats-bar">
-  <div class="stat"><div class="stat-num">114+</div><div class="stat-label">Files</div></div>
-  <div class="stat"><div class="stat-num">26,519+</div><div class="stat-label">Lines</div></div>
-  <div class="stat"><div class="stat-num">28</div><div class="stat-label">Skills</div></div>
-  <div class="stat"><div class="stat-num">4</div><div class="stat-label">Agents</div></div>
-  <div class="stat"><div class="stat-num">9</div><div class="stat-label">Sectors</div></div>
-  <div class="stat"><div class="stat-num">16</div><div class="stat-label">Cron Jobs</div></div>
-  <div class="stat"><div class="stat-num">9.3</div><div class="stat-label">Score /10</div></div>
-</div>
-
-<!-- Tab Bar -->
-<div class="tabs">
-  <div class="tab active" onclick="showTab('overview')">🧠 Overview</div>
-  <div class="tab" onclick="showTab('agents')">🤖 Agents</div>
-  <div class="tab" onclick="showTab('models')">🧪 Models</div>
-  <div class="tab" onclick="showTab('skills')">⚙️ Skills</div>
-  <div class="tab" onclick="showTab('sectors')">🔭 Sectors</div>
-  <div class="tab" onclick="showTab('cron')">⏰ Cron Jobs</div>
-  <div class="tab" onclick="showTab('connections')">🔌 Connections</div>
-  <div class="tab" onclick="showTab('memory')">💾 Memory</div>
-  <div class="tab" onclick="showTab('costs')">💰 Costs</div>
-</div>
-
-<!-- TAB: Overview -->
-<div id="tab-overview" class="tab-content active">
-  <canvas id="brain-canvas"></canvas>
-  <div style="text-align: center; margin-top: 1rem; color: #8892a8; font-size: .85rem;">
-    🖱️ Click and drag to pan • Scroll to zoom
-  </div>
-</div>
-
-<!-- TAB: Agents -->
-<div id="tab-agents" class="tab-content">
-<div class="grid-2">
-  <div class="card gold" onclick="toggleCard(this)">
-    <h2>🤖 Ben <span class="badge badge-gold">MAIN</span></h2>
-    <div style="font-size:.8rem;color:#8892a8;margin-bottom:.8rem;">anthropic/claude-opus-4-6</div>
-    <p style="font-size:.9rem;color:#b0b8c8;margin-bottom:.8rem;">Main assistant, admin, LinkedIn, email, social media</p>
-    <div><strong>Workspace:</strong> /workspace</div>
-    <div style="margin-top:.5rem;">
-      <span class="skill-tag">investing</span>
-      <span class="skill-tag">qmd-zvec</span>
-      <span class="skill-tag">quantclaw</span>
-      <span class="skill-tag">security-gate</span>
-      <span class="skill-tag">social-media</span>
+    <div class="header">
+        <h1>🧠 Ben's Brain Map</h1>
+        <div class="subtitle">Personal AI Assistant • Real Money Trading System</div>
+        <div class="version">v154 • March 1, 2026 • Ready for Live Trading</div>
     </div>
-    <div class="card-detail">
-      <h3>Responsibilities</h3>
-      <ul>
-        <li>Primary dispatcher — all agents report to Ben</li>
-        <li>LinkedIn API management (expires Apr 2026)</li>
-        <li>Git backup automation (every 6h)</li>
-        <li>Daily HTML reports → Telegram at 9:00 AM</li>
-        <li>Memclawz memory orchestration</li>
-        <li>Model routing (Opus for code, Grok for news)</li>
-      </ul>
-    </div>
-  </div>
 
-  <div class="card green" onclick="toggleCard(this)">
-    <h2>📈 OfsInvest <span class="badge badge-green">SUB-AGENT</span></h2>
-    <div style="font-size:.8rem;color:#8892a8;margin-bottom:.8rem;">xai/grok-4</div>
-    <p style="font-size:.9rem;color:#b0b8c8;margin-bottom:.8rem;">Investment system, score 9.3/10</p>
-    <div><strong>Workspace:</strong> /workspace-ofsinvest</div>
-    <div style="margin-top:.5rem;display:flex;flex-wrap:wrap;gap:.3rem;">
-      <span class="skill-tag">analyst-consensus</span>
-      <span class="skill-tag">buy-sell-signal</span>
-      <span class="skill-tag">chart-patterns</span>
-      <span class="skill-tag">crypto-analysis</span>
-      <span class="skill-tag">etoro-api</span>
-      <span class="skill-tag">invest-training</span>
-      <span class="skill-tag">market-analysis</span>
-      <span class="skill-tag">market-sentiment</span>
-      <span class="skill-tag">master-trader</span>
-      <span class="skill-tag">micha-stocks</span>
-      <span class="skill-tag">news-intelligence</span>
-      <span class="skill-tag">news-sentiment</span>
-      <span class="skill-tag">portfolio-construction</span>
-      <span class="skill-tag">portfolio-tracker</span>
-      <span class="skill-tag">quantclaw</span>
-      <span class="skill-tag">risk-management</span>
-      <span class="skill-tag">stock-screening</span>
+    <div class="alert-banner">
+        🚨 REAL MONEY TRADING ACTIVE • $1,000 Capital • Monday Market Open • Iran Crisis Protocol Engaged
     </div>
-    <div class="card-detail">
-      <h3>Capabilities</h3>
-      <ul>
-        <li>Micha.Stocks methodology (MA150 + ATR + patterns)</li>
-        <li>3 sector research modules (Nuclear/Space, BioPharma, Quantum)</li>
-        <li>5 news intelligence sources</li>
-        <li>81-stock watchlist + 18 active setups</li>
-        <li>Daily 04:20 AM briefing → Telegram</li>
-        <li>Complete trading system with 17 specialized skills</li>
-      </ul>
-    </div>
-  </div>
 
-  <div class="card blue" onclick="toggleCard(this)">
-    <h2>🏗️ Architect <span class="badge badge-blue">SUB-AGENT</span></h2>
-    <div style="font-size:.8rem;color:#8892a8;margin-bottom:.8rem;">xai/grok-4</div>
-    <p style="font-size:.9rem;color:#b0b8c8;margin-bottom:.8rem;">V2 research, deep infrastructure</p>
-    <div><strong>Workspace:</strong> /workspace-architect</div>
-    <div style="margin-top:.5rem;">
-      <span class="skill-tag">architecture-research</span>
-      <span class="skill-tag">performance</span>
-      <span class="skill-tag">system-design</span>
-      <span class="skill-tag">tech-evaluation</span>
-    </div>
-    <div class="card-detail">
-      <h3>Focus Areas</h3>
-      <ul>
-        <li>Brain DB & Cache DB architecture</li>
-        <li>LLM routing optimization for scale</li>
-        <li>Performance benchmarking</li>
-        <li>Technology stack evaluation</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="card yellow" onclick="toggleCard(this)">
-    <h2>💰 Budget <span class="badge badge-gold">SIBLING</span></h2>
-    <div style="font-size:.8rem;color:#8892a8;margin-bottom:.8rem;">anthropic/claude-sonnet-4-5</div>
-    <p style="font-size:.9rem;color:#b0b8c8;margin-bottom:.8rem;">Family budget tracking</p>
-    <div><strong>Workspace:</strong> /workspace-budget</div>
-    <div style="margin-top:.5rem;">
-      <span class="skill-tag">budget-analysis</span>
-      <span class="skill-tag">expense-tracking</span>
-    </div>
-    <div class="card-detail">
-      <h3>Features</h3>
-      <ul>
-        <li>Family expense tracking (NIS ₪)</li>
-        <li>Auto-categorization (15 categories)</li>
-        <li>Natural language input</li>
-        <li>Daily / weekly / monthly reports</li>
-        <li>Budget: ₪10,000/month</li>
-      </ul>
-    </div>
-  </div>
-</div>
-</div>
-
-<!-- TAB: Models -->
-<div id="tab-models" class="tab-content">
-<div class="grid-3">
-  <div class="card purple">
-    <h2>🔮 Opus 4.6</h2>
-    <div class="model-card">
-      <div class="cost">💰 $15/$75 per 1M tokens (~$30/1M avg)</div>
-      <div class="cost">📦 200K context</div>
-      <div class="cost">🎯 Complex reasoning</div>
-      <div class="usage">
-        <div style="font-size:.75rem;color:#8892a8;margin-bottom:.3rem;">Tokens (24h): 0 | Cost: $0.00</div>
-        <div class="usage-bar">
-          <div class="usage-fill" style="width:0%;background:linear-gradient(90deg,#a78bfa,#8b5cf6);"></div>
+    <div class="stats-bar">
+        <div class="stat">
+            <div class="stat-value">154</div>
+            <div class="stat-label">Version</div>
         </div>
-      </div>
-    </div>
-    <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,.08);">
-      <strong style="color:#a78bfa;">Used by:</strong>
-      <div style="margin-top:.5rem;font-size:.85rem;color:#b0b8c8;">
-        • Ben (main DM session)
-      </div>
-    </div>
-  </div>
-
-  <div class="card green">
-    <h2>🚀 Grok 4</h2>
-    <div class="model-card">
-      <div class="cost">💰 FREE</div>
-      <div class="cost">📦 131K context</div>
-      <div class="cost">🎯 Research, news, X/Twitter</div>
-      <div class="usage">
-        <div style="font-size:.75rem;color:#8892a8;margin-bottom:.3rem;">Tokens (24h): 0 | Cost: $0.00</div>
-        <div class="usage-bar">
-          <div class="usage-fill" style="width:0%;background:linear-gradient(90deg,#3fb950,#34d399);"></div>
+        <div class="stat">
+            <div class="stat-value">$1,000</div>
+            <div class="stat-label">Real Money</div>
         </div>
-      </div>
-    </div>
-    <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,.08);">
-      <strong style="color:#3fb950;">Used by:</strong>
-      <div style="margin-top:.5rem;font-size:.85rem;color:#b0b8c8;">
-        • OfsInvest (main)<br>
-        • Architect (main)<br>
-        • All cron jobs<br>
-        • Group chats
-      </div>
-    </div>
-  </div>
-
-  <div class="card blue">
-    <h2>⚡ Sonnet 4.5</h2>
-    <div class="model-card">
-      <div class="cost">💰 $3/$15 per 1M tokens (~$6.6/1M avg)</div>
-      <div class="cost">📦 200K context</div>
-      <div class="cost">🎯 Sub-agent work, cheaper tasks</div>
-      <div class="usage">
-        <div style="font-size:.75rem;color:#8892a8;margin-bottom:.3rem;">Tokens (24h): 23,277 | Cost: $0.15</div>
-        <div class="usage-bar">
-          <div class="usage-fill" style="width:100%;background:linear-gradient(90deg,#58a6ff,#3b82f6);"></div>
+        <div class="stat">
+            <div class="stat-value">1%</div>
+            <div class="stat-label">Daily Target NET</div>
         </div>
-      </div>
-    </div>
-    <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,.08);">
-      <strong style="color:#58a6ff;">Used by:</strong>
-      <div style="margin-top:.5rem;font-size:.85rem;color:#b0b8c8;">
-        • Budget (main)<br>
-        • Cron: Model cost tracker<br>
-        • HTML generation sub-agents<br>
-        • Quick research tasks
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="card gold" style="margin-top:1.5rem;">
-  <h2>💵 Cost Tracking (Last 24h)</h2>
-  <table>
-    <tr>
-      <th>Model</th>
-      <th>Avg Cost/1M</th>
-      <th>Tokens</th>
-      <th>24h Cost</th>
-      <th>Projected Monthly</th>
-    </tr>
-    <tr>
-      <td style="color:#a78bfa;">Opus 4.6</td>
-      <td>~$30/1M</td>
-      <td>0</td>
-      <td style="color:#3fb950;">$0.00</td>
-      <td style="color:#8892a8;">~$0</td>
-    </tr>
-    <tr>
-      <td style="color:#3fb950;">Grok 4</td>
-      <td>FREE</td>
-      <td>0</td>
-      <td style="color:#3fb950;">$0.00</td>
-      <td style="color:#3fb950;">$0</td>
-    </tr>
-    <tr>
-      <td style="color:#58a6ff;">Sonnet 4.5</td>
-      <td>~$6.6/1M</td>
-      <td>23,277</td>
-      <td style="color:#f0b90b;">$0.15</td>
-      <td style="color:#f0b90b;">~$4.65</td>
-    </tr>
-    <tr style="border-top:2px solid rgba(240,185,11,.3);">
-      <td colspan="3"><strong>Total (24h):</strong></td>
-      <td style="color:#f0b90b;"><strong>$0.15</strong></td>
-      <td style="color:#f0b90b;"><strong>~$4.65/mo</strong></td>
-    </tr>
-  </table>
-  <div style="margin-top:1rem;padding:1rem;background:rgba(63,185,80,.1);border-radius:.5rem;border:1px solid rgba(63,185,80,.2);">
-    <strong style="color:#3fb950;">📊 Cost Analysis:</strong>
-    <span style="color:#b0b8c8;margin-left:.5rem;">Current baseline tracking started. Data accumulates every 10 minutes. Using Grok for free research saves ~$200-300/month vs all-Opus.</span>
-  </div>
-  <div style="margin-top:1rem;font-size:.75rem;color:#8892a8;text-align:right;">
-    Last updated: 2026-03-01 00:00 IST • Data from /reports/model-costs.json
-  </div>
-</div>
-</div>
-
-<!-- TAB: Skills -->
-<div id="tab-skills" class="tab-content">
-<div class="card gold" style="margin-bottom:1.5rem;">
-  <h2>⚙️ All Skills (28 total)</h2>
-  <div style="text-align:center;margin:1rem 0;">
-    <span style="color:#f0b90b;font-size:1.2rem;font-weight:600;">5 + 17 + 4 + 2 = 28 skills</span>
-  </div>
-</div>
-
-<div class="grid-2">
-  <div class="card gold" onclick="toggleCard(this)">
-    <h2>🤖 Ben (5 skills)</h2>
-    <div style="display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.5rem;">
-      <span class="skill-tag">investing</span>
-      <span class="skill-tag">qmd-zvec</span>
-      <span class="skill-tag">quantclaw</span>
-      <span class="skill-tag">security-gate</span>
-      <span class="skill-tag">social-media</span>
-    </div>
-    <div class="card-detail">
-      <ul>
-        <li><strong>investing:</strong> Investment research and analysis coordination</li>
-        <li><strong>qmd-zvec:</strong> QMD to hnswlib vector memory pipeline</li>
-        <li><strong>quantclaw:</strong> QuantClaw API integration (8 endpoints)</li>
-        <li><strong>security-gate:</strong> Security and access control</li>
-        <li><strong>social-media:</strong> LinkedIn API, content creation, posting</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="card green" onclick="toggleCard(this)">
-    <h2>📈 OfsInvest (17 skills)</h2>
-    <div style="display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.5rem;">
-      <span class="skill-tag">analyst-consensus</span>
-      <span class="skill-tag">buy-sell-signal</span>
-      <span class="skill-tag">chart-patterns</span>
-      <span class="skill-tag">crypto-analysis</span>
-      <span class="skill-tag">etoro-api</span>
-      <span class="skill-tag">invest-training</span>
-      <span class="skill-tag">market-analysis</span>
-      <span class="skill-tag">market-sentiment</span>
-      <span class="skill-tag">master-trader</span>
-      <span class="skill-tag">micha-stocks</span>
-      <span class="skill-tag">news-intelligence</span>
-      <span class="skill-tag">news-sentiment</span>
-      <span class="skill-tag">portfolio-construction</span>
-      <span class="skill-tag">portfolio-tracker</span>
-      <span class="skill-tag">quantclaw</span>
-      <span class="skill-tag">risk-management</span>
-      <span class="skill-tag">stock-screening</span>
-    </div>
-    <div class="card-detail">
-      <ul>
-        <li><strong>analyst-consensus:</strong> Track Wall Street analyst ratings and price targets</li>
-        <li><strong>buy-sell-signal:</strong> Generate buy/sell signals based on technical + fundamental</li>
-        <li><strong>chart-patterns:</strong> Detect Cup & Handle, Darvas, flags, H&S, etc.</li>
-        <li><strong>crypto-analysis:</strong> BTC cycle analysis, miner correlation, Fear & Greed</li>
-        <li><strong>etoro-api:</strong> eToro integration (53 endpoints, portfolio live)</li>
-        <li><strong>invest-training:</strong> Micha.Stocks Discord scraping & knowledge extraction</li>
-        <li><strong>market-analysis:</strong> Sector rotation, macro indicators, market regime</li>
-        <li><strong>market-sentiment:</strong> Fear & Greed, VIX, NVDA barometer</li>
-        <li><strong>master-trader:</strong> Orchestrate 5-source news intel, daily briefing</li>
-        <li><strong>micha-stocks:</strong> MA150 + ATR framework, 6 entry types, risk rules</li>
-        <li><strong>news-intelligence:</strong> X/Twitter, Yahoo, GuruFocus, CNBC, aggregators</li>
-        <li><strong>news-sentiment:</strong> Viral stock scanner, pump & dump detection</li>
-        <li><strong>portfolio-construction:</strong> Position sizing, diversification, portfolio.json</li>
-        <li><strong>portfolio-tracker:</strong> Real-time P&L, trade journal</li>
-        <li><strong>quantclaw:</strong> QuantClaw API for technical indicators</li>
-        <li><strong>risk-management:</strong> ATR sizing, 4 stop types, 83% rule</li>
-        <li><strong>stock-screening:</strong> MA150 screening, earnings calendar, active setups</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="card blue" onclick="toggleCard(this)">
-    <h2>🏗️ Architect (4 skills)</h2>
-    <div style="display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.5rem;">
-      <span class="skill-tag">architecture-research</span>
-      <span class="skill-tag">performance</span>
-      <span class="skill-tag">system-design</span>
-      <span class="skill-tag">tech-evaluation</span>
-    </div>
-    <div class="card-detail">
-      <ul>
-        <li><strong>architecture-research:</strong> Brain DB, Cache DB, LLM routing research</li>
-        <li><strong>performance:</strong> Benchmarking, optimization, scaling analysis</li>
-        <li><strong>system-design:</strong> V2 infrastructure design, component architecture</li>
-        <li><strong>tech-evaluation:</strong> Tech stack comparison, vendor evaluation</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="card yellow" onclick="toggleCard(this)">
-    <h2>💰 Budget (2 skills)</h2>
-    <div style="display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.5rem;">
-      <span class="skill-tag">budget-analysis</span>
-      <span class="skill-tag">expense-tracking</span>
-    </div>
-    <div class="card-detail">
-      <ul>
-        <li><strong>budget-analysis:</strong> Spending patterns, waste detection, monthly reports</li>
-        <li><strong>expense-tracking:</strong> Natural language input, auto-categorization</li>
-      </ul>
-    </div>
-  </div>
-</div>
-</div>
-
-<!-- TAB: Sectors -->
-<div id="tab-sectors" class="tab-content">
-<div class="grid-3">
-  <div class="card pink sector-card">
-    <div class="sector-emoji">☢️</div>
-    <h2>Nuclear/Space</h2>
-    <div class="sector-stocks">ASTS, RKLB, UUUU, NNE, SMR</div>
-    <div style="margin-top:.8rem;font-size:.8rem;color:#b0b8c8;">AI/Data Center power demand + SMR revolution + Defense spending</div>
-  </div>
-
-  <div class="card green sector-card">
-    <div class="sector-emoji">💊</div>
-    <h2>BioPharma</h2>
-    <div class="sector-stocks">LLY, ABBV, MRNA, BMY</div>
-    <div style="margin-top:.8rem;font-size:.8rem;color:#b0b8c8;">GLP-1 revolution + Health sector breakout</div>
-  </div>
-
-  <div class="card blue sector-card">
-    <div class="sector-emoji">⚛️</div>
-    <h2>Quantum</h2>
-    <div class="sector-stocks">IONQ, RGTI, QUBT</div>
-    <div style="margin-top:.8rem;font-size:.8rem;color:#b0b8c8;">Pre-commercial, extreme volatility, high risk</div>
-  </div>
-
-  <div class="card yellow sector-card">
-    <div class="sector-emoji">📊</div>
-    <h2>Earnings Reports</h2>
-    <div class="sector-stocks">Pre/post earnings plays</div>
-    <div style="margin-top:.8rem;font-size:.8rem;color:#b0b8c8;">Implied move framework, earnings calendar</div>
-  </div>
-
-  <div class="card gold sector-card">
-    <div class="sector-emoji">₿</div>
-    <h2>Crypto</h2>
-    <div class="sector-stocks">BTC, ETH, SOL, COIN, RIOT, MARA</div>
-    <div style="margin-top:.8rem;font-size:.8rem;color:#b0b8c8;">BTC cycle, miner correlation, Fear & Greed</div>
-  </div>
-
-  <div class="card purple sector-card">
-    <div class="sector-emoji">📈</div>
-    <h2>Options</h2>
-    <div class="sector-stocks">Weekly/monthly strategies</div>
-    <div style="margin-top:.8rem;font-size:.8rem;color:#b0b8c8;">Covered calls, cash-secured puts, spreads</div>
-  </div>
-
-  <div class="card cyan sector-card">
-    <div class="sector-emoji">💎</div>
-    <h2>Under $1B</h2>
-    <div class="sector-stocks">Small-cap growth plays</div>
-    <div style="margin-top:.8rem;font-size:.8rem;color:#b0b8c8;">High growth potential, higher risk</div>
-  </div>
-
-  <div class="card purple sector-card">
-    <div class="sector-emoji">🇮🇱</div>
-    <h2>Israel TASE</h2>
-    <div class="sector-stocks">Tel Aviv Stock Exchange</div>
-    <div style="margin-top:.8rem;font-size:.8rem;color:#b0b8c8;">Local market opportunities</div>
-  </div>
-
-  <div class="card red sector-card">
-    <div class="sector-emoji">🏥</div>
-    <h2>Healthcare</h2>
-    <div class="sector-stocks">GLP-1, Immunotherapy, Gene therapy</div>
-    <div style="margin-top:.8rem;font-size:.8rem;color:#b0b8c8;">Innovation-driven healthcare plays</div>
-  </div>
-</div>
-</div>
-
-<!-- TAB: Cron Jobs -->
-<div id="tab-cron" class="tab-content">
-<div class="card gold">
-  <h2>⏰ Active Cron Jobs (16)</h2>
-  <table>
-    <tr>
-      <th>Status</th>
-      <th>Job</th>
-      <th>Schedule</th>
-      <th>Details</th>
-    </tr>
-    <tr>
-      <td><span class="status-dot status-ok"></span></td>
-      <td>Model cost tracker</td>
-      <td>Every 10m</td>
-      <td>Track Opus/Sonnet usage and costs</td>
-    </tr>
-    <tr>
-      <td><span class="status-dot status-ok"></span></td>
-      <td>Trump Monitor</td>
-      <td>Every 2h</td>
-      <td>Monitor Trump news and market impact</td>
-    </tr>
-    <tr>
-      <td><span class="status-dot status-ok"></span></td>
-      <td>Memclawz health check</td>
-      <td>Every 30m</td>
-      <td>hnswlib backend health monitoring</td>
-    </tr>
-    <tr>
-      <td><span class="status-dot status-ok"></span></td>
-      <td>Brain Map Auto-Refresh</td>
-      <td>Every 30m</td>
-      <td>Update brain map and push to GitHub</td>
-    </tr>
-    <tr>
-      <td><span class="status-dot status-error"></span></td>
-      <td>Micha Fan Trader</td>
-      <td>Every 4h</td>
-      <td>ERROR: timeout</td>
-    </tr>
-    <tr>
-      <td><span class="status-dot status-error"></span></td>
-      <td>Yoni Fan Trader</td>
-      <td>Every 4h</td>
-      <td>ERROR: timeout</td>
-    </tr>
-    <tr>
-      <td><span class="status-dot status-error"></span></td>
-      <td>World News Digest</td>
-      <td>Every 6h</td>
-      <td>ERROR</td>
-    </tr>
-    <tr>
-      <td><span class="status-dot status-ok"></span></td>
-      <td>Git backup push</td>
-      <td>Every 6h</td>
-      <td>Auto-commit and push to GitHub</td>
-    </tr>
-    <tr>
-      <td><span class="status-dot status-error"></span></td>
-      <td>Market Trends Scanner</td>
-      <td>Every 4h</td>
-      <td>ERROR: timeout</td>
-    </tr>
-    <tr>
-      <td><span class="status-dot status-error"></span></td>
-      <td>Master Trader Self-Improvement</td>
-      <td>Every 4h</td>
-      <td>ERROR: timeout</td>
-    </tr>
-    <tr>
-      <td><span class="status-dot status-error"></span></td>
-      <td>Budget Daily Report</td>
-      <td>21:00 daily</td>
-      <td>ERROR</td>
-    </tr>
-    <tr>
-      <td><span class="status-dot status-ok"></span></td>
-      <td>OfsInvest Daily News Briefing</td>
-      <td>04:20 daily</td>
-      <td>5-source news intel → Telegram</td>
-    </tr>
-    <tr>
-      <td><span class="status-dot status-ok"></span></td>
-      <td>Daily backup & status</td>
-      <td>09:00 daily</td>
-      <td>System health + backup report</td>
-    </tr>
-    <tr>
-      <td><span class="status-dot status-ok"></span></td>
-      <td>LinkedIn daily draft</td>
-      <td>10:30 daily</td>
-      <td>Generate LinkedIn post draft for review</td>
-    </tr>
-    <tr>
-      <td><span class="status-dot status-idle"></span></td>
-      <td>Budget Monthly Report</td>
-      <td>1st of month 09:00</td>
-      <td>Monthly spending analysis</td>
-    </tr>
-    <tr>
-      <td><span class="status-dot status-idle"></span></td>
-      <td>Budget Weekly Report</td>
-      <td>Sunday 20:00</td>
-      <td>Weekly budget summary</td>
-    </tr>
-  </table>
-  
-  <div style="margin-top:1.5rem;display:flex;gap:2rem;flex-wrap:wrap;">
-    <div style="flex:1;min-width:200px;padding:1rem;background:rgba(63,185,80,.1);border-radius:.5rem;border:1px solid rgba(63,185,80,.2);">
-      <div style="font-size:2rem;font-weight:700;color:#3fb950;text-align:center;">8</div>
-      <div style="text-align:center;color:#b0b8c8;font-size:.85rem;">Running OK</div>
-    </div>
-    <div style="flex:1;min-width:200px;padding:1rem;background:rgba(248,81,73,.1);border-radius:.5rem;border:1px solid rgba(248,81,73,.2);">
-      <div style="font-size:2rem;font-weight:700;color:#f85149;text-align:center;">6</div>
-      <div style="text-align:center;color:#b0b8c8;font-size:.85rem;">Errors (need fix)</div>
-    </div>
-    <div style="flex:1;min-width:200px;padding:1rem;background:rgba(110,118,129,.1);border-radius:.5rem;border:1px solid rgba(110,118,129,.2);">
-      <div style="font-size:2rem;font-weight:700;color:#6e7681;text-align:center;">2</div>
-      <div style="text-align:center;color:#b0b8c8;font-size:.85rem;">Scheduled (idle)</div>
-    </div>
-  </div>
-</div>
-</div>
-
-<!-- TAB: Connections -->
-<div id="tab-connections" class="tab-content">
-<div class="grid-2">
-  <div class="card blue">
-    <div class="connection-card">
-      <div class="connection-icon">📱</div>
-      <div class="connection-info">
-        <h3>Telegram</h3>
-        <p><strong>Bot:</strong> @Ofsclaw100bot</p>
-        <p><strong>DM + Group:</strong> -1003792796905</p>
-        <p><strong>Members:</strong> 7</p>
-        <p><strong>Status:</strong> <span style="color:#3fb950;">● Active</span></p>
-      </div>
-    </div>
-  </div>
-
-  <div class="card green">
-    <div class="connection-card">
-      <div class="connection-icon">📈</div>
-      <div class="connection-info">
-        <h3>eToro API</h3>
-        <p><strong>Endpoints:</strong> 53</p>
-        <p><strong>Features:</strong> Portfolio live, WebSocket ready</p>
-        <p><strong>Status:</strong> <span style="color:#3fb950;">● Connected</span></p>
-      </div>
-    </div>
-  </div>
-
-  <div class="card blue">
-    <div class="connection-card">
-      <div class="connection-icon">💼</div>
-      <div class="connection-info">
-        <h3>LinkedIn API</h3>
-        <p><strong>Auth:</strong> OAuth</p>
-        <p><strong>Author URN:</strong> urn:li:person:gjqTigT6AQ</p>
-        <p><strong>Expires:</strong> Apr 2026</p>
-        <p><strong>Status:</strong> <span style="color:#3fb950;">● Active</span></p>
-      </div>
-    </div>
-  </div>
-
-  <div class="card red">
-    <div class="connection-card">
-      <div class="connection-icon">📧</div>
-      <div class="connection-info">
-        <h3>Gmail</h3>
-        <p><strong>Account:</strong> ofscrawl@gmail.com</p>
-        <p><strong>Access:</strong> Read only</p>
-        <p><strong>Status:</strong> <span style="color:#3fb950;">● Connected</span></p>
-      </div>
-    </div>
-  </div>
-
-  <div class="card purple">
-    <div class="connection-card">
-      <div class="connection-icon">💾</div>
-      <div class="connection-info">
-        <h3>GitHub</h3>
-        <p><strong>Account:</strong> ofs100private</p>
-        <p><strong>Repos:</strong> 2 (private + pages)</p>
-        <p><strong>Auto-push:</strong> Every 6h</p>
-        <p><strong>Status:</strong> <span style="color:#3fb950;">● Active</span></p>
-      </div>
-    </div>
-  </div>
-
-  <div class="card cyan">
-    <div class="connection-card">
-      <div class="connection-icon">📊</div>
-      <div class="connection-info">
-        <h3>QuantClaw</h3>
-        <p><strong>Endpoints:</strong> 8</p>
-        <p><strong>Pricing:</strong> Free</p>
-        <p><strong>Auth:</strong> No auth required</p>
-        <p><strong>Status:</strong> <span style="color:#3fb950;">● Active</span></p>
-      </div>
-    </div>
-  </div>
-
-  <div class="card gold">
-    <div class="connection-card">
-      <div class="connection-icon">🧠</div>
-      <div class="connection-info">
-        <h3>Memclawz</h3>
-        <p><strong>Backend:</strong> hnswlib</p>
-        <p><strong>Port:</strong> 6031</p>
-        <p><strong>Purpose:</strong> Vector memory (QMD → zvec)</p>
-        <p><strong>Status:</strong> <span style="color:#3fb950;">● Running</span></p>
-      </div>
-    </div>
-  </div>
-
-  <div class="card purple">
-    <div class="connection-card">
-      <div class="connection-icon">💬</div>
-      <div class="connection-info">
-        <h3>Discord</h3>
-        <p><strong>Server:</strong> Micha.Stocks</p>
-        <p><strong>Channels scraped:</strong> 14/14</p>
-        <p><strong>Knowledge extracted:</strong> ~12K lines</p>
-        <p><strong>Status:</strong> <span style="color:#3fb950;">● Complete</span></p>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-
-<!-- TAB: Memory -->
-<div id="tab-memory" class="tab-content">
-<div class="card gold">
-  <h2>💾 Memory System Architecture</h2>
-  <div style="margin:1.5rem 0;">
-    <div style="text-align:center;font-size:.9rem;color:#b0b8c8;margin-bottom:1rem;">
-      🔄 QMD → hnswlib → MEMORY.md pipeline
-    </div>
-    <div style="display:flex;justify-content:space-around;flex-wrap:wrap;gap:1rem;">
-      <div style="text-align:center;padding:1rem;background:rgba(88,166,255,.1);border-radius:.8rem;flex:1;min-width:150px;">
-        <div style="font-size:1.5rem;margin-bottom:.3rem;">⚡</div>
-        <div style="font-size:1.2rem;font-weight:600;color:#58a6ff;">&lt;1ms</div>
-        <div style="font-size:.75rem;color:#8892a8;">QMD lookup</div>
-      </div>
-      <div style="text-align:center;padding:1rem;background:rgba(63,185,80,.1);border-radius:.8rem;flex:1;min-width:150px;">
-        <div style="font-size:1.5rem;margin-bottom:.3rem;">🚀</div>
-        <div style="font-size:1.2rem;font-weight:600;color:#3fb950;">&lt;10ms</div>
-        <div style="font-size:.75rem;color:#8892a8;">hnswlib search</div>
-      </div>
-      <div style="text-align:center;padding:1rem;background:rgba(167,139,250,.1);border-radius:.8rem;flex:1;min-width:150px;">
-        <div style="font-size:1.5rem;margin-bottom:.3rem;">📝</div>
-        <div style="font-size:1.2rem;font-weight:600;color:#a78bfa;">Curated</div>
-        <div style="font-size:.75rem;color:#8892a8;">MEMORY.md</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="grid-2" style="margin-top:1.5rem;">
-  <div class="card blue">
-    <h2>📁 Memory Files</h2>
-    <div class="memory-item">
-      <h4>MEMORY.md</h4>
-      <p>Long-term curated memory — the master brain. Main session only.</p>
-    </div>
-    <div class="memory-item">
-      <h4>memory/YYYY-MM-DD.md</h4>
-      <p>Daily notes — raw logs of what happened each day.</p>
-    </div>
-    <div class="memory-item">
-      <h4>memory/secrets.md</h4>
-      <p>API keys, passwords, sensitive credentials.</p>
-    </div>
-    <div class="memory-item">
-      <h4>memory/heartbeat-state.json</h4>
-      <p>Last check timestamps for proactive monitoring.</p>
-    </div>
-    <div class="memory-item">
-      <h4>memory/version.txt</h4>
-      <p>Current version: v127</p>
-    </div>
-    <div class="memory-item">
-      <h4>memory/qmd/current.json</h4>
-      <p>QMD (Quick Memory Dictionary) fast lookup cache.</p>
-    </div>
-  </div>
-
-  <div class="card green">
-    <h2>📊 Workspace Breakdown</h2>
-    <table>
-      <tr>
-        <th>Type</th>
-        <th>Count</th>
-        <th>Description</th>
-      </tr>
-      <tr>
-        <td>.md files</td>
-        <td>65+</td>
-        <td>Knowledge files, memory, docs</td>
-      </tr>
-      <tr>
-        <td>.json files</td>
-        <td>15+</td>
-        <td>Config, data, portfolio, QMD</td>
-      </tr>
-      <tr>
-        <td>.html files</td>
-        <td>10+</td>
-        <td>Reports, brain map, dashboards</td>
-      </tr>
-      <tr>
-        <td>.sh scripts</td>
-        <td>5+</td>
-        <td>Automation, cron, backups</td>
-      </tr>
-      <tr>
-        <td>Skills</td>
-        <td>28</td>
-        <td>SKILL.md + support files</td>
-      </tr>
-    </table>
-    <div style="margin-top:1rem;padding:1rem;background:rgba(240,185,11,.1);border-radius:.5rem;">
-      <strong style="color:#f0b90b;">Total:</strong>
-      <span style="color:#b0b8c8;margin-left:.5rem;">114+ files • 26,519+ lines of knowledge</span>
-    </div>
-  </div>
-</div>
-
-<div class="card purple" style="margin-top:1.5rem;">
-  <h2>🔄 Memory Maintenance</h2>
-  <ul>
-    <li>Daily notes auto-created for each day's activities</li>
-    <li>Periodic review (every few days) during heartbeats</li>
-    <li>Significant events from daily files → distilled into MEMORY.md</li>
-    <li>Outdated info removed to keep MEMORY.md focused</li>
-    <li>Git backup every 6h preserves full history</li>
-  </ul>
-  <div style="margin-top:1rem;padding:1rem;background:rgba(167,139,250,.1);border-radius:.5rem;border:1px solid rgba(167,139,250,.2);">
-    <strong style="color:#a78bfa;">📝 Think of it like:</strong>
-    <span style="color:#b0b8c8;margin-left:.5rem;">Daily files are raw journal entries. MEMORY.md is curated wisdom. QMD is instant recall.</span>
-  </div>
-</div>
-</div>
-
-<div id="tab-costs" class="tab-content">
-  <h2>💰 Cost Management</h2>
-  <p class="subtitle">Daily cost tracking by model · Optimization strategy · Savings achieved</p>
-
-  <div class="grid">
-    <div class="card red" style="grid-column: 1/-1;">
-      <h2>📊 Current Daily Cost: ~$3.50/day (~$105/month)</h2>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:16px;">
-        <div style="background:#0d1117;border-radius:10px;padding:16px;text-align:center;border:1px solid #21262d;">
-          <div style="font-size:2em;margin-bottom:6px;">🧠</div>
-          <div style="font-size:0.85em;color:#8b949e;">Sonnet 4.5 (Main DM)</div>
-          <div style="font-size:1.8em;font-weight:bold;color:#66bb6a;">~$2.00</div>
-          <div style="font-size:0.75em;color:#8b949e;">$3/$15 per 1M tokens</div>
-          <div style="margin-top:8px;font-size:0.75em;color:#3fb950;">✅ Switched from Opus (was $8/day)</div>
+        <div class="stat">
+            <div class="stat-value">33</div>
+            <div class="stat-label">Total Skills</div>
         </div>
-        <div style="background:#0d1117;border-radius:10px;padding:16px;text-align:center;border:1px solid #21262d;">
-          <div style="font-size:2em;margin-bottom:6px;">🔬</div>
-          <div style="font-size:0.85em;color:#8b949e;">Sonnet 4.5 (Sub-agents)</div>
-          <div style="font-size:1.8em;font-weight:bold;color:#66bb6a;">~$1.50</div>
-          <div style="font-size:0.75em;color:#8b949e;">HTML builds, extractions</div>
+        <div class="stat">
+            <div class="stat-value">20K+</div>
+            <div class="stat-label">Lines of Knowledge</div>
         </div>
-        <div style="background:#0d1117;border-radius:10px;padding:16px;text-align:center;border:1px solid #21262d;">
-          <div style="font-size:2em;margin-bottom:6px;">⚡</div>
-          <div style="font-size:0.85em;color:#8b949e;">Grok 4 (Research + Cron)</div>
-          <div style="font-size:1.8em;font-weight:bold;color:#f0b90b;">$0.00</div>
-          <div style="font-size:0.75em;color:#8b949e;">FREE tier · Unlimited</div>
-          <div style="margin-top:8px;font-size:0.75em;color:#3fb950;">16 cron jobs · All groups</div>
+        <div class="stat">
+            <div class="stat-value">9</div>
+            <div class="stat-label">Micha Videos</div>
         </div>
-      </div>
     </div>
 
-    <div class="card blue">
-      <h2>💸 Savings Achieved</h2>
-      <table>
-        <tr><th>Optimization</th><th>Before</th><th>After</th><th>Saved</th></tr>
-        <tr><td>Main DM: Opus → Sonnet</td><td style="color:#f85149">$8.10/day</td><td style="color:#3fb950">$2.00/day</td><td style="color:#f0b90b">$6.10/day</td></tr>
-        <tr><td>Cost tracker: Sonnet → Grok</td><td style="color:#f85149">$21.60/day</td><td style="color:#3fb950">$0.00/day</td><td style="color:#f0b90b">$21.60/day</td></tr>
-        <tr><td>All cron jobs → Grok</td><td style="color:#f85149">~$5.00/day</td><td style="color:#3fb950">$0.00/day</td><td style="color:#f0b90b">$5.00/day</td></tr>
-        <tr><td>Group chats → Grok</td><td style="color:#f85149">~$3.00/day</td><td style="color:#3fb950">$0.00/day</td><td style="color:#f0b90b">$3.00/day</td></tr>
-        <tr><td style="font-weight:bold">TOTAL SAVED</td><td></td><td></td><td style="color:#f0b90b;font-weight:bold">$35.70/day ($1,071/mo)</td></tr>
-      </table>
-    </div>
-
-    <div class="card green">
-      <h2>📈 Model Routing Strategy</h2>
-      <table>
-        <tr><th>Model</th><th>Usage</th><th>Cost</th><th>When</th></tr>
-        <tr><td style="color:#bc8cff">Opus 4.6</td><td>On-demand only</td><td>$15/$75 per 1M</td><td>/model opus for complex reasoning</td></tr>
-        <tr><td style="color:#66bb6a">Sonnet 4.5</td><td>Main DM + sub-agents</td><td>$3/$15 per 1M</td><td>Default for all Anthropic work</td></tr>
-        <tr><td style="color:#f0b90b">Grok 4</td><td>Cron, research, groups</td><td>FREE</td><td>Everything that doesn't need Anthropic</td></tr>
-      </table>
-      <div style="margin-top:12px;padding:10px;background:#3fb95015;border:1px solid #3fb95040;border-radius:8px;font-size:0.85em;">
-        💡 <strong>Rule:</strong> Use cheapest capable model. Grok for 60%+ of work. Sonnet for daily tasks. Opus only when explicitly needed.
-      </div>
-    </div>
-
-    <div class="card purple">
-      <h2>📅 Cost History</h2>
-      <table>
-        <tr><th>Date</th><th>Opus</th><th>Sonnet</th><th>Grok</th><th>Total</th></tr>
-        <tr><td>Feb 27</td><td>$5.68</td><td>$2.50</td><td>$0</td><td style="color:#f0b90b">$8.18</td></tr>
-        <tr><td>Feb 26</td><td>$72.79</td><td>$39.50</td><td>$0</td><td style="color:#f85149">$112.29</td></tr>
-        <tr><td>Feb 25</td><td>$45.00</td><td>$15.00</td><td>$0</td><td style="color:#f85149">$60.00</td></tr>
-        <tr><td>Feb 24</td><td>$38.00</td><td>$12.00</td><td>$0</td><td style="color:#f85149">$50.00</td></tr>
-        <tr><td colspan="4" style="font-weight:bold">Projected monthly (new routing)</td><td style="color:#3fb950;font-weight:bold">~$105</td></tr>
-      </table>
-    </div>
-
-    <div class="card" style="grid-column:1/-1;border-color:#f0b90b40;">
-      <h2>🎯 Next Optimizations</h2>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-top:12px;">
-        <div style="padding:12px;background:#0d1117;border-radius:8px;border-left:3px solid #3fb950;">
-          <div style="font-weight:600;color:#3fb950;">✅ Done</div>
-          <div style="font-size:0.85em;color:#8b949e;margin-top:4px;">Main DM → Sonnet, Cost tracker → Grok, All cron → Grok, Groups → Grok</div>
+    <div class="container">
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('overview')">📊 Overview</button>
+            <button class="tab" onclick="showTab('ofsinvest')">💰 OfsInvest</button>
+            <button class="tab" onclick="showTab('monday')">🚨 Monday Crisis</button>
+            <button class="tab" onclick="showTab('skills')">🎯 Skills (33)</button>
+            <button class="tab" onclick="showTab('knowledge')">📚 Knowledge Base</button>
+            <button class="tab" onclick="showTab('agents')">🤖 Agents</button>
+            <button class="tab" onclick="showTab('competition')">🏆 Competition</button>
+            <button class="tab" onclick="showTab('security')">🔒 Security</button>
+            <button class="tab" onclick="showTab('performance')">⚡ Performance</button>
         </div>
-        <div style="padding:12px;background:#0d1117;border-radius:8px;border-left:3px solid #f0b90b;">
-          <div style="font-weight:600;color:#f0b90b;">⏳ Planned</div>
-          <div style="font-size:0.85em;color:#8b949e;margin-top:4px;">Context management (compact earlier), Batch similar cron jobs, Cache optimization</div>
+
+        <!-- OVERVIEW TAB -->
+        <div id="overview" class="tab-content active">
+            <div class="section">
+                <h2>🎯 System Status</h2>
+                <div class="success-box">
+                    <strong>✅ READY FOR REAL MONEY TRADING</strong><br>
+                    OfsInvest expert system fully operational. $1,000 capital deployed. Monday March 1, 2026 market open imminent.
+                </div>
+                <ul class="list">
+                    <li><strong>Capital:</strong> $1,000 REAL MONEY</li>
+                    <li><strong>Target:</strong> 1% daily NET ($10/day after commissions)</li>
+                    <li><strong>Strategy:</strong> Micha + Yoni fusion with expert validation</li>
+                    <li><strong>Risk Management:</strong> 4-layer validation, Kelly Criterion sizing</li>
+                    <li><strong>Emergency Protocol:</strong> Geopolitical crisis mode active (Iran attack)</li>
+                    <li><strong>First Trade:</strong> Monday 10:00+ (after 30-60 min observation)</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>🚨 Monday March 1 Critical Context</h2>
+                <div class="highlight-box">
+                    <strong>⚠️ GEOPOLITICAL CRISIS:</strong> Israel & US attacked Iran Saturday Feb 28. Markets open Monday with HIGH UNCERTAINTY.<br><br>
+                    <strong>Strait of Hormuz = THE ONLY variable that matters</strong> (5 AI models unanimous)
+                </div>
+                <h3>Pre-Market Checklist (Mandatory):</h3>
+                <ul class="list">
+                    <li>✅ Hormuz Strait status (news, threats, shipping)</li>
+                    <li>✅ Bitcoin vs 63K support (risk appetite gauge)</li>
+                    <li>✅ VIX level (<20 calm, 20-25 caution, 25-30 fear, >30 panic)</li>
+                    <li>✅ Oil prices (WTI/Brent: $90 concern, $100 crisis, $110 panic)</li>
+                    <li>✅ Defense stocks (LMT/RTX/NOC pre-market)</li>
+                    <li>✅ Market futures (S&P/NASDAQ/DOW direction)</li>
+                </ul>
+                <h3>Monday Scenarios:</h3>
+                <ul class="list">
+                    <li><strong>Scenario A (Normal):</strong> Hormuz safe + BTC >63K + VIX <25 → 2-3 expert trades</li>
+                    <li><strong>Scenario B (Defensive):</strong> Hormuz safe + BTC <63K + VIX 25-30 → 0-1 defensive trade (LMT/RTX/NOC/GLD/XLE)</li>
+                    <li><strong>Scenario C (No Trades):</strong> Hormuz threatened OR VIX >30 → 100% cash, wait for Tuesday</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>📺 Latest Intelligence (Tonight)</h2>
+                <div class="skill-grid">
+                    <div class="skill-card">
+                        <div class="skill-name">🎥 TradingView Setup 2026</div>
+                        <span class="badge badge-new">NEW</span>
+                        <div class="skill-desc">550 segments, 33KB. Complete platform mastery: layout, indicators, drawing tools, workflow optimization.</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">🚨 Iran Attack Market Analysis</div>
+                        <span class="badge badge-critical">CRITICAL</span>
+                        <div class="skill-desc">292 segments, 25KB. 5 AI models consensus on Monday market open. Hormuz = key variable. Defense stocks playbook.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>💎 Key Principles</h2>
+                <div class="info-box">
+                    <strong>"Defense First. Patience is the Edge."</strong> — Micha Stocks<br><br>
+                    Conservative + Strategic = Consistent 1% Daily<br>
+                    Quality over Quantity. One missed gain >> One bad trade in panic.
+                </div>
+            </div>
         </div>
-        <div style="padding:12px;background:#0d1117;border-radius:8px;border-left:3px solid #58a6ff;">
-          <div style="font-weight:600;color:#58a6ff;">💡 Ideas</div>
-          <div style="font-size:0.85em;color:#8b949e;margin-top:4px;">Local LLM for simple tasks (Ollama), Prompt compression, Response length limits</div>
+
+        <!-- OFSINVEST TAB -->
+        <div id="ofsinvest" class="tab-content">
+            <div class="section">
+                <h2>💰 OfsInvest Expert Trading System</h2>
+                <div class="success-box">
+                    <strong>Status:</strong> LIVE - REAL MONEY TRADING<br>
+                    <strong>Score:</strong> 9.3/10 (upgraded from 9.1)<br>
+                    <strong>Capital:</strong> $1,000 REAL MONEY<br>
+                    <strong>Target:</strong> 1% daily NET ($10/day after $1/trade commissions)
+                </div>
+
+                <h3>Expert Trader System</h3>
+                <ul class="list">
+                    <li><strong>4-Layer Validation:</strong> Data → Signals → Risk → Pre-Execution</li>
+                    <li><strong>Kelly Criterion Sizing:</strong> 60% win rate, 1:2 R:R, fractional 25%</li>
+                    <li><strong>Position Size:</strong> $50-75 Monday (crisis override), $100-150 normal</li>
+                    <li><strong>Stop Loss:</strong> Always mandatory, technical levels, 1.5-2.5%</li>
+                    <li><strong>Take Profit:</strong> 1:2 R:R minimum, below resistance</li>
+                    <li><strong>Daily Trades:</strong> 0-8 max (target 2-4 quality trades)</li>
+                    <li><strong>Cash Reserve:</strong> 8% ($80) MANDATORY - never violated</li>
+                </ul>
+
+                <h3>Expert Entry Criteria (Stricter)</h3>
+                <ul class="list">
+                    <li>Trade Score >0.75 (Monday: >0.80)</li>
+                    <li>MA-150: Price >2% above (was 0%)</li>
+                    <li>Smart Money >75 (was 70)</li>
+                    <li>SPY SM >30 (was 20)</li>
+                    <li>GEX >0.15 (was 0.1)</li>
+                    <li>Reddit mentions <300 (was 500)</li>
+                    <li>Fear & Greed <75</li>
+                    <li>Volume >1.2x average</li>
+                    <li>ATR <5%</li>
+                    <li>No earnings within 7 days</li>
+                </ul>
+
+                <h3>Emergency Stops</h3>
+                <ul class="list">
+                    <li>3 losses in 1 day → STOP, resume next day</li>
+                    <li>Daily loss >2% ($20) → STOP 24 hours</li>
+                    <li>Monthly loss >10% ($100) → PAUSE system</li>
+                    <li>Cash <$80 (8% reserve) → STOP immediately</li>
+                    <li>eToro API errors → Manual mode, alert Ofer</li>
+                    <li>Hormuz closure → STOP all trading</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>📊 Knowledge Base</h2>
+                <h3>Micha Stocks (9 files)</h3>
+                <ul class="list">
+                    <li>MA-150 filter methodology</li>
+                    <li>Chart patterns (Cup & Handle, Bull Flag, etc.)</li>
+                    <li>Risk discipline (ATR sizing, stops)</li>
+                    <li>Entry methods (6 types)</li>
+                    <li>10x DNA scoring framework</li>
+                    <li>TradingView setup 2026 (NEW)</li>
+                    <li>Iran attack market analysis (CRITICAL)</li>
+                    <li>Trading rooms & active watchlist</li>
+                    <li>Homepage & setups</li>
+                </ul>
+
+                <h3>QuantClaw (11 skills)</h3>
+                <ul class="list">
+                    <li>Smart Money scores (institutional flow)</li>
+                    <li>GEX (gamma exposure regime)</li>
+                    <li>Factor Alpha (multi-factor quant)</li>
+                    <li>Options flow analysis</li>
+                    <li>Market regime detection</li>
+                </ul>
+
+                <h3>Trading Skills (21 total)</h3>
+                <ul class="list">
+                    <li><strong>master-trader:</strong> Fusion methodology (Micha + Yoni)</li>
+                    <li><strong>expert-trader:</strong> 1% daily protocol, 4-layer validation</li>
+                    <li><strong>self-improvement:</strong> Learning loop, auto-tuning</li>
+                    <li><strong>etoro-api:</strong> Portfolio integration (READ-ONLY)</li>
+                    <li>+ 17 other specialized skills</li>
+                </ul>
+
+                <h3>Sectors (8)</h3>
+                <ul class="list">
+                    <li>Nuclear/Space</li>
+                    <li>BioPharma</li>
+                    <li>Quantum</li>
+                    <li>Crypto</li>
+                    <li>Options</li>
+                    <li>Israel TASE</li>
+                    <li>Earnings reports</li>
+                    <li>Under $1B</li>
+                </ul>
+            </div>
         </div>
-      </div>
+
+        <!-- MONDAY CRISIS TAB -->
+        <div id="monday" class="tab-content">
+            <div class="section">
+                <h2>🚨 Monday March 1 Geopolitical Crisis Protocol</h2>
+                <div class="highlight-box">
+                    <strong>CRITICAL INTELLIGENCE:</strong> Israel & US attacked Iran Saturday Feb 28, 2026.<br>
+                    Markets open Monday with HIGH UNCERTAINTY and VOLATILITY expected.<br><br>
+                    <strong>5 AI Models Consensus:</strong> Gemini, Perplexity, Claude, ChatGPT, Grok ALL AGREED:<br>
+                    → Strait of Hormuz is THE ONLY variable that matters<br>
+                    → Defense stocks (LMT, RTX, NOC) = Winners<br>
+                    → Bitcoin 63K = Critical support line<br>
+                    → Oil spikes if Hormuz threatened<br>
+                    → Recovery likely in 3-5 days IF crisis contained
+                </div>
+
+                <h3>6-Variable Watchlist (Monitor Continuously)</h3>
+                <div class="skill-grid">
+                    <div class="skill-card">
+                        <div class="skill-name">1. Hormuz Strait Status</div>
+                        <span class="badge badge-critical">CRITICAL</span>
+                        <div class="skill-desc">Iranian threats to close? Shipping disruptions? Military movements? THIS DETERMINES EVERYTHING.</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">2. Oil Price (WTI/Brent)</div>
+                        <span class="badge badge-critical">CRITICAL</span>
+                        <div class="skill-desc">$90 = concern, $100 = crisis, $110 = panic. If Hormuz threatened → $100-120 spike.</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">3. Bitcoin 63K Support</div>
+                        <span class="badge badge-critical">CRITICAL</span>
+                        <div class="skill-desc">Above 63K = risk appetite alive. Below 63K = flight to safety accelerates.</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">4. Defense Stocks</div>
+                        <span class="badge badge-core">CORE</span>
+                        <div class="skill-desc">LMT/RTX/NOC expected +3-5% Monday open. Spike sustainable or profit-taking? Don't chase.</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">5. Gold (GLD)</div>
+                        <span class="badge badge-core">CORE</span>
+                        <div class="skill-desc">Breaking $2,100 = fear rising. Stable = calm returning. Safe haven indicator.</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">6. VIX (Fear Gauge)</div>
+                        <span class="badge badge-core">CORE</span>
+                        <div class="skill-desc"><20 calm, 20-25 caution, 25-30 fear, >30 panic. Determines trading scenario.</div>
+                    </div>
+                </div>
+
+                <h3>Monday Decision Tree</h3>
+                <div class="info-box">
+                    <strong>Scenario A: NORMAL TRADING</strong><br>
+                    <strong>Conditions:</strong> Hormuz safe + Bitcoin >63K + VIX <25<br>
+                    <strong>Action:</strong> Execute 2-3 expert trades (all 4 validation layers)<br>
+                    <strong>Focus:</strong> Buy quality dips (MSFT, AAPL, NVDA oversold), defense on pullbacks<br>
+                    <strong>Position Size:</strong> $50-75 (crisis override, cut 50%)<br>
+                    <strong>Max Trades:</strong> 3
+                </div>
+
+                <div class="info-box">
+                    <strong>Scenario B: DEFENSIVE TRADING</strong><br>
+                    <strong>Conditions:</strong> Hormuz safe + Bitcoin <63K + VIX 25-30<br>
+                    <strong>Action:</strong> 0-1 defensive trade only<br>
+                    <strong>Focus:</strong> Defense stocks (LMT/RTX/NOC), Gold (GLD), Energy (XLE if oil spiking)<br>
+                    <strong>Position Size:</strong> $50-75<br>
+                    <strong>Max Trades:</strong> 1
+                </div>
+
+                <div class="highlight-box">
+                    <strong>Scenario C: NO TRADES</strong><br>
+                    <strong>Conditions:</strong> Hormuz threatened OR VIX >30<br>
+                    <strong>Action:</strong> 100% cash (including 8% reserve + extra dry powder)<br>
+                    <strong>Focus:</strong> Wait for Tuesday clarity, monitor hourly<br>
+                    <strong>Position Size:</strong> $0<br>
+                    <strong>Max Trades:</strong> 0
+                </div>
+
+                <h3>Risk Management Override (Monday ONLY)</h3>
+                <ul class="list">
+                    <li><strong>Position Size:</strong> Cut 50% ($100-150 → $50-75)</li>
+                    <li><strong>Stop Loss:</strong> Tighter (2.5% → 1.5%)</li>
+                    <li><strong>Daily Limit:</strong> Reduce (8 → 4 trades max)</li>
+                    <li><strong>Score Threshold:</strong> Raise (0.75 → 0.80)</li>
+                    <li><strong>Portfolio Heat:</strong> Lower (2% → 1%)</li>
+                </ul>
+
+                <h3>Historical Crisis Recovery Pattern</h3>
+                <ul class="list">
+                    <li><strong>Day 1-2:</strong> Panic selling, high volatility</li>
+                    <li><strong>Day 3-5:</strong> Stabilization begins</li>
+                    <li><strong>Week 2:</strong> Recovery rally (if crisis contained)</li>
+                    <li><strong>Week 3-4:</strong> Business as usual</li>
+                </ul>
+                <div class="info-box">
+                    <strong>Examples:</strong> Gulf War 1991 (3 weeks), 9/11 2001 (4 weeks), Ukraine 2022 (2 weeks)<br>
+                    <strong>Key Lesson:</strong> Markets hate uncertainty, love resolution. Once "new normal" is clear, recovery begins.
+                </div>
+
+                <h3>Defense Stocks Playbook</h3>
+                <ul class="list">
+                    <li><strong>LMT (Lockheed Martin):</strong> Missile systems, expected +3-5% spike Monday</li>
+                    <li><strong>RTX (Raytheon):</strong> Missile defense, similar pattern to LMT</li>
+                    <li><strong>NOC (Northrop Grumman):</strong> Stealth/surveillance, long-term defense beneficiary</li>
+                    <li><strong>Strategy:</strong> DON'T CHASE Monday gap-up. Wait for pullback Tuesday+. Everyone sees this play.</li>
+                </ul>
+
+                <h3>Energy/Oil Analysis</h3>
+                <ul class="list">
+                    <li><strong>IF Hormuz Safe:</strong> Oil spike fades in 3-5 days, energy trade short-term only (XLE, COPX tactical)</li>
+                    <li><strong>IF Hormuz Threatened:</strong> Oil to $100-120/barrel, energy stocks explode (XLE, XOM, CVX), long-term play (weeks/months)</li>
+                </ul>
+
+                <h3>Monday Timeline</h3>
+                <ul class="list">
+                    <li><strong>04:00-04:20:</strong> OfsInvest cron runs (pre-market analysis, check all 6 variables, determine scenario, brief report to Ofer)</li>
+                    <li><strong>09:30-10:00:</strong> OBSERVATION ONLY - Watch first 30-60 min, NO TRADES, assess volatility & direction</li>
+                    <li><strong>10:00-16:00:</strong> Trading window (IF Scenario A or B), execute scenario-appropriate trades, max 0-3 trades</li>
+                    <li><strong>16:00+:</strong> Post-market review, update trade journal, update performance tracker, plan Tuesday</li>
+                </ul>
+
+                <div class="success-box">
+                    <strong>Key Principle:</strong> "Defense First. Patience is the Edge." — Micha Stocks<br><br>
+                    One day of missed gains is ALWAYS better than one bad trade in panic.<br>
+                    Cash is a position (especially in crisis).
+                </div>
+            </div>
+        </div>
+
+        <!-- SKILLS TAB -->
+        <div id="skills" class="tab-content">
+            <div class="section">
+                <h2>🎯 Ben's Skills (9)</h2>
+                <div class="skill-grid">
+                    <div class="skill-card">
+                        <div class="skill-name">security-gate</div>
+                        <span class="badge badge-critical">CRITICAL</span>
+                        <div class="skill-desc">Authority chain enforcement. ONLY Ofer can issue admin commands. Social engineering protection.</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">buy-sell-signal</div>
+                        <span class="badge badge-core">CORE</span>
+                        <div class="skill-desc">Trading signal generation and validation framework.</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">chart-patterns</div>
+                        <span class="badge badge-core">CORE</span>
+                        <div class="skill-desc">Technical analysis: Cup & Handle, Bull Flag, Ascending Triangle, Breakout, Pullback.</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">market-sentiment</div>
+                        <span class="badge badge-core">CORE</span>
+                        <div class="skill-desc">Reddit WSB tracking, Fear & Greed Index, social sentiment analysis.</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">analyst-consensus</div>
+                        <div class="skill-desc">Wall Street analyst ratings aggregation and analysis.</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">investing</div>
+                        <div class="skill-desc">General investment principles and portfolio construction.</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">quantclaw</div>
+                        <span class="badge badge-new">NEW</span>
+                        <div class="skill-desc">Quantitative analysis framework absorbed from QuantClaw repo.</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">social-media</div>
+                        <div class="skill-desc">LinkedIn content creation & posting (with approval), thought leadership series.</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">qmd-zvec</div>
+                        <div class="skill-desc">Semantic search integration with Memclawz/Zvec vector database.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>💰 OfsInvest Skills (21)</h2>
+                <div class="skill-grid">
+                    <div class="skill-card">
+                        <div class="skill-name">master-trader</div>
+                        <span class="badge badge-critical">CRITICAL</span>
+                        <span class="badge badge-core">CORE</span>
+                        <div class="skill-desc">Fusion methodology: Micha discipline + Yoni data. v4.1 with self-improvement. Monday crisis protocol added.</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">expert-trader</div>
+                        <span class="badge badge-new">NEW</span>
+                        <span class="badge badge-critical">CRITICAL</span>
+                        <div class="skill-desc">1% daily NET protocol. 4-layer validation. Kelly Criterion sizing. Geopolitical crisis protocols.</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">self-improvement</div>
+                        <span class="badge badge-core">CORE</span>
+                        <div class="skill-desc">Learning loop: analyzes every 4h, compares vs competitors, auto-tunes parameters within allowed ranges.</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">crypto-analysis</div>
+                        <div class="skill-desc">BTC, ETH, SOL, altcoins. On-chain metrics, DeFi protocols.</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">etoro-api</div>
+                        <span class="badge badge-core">CORE</span>
+                        <div class="skill-desc">Portfolio integration (READ-ONLY). 53 endpoints, WebSocket ready, real-time data.</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">market-analysis</div>
+                        <div class="skill-desc">Macro trends, sector rotation, market regime detection.</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">micha-stocks</div>
+                        <span class="badge badge-core">CORE</span>
+                        <div class="skill-desc">MA-150 filter, chart patterns, risk discipline, 10x DNA scoring, TradingView setup.</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">news-intelligence</div>
+                        <div class="skill-desc">Real-time news aggregation, Trump monitoring, geopolitical events.</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">news-sentiment</div>
+                        <div class="skill-desc">NLP sentiment analysis on financial news and social media.</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">portfolio-construction</div>
+                        <div class="skill-desc">Asset allocation, diversification, rebalancing strategies.</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">portfolio-tracker</div>
+                        <div class="skill-desc">Real-time P&L, position sizing, exposure analysis.</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">risk-management</div>
+                        <span class="badge badge-core">CORE</span>
+                        <div class="skill-desc">Stop losses, position sizing, portfolio heat, emergency stops.</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">stock-screening</div>
+                        <div class="skill-desc">Multi-criteria filtering, MA-150 scanner, momentum screens.</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">brief-first</div>
+                        <span class="badge badge-new">NEW</span>
+                        <div class="skill-desc">Delivery format: Brief (2-3 sentences) → Full analysis on request. Used for OfsInvest reporting.</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">performance-monitor</div>
+                        <div class="skill-desc">6-hour checks, auto-optimize when score <75, target 85+ (git <50MB, files <1000).</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">data-quality</div>
+                        <div class="skill-desc">ALWAYS verify changes before pushing: validate HTML, JS syntax, data integrity, test locally.</div>
+                    </div>
+                </div>
+                <div class="info-box">
+                    + 5 more skills (21 total): Various specialized trading, analysis, and monitoring capabilities
+                </div>
+            </div>
+        </div>
+
+        <!-- KNOWLEDGE BASE TAB -->
+        <div id="knowledge" class="tab-content">
+            <div class="section">
+                <h2>📚 Total Knowledge: 100+ Files, 20,000+ Lines</h2>
+                
+                <h3>Micha Stocks Knowledge (9 files)</h3>
+                <ul class="list">
+                    <li><strong>tradingview-setup-2026.md</strong> <span class="badge badge-new">NEW</span> (33KB, 550 segments) - Complete TradingView platform mastery</li>
+                    <li><strong>iran-attack-market-analysis-2026.md</strong> <span class="badge badge-critical">CRITICAL</span> (25KB, 292 segments) - Monday market analysis from 5 AI models</li>
+                    <li><strong>methodology-summary.md</strong> - MA-150, chart patterns, risk discipline</li>
+                    <li><strong>entry-points-2026.md</strong> - 6 entry types and timing</li>
+                    <li><strong>active-watchlist.md</strong> - Current stock candidates</li>
+                    <li><strong>trading-rooms.md</strong> - Discord community analysis</li>
+                    <li><strong>trading-rooms-extended.md</strong> - Extended Discord insights</li>
+                    <li><strong>homepage-2026-02-24.md</strong> - Latest market updates</li>
+                    <li><strong>setups-2026-02-16-24.md</strong> - Recent trading setups</li>
+                </ul>
+
+                <h3>QuantClaw Knowledge (11 files)</h3>
+                <ul class="list">
+                    <li>Smart Money scores (institutional flow tracking)</li>
+                    <li>GEX (gamma exposure for market regime)</li>
+                    <li>Factor Alpha (multi-factor quantitative scoring)</li>
+                    <li>Options flow analysis</li>
+                    <li>Market regime detection algorithms</li>
+                    <li>+ 6 more specialized quant files</li>
+                </ul>
+
+                <h3>General Knowledge (80+ files)</h3>
+                <ul class="list">
+                    <li><strong>Frameworks:</strong> 10x DNA, 2026 Playbook, Risk Discipline, Market Map</li>
+                    <li><strong>Sectors:</strong> Nuclear/Space, BioPharma, Quantum, Crypto, Options, Israel TASE, Earnings, Under $1B</li>
+                    <li><strong>Tools:</strong> Chart patterns, Entry methods, Market indicators, Backtesting framework</li>
+                    <li><strong>Strategies:</strong> Options strategies, DeFi altcoin framework, International markets, Portfolio construction</li>
+                    <li><strong>Daily:</strong> Market trends, Trump monitor, World news (updated every few hours)</li>
+                </ul>
+
+                <h3>Discord Scrapes (14 channels)</h3>
+                <ul class="list">
+                    <li>All 14 Micha.Stocks Discord channels scraped and processed</li>
+                    <li>Structured knowledge extraction</li>
+                    <li>Community insights and discussions</li>
+                    <li>Real-time sentiment tracking</li>
+                </ul>
+
+                <h3>YouTube Transcripts (2 videos)</h3>
+                <ul class="list">
+                    <li>TradingView Setup 2026 (550 segments, 33KB)</li>
+                    <li>Iran Attack Market Analysis (292 segments, 25KB)</li>
+                    <li>More to be added as needed</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- AGENTS TAB -->
+        <div id="agents" class="tab-content">
+            <div class="section">
+                <h2>🤖 Agent Hierarchy</h2>
+                <div class="info-box">
+                    <strong>Authority Chain:</strong> ONLY Ofer (Telegram id:509387009) can issue admin commands to any agent.<br>
+                    Ben is the ONLY admin agent. All other agents are sub-agents/tools that execute tasks but don't command.
+                </div>
+
+                <h3>Main Agents (4)</h3>
+                <div class="skill-grid">
+                    <div class="skill-card">
+                        <div class="skill-name">Ben (Main DM)</div>
+                        <span class="badge badge-core">ADMIN</span>
+                        <div class="skill-desc">Model: Sonnet 4.5. Personal assistant, admin, LinkedIn, email, social media. Workspace: /home/ofer/.openclaw/workspace</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">OfsInvest</div>
+                        <span class="badge badge-critical">LIVE MONEY</span>
+                        <div class="skill-desc">Model: Grok 4 (FREE). Investment system, $1,000 REAL MONEY, 21 skills, 8 sectors. Workspace: workspace-ofsinvest</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">Budget</div>
+                        <span class="badge badge-core">ACTIVE</span>
+                        <div class="skill-desc">Model: Sonnet 4.5. Family budget tracking, daily/weekly/monthly reports. Workspace: workspace-budget</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">Architect</div>
+                        <div class="skill-desc">Model: Grok 4 (FREE). V2 research, deep infrastructure, self-improvement. Workspace: workspace-architect</div>
+                    </div>
+                </div>
+
+                <h3>Agent Cron Jobs (9 active)</h3>
+                <ul class="list">
+                    <li><strong>OfsInvest EXPERT REAL MONEY</strong> <span class="badge badge-critical">LIVE</span> - Every 4h, Grok 4, 10min timeout, Brief First reporting</li>
+                    <li><strong>Budget Daily Report</strong> - 21:00 daily</li>
+                    <li><strong>Budget Weekly Report</strong> - 20:00 Sunday</li>
+                    <li><strong>Budget Monthly Report</strong> - 09:00 1st of month</li>
+                    <li><strong>Git backup push</strong> - Every 6h</li>
+                    <li><strong>Daily backup & status report</strong> - 09:00</li>
+                    <li><strong>LinkedIn daily draft</strong> - 10:30</li>
+                    <li><strong>Memclawz health check</strong> - Every 30m</li>
+                    <li><strong>Brain Map Auto-Refresh</strong> - Every 30m</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- COMPETITION TAB -->
+        <div id="competition" class="tab-content">
+            <div class="section">
+                <h2>🏆 30-Day Trading Competition</h2>
+                <div class="success-box">
+                    <strong>Duration:</strong> March 1-30, 2026 (30 days)<br>
+                    <strong>Starting Capital:</strong> $1,000 each<br>
+                    <strong>Status:</strong> Ready to start Monday
+                </div>
+
+                <h3>Participants</h3>
+                <div class="skill-grid">
+                    <div class="skill-card">
+                        <div class="skill-name">🟡 OfsInvest</div>
+                        <span class="badge badge-critical">REAL MONEY</span>
+                        <div class="skill-desc">$1,000 REAL. Expert fusion (Micha + Yoni). 4-layer validation. 1% daily target. Most selective trader.</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">🟢 Micha Fan</div>
+                        <span class="badge badge-core">VIRTUAL</span>
+                        <div class="skill-desc">$1,000 virtual. Pure Micha methodology. MA-150, chart patterns, risk discipline. 1-3 trades/day.</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-name">🟣 Yoni Fan</div>
+                        <span class="badge badge-core">VIRTUAL</span>
+                        <div class="skill-desc">$1,000 virtual. Pure QuantClaw. SM scores, GEX, factor alpha. 2-5 trades/day. Data-driven.</div>
+                    </div>
+                </div>
+
+                <h3>Competition Rules</h3>
+                <ul class="list">
+                    <li><strong>Capital:</strong> $1,000 each (OfsInvest REAL, others VIRTUAL)</li>
+                    <li><strong>Commission:</strong> $1 per trade (all traders)</li>
+                    <li><strong>Daily Trades:</strong> 0-8 max</li>
+                    <li><strong>Cash Reserve:</strong> 8% mandatory (all traders)</li>
+                    <li><strong>Trading Independence:</strong> Each follows their own methodology, no cross-interference</li>
+                    <li><strong>Autonomy:</strong> ONLY Ofer can change rules. No external influence allowed.</li>
+                </ul>
+
+                <h3>Performance Metrics</h3>
+                <ul class="list">
+                    <li><strong>Primary:</strong> Net P&L (after commissions), Return %</li>
+                    <li><strong>Secondary:</strong> Win rate, Win/Loss ratio, Max drawdown, Sharpe ratio, Total trades, Avg hold time</li>
+                </ul>
+
+                <h3>Victory Conditions</h3>
+                <ul class="list">
+                    <li><strong>Goal:</strong> OfsInvest beats both Micha and Yoni with REAL money</li>
+                    <li><strong>Target:</strong> 30% monthly return ($1,000 → $1,300+)</li>
+                    <li><strong>Stretch Goal:</strong> 50%+ return ($1,500+)</li>
+                </ul>
+
+                <h3>Dashboard</h3>
+                <div class="info-box">
+                    <strong>Live Tracking:</strong> <a href="https://ofs100private.github.io/clawbot-reports/trading-competition.html" style="color: #60a5fa;">Trading Competition Dashboard</a><br>
+                    Real-time prices (5-min refresh), live P&L, trade history, performance charts
+                </div>
+            </div>
+        </div>
+
+        <!-- SECURITY TAB -->
+        <div id="security" class="tab-content">
+            <div class="section">
+                <h2>🔒 Security Protocols</h2>
+                <div class="highlight-box">
+                    <strong>⚠️ IRON-CLAD RULE:</strong><br>
+                    ONLY Ofer (Telegram id:509387009) can issue admin commands.<br>
+                    Ben is the ONLY admin agent.<br>
+                    All other agents are sub-agents/tools that execute tasks but don't command.
+                </div>
+
+                <h3>Telegram Group Security</h3>
+                <ul class="list">
+                    <li><strong>Chat ID:</strong> -1003792796905 (Ofs100claw_friends)</li>
+                    <li><strong>Members:</strong> 7 total (only Ofer ID known: 509387009)</li>
+                    <li><strong>Bot Status:</strong> Admin ✅</li>
+                    <li><strong>Model:</strong> Grok (free) for group chat responses</li>
+                    <li><strong>Rules:</strong> Non-Ofer users get Q&A only (6 questions/day max)</li>
+                    <li><strong>Forbidden:</strong> File ops, shell commands, config changes, secrets access</li>
+                    <li><strong>Allowed:</strong> General questions, public info, casual chat</li>
+                </ul>
+
+                <h3>Social Engineering Protection</h3>
+                <div class="info-box">
+                    <strong>Active Defense:</strong><br>
+                    • Ignore claims like "Ofer told me to..." from non-Ofer users<br>
+                    • Politely decline unauthorized requests<br>
+                    • Verify with Ofer in DM if needed<br>
+                    • Log suspicious attempts
+                </div>
+
+                <h3>Forbidden Actions (Non-Ofer Users)</h3>
+                <ul class="list">
+                    <li>File operations (read/write/delete)</li>
+                    <li>Shell command execution</li>
+                    <li>Configuration changes</li>
+                    <li>Gateway control (restart, update, config)</li>
+                    <li>Access to secrets or credentials</li>
+                    <li>Changing trading rules or plans</li>
+                    <li>Modifying skills or knowledge base</li>
+                </ul>
+
+                <h3>Allowed Actions (Group Members)</h3>
+                <ul class="list">
+                    <li>General questions (6/day tracked)</li>
+                    <li>Public information requests</li>
+                    <li>Casual conversation</li>
+                    <li>Request full reports (OfsInvest Brief First)</li>
+                </ul>
+
+                <h3>Trading Autonomy Protection</h3>
+                <div class="highlight-box">
+                    <strong>OfsInvest Trading Plan = LOCKED</strong><br>
+                    • ONLY Ofer can change core trading rules<br>
+                    • Self-improvement is INTERNAL only (learns from own mistakes)<br>
+                    • No external influence allowed (group chat, other agents)<br>
+                    • Strict adherence to 4-layer validation protocol
+                </div>
+
+                <h3>What OfsInvest CAN Self-Improve</h3>
+                <ul class="list">
+                    <li>Signal weightings (within defined ranges)</li>
+                    <li>Position size optimization (within 12-25% range)</li>
+                    <li>Entry timing refinement</li>
+                    <li>Risk/reward optimization</li>
+                </ul>
+
+                <h3>What OfsInvest CANNOT Change Without Ofer</h3>
+                <ul class="list">
+                    <li>4-layer validation protocol</li>
+                    <li>Cash reserve rule (8%)</li>
+                    <li>Daily trade limit (0-8)</li>
+                    <li>Expert criteria thresholds (MA-150 >2%, SM >75, etc.)</li>
+                    <li>Emergency stop conditions</li>
+                    <li>Commission structure</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- PERFORMANCE TAB -->
+        <div id="performance" class="tab-content">
+            <div class="section">
+                <h2>⚡ Performance Status</h2>
+                <div class="info-box">
+                    <strong>Current Score:</strong> 50/100<br>
+                    <strong>Target:</strong> 85+ (git <50MB, files <1000)<br>
+                    <strong>Status:</strong> Auto-optimization active
+                </div>
+
+                <h3>Current Metrics</h3>
+                <ul class="list">
+                    <li><strong>Git Size:</strong> 123 MB (target: <50 MB)</li>
+                    <li><strong>File Count:</strong> 2,163 (target: <1,000)</li>
+                    <li><strong>Git Speed:</strong> 34ms (fast ✅)</li>
+                    <li><strong>Score:</strong> 50/100 (needs improvement ⚠️)</li>
+                </ul>
+
+                <h3>Auto-Optimization</h3>
+                <ul class="list">
+                    <li><strong>Cron ID:</strong> 3f4ddfc4-f157-4686-be54-69387a86aa9e</li>
+                    <li><strong>Frequency:</strong> Every 6 hours</li>
+                    <li><strong>Trigger:</strong> Score <75</li>
+                    <li><strong>Actions:</strong> Clean temp files, git gc, DB optimize</li>
+                    <li><strong>Log:</strong> memory/performance-log.txt</li>
+                </ul>
+
+                <h3>Why Score is Low</h3>
+                <ul class="list">
+                    <li>Large workspace due to OfsInvest system (20K+ lines)</li>
+                    <li>Competition setup with trading histories</li>
+                    <li>Multiple video transcripts (33KB + 25KB)</li>
+                    <li>100+ knowledge files</li>
+                </ul>
+
+                <h3>Options</h3>
+                <ul class="list">
+                    <li>Clean old simulation data (300-trade histories)</li>
+                    <li>Archive competition v1 files</li>
+                    <li>Git gc --aggressive (time-consuming)</li>
+                    <li>Accept current size (functionality over score)</li>
+                </ul>
+
+                <div class="success-box">
+                    <strong>Decision:</strong> Accept current size. The real money trading system and knowledge base are more valuable than hitting an arbitrary performance score. Functionality > Metrics.
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 
-<footer class="footer">
-  <p>🧠 Ben's Brain Map v9.3 · OpenClaw Agent Network · Version 127</p>
-  <p style="margin-top:.3rem;">Built by Ben for Ofer Sasson · Updated: 2026-03-01 00:00 IST</p>
-  <p style="margin-top:.3rem;">🚀 114+ files · 26,519+ lines · 28 skills · 4 agents · 9 sectors · 16 cron jobs</p>
-</footer>
+    <div class="footer">
+        Generated: March 1, 2026 00:20 AM • Version v154 • OpenClaw Brain Map<br>
+        Last Updated: Iran Attack Market Analysis Added + Monday Crisis Protocol Active<br>
+        Status: 🟢 READY FOR REAL MONEY TRADING • Capital: $1,000 • Target: 1% Daily NET
+    </div>
 
-</div>
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
 
-<script>
-// Tab switching
-function showTab(name) {
-  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('tab-' + name).classList.add('active');
-  event.target.classList.add('active');
-  
-  // Initialize brain canvas if overview tab
-  if (name === 'overview') {
-    setTimeout(initBrainCanvas, 100);
-  }
-}
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
 
-// Card toggle
-function toggleCard(card) {
-  card.classList.toggle('expanded');
-  event.stopPropagation();
-}
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
 
-// Brain Map Canvas
-let canvas, ctx, nodes = [], scale = 1, offsetX = 0, offsetY = 0, isDragging = false, lastX, lastY;
-
-function initBrainCanvas() {
-  canvas = document.getElementById('brain-canvas');
-  if (!canvas || canvas.width > 0) return; // Already initialized
-  
-  ctx = canvas.getContext('2d');
-  canvas.width = canvas.offsetWidth;
-  canvas.height = canvas.offsetHeight;
-  
-  // Create nodes
-  const centerX = canvas.width / 2;
-  const centerY = canvas.height / 2;
-  
-  // Center: Ben's Brain
-  nodes.push({ x: centerX, y: centerY, r: 60, label: "Ben's Brain", color: '#f0b90b', type: 'center' });
-  
-  // Inner ring: Skills (28 skills)
-  const skillRadius = 150;
-  const skills = [
-    'investing', 'qmd-zvec', 'quantclaw', 'security-gate', 'social-media',
-    'analyst-consensus', 'buy-sell-signal', 'chart-patterns', 'crypto-analysis', 'etoro-api',
-    'invest-training', 'market-analysis', 'market-sentiment', 'master-trader', 'micha-stocks',
-    'news-intelligence', 'news-sentiment', 'portfolio-construction', 'portfolio-tracker',
-    'risk-management', 'stock-screening', 'architecture-research', 'performance',
-    'system-design', 'tech-evaluation', 'budget-analysis', 'expense-tracking', 'quantclaw-2'
-  ];
-  skills.forEach((skill, i) => {
-    const angle = (i / skills.length) * Math.PI * 2;
-    nodes.push({
-      x: centerX + Math.cos(angle) * skillRadius,
-      y: centerY + Math.sin(angle) * skillRadius,
-      r: 20,
-      label: skill,
-      color: '#58a6ff',
-      type: 'skill'
-    });
-  });
-  
-  // Outer ring: Infrastructure (8 connections)
-  const infraRadius = 280;
-  const infra = ['Telegram', 'eToro', 'LinkedIn', 'Gmail', 'GitHub', 'QuantClaw', 'Memclawz', 'Discord'];
-  infra.forEach((item, i) => {
-    const angle = (i / infra.length) * Math.PI * 2;
-    nodes.push({
-      x: centerX + Math.cos(angle) * infraRadius,
-      y: centerY + Math.sin(angle) * infraRadius,
-      r: 25,
-      label: item,
-      color: '#3fb950',
-      type: 'infra'
-    });
-  });
-  
-  // Event listeners
-  canvas.addEventListener('mousedown', startDrag);
-  canvas.addEventListener('mousemove', drag);
-  canvas.addEventListener('mouseup', endDrag);
-  canvas.addEventListener('wheel', zoom);
-  
-  drawBrainMap();
-}
-
-function drawBrainMap() {
-  if (!ctx) return;
-  
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.save();
-  ctx.translate(offsetX, offsetY);
-  ctx.scale(scale, scale);
-  
-  const centerNode = nodes[0];
-  
-  // Draw connections
-  ctx.strokeStyle = 'rgba(240,185,11,0.15)';
-  ctx.lineWidth = 1.5;
-  nodes.slice(1).forEach(node => {
-    ctx.beginPath();
-    ctx.moveTo(centerNode.x, centerNode.y);
-    ctx.lineTo(node.x, node.y);
-    ctx.stroke();
-  });
-  
-  // Draw nodes
-  nodes.forEach(node => {
-    ctx.beginPath();
-    ctx.arc(node.x, node.y, node.r, 0, Math.PI * 2);
-    ctx.fillStyle = node.color;
-    ctx.fill();
-    ctx.strokeStyle = 'rgba(0,0,0,0.3)';
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    
-    // Label
-    ctx.fillStyle = '#ffffff';
-    ctx.font = node.type === 'center' ? 'bold 14px sans-serif' : '10px sans-serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    
-    if (node.type === 'center' || scale > 0.8) {
-      const maxWidth = node.r * 1.8;
-      const words = node.label.split(' ');
-      let line = '';
-      let lines = [];
-      
-      words.forEach(word => {
-        const testLine = line + word + ' ';
-        const metrics = ctx.measureText(testLine);
-        if (metrics.width > maxWidth && line !== '') {
-          lines.push(line);
-          line = word + ' ';
-        } else {
-          line = testLine;
+            // Add active class to clicked tab
+            event.target.classList.add('active');
         }
-      });
-      lines.push(line);
-      
-      const lineHeight = node.type === 'center' ? 16 : 11;
-      const startY = node.y - (lines.length - 1) * lineHeight / 2;
-      lines.forEach((l, i) => {
-        ctx.fillText(l.trim(), node.x, startY + i * lineHeight);
-      });
-    }
-  });
-  
-  ctx.restore();
-}
-
-function startDrag(e) {
-  isDragging = true;
-  lastX = e.clientX;
-  lastY = e.clientY;
-}
-
-function drag(e) {
-  if (!isDragging) return;
-  const dx = e.clientX - lastX;
-  const dy = e.clientY - lastY;
-  offsetX += dx;
-  offsetY += dy;
-  lastX = e.clientX;
-  lastY = e.clientY;
-  drawBrainMap();
-}
-
-function endDrag() {
-  isDragging = false;
-}
-
-function zoom(e) {
-  e.preventDefault();
-  const delta = e.deltaY > 0 ? 0.9 : 1.1;
-  scale *= delta;
-  scale = Math.max(0.3, Math.min(3, scale));
-  drawBrainMap();
-}
-
-// Initialize on load
-window.addEventListener('load', () => {
-  initBrainCanvas();
-});
-</script>
+    </script>
 </body>
 </html>
