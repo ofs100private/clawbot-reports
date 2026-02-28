@@ -11138,7 +11138,7 @@
       "msg": "BUY 0.6414 GOOGL @ 311.76 1x ($200). SM:100|accumulating GEX:negative|-0.26"
     }
   ],
-  "lastUpdate": "2026-02-28T05:16:00+02:00",
+  "lastUpdate": "2026-02-28T11:07:07+02:00",
   "prices": {
     "NVDA": 177.19,
     "AAPL": 264.18,
@@ -11199,5 +11199,17 @@
         20
       ]
     }
+  },
+  "ofsinvest": {
+    "cash": 1000.0,
+    "holdings": [],
+    "trades": [],
+    "pnlHistory": [
+      {
+        "date": "2026-02-28",
+        "pnl": 0
+      }
+    ],
+    "totalPnl": 0
   }
 }
