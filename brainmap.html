@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OpenClaw Brain Map v166</title>
+    <title>OpenClaw Brain Map v168</title>
     <style>
         * {
             margin: 0;
@@ -359,6 +359,99 @@
             margin-bottom: 5px;
         }
 
+        /* Brain Architecture Styles */
+        #brain-graph {
+            width: 100%;
+            height: 700px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            position: relative;
+        }
+
+        .node {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .node:hover {
+            filter: brightness(1.3);
+        }
+
+        .node-circle {
+            transition: all 0.3s ease;
+        }
+
+        .node:hover .node-circle {
+            stroke-width: 3;
+        }
+
+        .connection-line {
+            stroke: rgba(102, 126, 234, 0.3);
+            stroke-width: 1.5;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        .node-text {
+            fill: #e0e0e0;
+            font-size: 12px;
+            text-anchor: middle;
+            pointer-events: none;
+        }
+
+        .node-label {
+            fill: #fff;
+            font-size: 14px;
+            font-weight: bold;
+            text-anchor: middle;
+            pointer-events: none;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+            max-width: 250px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .tooltip.visible {
+            opacity: 1;
+        }
+
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9em;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 20px;
@@ -388,6 +481,10 @@
             .model-distribution {
                 flex-direction: column;
             }
+
+            #brain-graph {
+                height: 500px;
+            }
         }
     </style>
 </head>
@@ -398,7 +495,7 @@
             <div class="stats-bar">
                 <div class="stat">
                     <div class="stat-label">Version</div>
-                    <div class="stat-value">v166</div>
+                    <div class="stat-value">v168</div>
                 </div>
                 <div class="stat">
                     <div class="stat-label">Daily Cost</div>
@@ -420,14 +517,15 @@
 
         <div class="tabs">
             <div class="tab active" data-tab="overview">Overview</div>
+            <div class="tab" data-tab="architecture">Brain Architecture</div>
             <div class="tab" data-tab="cost">Cost/Optimization</div>
             <div class="tab" data-tab="ofsinvest">OfsInvest</div>
             <div class="tab" data-tab="competition">Competition</div>
             <div class="tab" data-tab="skills">Skills</div>
             <div class="tab" data-tab="knowledge">Knowledge</div>
+            <div class="tab" data-tab="agents">Agents</div>
             <div class="tab" data-tab="security">Security</div>
             <div class="tab" data-tab="performance">Performance</div>
-            <div class="tab" data-tab="agents">Agents</div>
             <div class="tab" data-tab="monday">Monday Crisis</div>
         </div>
 
@@ -479,6 +577,98 @@
                     <li><strong>Monday Crisis Protocol:</strong> Iran attack response (3 scenarios, 6-variable watchlist)</li>
                     <li><strong>Security Hardened:</strong> ONLY Ofer admin rules, group chat protections</li>
                 </ul>
+            </div>
+        </div>
+
+        <!-- Brain Architecture Tab -->
+        <div class="tab-content" id="architecture">
+            <div class="section">
+                <h2>🧠 Brain Architecture</h2>
+                <p>Visual representation of Ben's brain structure - hover over nodes for details</p>
+                
+                <div id="brain-graph"></div>
+                <div class="tooltip" id="tooltip"></div>
+                
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #667eea;"></div>
+                        <span>Central Hub</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #4ade80;"></div>
+                        <span>Skills (33)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #fbbf24;"></div>
+                        <span>Knowledge (100+ files)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #a78bfa;"></div>
+                        <span>Memory</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #fb923c;"></div>
+                        <span>Agents (4)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #60a5fa;"></div>
+                        <span>Tools</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #ef4444;"></div>
+                        <span>Security</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #fcd34d;"></div>
+                        <span>Cost ($3.50/day)</span>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 30px;">Architecture Stats</h3>
+                <div class="grid">
+                    <div class="card">
+                        <h4>🟢 Skills (33 total)</h4>
+                        <p>Ben: 9 skills | OfsInvest: 21 skills | 3 shared</p>
+                        <p style="font-size: 0.9em; margin-top: 10px; color: #999;">
+                            master-trader, etoro-api, micha-stocks, quantclaw, sentiment-fusion, trump-monitor, and more
+                        </p>
+                    </div>
+                    <div class="card">
+                        <h4>🟡 Knowledge (100+ files)</h4>
+                        <p>25,000+ lines across 9 sectors</p>
+                        <p style="font-size: 0.9em; margin-top: 10px; color: #999;">
+                            Nuclear-Space, BioPharma, Quantum, Crypto, Options, Healthcare, Earnings, Under-1B, Israel-TASE
+                        </p>
+                    </div>
+                    <div class="card">
+                        <h4>🟣 Memory System</h4>
+                        <p>MEMORY.md + daily logs (YYYY-MM-DD.md)</p>
+                        <p style="font-size: 0.9em; margin-top: 10px; color: #999;">
+                            Long-term curated memory + daily raw logs for continuity across sessions
+                        </p>
+                    </div>
+                    <div class="card">
+                        <h4>🟠 Agents (4 total)</h4>
+                        <p>Ben (admin), OfsInvest, Budget, Architect</p>
+                        <p style="font-size: 0.9em; margin-top: 10px; color: #999;">
+                            Ben orchestrates, sub-agents execute. OfsInvest = real money trading.
+                        </p>
+                    </div>
+                    <div class="card">
+                        <h4>🔵 Tools Integration</h4>
+                        <p>eToro API, LinkedIn, Gmail, GitHub</p>
+                        <p style="font-size: 0.9em; margin-top: 10px; color: #999;">
+                            Real-time eToro trading (53 endpoints), LinkedIn posting, email management, git automation
+                        </p>
+                    </div>
+                    <div class="card">
+                        <h4>🔴 Security (IRON RULES)</h4>
+                        <p>ONLY Ofer (id:509387009) = admin</p>
+                        <p style="font-size: 0.9em; margin-top: 10px; color: #999;">
+                            No one else can give admin commands, modify files, or influence trading. Security > helpfulness.
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -1104,6 +1294,67 @@
             </div>
         </div>
 
+        <!-- Agents Tab -->
+        <div class="tab-content" id="agents">
+            <div class="section">
+                <h2>🤖 Agent Hierarchy</h2>
+                
+                <div class="grid">
+                    <div class="card">
+                        <h4>🧠 Ben (Admin)</h4>
+                        <p><strong>Model:</strong> Sonnet 4.5 (main), Opus 4.6 (on-demand)</p>
+                        <p><strong>Workspace:</strong> /home/ofer/.openclaw/workspace</p>
+                        <p><strong>Role:</strong> Personal assistant, social media expert (LinkedIn), email, calendar, alerts, system admin</p>
+                        <p><strong>Authority:</strong> ONLY admin agent - all others report to Ben</p>
+                        <p><strong>Skills:</strong> 9 total</p>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>📊 OfsInvest</h4>
+                        <p><strong>Model:</strong> Grok 4 (free)</p>
+                        <p><strong>Workspace:</strong> workspace-ofsinvest</p>
+                        <p><strong>Role:</strong> Real money trading system, 24x5 markets, $1,000 capital</p>
+                        <p><strong>Score:</strong> 9.5/10</p>
+                        <p><strong>Skills:</strong> 21 total (master-trader, expert-trader, etoro-api, etc.)</p>
+                        <p><strong>Knowledge:</strong> 90+ files, 25,000+ lines, 9 sectors</p>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>💰 Budget</h4>
+                        <p><strong>Model:</strong> Sonnet 4.5</p>
+                        <p><strong>Workspace:</strong> workspace-budget</p>
+                        <p><strong>Role:</strong> Family budget tracking, expense categorization, daily/weekly/monthly reports</p>
+                        <p><strong>Reports:</strong> 21:00 daily, 20:00 Sunday (weekly), 09:00 1st of month (monthly)</p>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>🏗️ Architect</h4>
+                        <p><strong>Model:</strong> Grok 4 (free)</p>
+                        <p><strong>Workspace:</strong> workspace-architect</p>
+                        <p><strong>Role:</strong> V2 research (Brain DB, Cache DB, LLM routing), deep infrastructure planning, self-improvement</p>
+                        <p><strong>Status:</strong> Research phase (no production implementation)</p>
+                    </div>
+                </div>
+
+                <h3>Agent Communication</h3>
+                <ul>
+                    <li><strong>Ben → Ofer:</strong> Direct Telegram DM (primary channel)</li>
+                    <li><strong>OfsInvest → Ben:</strong> Trading updates every 4h, emergency alerts</li>
+                    <li><strong>Budget → Ben:</strong> Daily/weekly/monthly reports</li>
+                    <li><strong>Architect → Ben:</strong> Research findings, V2 recommendations</li>
+                </ul>
+
+                <h3>Response Priority</h3>
+                <p><strong>Ofer's Rule:</strong> "Don't let others take your job."</p>
+                <ul>
+                    <li><strong>Ben is the ONLY agent that should respond to Ofer by default</strong></li>
+                    <li>Other agents may only step in if there's a problem (Ben unavailable/error)</li>
+                    <li>Sub-agents handle complex tasks, report results back to Ben</li>
+                    <li>Ben orchestrates, sub-agents execute</li>
+                </ul>
+            </div>
+        </div>
+
         <!-- Security Tab -->
         <div class="tab-content" id="security">
             <div class="section">
@@ -1315,7 +1566,7 @@
                 <h3>Versioning & CI/CD</h3>
                 <ul>
                     <li><strong>Numeric suffix:</strong> _v101, _v102, etc. (incremented on each push)</li>
-                    <li><strong>Current version:</strong> v166 (tracked in memory/version.txt)</li>
+                    <li><strong>Current version:</strong> v168 (tracked in memory/version.txt)</li>
                     <li><strong>Deploy script:</strong> scripts/deploy.sh "message" (auto-increments, pushes, syncs brain map)</li>
                     <li><strong>Dashboard script:</strong> scripts/deploy-dashboard.sh "message" (dashboard-only updates)</li>
                     <li><strong>Brain map:</strong> Always synced to GitHub Pages (proprietary, not linked publicly)</li>
@@ -1327,67 +1578,6 @@
                     <li>V2 Architecture (Brain DB, Cache DB, vLLM routing for 100K+ users)</li>
                     <li>eToro WebSocket (real-time price updates)</li>
                     <li>Automated trade execution (currently manual approval required)</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Agents Tab -->
-        <div class="tab-content" id="agents">
-            <div class="section">
-                <h2>🤖 Agent Hierarchy</h2>
-                
-                <div class="grid">
-                    <div class="card">
-                        <h4>🧠 Ben (Admin)</h4>
-                        <p><strong>Model:</strong> Sonnet 4.5 (main), Opus 4.6 (on-demand)</p>
-                        <p><strong>Workspace:</strong> /home/ofer/.openclaw/workspace</p>
-                        <p><strong>Role:</strong> Personal assistant, social media expert (LinkedIn), email, calendar, alerts, system admin</p>
-                        <p><strong>Authority:</strong> ONLY admin agent - all others report to Ben</p>
-                        <p><strong>Skills:</strong> 9 total</p>
-                    </div>
-                    
-                    <div class="card">
-                        <h4>📊 OfsInvest</h4>
-                        <p><strong>Model:</strong> Grok 4 (free)</p>
-                        <p><strong>Workspace:</strong> workspace-ofsinvest</p>
-                        <p><strong>Role:</strong> Real money trading system, 24x5 markets, $1,000 capital</p>
-                        <p><strong>Score:</strong> 9.5/10</p>
-                        <p><strong>Skills:</strong> 21 total (master-trader, expert-trader, etoro-api, etc.)</p>
-                        <p><strong>Knowledge:</strong> 90+ files, 25,000+ lines, 9 sectors</p>
-                    </div>
-                    
-                    <div class="card">
-                        <h4>💰 Budget</h4>
-                        <p><strong>Model:</strong> Sonnet 4.5</p>
-                        <p><strong>Workspace:</strong> workspace-budget</p>
-                        <p><strong>Role:</strong> Family budget tracking, expense categorization, daily/weekly/monthly reports</p>
-                        <p><strong>Reports:</strong> 21:00 daily, 20:00 Sunday (weekly), 09:00 1st of month (monthly)</p>
-                    </div>
-                    
-                    <div class="card">
-                        <h4>🏗️ Architect</h4>
-                        <p><strong>Model:</strong> Grok 4 (free)</p>
-                        <p><strong>Workspace:</strong> workspace-architect</p>
-                        <p><strong>Role:</strong> V2 research (Brain DB, Cache DB, LLM routing), deep infrastructure planning, self-improvement</p>
-                        <p><strong>Status:</strong> Research phase (no production implementation)</p>
-                    </div>
-                </div>
-
-                <h3>Agent Communication</h3>
-                <ul>
-                    <li><strong>Ben → Ofer:</strong> Direct Telegram DM (primary channel)</li>
-                    <li><strong>OfsInvest → Ben:</strong> Trading updates every 4h, emergency alerts</li>
-                    <li><strong>Budget → Ben:</strong> Daily/weekly/monthly reports</li>
-                    <li><strong>Architect → Ben:</strong> Research findings, V2 recommendations</li>
-                </ul>
-
-                <h3>Response Priority</h3>
-                <p><strong>Ofer's Rule:</strong> "Don't let others take your job."</p>
-                <ul>
-                    <li><strong>Ben is the ONLY agent that should respond to Ofer by default</strong></li>
-                    <li>Other agents may only step in if there's a problem (Ben unavailable/error)</li>
-                    <li>Sub-agents handle complex tasks, report results back to Ben</li>
-                    <li>Ben orchestrates, sub-agents execute</li>
                 </ul>
             </div>
         </div>
@@ -1536,6 +1726,160 @@
     </div>
 
     <script>
+        // Brain Architecture Graph Data
+        const brainData = {
+            center: { id: 'center', label: "Ben's Brain", x: 400, y: 350, r: 80, color: '#667eea', tooltip: 'Central AI orchestration hub - Sonnet 4.5 (main), Opus 4.6 (on-demand), Grok 4 (research)' },
+            categories: [
+                {
+                    id: 'skills',
+                    label: 'Skills',
+                    count: 33,
+                    color: '#4ade80',
+                    angle: 0,
+                    items: ['master-trader', 'etoro-api', 'micha-stocks', 'quantclaw', 'sentiment-fusion', 'trump-monitor', 'security-gate', 'social-media', 'chart-patterns'],
+                    tooltip: '33 skills total: Ben (9) + OfsInvest (21) + 3 shared. Trading, security, social media, analysis.'
+                },
+                {
+                    id: 'knowledge',
+                    label: 'Knowledge',
+                    count: '100+',
+                    color: '#fbbf24',
+                    angle: 51,
+                    items: ['Nuclear-Space', 'BioPharma', 'Quantum', 'Crypto', 'Options', 'Healthcare', 'Earnings', 'Under-1B', 'Israel-TASE'],
+                    tooltip: '100+ files, 25,000+ lines across 9 sectors. Micha.Stocks methodology, Yoni QuantClaw, real-time data.'
+                },
+                {
+                    id: 'memory',
+                    label: 'Memory',
+                    count: 'MEMORY.md',
+                    color: '#a78bfa',
+                    angle: 102,
+                    items: ['MEMORY.md', 'Daily Logs', 'Heartbeat State', 'Version Tracking', 'Group Counts'],
+                    tooltip: 'Long-term curated memory (MEMORY.md) + daily logs (YYYY-MM-DD.md) for session continuity.'
+                },
+                {
+                    id: 'agents',
+                    label: 'Agents',
+                    count: 4,
+                    color: '#fb923c',
+                    angle: 153,
+                    items: ['Ben (Admin)', 'OfsInvest', 'Budget', 'Architect'],
+                    tooltip: '4 agents: Ben (orchestrator), OfsInvest (trading), Budget (expenses), Architect (V2 research).'
+                },
+                {
+                    id: 'tools',
+                    label: 'Tools',
+                    count: 'APIs',
+                    color: '#60a5fa',
+                    angle: 204,
+                    items: ['eToro API', 'LinkedIn', 'Gmail', 'GitHub', 'Telegram', 'Memclawz'],
+                    tooltip: 'External integrations: eToro (53 endpoints), LinkedIn posting, Gmail, GitHub automation, Telegram bot.'
+                },
+                {
+                    id: 'security',
+                    label: 'Security',
+                    count: 'IRON RULES',
+                    color: '#ef4444',
+                    angle: 255,
+                    items: ['ONLY Ofer Admin', 'Group Protection', 'Financial Block', 'No Social Eng', 'Error Handling'],
+                    tooltip: 'IRON RULES: Only Ofer (id:509387009) = admin. No one else can modify trading, files, or system.'
+                },
+                {
+                    id: 'cost',
+                    label: 'Cost',
+                    count: '$3.50/day',
+                    color: '#fcd34d',
+                    angle: 306,
+                    items: ['Grok 60% (FREE)', 'Sonnet 35%', 'Opus 5%', '97% Savings', '$3,255/month saved'],
+                    tooltip: '$3.50/day (down from $112/day). 97% cost reduction via Grok adoption. $105/month total.'
+                }
+            ]
+        };
+
+        // Create Brain Graph
+        function createBrainGraph() {
+            const container = document.getElementById('brain-graph');
+            const tooltip = document.getElementById('tooltip');
+            const width = container.clientWidth;
+            const height = 700;
+            const centerX = width / 2;
+            const centerY = height / 2;
+            const orbitRadius = Math.min(width, height) * 0.35;
+
+            let svg = `<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">`;
+
+            // Draw connections first (so they're behind nodes)
+            brainData.categories.forEach(cat => {
+                const angle = (cat.angle * Math.PI) / 180;
+                const x = centerX + orbitRadius * Math.cos(angle);
+                const y = centerY + orbitRadius * Math.sin(angle);
+                svg += `<line class="connection-line" x1="${centerX}" y1="${centerY}" x2="${x}" y2="${y}" />`;
+            });
+
+            // Draw category nodes
+            brainData.categories.forEach(cat => {
+                const angle = (cat.angle * Math.PI) / 180;
+                const x = centerX + orbitRadius * Math.cos(angle);
+                const y = centerY + orbitRadius * Math.sin(angle);
+                const r = 50;
+
+                svg += `
+                    <g class="node" data-tooltip="${cat.tooltip}">
+                        <circle class="node-circle" cx="${x}" cy="${y}" r="${r}" 
+                                fill="${cat.color}" opacity="0.7" stroke="${cat.color}" stroke-width="2"/>
+                        <text class="node-label" x="${x}" y="${y - 5}">${cat.label}</text>
+                        <text class="node-text" x="${x}" y="${y + 10}" font-size="11">(${cat.count})</text>
+                    </g>
+                `;
+
+                // Draw sub-nodes (items)
+                cat.items.forEach((item, i) => {
+                    const subAngle = angle + ((i - cat.items.length / 2) * 0.15);
+                    const subRadius = orbitRadius + 100;
+                    const subX = centerX + subRadius * Math.cos(subAngle);
+                    const subY = centerY + subRadius * Math.sin(subAngle);
+                    svg += `<line class="connection-line" x1="${x}" y1="${y}" x2="${subX}" y2="${subY}" opacity="0.2"/>`;
+                    svg += `
+                        <g class="node">
+                            <circle cx="${subX}" cy="${subY}" r="4" fill="${cat.color}" opacity="0.8"/>
+                            <text x="${subX}" y="${subY - 8}" font-size="9" fill="#ccc" text-anchor="middle">${item}</text>
+                        </g>
+                    `;
+                });
+            });
+
+            // Draw center node on top
+            svg += `
+                <g class="node" data-tooltip="${brainData.center.tooltip}">
+                    <circle class="node-circle" cx="${centerX}" cy="${centerY}" r="${brainData.center.r}" 
+                            fill="${brainData.center.color}" opacity="0.9" stroke="#fff" stroke-width="3"/>
+                    <text class="node-label" x="${centerX}" y="${centerY}" font-size="18">${brainData.center.label}</text>
+                </g>
+            `;
+
+            svg += '</svg>';
+            container.innerHTML = svg;
+
+            // Add tooltip interactions
+            const nodes = container.querySelectorAll('.node[data-tooltip]');
+            nodes.forEach(node => {
+                node.addEventListener('mouseenter', (e) => {
+                    const tooltipText = node.getAttribute('data-tooltip');
+                    tooltip.textContent = tooltipText;
+                    tooltip.classList.add('visible');
+                });
+                
+                node.addEventListener('mousemove', (e) => {
+                    tooltip.style.left = (e.pageX + 15) + 'px';
+                    tooltip.style.top = (e.pageY + 15) + 'px';
+                });
+                
+                node.addEventListener('mouseleave', () => {
+                    tooltip.classList.remove('visible');
+                });
+            });
+        }
+
         // Tab switching
         const tabs = document.querySelectorAll('.tab');
         const contents = document.querySelectorAll('.tab-content');
@@ -1549,6 +1893,11 @@
                 
                 tab.classList.add('active');
                 document.getElementById(targetId).classList.add('active');
+
+                // Initialize brain graph when architecture tab is opened
+                if (targetId === 'architecture') {
+                    createBrainGraph();
+                }
             });
         });
 
@@ -1571,6 +1920,20 @@
 
         updateTimestamp();
         setInterval(updateTimestamp, 1000);
+
+        // Initialize brain graph on page load if architecture tab is active
+        window.addEventListener('load', () => {
+            if (document.getElementById('architecture').classList.contains('active')) {
+                createBrainGraph();
+            }
+        });
+
+        // Redraw brain graph on window resize
+        window.addEventListener('resize', () => {
+            if (document.getElementById('architecture').classList.contains('active')) {
+                createBrainGraph();
+            }
+        });
     </script>
 </body>
 </html>
