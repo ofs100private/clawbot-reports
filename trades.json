@@ -114,13 +114,6 @@
       "cash": 0.00,
       "holdings": [
         {
-          "sym": "AMD",
-          "units": 1.997,
-          "avgPrice": 200.21,
-          "currentPrice": 200.21,
-          "pnl": 0
-        },
-        {
           "sym": "TSM",
           "units": 1.067,
           "avgPrice": 374.58,
@@ -128,10 +121,17 @@
           "pnl": 0
         },
         {
-          "sym": "COIN",
-          "units": 1.137,
-          "avgPrice": 175.85,
-          "currentPrice": 175.85,
+          "sym": "MSFT",
+          "units": 0.7638,
+          "avgPrice": 392.74,
+          "currentPrice": 392.74,
+          "pnl": 0
+        },
+        {
+          "sym": "AMZN",
+          "units": 1.4274,
+          "avgPrice": 210,
+          "currentPrice": 210,
           "pnl": 0
         }
       ],
@@ -187,6 +187,46 @@
           "amount": 200,
           "reason": "SM 100|accumulating with highest score, GEX negative -0.07 minimal volatility",
           "pnl": 0
+        },
+        {
+          "date": "2026-03-01",
+          "action": "sell",
+          "ticker": "AMD",
+          "units": 1.997,
+          "price": 200.21,
+          "amount": 399.82,
+          "reason": "SM 0|distributing, clear distribution signal despite positive GEX 0.42",
+          "pnl": 0
+        },
+        {
+          "date": "2026-03-01",
+          "action": "sell",
+          "ticker": "COIN",
+          "units": 1.137,
+          "price": 175.85,
+          "amount": 199.94,
+          "reason": "SM 0|distributing, distribution with negative GEX -0.07 volatility",
+          "pnl": 0
+        },
+        {
+          "date": "2026-03-01",
+          "action": "buy",
+          "ticker": "MSFT",
+          "units": 0.7638,
+          "price": 392.74,
+          "amount": 300,
+          "reason": "SM 65.39|accumulating >60, positive GEX 0.32 providing support",
+          "pnl": 0
+        },
+        {
+          "date": "2026-03-01",
+          "action": "buy",
+          "ticker": "AMZN",
+          "units": 1.4274,
+          "price": 210,
+          "amount": 299.76,
+          "reason": "SM 100|accumulating max score, strong accumulation despite negative GEX -0.62",
+          "pnl": 0
         }
       ],
       "strategy": "Pure QuantClaw methodology",
@@ -206,7 +246,8 @@
       ],
       "audit": [
         "2026-02-28T21:16:00+02:00: Initial buys based on QuantClaw signals",
-        "2026-03-01T01:16:00+02:00: Rotated PLTR to COIN for stronger SM 100 vs 70.25 and less negative GEX"
+        "2026-03-01T01:16:00+02:00: Rotated PLTR to COIN for stronger SM 100 vs 70.25 and less negative GEX",
+        "2026-03-01T05:16:00+02:00: Sold AMD and COIN (SM=0 distributing); Bought MSFT (SM 65.39 accumulating, +GEX 0.32) and AMZN (SM 100 accumulating, -GEX -0.62)"
       ],
       "prices": {
         "NVDA": 177.19,
@@ -224,7 +265,7 @@
         "MARA": 8.94,
         "RIOT": 16.29
       },
-      "lastUpdate": "2026-03-01T01:16:00+02:00"
+      "lastUpdate": "2026-03-01T05:16:00+02:00"
     }
   },
   "settings": {
