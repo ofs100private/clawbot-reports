@@ -115,13 +115,6 @@
       "cash": 0.00,
       "holdings": [
         {
-          "sym": "TSM",
-          "units": 1.067,
-          "avgPrice": 374.58,
-          "currentPrice": 374.58,
-          "pnl": 0
-        },
-        {
           "sym": "MSFT",
           "units": 0.7638,
           "avgPrice": 392.74,
@@ -129,10 +122,17 @@
           "pnl": 0
         },
         {
-          "sym": "AMZN",
-          "units": 1.4274,
-          "avgPrice": 210,
-          "currentPrice": 210,
+          "sym": "SOFI",
+          "units": 19.7072,
+          "avgPrice": 17.76,
+          "currentPrice": 17.76,
+          "pnl": 0
+        },
+        {
+          "sym": "PLTR",
+          "units": 2.5469,
+          "avgPrice": 137.19,
+          "currentPrice": 137.19,
           "pnl": 0
         }
       ],
@@ -228,6 +228,46 @@
           "amount": 299.76,
           "reason": "SM 100|accumulating max score, strong accumulation despite negative GEX -0.62",
           "pnl": 0
+        },
+        {
+          "date": "2026-03-01",
+          "action": "sell",
+          "ticker": "AMZN",
+          "units": 1.4274,
+          "price": 210,
+          "amount": 299.75,
+          "reason": "SM 0|distributing <40, GEX negative -0.62 indicating volatility during distribution",
+          "pnl": 0
+        },
+        {
+          "date": "2026-03-01",
+          "action": "sell",
+          "ticker": "TSM",
+          "units": 1.067,
+          "price": 374.58,
+          "amount": 399.68,
+          "reason": "SM 47.33|neutral 40-60, GEX positive 0.07 but rotating to stronger SM >60 signals",
+          "pnl": 0
+        },
+        {
+          "date": "2026-03-01",
+          "action": "buy",
+          "ticker": "SOFI",
+          "units": 19.7072,
+          "price": 17.76,
+          "amount": 350,
+          "reason": "SM 66.85|accumulating >60, GEX positive 0.15 providing support",
+          "pnl": 0
+        },
+        {
+          "date": "2026-03-01",
+          "action": "buy",
+          "ticker": "PLTR",
+          "units": 2.5469,
+          "price": 137.19,
+          "amount": 349.43,
+          "reason": "SM 100|accumulating max score, GEX negative -0.14 with minimal volatility",
+          "pnl": 0
         }
       ],
       "strategy": "Pure QuantClaw methodology",
@@ -248,7 +288,8 @@
       "audit": [
         "2026-02-28T21:16:00+02:00: Initial buys based on QuantClaw signals",
         "2026-03-01T01:16:00+02:00: Rotated PLTR to COIN for stronger SM 100 vs 70.25 and less negative GEX",
-        "2026-03-01T05:16:00+02:00: Sold AMD and COIN (SM=0 distributing); Bought MSFT (SM 65.39 accumulating, +GEX 0.32) and AMZN (SM 100 accumulating, -GEX -0.62)"
+        "2026-03-01T05:16:00+02:00: Sold AMD and COIN (SM=0 distributing); Bought MSFT (SM 65.39 accumulating, +GEX 0.32) and AMZN (SM 100 accumulating, -GEX -0.62)",
+        "2026-03-01T09:16:00+02:00: Sold AMZN (SM 0 distributing) and TSM (SM 47 neutral); Bought SOFI (SM 66.85 accumulating, +GEX 0.15) and PLTR (SM 100 accumulating, -GEX -0.14)"
       ],
       "prices": {
         "NVDA": 177.19,
@@ -266,7 +307,7 @@
         "MARA": 8.94,
         "RIOT": 16.29
       },
-      "lastUpdate": "2026-03-01T05:16:00+02:00"
+      "lastUpdate": "2026-03-01T09:16:00+02:00"
     }
   },
   "settings": {
