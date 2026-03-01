@@ -62,7 +62,8 @@
           "price": 607.29,
           "amount": 199.84,
           "reason": "Trend continuation above MA-150 in tech ETF",
-          "pnl": 0
+          "pnl": 0,
+          "leverage": 1
         },
         {
           "date": "2026-03-01",
@@ -72,7 +73,8 @@
           "price": 1051.99,
           "amount": 199.88,
           "reason": "Quality leader in pharma, breakout from base above MA-150",
-          "pnl": 0
+          "pnl": 0,
+          "leverage": 1
         }
       ],
       "strategy": "Pure Micha Stocks methodology",
@@ -174,7 +176,8 @@
           "price": 200.21,
           "amount": 400,
           "reason": "SM 100 accumulating, GEX positive 0.41 support",
-          "pnl": 0
+          "pnl": 0,
+          "leverage": 2
         },
         {
           "date": "2026-02-28",
@@ -184,7 +187,8 @@
           "price": 374.58,
           "amount": 400,
           "reason": "SM 100 accumulating, GEX positive 0.07 support",
-          "pnl": 0
+          "pnl": 0,
+          "leverage": 2
         },
         {
           "date": "2026-02-28",
@@ -194,7 +198,8 @@
           "price": 137.19,
           "amount": 200,
           "reason": "SM 65.57 accumulating, GEX negative -0.14 but SM strong >60",
-          "pnl": 0
+          "pnl": 0,
+          "leverage": 2
         },
         {
           "date": "2026-03-01",
@@ -204,7 +209,8 @@
           "price": 137.19,
           "amount": 200,
           "reason": "GEX negative -0.14 indicating potential volatility, SM 70.25|accumulating but rotating to higher conviction",
-          "pnl": 0
+          "pnl": 0,
+          "leverage": 2
         },
         {
           "date": "2026-03-01",
@@ -214,7 +220,8 @@
           "price": 175.85,
           "amount": 200,
           "reason": "SM 100|accumulating with highest score, GEX negative -0.07 minimal volatility",
-          "pnl": 0
+          "pnl": 0,
+          "leverage": 2
         },
         {
           "date": "2026-03-01",
@@ -224,7 +231,8 @@
           "price": 200.21,
           "amount": 399.82,
           "reason": "SM 0|distributing, clear distribution signal despite positive GEX 0.42",
-          "pnl": 0
+          "pnl": 0,
+          "leverage": 2
         },
         {
           "date": "2026-03-01",
@@ -234,7 +242,8 @@
           "price": 175.85,
           "amount": 199.94,
           "reason": "SM 0|distributing, distribution with negative GEX -0.07 volatility",
-          "pnl": 0
+          "pnl": 0,
+          "leverage": 2
         },
         {
           "date": "2026-03-01",
@@ -244,7 +253,8 @@
           "price": 392.74,
           "amount": 300,
           "reason": "SM 65.39|accumulating >60, positive GEX 0.32 providing support",
-          "pnl": 0
+          "pnl": 0,
+          "leverage": 2
         },
         {
           "date": "2026-03-01",
@@ -254,7 +264,8 @@
           "price": 210,
           "amount": 299.76,
           "reason": "SM 100|accumulating max score, strong accumulation despite negative GEX -0.62",
-          "pnl": 0
+          "pnl": 0,
+          "leverage": 2
         },
         {
           "date": "2026-03-01",
@@ -264,7 +275,8 @@
           "price": 210,
           "amount": 299.75,
           "reason": "SM 0|distributing <40, GEX negative -0.62 indicating volatility during distribution",
-          "pnl": 0
+          "pnl": 0,
+          "leverage": 2
         },
         {
           "date": "2026-03-01",
@@ -274,7 +286,8 @@
           "price": 374.58,
           "amount": 399.68,
           "reason": "SM 47.33|neutral 40-60, GEX positive 0.07 but rotating to stronger SM >60 signals",
-          "pnl": 0
+          "pnl": 0,
+          "leverage": 2
         },
         {
           "date": "2026-03-01",
@@ -284,7 +297,8 @@
           "price": 17.76,
           "amount": 350,
           "reason": "SM 66.85|accumulating >60, GEX positive 0.15 providing support",
-          "pnl": 0
+          "pnl": 0,
+          "leverage": 2
         },
         {
           "date": "2026-03-01",
@@ -294,7 +308,8 @@
           "price": 137.19,
           "amount": 349.43,
           "reason": "SM 100|accumulating max score, GEX negative -0.14 with minimal volatility",
-          "pnl": 0
+          "pnl": 0,
+          "leverage": 2
         },
         {
           "date": "2026-03-01",
@@ -304,7 +319,8 @@
           "price": 137.19,
           "amount": 349.43,
           "reason": "SM 50|neutral 40-60, GEX negative -0.14 indicating potential volatility",
-          "pnl": 0
+          "pnl": 0,
+          "leverage": 2
         },
         {
           "date": "2026-03-01",
@@ -314,7 +330,8 @@
           "price": 177.19,
           "amount": 200,
           "reason": "SM 100|accumulating >60, GEX positive|0.9 providing strong support",
-          "pnl": 0
+          "pnl": 0,
+          "leverage": 2
         },
         {
           "date": "2026-03-01",
@@ -324,7 +341,8 @@
           "price": 200.21,
           "amount": 149.43,
           "reason": "SM 100|accumulating >60, GEX positive|0.42 providing support",
-          "pnl": 0
+          "pnl": 0,
+          "leverage": 2
         },
         {
           "date": "2026-03-01",
@@ -334,7 +352,8 @@
           "price": 392.74,
           "amount": 300,
           "reason": "SM 36.81|distributing <40, positive GEX 0.32 but distribution signal",
-          "pnl": 0
+          "pnl": 0,
+          "leverage": 2
         },
         {
           "date": "2026-03-01",
@@ -344,7 +363,8 @@
           "price": 177.19,
           "amount": 200,
           "reason": "SM 50|neutral 40-60, rotating to stronger SM >60 accumulations",
-          "pnl": 0
+          "pnl": 0,
+          "leverage": 2
         },
         {
           "date": "2026-03-01",
@@ -354,7 +374,8 @@
           "price": 200.21,
           "amount": 149.36,
           "reason": "SM 48.3|neutral 40-60, rotating to stronger SM >60 accumulations",
-          "pnl": 0
+          "pnl": 0,
+          "leverage": 2
         },
         {
           "date": "2026-03-01",
@@ -364,7 +385,8 @@
           "price": 648.18,
           "amount": 216.45,
           "reason": "SM 100|accumulating >60, GEX negative -0.08 minimal volatility",
-          "pnl": 0
+          "pnl": 0,
+          "leverage": 2
         },
         {
           "date": "2026-03-01",
@@ -374,7 +396,8 @@
           "price": 210,
           "amount": 216.45,
           "reason": "SM 100|accumulating >60, GEX negative -0.62 volatility but max SM score",
-          "pnl": 0
+          "pnl": 0,
+          "leverage": 2
         },
         {
           "date": "2026-03-01",
@@ -384,7 +407,8 @@
           "price": 137.19,
           "amount": 216.45,
           "reason": "SM 67.16|accumulating >60, GEX negative -0.14 low volatility",
-          "pnl": 0
+          "pnl": 0,
+          "leverage": 2
         }
       ],
       "strategy": "Pure QuantClaw methodology",
