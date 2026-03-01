@@ -277,17 +277,10 @@
         
         <div class="filters">
             <span style="color: #a0a0a0; font-weight: bold;">Filter by Trader:</span>
-            <button class="filter-btn active" onclick="filterByTrader('all')">All Traders</button>
-            <button class="filter-btn ofsinvest" onclick="filterByTrader('ofsinvest')">🧠 OfsInvest</button>
-            <button class="filter-btn micha" onclick="filterByTrader('micha')">📈 Micha Fan</button>
-            <button class="filter-btn yoni" onclick="filterByTrader('yoni')">🔮 Yoni Fan</button>
-        </div>
-        
-        <div class="filters">
-            <span style="color: #a0a0a0; font-weight: bold;">Filter by Action:</span>
-            <button class="filter-btn active" onclick="filterByAction('all')">All Actions</button>
-            <button class="filter-btn" onclick="filterByAction('buy')" style="border-color: #22c55e;">📈 Buy</button>
-            <button class="filter-btn" onclick="filterByAction('sell')" style="border-color: #ef4444;">📉 Sell</button>
+            <button class="filter-btn active" onclick="filterTrades('all')">All Traders</button>
+            <button class="filter-btn ofsinvest" onclick="filterTrades('ofsinvest')">🧠 OfsInvest</button>
+            <button class="filter-btn micha" onclick="filterTrades('micha')">📈 Micha Fan</button>
+            <button class="filter-btn yoni" onclick="filterTrades('yoni')">🔮 Yoni Fan</button>
         </div>
         
         <div class="stats-summary" id="stats-summary">
@@ -324,8 +317,7 @@
     
     <script>
         let allTrades = [];
-        let currentTraderFilter = 'all';
-        let currentActionFilter = 'all';
+        let currentFilter = 'all';
         
         // Load trades data
         async function loadTradesData() {
@@ -361,12 +353,11 @@
         }
         
         // Filter trades by trader
-        function filterByTrader(traderId) {
-            currentTraderFilter = traderId;
+        function filterTrades(traderId) {
+            currentFilter = traderId;
             
-            // Update button states for trader filter
-            const traderFilters = document.querySelectorAll('.filters:first-of-type .filter-btn');
-            traderFilters.forEach(btn => {
+            // Update button states
+            document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
             event.target.classList.add('active');
@@ -375,40 +366,16 @@
             updateStats();
         }
         
-        // Filter trades by action
-        function filterByAction(action) {
-            currentActionFilter = action;
-            
-            // Update button states for action filter
-            const actionFilters = document.querySelectorAll('.filters:nth-of-type(2) .filter-btn');
-            actionFilters.forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            displayTrades();
-            updateStats();
-        }
-        
-        // Display trades based on current filters (combined)
+        // Display trades based on current filter
         function displayTrades() {
             const tradeList = document.getElementById('trade-list');
             
-            // Apply both filters
-            let filteredTrades = allTrades;
-            
-            // Filter by trader
-            if (currentTraderFilter !== 'all') {
-                filteredTrades = filteredTrades.filter(t => t.traderId === currentTraderFilter);
-            }
-            
-            // Filter by action
-            if (currentActionFilter !== 'all') {
-                filteredTrades = filteredTrades.filter(t => t.action === currentActionFilter);
-            }
+            const filteredTrades = currentFilter === 'all' 
+                ? allTrades 
+                : allTrades.filter(t => t.traderId === currentFilter);
             
             if (filteredTrades.length === 0) {
-                tradeList.innerHTML = '<div class="no-trades">No trades match the current filters.</div>';
+                tradeList.innerHTML = '<div class="no-trades">No trades yet. Competition starts March 1, 2026.</div>';
                 return;
             }
             
@@ -484,18 +451,9 @@
         
         // Update statistics
         function updateStats() {
-            // Apply both filters
-            let filteredTrades = allTrades;
-            
-            // Filter by trader
-            if (currentTraderFilter !== 'all') {
-                filteredTrades = filteredTrades.filter(t => t.traderId === currentTraderFilter);
-            }
-            
-            // Filter by action
-            if (currentActionFilter !== 'all') {
-                filteredTrades = filteredTrades.filter(t => t.action === currentActionFilter);
-            }
+            const filteredTrades = currentFilter === 'all' 
+                ? allTrades 
+                : allTrades.filter(t => t.traderId === currentFilter);
             
             const totalTrades = filteredTrades.length;
             const closedTrades = filteredTrades.filter(t => t.pnl !== undefined && t.pnl !== null);
