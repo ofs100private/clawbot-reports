@@ -266,6 +266,63 @@
             font-style: italic;
         }
         
+        .chart-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .chart-section h2 {
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        
+        .chart-container {
+            background: #1e1e2e;
+            border-radius: 12px;
+            padding: 20px;
+            overflow-x: auto;
+        }
+        
+        #performanceChart {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .chart-legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 3px;
+            border-radius: 2px;
+        }
+        
+        .legend-color.ofsinvest {
+            background: #f0b90b;
+        }
+        
+        .legend-color.micha {
+            background: #10b981;
+        }
+        
+        .legend-color.yoni {
+            background: #a855f7;
+        }
+        
         .update-time {
             text-align: center;
             color: #a0a0a0;
@@ -297,6 +354,27 @@
         <div class="countdown">
             <h2>Competition Countdown</h2>
             <div class="countdown-timer" id="countdown">Starting March 1, 2026</div>
+        </div>
+        
+        <div class="chart-section">
+            <h2>📈 Performance Chart</h2>
+            <div class="chart-container">
+                <canvas id="performanceChart" width="1200" height="400"></canvas>
+            </div>
+            <div class="chart-legend">
+                <div class="legend-item">
+                    <div class="legend-color ofsinvest"></div>
+                    <span id="legend-ofsinvest">OfsInvest: $1,000.00</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color micha"></div>
+                    <span id="legend-micha">Micha Fan: $1,000.00</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color yoni"></div>
+                    <span id="legend-yoni">Yoni Fan: $1,000.00</span>
+                </div>
+            </div>
         </div>
         
         <div class="traders-grid">
@@ -480,6 +558,9 @@
             updateTrader('micha', data.traders.micha);
             updateTrader('yoni', data.traders.yoni);
             
+            // Draw performance chart
+            drawPerformanceChart(data.traders);
+            
             // Update trade history
             updateTradeHistory(data.traders);
             
@@ -490,6 +571,200 @@
                 dateStyle: 'short',
                 timeStyle: 'short'
             });
+        }
+        
+        // Draw performance chart
+        function drawPerformanceChart(traders) {
+            const canvas = document.getElementById('performanceChart');
+            const ctx = canvas.getContext('2d');
+            
+            // Set canvas size for responsiveness
+            const container = canvas.parentElement;
+            const containerWidth = container.clientWidth - 40; // Account for padding
+            canvas.width = Math.min(1200, containerWidth);
+            canvas.height = 400;
+            
+            const width = canvas.width;
+            const height = canvas.height;
+            
+            // Clear canvas
+            ctx.fillStyle = '#1e1e2e';
+            ctx.fillRect(0, 0, width, height);
+            
+            // Chart margins
+            const margin = { top: 30, right: 60, bottom: 50, left: 70 };
+            const chartWidth = width - margin.left - margin.right;
+            const chartHeight = height - margin.top - margin.bottom;
+            
+            // Collect all P&L history data
+            const traderData = {
+                ofsinvest: {
+                    history: traders.ofsinvest.pnlHistory || [],
+                    color: '#f0b90b',
+                    name: 'OfsInvest',
+                    currentValue: traders.ofsinvest.total_value
+                },
+                micha: {
+                    history: traders.micha.pnlHistory || [],
+                    color: '#10b981',
+                    name: 'Micha Fan',
+                    currentValue: traders.micha.total_value
+                },
+                yoni: {
+                    history: traders.yoni.pnlHistory || [],
+                    color: '#a855f7',
+                    name: 'Yoni Fan',
+                    currentValue: traders.yoni.total_value
+                }
+            };
+            
+            // Find min/max values for Y-axis
+            let minValue = 1000;
+            let maxValue = 1000;
+            
+            Object.values(traderData).forEach(trader => {
+                trader.history.forEach(point => {
+                    const value = 1000 + point.pnl;
+                    minValue = Math.min(minValue, value);
+                    maxValue = Math.max(maxValue, value);
+                });
+            });
+            
+            // Add padding to Y-axis range
+            const valueRange = maxValue - minValue;
+            minValue = minValue - valueRange * 0.1;
+            maxValue = maxValue + valueRange * 0.1;
+            
+            // Ensure minimum range
+            if (maxValue - minValue < 100) {
+                minValue = 950;
+                maxValue = 1050;
+            }
+            
+            // Draw grid
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.lineWidth = 1;
+            
+            // Horizontal grid lines (5 lines)
+            for (let i = 0; i <= 5; i++) {
+                const y = margin.top + (chartHeight / 5) * i;
+                ctx.beginPath();
+                ctx.moveTo(margin.left, y);
+                ctx.lineTo(margin.left + chartWidth, y);
+                ctx.stroke();
+                
+                // Y-axis labels
+                const value = maxValue - ((maxValue - minValue) / 5) * i;
+                ctx.fillStyle = '#a0a0a0';
+                ctx.font = '12px -apple-system, sans-serif';
+                ctx.textAlign = 'right';
+                ctx.fillText('$' + value.toFixed(0), margin.left - 10, y + 4);
+            }
+            
+            // Get all unique dates
+            const allDates = new Set();
+            Object.values(traderData).forEach(trader => {
+                trader.history.forEach(point => allDates.add(point.date));
+            });
+            const dates = Array.from(allDates).sort();
+            
+            // Vertical grid lines
+            if (dates.length > 0) {
+                const step = Math.ceil(dates.length / 6);
+                for (let i = 0; i < dates.length; i += step) {
+                    const x = margin.left + (chartWidth / (dates.length - 1)) * i;
+                    ctx.beginPath();
+                    ctx.moveTo(x, margin.top);
+                    ctx.lineTo(x, margin.top + chartHeight);
+                    ctx.stroke();
+                    
+                    // X-axis labels
+                    ctx.fillStyle = '#a0a0a0';
+                    ctx.font = '11px -apple-system, sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(dates[i], x, height - margin.bottom + 20);
+                }
+            }
+            
+            // Draw axes
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(margin.left, margin.top);
+            ctx.lineTo(margin.left, margin.top + chartHeight);
+            ctx.lineTo(margin.left + chartWidth, margin.top + chartHeight);
+            ctx.stroke();
+            
+            // Function to convert value to Y coordinate
+            const valueToY = (value) => {
+                const ratio = (value - minValue) / (maxValue - minValue);
+                return margin.top + chartHeight - (ratio * chartHeight);
+            };
+            
+            // Function to convert date index to X coordinate
+            const indexToX = (index) => {
+                if (dates.length <= 1) return margin.left + chartWidth / 2;
+                return margin.left + (chartWidth / (dates.length - 1)) * index;
+            };
+            
+            // Draw lines for each trader
+            Object.entries(traderData).forEach(([traderId, trader]) => {
+                if (trader.history.length === 0) return;
+                
+                ctx.strokeStyle = trader.color;
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                
+                let isFirstPoint = true;
+                dates.forEach((date, index) => {
+                    const dataPoint = trader.history.find(p => p.date === date);
+                    if (dataPoint) {
+                        const value = 1000 + dataPoint.pnl;
+                        const x = indexToX(index);
+                        const y = valueToY(value);
+                        
+                        if (isFirstPoint) {
+                            ctx.moveTo(x, y);
+                            isFirstPoint = false;
+                        } else {
+                            ctx.lineTo(x, y);
+                        }
+                    }
+                });
+                
+                ctx.stroke();
+                
+                // Draw current value at end
+                const lastDate = dates[dates.length - 1];
+                const lastPoint = trader.history.find(p => p.date === lastDate);
+                if (lastPoint) {
+                    const value = 1000 + lastPoint.pnl;
+                    const x = indexToX(dates.length - 1);
+                    const y = valueToY(value);
+                    
+                    // Draw dot
+                    ctx.fillStyle = trader.color;
+                    ctx.beginPath();
+                    ctx.arc(x, y, 5, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    // Draw value label
+                    ctx.fillStyle = trader.color;
+                    ctx.font = 'bold 12px -apple-system, sans-serif';
+                    ctx.textAlign = 'left';
+                    ctx.fillText('$' + value.toFixed(2), x + 10, y + 4);
+                }
+                
+                // Update legend
+                document.getElementById(`legend-${traderId}`).textContent = 
+                    `${trader.name}: $${trader.currentValue.toFixed(2)}`;
+            });
+            
+            // Draw title
+            ctx.fillStyle = '#e0e0e0';
+            ctx.font = 'bold 14px -apple-system, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('Total Account Value Over Time', width / 2, 20);
         }
         
         // Update countdown timer
