@@ -10,11 +10,11 @@
       "name": "OfsInvest",
       "type": "REAL",
       "color": "#f0b90b",
-      "icon": "🧠",
-      "cash": 1000.00,
+      "icon": "\ud83e\udde0",
+      "cash": 1000.0,
       "holdings": {},
-      "equity": 0.00,
-      "total_value": 1000.00,
+      "equity": 0.0,
+      "total_value": 1000.0,
       "trades": [],
       "strategy": "Expert fusion (Micha discipline + Yoni data)",
       "target": "1% daily NET ($10/day)",
@@ -27,7 +27,7 @@
       "name": "Micha Fan",
       "type": "VIRTUAL",
       "color": "#22c55e",
-      "icon": "📈",
+      "icon": "\ud83d\udcc8",
       "cash": 600.28,
       "holdings": [
         {
@@ -35,18 +35,24 @@
           "units": 0.329,
           "avgPrice": 607.29,
           "currentPrice": 607.29,
-          "pnl": 0
+          "pnl": 0,
+          "leverage": 1,
+          "action": "hold",
+          "reason": "Trend continuation above MA-150 in tech ETF"
         },
         {
           "sym": "LLY",
-          "units": 0.190,
+          "units": 0.19,
           "avgPrice": 1051.99,
           "currentPrice": 1051.99,
-          "pnl": 0
+          "pnl": 0,
+          "leverage": 1,
+          "action": "hold",
+          "reason": "Quality leader in pharma, breakout from base above MA-150"
         }
       ],
       "equity": 399.72,
-      "total_value": 1000.00,
+      "total_value": 1000.0,
       "trades": [
         {
           "date": "2026-03-01",
@@ -62,7 +68,7 @@
           "date": "2026-03-01",
           "action": "buy",
           "ticker": "LLY",
-          "units": 0.190,
+          "units": 0.19,
           "price": 1051.99,
           "amount": 199.88,
           "reason": "Quality leader in pharma, breakout from base above MA-150",
@@ -113,7 +119,7 @@
       "name": "Yoni Fan",
       "type": "VIRTUAL",
       "color": "#a855f7",
-      "icon": "🔮",
+      "icon": "\ud83d\udd2e",
       "cash": 0.01,
       "holdings": [
         {
@@ -121,32 +127,44 @@
           "units": 19.7072,
           "avgPrice": 17.76,
           "currentPrice": 17.76,
-          "pnl": 0
+          "pnl": 0,
+          "leverage": 2,
+          "action": "hold",
+          "reason": "SM 66.85 accumulating >60, GEX positive 0.15 support"
         },
         {
           "sym": "META",
           "units": 0.334,
           "avgPrice": 648.18,
           "currentPrice": 648.18,
-          "pnl": 0
+          "pnl": 0,
+          "leverage": 2,
+          "action": "hold",
+          "reason": "SM 100 accumulating max score, GEX negative -0.08 minimal"
         },
         {
           "sym": "AMZN",
           "units": 1.0307,
           "avgPrice": 210,
           "currentPrice": 210,
-          "pnl": 0
+          "pnl": 0,
+          "leverage": 2,
+          "action": "hold",
+          "reason": "SM 100 accumulating max score despite negative GEX -0.62"
         },
         {
           "sym": "PLTR",
           "units": 1.5779,
           "avgPrice": 137.19,
           "currentPrice": 137.19,
-          "pnl": 0
+          "pnl": 0,
+          "leverage": 2,
+          "action": "hold",
+          "reason": "SM 67.16 accumulating >60, GEX negative -0.14 low volatility"
         }
       ],
       "equity": 999.99,
-      "total_value": 1000.00,
+      "total_value": 1000.0,
       "trades": [
         {
           "date": "2026-02-28",
@@ -412,7 +430,7 @@
     }
   },
   "settings": {
-    "commission_per_trade": 1.00,
+    "commission_per_trade": 1.0,
     "update_interval_minutes": 5,
     "last_update": null
   }
