@@ -128,7 +128,7 @@
       "type": "VIRTUAL",
       "color": "#a855f7",
       "icon": "\ud83d\udd2e",
-      "cash": 0.007,
+      "cash": 0.0,
       "holdings": [
         {
           "sym": "META",
@@ -138,17 +138,7 @@
           "pnl": 0,
           "leverage": 2,
           "action": "hold",
-          "reason": "SM 100|accumulating max score, GEX negative -0.02 minimal"
-        },
-        {
-          "sym": "PLTR",
-          "units": 1.5779,
-          "avgPrice": 137.19,
-          "currentPrice": 137.19,
-          "pnl": 0,
-          "leverage": 2,
-          "action": "hold",
-          "reason": "SM 100|accumulating >60, GEX negative -0.19 low volatility"
+          "reason": "SM 64.37|accumulating >60, GEX negative|-0.02 minimal volatility"
         },
         {
           "sym": "AAPL",
@@ -158,21 +148,41 @@
           "pnl": 0,
           "leverage": 2,
           "action": "hold",
-          "reason": "SM 100|accumulating >60, GEX positive|0.09 providing support"
+          "reason": "SM 71.15|accumulating >60, GEX positive|0.09 providing support"
         },
         {
-          "sym": "GOOGL",
-          "units": 1.0375,
-          "avgPrice": 311.76,
-          "currentPrice": 311.76,
+          "sym": "MSFT",
+          "units": 0.4582,
+          "avgPrice": 392.74,
+          "currentPrice": 392.74,
           "pnl": 0,
           "leverage": 2,
           "action": "hold",
-          "reason": "SM 100|accumulating >60, GEX negative|-0.27 but max SM score"
+          "reason": "SM 100|accumulating max score, GEX positive|0.12 providing support"
+        },
+        {
+          "sym": "AVGO",
+          "units": 0.5632,
+          "avgPrice": 319.55,
+          "currentPrice": 319.55,
+          "pnl": 0,
+          "leverage": 2,
+          "action": "hold",
+          "reason": "SM 100|accumulating max score, GEX negative|-0.23 but high conviction SM"
+        },
+        {
+          "sym": "SOFI",
+          "units": 10.078,
+          "avgPrice": 17.76,
+          "currentPrice": 17.76,
+          "pnl": 0,
+          "leverage": 2,
+          "action": "hold",
+          "reason": "SM 100|accumulating max score, GEX positive|0.11 providing support"
         }
       ],
       "equity": 999.993,
-      "total_value": 1000.0,
+      "total_value": 999.993,
       "trades": [
         {
           "date": "2026-02-28",
@@ -459,6 +469,56 @@
           "reason": "SM 100|accumulating >60, GEX negative|-0.27 indicating some volatility but max SM score",
           "pnl": 0,
           "leverage": 2
+        },
+        {
+          "date": "2026-03-02",
+          "action": "sell",
+          "ticker": "GOOGL",
+          "units": 1.0375,
+          "price": 311.76,
+          "amount": 323.463,
+          "reason": "SM 0|distributing <40, GEX negative|-0.27 indicating volatility",
+          "pnl": 0
+        },
+        {
+          "date": "2026-03-02",
+          "action": "sell",
+          "ticker": "PLTR",
+          "units": 1.5779,
+          "price": 137.19,
+          "amount": 216.456,
+          "reason": "SM 50|neutral 40-60, GEX negative|-0.19 indicating potential volatility; rotating to higher conviction SM>60",
+          "pnl": 0
+        },
+        {
+          "date": "2026-03-02",
+          "action": "buy",
+          "ticker": "MSFT",
+          "units": 0.4582,
+          "price": 392.74,
+          "amount": 180.0,
+          "reason": "SM 100|accumulating max score, GEX positive|0.12 providing support",
+          "pnl": 0
+        },
+        {
+          "date": "2026-03-02",
+          "action": "buy",
+          "ticker": "AVGO",
+          "units": 0.5632,
+          "price": 319.55,
+          "amount": 180.0,
+          "reason": "SM 100|accumulating max score, GEX negative|-0.23 but strong accumulation signal",
+          "pnl": 0
+        },
+        {
+          "date": "2026-03-02",
+          "action": "buy",
+          "ticker": "SOFI",
+          "units": 10.078,
+          "price": 17.76,
+          "amount": 179.0,
+          "reason": "SM 100|accumulating max score, GEX positive|0.11 providing support",
+          "pnl": 0
         }
       ],
       "strategy": "Pure QuantClaw methodology",
@@ -474,6 +534,10 @@
         {
           "date": "2026-03-01",
           "pnl": 0
+        },
+        {
+          "date": "2026-03-02",
+          "pnl": 0
         }
       ],
       "audit": [
@@ -483,7 +547,8 @@
         "2026-03-01T09:16:00+02:00: Sold AMZN (SM 0 distributing) and TSM (SM 47 neutral); Bought SOFI (SM 66.85 accumulating, +GEX 0.15) and PLTR (SM 100 accumulating, -GEX -0.14)",
         "2026-03-01T13:16:00+02:00: Sold PLTR (SM 50 neutral); Bought NVDA (SM 100 accumulating, +GEX 0.9) and AMD (SM 100 accumulating, +GEX 0.42)",
         "2026-03-01T17:16:00+02:00: Sold MSFT (SM 36.81 distributing), NVDA (SM 50 neutral), AMD (SM 48.3 neutral); Bought META (SM 100 accumulating, -GEX -0.08), AMZN (SM 100, -GEX -0.62), PLTR (SM 67.16, -GEX -0.14)",
-        "2026-03-01T21:16:00+02:00: Sold SOFI (SM 0 distributing) and AMZN (rotate from high negative GEX); Bought AAPL (SM 100 accumulating, +GEX 0.09) and GOOGL (SM 100 accumulating, -GEX -0.27)"
+        "2026-03-01T21:16:00+02:00: Sold SOFI (SM 0 distributing) and AMZN (rotate from high negative GEX); Bought AAPL (SM 100 accumulating, +GEX 0.09) and GOOGL (SM 100 accumulating, -GEX -0.27)",
+        "2026-03-02T01:16:00+02:00: Sold GOOGL (SM 0 distributing) and PLTR (SM 50 neutral); Bought MSFT (SM 100 accumulating, +GEX 0.12), AVGO (SM 100 accumulating, -GEX -0.23), SOFI (SM 100 accumulating, +GEX 0.11)"
       ],
       "prices": {
         "NVDA": 177.19,
@@ -501,7 +566,7 @@
         "MARA": 8.94,
         "RIOT": 16.29
       },
-      "lastUpdate": "2026-03-01T21:16:00+02:00"
+      "lastUpdate": "2026-03-02T01:16:00+02:00"
     }
   },
   "settings": {
