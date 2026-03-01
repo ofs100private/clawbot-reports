@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trade History | 30-Day Trading Competition</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1e1e2e 0%, #2d2d44 100%);
+            color: #e0e0e0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #f0b90b, #ff6b35);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-button {
+            display: inline-block;
+            padding: 12px 24px;
+            background: rgba(240, 185, 11, 0.1);
+            border: 2px solid #f0b90b;
+            border-radius: 8px;
+            color: #f0b90b;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-button:hover {
+            background: rgba(240, 185, 11, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .filters {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .filter-btn {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid transparent;
+            border-radius: 8px;
+            color: #e0e0e0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1em;
+        }
+        
+        .filter-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .filter-btn.active {
+            border-color: #f0b90b;
+            background: rgba(240, 185, 11, 0.2);
+        }
+        
+        .filter-btn.ofsinvest { border-color: #f0b90b; }
+        .filter-btn.micha { border-color: #22c55e; }
+        .filter-btn.yoni { border-color: #a855f7; }
+        
+        .stats-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .stat-card h3 {
+            font-size: 0.9em;
+            color: #a0a0a0;
+            margin-bottom: 10px;
+        }
+        
+        .stat-card .value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #f0b90b;
+        }
+        
+        .trade-list {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 25px;
+        }
+        
+        .trade-item {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid;
+            transition: all 0.3s ease;
+        }
+        
+        .trade-item:hover {
+            background: rgba(0, 0, 0, 0.3);
+            transform: translateX(5px);
+        }
+        
+        .trade-item.buy {
+            border-left-color: #22c55e;
+        }
+        
+        .trade-item.sell {
+            border-left-color: #ef4444;
+        }
+        
+        .trade-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .trade-header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .trader-badge {
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+        
+        .trader-badge.ofsinvest {
+            background: rgba(240, 185, 11, 0.2);
+            color: #f0b90b;
+        }
+        
+        .trader-badge.micha {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+        }
+        
+        .trader-badge.yoni {
+            background: rgba(168, 85, 247, 0.2);
+            color: #a855f7;
+        }
+        
+        .trade-action {
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        
+        .trade-action.buy { color: #22c55e; }
+        .trade-action.sell { color: #ef4444; }
+        
+        .trade-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .detail-label {
+            font-size: 0.85em;
+            color: #a0a0a0;
+            margin-bottom: 5px;
+        }
+        
+        .detail-value {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        .pnl-positive { color: #22c55e; }
+        .pnl-negative { color: #ef4444; }
+        
+        .trade-reason {
+            margin-top: 15px;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            font-size: 0.9em;
+            color: #b0b0b0;
+            font-style: italic;
+        }
+        
+        .no-trades {
+            text-align: center;
+            padding: 60px 20px;
+            color: #a0a0a0;
+            font-size: 1.2em;
+        }
+        
+        .update-time {
+            text-align: center;
+            color: #a0a0a0;
+            font-size: 0.85em;
+            margin-top: 30px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #a0a0a0;
+            font-size: 0.9em;
+        }
+        
+        @media (max-width: 768px) {
+            .filters {
+                flex-direction: column;
+            }
+            
+            .filter-btn {
+                width: 100%;
+            }
+            
+            .trade-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 Trade History</h1>
+            <p style="color: #a0a0a0; margin-top: 10px;">Complete trading record for all traders</p>
+            <a href="trading-competition.html" class="nav-button">← Back to Dashboard</a>
+        </header>
+        
+        <div class="filters">
+            <span style="color: #a0a0a0; font-weight: bold;">Filter by Trader:</span>
+            <button class="filter-btn active" onclick="filterTrades('all')">All Traders</button>
+            <button class="filter-btn ofsinvest" onclick="filterTrades('ofsinvest')">🧠 OfsInvest</button>
+            <button class="filter-btn micha" onclick="filterTrades('micha')">📈 Micha Fan</button>
+            <button class="filter-btn yoni" onclick="filterTrades('yoni')">🔮 Yoni Fan</button>
+        </div>
+        
+        <div class="stats-summary" id="stats-summary">
+            <div class="stat-card">
+                <h3>Total Trades</h3>
+                <div class="value" id="total-trades">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Winning Trades</h3>
+                <div class="value" id="winning-trades">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Win Rate</h3>
+                <div class="value" id="win-rate">—</div>
+            </div>
+            <div class="stat-card">
+                <h3>Total P&L</h3>
+                <div class="value" id="total-pnl">$0.00</div>
+            </div>
+        </div>
+        
+        <div class="trade-list" id="trade-list">
+            <div class="no-trades">No trades yet. Competition starts March 1, 2026.</div>
+        </div>
+        
+        <div class="update-time">
+            Last updated: <span id="last-update">—</span>
+        </div>
+        
+        <footer>
+            <p>Powered by OpenClaw | OfsInvest Real Money Trading System</p>
+        </footer>
+    </div>
+    
+    <script>
+        let allTrades = [];
+        let currentFilter = 'all';
+        
+        // Load trades data
+        async function loadTradesData() {
+            try {
+                const response = await fetch('trades.json');
+                const data = await response.json();
+                processTradesData(data);
+                displayTrades();
+                updateStats();
+            } catch (error) {
+                console.error('Error loading trades data:', error);
+            }
+        }
+        
+        // Process trades from all traders
+        function processTradesData(data) {
+            allTrades = [];
+            
+            Object.entries(data.traders).forEach(([traderId, trader]) => {
+                trader.trades.forEach(trade => {
+                    allTrades.push({
+                        ...trade,
+                        trader: trader.name,
+                        traderId: traderId,
+                        traderIcon: trader.icon,
+                        traderColor: trader.color
+                    });
+                });
+            });
+            
+            // Sort by timestamp (newest first)
+            allTrades.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+        }
+        
+        // Filter trades by trader
+        function filterTrades(traderId) {
+            currentFilter = traderId;
+            
+            // Update button states
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            displayTrades();
+            updateStats();
+        }
+        
+        // Display trades based on current filter
+        function displayTrades() {
+            const tradeList = document.getElementById('trade-list');
+            
+            const filteredTrades = currentFilter === 'all' 
+                ? allTrades 
+                : allTrades.filter(t => t.traderId === currentFilter);
+            
+            if (filteredTrades.length === 0) {
+                tradeList.innerHTML = '<div class="no-trades">No trades yet. Competition starts March 1, 2026.</div>';
+                return;
+            }
+            
+            tradeList.innerHTML = filteredTrades.map(trade => `
+                <div class="trade-item ${trade.action}">
+                    <div class="trade-header">
+                        <div class="trade-header-left">
+                            <span class="trader-badge ${trade.traderId}">${trade.traderIcon} ${trade.trader}</span>
+                            <span class="trade-action ${trade.action}">${trade.action.toUpperCase()}</span>
+                            <strong style="font-size: 1.3em;">${trade.ticker}</strong>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 0.85em; color: #888;">
+                                ${new Date(trade.timestamp).toLocaleString('en-US', { 
+                                    timeZone: 'Asia/Jerusalem',
+                                    dateStyle: 'medium',
+                                    timeStyle: 'short'
+                                })}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="trade-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Price</span>
+                            <span class="detail-value">$${trade.price.toFixed(2)}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Units</span>
+                            <span class="detail-value">${trade.units}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Total Value</span>
+                            <span class="detail-value">$${(trade.price * trade.units).toFixed(2)}</span>
+                        </div>
+                        ${trade.leverage ? `
+                        <div class="detail-item">
+                            <span class="detail-label">Leverage</span>
+                            <span class="detail-value">${trade.leverage}x</span>
+                        </div>
+                        ` : ''}
+                        ${trade.stop_loss ? `
+                        <div class="detail-item">
+                            <span class="detail-label">Stop Loss</span>
+                            <span class="detail-value">$${trade.stop_loss.toFixed(2)}</span>
+                        </div>
+                        ` : ''}
+                        ${trade.take_profit ? `
+                        <div class="detail-item">
+                            <span class="detail-label">Take Profit</span>
+                            <span class="detail-value">$${trade.take_profit.toFixed(2)}</span>
+                        </div>
+                        ` : ''}
+                        ${trade.pnl !== undefined && trade.pnl !== null ? `
+                        <div class="detail-item">
+                            <span class="detail-label">P&L</span>
+                            <span class="detail-value ${trade.pnl >= 0 ? 'pnl-positive' : 'pnl-negative'}">
+                                ${trade.pnl >= 0 ? '+' : ''}$${trade.pnl.toFixed(2)}
+                                (${((trade.pnl / (trade.price * trade.units)) * 100).toFixed(1)}%)
+                            </span>
+                        </div>
+                        ` : ''}
+                    </div>
+                    
+                    ${trade.reason ? `
+                    <div class="trade-reason">
+                        <strong>Reason:</strong> ${trade.reason}
+                    </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+        
+        // Update statistics
+        function updateStats() {
+            const filteredTrades = currentFilter === 'all' 
+                ? allTrades 
+                : allTrades.filter(t => t.traderId === currentFilter);
+            
+            const totalTrades = filteredTrades.length;
+            const closedTrades = filteredTrades.filter(t => t.pnl !== undefined && t.pnl !== null);
+            const winningTrades = closedTrades.filter(t => t.pnl > 0).length;
+            const totalPnl = closedTrades.reduce((sum, t) => sum + (t.pnl || 0), 0);
+            
+            document.getElementById('total-trades').textContent = totalTrades;
+            document.getElementById('winning-trades').textContent = winningTrades;
+            document.getElementById('win-rate').textContent = 
+                closedTrades.length > 0 
+                    ? `${((winningTrades / closedTrades.length) * 100).toFixed(1)}%`
+                    : '—';
+            
+            const pnlElement = document.getElementById('total-pnl');
+            pnlElement.textContent = `$${totalPnl >= 0 ? '+' : ''}${totalPnl.toFixed(2)}`;
+            pnlElement.style.color = totalPnl >= 0 ? '#22c55e' : '#ef4444';
+            
+            // Update last update time
+            const now = new Date();
+            document.getElementById('last-update').textContent = now.toLocaleString('en-US', {
+                timeZone: 'Asia/Jerusalem',
+                dateStyle: 'short',
+                timeStyle: 'short'
+            });
+        }
+        
+        // Initial load
+        loadTradesData();
+        
+        // Refresh every 5 minutes
+        setInterval(loadTradesData, 5 * 60 * 1000);
+    </script>
+</body>
+</html>
