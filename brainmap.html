@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OpenClaw Brain Map v166</title>
+    <title>OpenClaw Brain Map v170</title>
     <style>
         * {
             margin: 0;
@@ -359,6 +359,153 @@
             margin-bottom: 5px;
         }
 
+        /* Brain Architecture Styles */
+        .brain-canvas {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .brain-node {
+            position: absolute;
+            padding: 20px 30px;
+            border-radius: 50%;
+            font-weight: bold;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 120px;
+            min-height: 120px;
+        }
+
+        .brain-node:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 30px rgba(255, 255, 255, 0.3);
+        }
+
+        .brain-node.central {
+            width: 180px;
+            height: 180px;
+            font-size: 1.4em;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
+
+        .brain-node.category {
+            width: 140px;
+            height: 140px;
+            font-size: 1.1em;
+        }
+
+        .breadcrumb {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .breadcrumb-item {
+            color: #667eea;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .breadcrumb-item:hover {
+            color: #8b9dc3;
+            text-decoration: underline;
+        }
+
+        .breadcrumb-separator {
+            color: #666;
+        }
+
+        .item-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .item-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .item-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .item-card h4 {
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .item-card p {
+            font-size: 0.9em;
+            color: #aaa;
+            line-height: 1.6;
+        }
+
+        .detail-view {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .detail-view h3 {
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .detail-view .info-row {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .detail-view .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-view .label {
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .detail-view .value {
+            color: #c0c0c0;
+            line-height: 1.8;
+        }
+
+        .help-text {
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 15px;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 20px;
@@ -388,6 +535,26 @@
             .model-distribution {
                 flex-direction: column;
             }
+
+            .brain-canvas {
+                height: 400px;
+            }
+
+            .brain-node.central {
+                width: 120px;
+                height: 120px;
+                font-size: 1em;
+            }
+
+            .brain-node.category {
+                width: 90px;
+                height: 90px;
+                font-size: 0.85em;
+            }
+
+            .item-list {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -398,7 +565,7 @@
             <div class="stats-bar">
                 <div class="stat">
                     <div class="stat-label">Version</div>
-                    <div class="stat-value">v166</div>
+                    <div class="stat-value">v170</div>
                 </div>
                 <div class="stat">
                     <div class="stat-label">Daily Cost</div>
@@ -420,6 +587,7 @@
 
         <div class="tabs">
             <div class="tab active" data-tab="overview">Overview</div>
+            <div class="tab" data-tab="architecture">Brain Architecture</div>
             <div class="tab" data-tab="cost">Cost/Optimization</div>
             <div class="tab" data-tab="ofsinvest">OfsInvest</div>
             <div class="tab" data-tab="competition">Competition</div>
@@ -479,6 +647,23 @@
                     <li><strong>Monday Crisis Protocol:</strong> Iran attack response (3 scenarios, 6-variable watchlist)</li>
                     <li><strong>Security Hardened:</strong> ONLY Ofer admin rules, group chat protections</li>
                 </ul>
+            </div>
+        </div>
+
+        <!-- Brain Architecture Tab -->
+        <div class="tab-content" id="architecture">
+            <div class="section">
+                <h2>🧠 Ben's Brain Architecture</h2>
+                
+                <div id="breadcrumb" class="breadcrumb">
+                    <span class="breadcrumb-item" onclick="brainNav.goHome()">🏠 Ben's Brain</span>
+                </div>
+
+                <div id="brain-view"></div>
+
+                <p class="help-text">
+                    💡 Click nodes to navigate • Press ESC or Home to return to root view • Press ← to go back
+                </p>
             </div>
         </div>
 
@@ -1315,7 +1500,7 @@
                 <h3>Versioning & CI/CD</h3>
                 <ul>
                     <li><strong>Numeric suffix:</strong> _v101, _v102, etc. (incremented on each push)</li>
-                    <li><strong>Current version:</strong> v166 (tracked in memory/version.txt)</li>
+                    <li><strong>Current version:</strong> v170 (tracked in memory/version.txt)</li>
                     <li><strong>Deploy script:</strong> scripts/deploy.sh "message" (auto-increments, pushes, syncs brain map)</li>
                     <li><strong>Dashboard script:</strong> scripts/deploy-dashboard.sh "message" (dashboard-only updates)</li>
                     <li><strong>Brain map:</strong> Always synced to GitHub Pages (proprietary, not linked publicly)</li>
@@ -1571,6 +1756,242 @@
 
         updateTimestamp();
         setInterval(updateTimestamp, 1000);
+
+        // Brain Architecture Navigation System
+        const brainNav = {
+            currentLevel: 0,
+            currentCategory: null,
+            currentItem: null,
+
+            categories: [
+                {
+                    name: 'Skills',
+                    color: '#10b981',
+                    items: [
+                        { name: 'security-gate', desc: 'ONLY Ofer admin enforcement, group chat protection' },
+                        { name: 'buy-sell-signal', desc: 'Entry/exit timing, price targets, stop loss calculation' },
+                        { name: 'chart-patterns', desc: 'Bull flags, cup & handle, ascending triangles' },
+                        { name: 'market-sentiment', desc: 'Reddit, Twitter, Fear & Greed, Put/Call ratios' },
+                        { name: 'analyst-consensus', desc: 'Professional ratings aggregation' },
+                        { name: 'investing', desc: 'General investment strategy, portfolio construction' },
+                        { name: 'quantclaw', desc: "Yoni's methodology: Smart Money, GEX, factor alpha" },
+                        { name: 'social-media', desc: 'LinkedIn content creation & posting (with approval)' },
+                        { name: 'qmd-zvec', desc: 'Memclawz/Zvec integration for semantic memory' }
+                    ]
+                },
+                {
+                    name: 'Knowledge',
+                    color: '#fbbf24',
+                    items: [
+                        { name: 'Micha.Stocks', desc: '20+ files: Discord transcripts, PDFs, TradingView setup' },
+                        { name: 'Nuclear-Space', desc: '15+ files: SMR tech, uranium miners, space infrastructure' },
+                        { name: 'BioPharma', desc: '12+ files: FDA pipeline, clinical trials, pharma valuation' },
+                        { name: 'Quantum', desc: '8+ files: Quantum computing stocks, research breakthroughs' },
+                        { name: 'Crypto', desc: '10+ files: Bitcoin, Ethereum, Solana, DeFi, altcoins' },
+                        { name: 'Options', desc: '8+ files: GEX analysis, options strategies, Put/Call ratios' },
+                        { name: 'Earnings Reports', desc: '5+ files: Earnings calendar, guidance analysis' },
+                        { name: 'Healthcare', desc: '6+ files: Healthcare sector, insurance, medical devices' }
+                    ]
+                },
+                {
+                    name: 'Memory',
+                    color: '#a855f7',
+                    items: [
+                        { name: 'Daily Logs', desc: 'memory/YYYY-MM-DD.md - Raw logs of what happened each day' },
+                        { name: 'Long-Term Memory', desc: 'MEMORY.md - Curated memories, lessons learned, decisions' },
+                        { name: 'Heartbeat State', desc: 'heartbeat-state.json - Last check timestamps for periodic tasks' },
+                        { name: 'Version Tracking', desc: 'version.txt - Current version number (v170)' },
+                        { name: 'Group Questions', desc: 'group-question-counts.json - Rate limiting for non-Ofer users' }
+                    ]
+                },
+                {
+                    name: 'Agents',
+                    color: '#f97316',
+                    items: [
+                        { name: 'Ben (Admin)', desc: 'Personal assistant, social media expert, system admin - ONLY admin agent' },
+                        { name: 'OfsInvest', desc: 'Real money trading system, 24x5 markets, $1,000 capital, 9.5/10 score' },
+                        { name: 'Budget', desc: 'Family budget tracking, daily/weekly/monthly reports' },
+                        { name: 'Architect', desc: 'V2 research: Brain DB, Cache DB, LLM routing' }
+                    ]
+                },
+                {
+                    name: 'Tools',
+                    color: '#3b82f6',
+                    items: [
+                        { name: 'eToro API', desc: '53 endpoints, portfolio tracking, real-time prices' },
+                        { name: 'Web Search (Grok)', desc: 'Real-time news, financial data, social sentiment (FREE)' },
+                        { name: 'Telegram', desc: 'Primary communication channel with Ofer' },
+                        { name: 'Git', desc: 'Version control, auto-backup every 6h' },
+                        { name: 'Memclawz/Zvec', desc: 'Semantic memory on port 6031' },
+                        { name: 'Ollama', desc: 'Local LLM on port 16343' }
+                    ]
+                },
+                {
+                    name: 'Security',
+                    color: '#ef4444',
+                    items: [
+                        { name: 'ONLY Ofer Rule', desc: 'IRON RULE: Only Ofer (id:509387009) can give admin commands' },
+                        { name: 'Financial Protection', desc: 'NO ONE except Ofer can influence trading decisions' },
+                        { name: 'Group Chat Security', desc: 'Non-Ofer users limited to 6 questions/day, no system access' },
+                        { name: 'API Key Protection', desc: 'Secrets, tokens, passwords accessible only by Ofer' },
+                        { name: 'Error Resilience', desc: 'Retry logic, fallback models, manual mode on API failures' }
+                    ]
+                },
+                {
+                    name: 'Cost',
+                    color: '#eab308',
+                    items: [
+                        { name: 'Daily Cost', desc: '$3.50/day (97% reduction from $112/day)' },
+                        { name: 'Grok (60%)', desc: 'FREE - Cron jobs, web research, group chats' },
+                        { name: 'Sonnet (35%)', desc: '$3-15/1M tokens - Main DM, sub-agents' },
+                        { name: 'Opus (5%)', desc: '$15-75/1M tokens - Complex reasoning (on-demand only)' },
+                        { name: 'Monthly Savings', desc: '$3,255/month saved through model optimization' }
+                    ]
+                }
+            ],
+
+            renderRootView() {
+                const view = document.getElementById('brain-view');
+                view.innerHTML = `
+                    <div class="brain-canvas">
+                        <div class="brain-node central">
+                            🧠 Ben's Brain
+                        </div>
+                        ${this.categories.map((cat, i) => {
+                            const angle = (i / this.categories.length) * 2 * Math.PI - Math.PI / 2;
+                            const radius = 220;
+                            const x = 50 + Math.cos(angle) * radius / 10;
+                            const y = 50 + Math.sin(angle) * radius / 6;
+                            return `
+                                <div class="brain-node category" 
+                                     style="left: ${x}%; top: ${y}%; background: ${cat.color};"
+                                     onclick="brainNav.showCategory(${i})">
+                                    ${cat.name}
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                `;
+            },
+
+            showCategory(index) {
+                this.currentLevel = 1;
+                this.currentCategory = index;
+                const category = this.categories[index];
+                
+                const breadcrumb = document.getElementById('breadcrumb');
+                breadcrumb.innerHTML = `
+                    <span class="breadcrumb-item" onclick="brainNav.goHome()">🏠 Ben's Brain</span>
+                    <span class="breadcrumb-separator">›</span>
+                    <span class="breadcrumb-item" style="color: ${category.color}">${category.name}</span>
+                `;
+
+                const view = document.getElementById('brain-view');
+                view.innerHTML = `
+                    <div class="item-list">
+                        ${category.items.map((item, i) => `
+                            <div class="item-card" style="border-color: ${category.color};" onclick="brainNav.showItem(${index}, ${i})">
+                                <h4 style="color: ${category.color}">${item.name}</h4>
+                                <p>${item.desc}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            },
+
+            showItem(catIndex, itemIndex) {
+                this.currentLevel = 2;
+                this.currentCategory = catIndex;
+                this.currentItem = itemIndex;
+                
+                const category = this.categories[catIndex];
+                const item = category.items[itemIndex];
+                
+                const breadcrumb = document.getElementById('breadcrumb');
+                breadcrumb.innerHTML = `
+                    <span class="breadcrumb-item" onclick="brainNav.goHome()">🏠 Ben's Brain</span>
+                    <span class="breadcrumb-separator">›</span>
+                    <span class="breadcrumb-item" onclick="brainNav.showCategory(${catIndex})" style="color: ${category.color}">${category.name}</span>
+                    <span class="breadcrumb-separator">›</span>
+                    <span class="breadcrumb-item">${item.name}</span>
+                `;
+
+                const view = document.getElementById('brain-view');
+                view.innerHTML = `
+                    <div class="detail-view" style="border-color: ${category.color};">
+                        <h3 style="color: ${category.color}">${item.name}</h3>
+                        <div class="info-row">
+                            <div class="label">Category</div>
+                            <div class="value">${category.name}</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="label">Description</div>
+                            <div class="value">${item.desc}</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="label">Type</div>
+                            <div class="value">${this.getItemType(category.name, item.name)}</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="label">Status</div>
+                            <div class="value">${this.getItemStatus(category.name, item.name)}</div>
+                        </div>
+                    </div>
+                `;
+            },
+
+            getItemType(category, itemName) {
+                if (category === 'Skills') return 'AgentSkill';
+                if (category === 'Knowledge') return 'Knowledge Domain';
+                if (category === 'Memory') return 'Memory System';
+                if (category === 'Agents') return 'AI Agent';
+                if (category === 'Tools') return 'Integration';
+                if (category === 'Security') return 'Security Protocol';
+                if (category === 'Cost') return 'Cost Metric';
+                return 'Unknown';
+            },
+
+            getItemStatus(category, itemName) {
+                if (itemName.includes('ONLY Ofer')) return '🔴 CRITICAL - Always Active';
+                if (itemName.includes('Real money')) return '⭐ LIVE WITH REAL MONEY';
+                if (itemName.includes('FREE')) return '✅ Active (Free)';
+                if (itemName.includes('Grok')) return '✅ Active (60% usage)';
+                if (itemName.includes('Sonnet')) return '✅ Active (35% usage)';
+                if (itemName.includes('Opus')) return '⚠️ On-Demand Only (5% usage)';
+                return '✅ Active';
+            },
+
+            goHome() {
+                this.currentLevel = 0;
+                this.currentCategory = null;
+                this.currentItem = null;
+                
+                const breadcrumb = document.getElementById('breadcrumb');
+                breadcrumb.innerHTML = '<span class="breadcrumb-item">🏠 Ben\'s Brain</span>';
+                
+                this.renderRootView();
+            },
+
+            goBack() {
+                if (this.currentLevel === 2) {
+                    this.showCategory(this.currentCategory);
+                } else if (this.currentLevel === 1) {
+                    this.goHome();
+                }
+            }
+        };
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' || e.key === 'Home') {
+                brainNav.goHome();
+            } else if (e.key === 'ArrowLeft') {
+                brainNav.goBack();
+            }
+        });
+
+        // Initialize brain view
+        brainNav.renderRootView();
     </script>
 </body>
 </html>
