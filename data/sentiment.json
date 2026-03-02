@@ -1,0 +1,30 @@
+{
+  "last_update": "2026-03-02T20:48:21.514508+02:00",
+  "fear_greed": {
+    "value": 45,
+    "label": "Neutral",
+    "updated": "2026-03-02T20:48:21.514591+02:00"
+  },
+  "sentiment": {
+    "us_market": {
+      "score": 65,
+      "label": "Bullish",
+      "trend": "up"
+    },
+    "commodities": {
+      "score": 72,
+      "label": "Bullish",
+      "trend": "up"
+    },
+    "etfs": {
+      "score": 58,
+      "label": "Neutral",
+      "trend": "flat"
+    },
+    "crypto": {
+      "score": 55,
+      "label": "Neutral",
+      "trend": "up"
+    }
+  }
+}

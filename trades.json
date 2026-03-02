@@ -1,78 +1,107 @@
 {
-  "last_update": "2026-03-02T18:15:00+02:00",
-  "competition": {
+  "last_update": "2026-03-02T20:40:00+02:00",
+  "account": {
     "start_date": "2026-03-02",
-    "end_date": "2026-04-01",
-    "status": "active"
+    "initial_capital": 1700,
+    "current_value": 1708.88,
+    "cash": 1300,
+    "equity": 400.15,
+    "total_pnl": 8.88,
+    "pnl_percent": 0.52
   },
-  "traders": {
-    "ofsinvest": {
-      "name": "OfsInvest",
-      "total_value": 1700.15,
-      "cash": 1300,
-      "equity": 400.15,
-      "pnlHistory": [
-        {"date": "2026-03-02T00:00:00Z", "pnl": 0},
-        {"date": "2026-03-02T11:37:52Z", "pnl": 0.15}
-      ],
-      "holdings": [
-        {
-          "sym": "ETH",
-          "current_price": 1947.75,
-          "entry_price": 1945.76,
-          "units": 0.07709,
-          "leverage": 1,
-          "action": "LONG"
-        },
-        {
-          "sym": "HK-2348",
-          "current_price": 1.89,
-          "entry_price": 1.90,
-          "units": 78.95,
-          "leverage": 1,
-          "action": "PENDING"
-        },
-        {
-          "sym": "HK-2348",
-          "current_price": 1.89,
-          "entry_price": 1.90,
-          "units": 52.63,
-          "leverage": 1,
-          "action": "PENDING"
-        }
-      ],
-      "trades": [
-        {
-          "date": "2026-03-02T11:37:52Z",
-          "ticker": "ETH",
-          "action": "BUY",
-          "amount": 150,
-          "price": 1945.76,
-          "pnl": 0.15
-        }
-      ]
+  "performance_history": [
+    {"timestamp": "2026-03-02T00:00:00Z", "value": 1700, "pnl": 0},
+    {"timestamp": "2026-03-02T11:37:52Z", "value": 1700.15, "pnl": 0.15},
+    {"timestamp": "2026-03-02T16:36:00Z", "value": 1708.03, "pnl": 8.03},
+    {"timestamp": "2026-03-02T19:06:00Z", "value": 1708.88, "pnl": 8.88},
+    {"timestamp": "2026-03-02T20:40:00Z", "value": 1708.88, "pnl": 8.88}
+  ],
+  "holdings": [
+    {
+      "symbol": "ETH",
+      "name": "Ethereum",
+      "type": "crypto",
+      "current_price": 2062,
+      "entry_price": 1945.76,
+      "units": 0.07709,
+      "amount": 150,
+      "current_value": 159.00,
+      "pnl": 8.96,
+      "pnl_percent": 5.97,
+      "leverage": 1,
+      "status": "ACTIVE",
+      "entry_time": "2026-03-02T11:37:52Z"
     },
-    "micha": {
-      "name": "Micha Fan",
-      "total_value": 1700,
-      "cash": 1564,
-      "equity": 0,
-      "pnlHistory": [
-        {"date": "2026-03-02T00:00:00Z", "pnl": 0}
-      ],
-      "holdings": [],
-      "trades": []
+    {
+      "symbol": "HK-2348",
+      "name": "Metallurgical Corp China",
+      "type": "stock",
+      "current_price": 1.89,
+      "entry_price": 1.90,
+      "units": 78.95,
+      "amount": 150,
+      "current_value": 149.22,
+      "pnl": -0.79,
+      "pnl_percent": -0.53,
+      "leverage": 1,
+      "status": "PENDING",
+      "entry_time": "2026-03-02T09:12:00Z"
     },
-    "yoni": {
-      "name": "Yoni Fan",
-      "total_value": 1700,
-      "cash": 1564,
-      "equity": 0,
-      "pnlHistory": [
-        {"date": "2026-03-02T00:00:00Z", "pnl": 0}
-      ],
-      "holdings": [],
-      "trades": []
+    {
+      "symbol": "HK-2348",
+      "name": "Metallurgical Corp China",
+      "type": "stock",
+      "current_price": 1.89,
+      "entry_price": 1.90,
+      "units": 52.63,
+      "amount": 100,
+      "current_value": 99.47,
+      "pnl": -0.53,
+      "pnl_percent": -0.53,
+      "leverage": 1,
+      "status": "PENDING",
+      "entry_time": "2026-03-02T11:24:00Z"
     }
-  }
+  ],
+  "trades": [
+    {
+      "id": "1",
+      "timestamp": "2026-03-02T11:37:52Z",
+      "symbol": "ETH",
+      "action": "BUY",
+      "type": "OPEN",
+      "amount": 150,
+      "price": 1945.76,
+      "units": 0.07709,
+      "leverage": 1,
+      "reason": "Expert 11-signal fusion: SM 85, ETH recovery from $1,910 low, $1B+ ETF inflows",
+      "status": "EXECUTED"
+    },
+    {
+      "id": "2",
+      "timestamp": "2026-03-02T09:12:00Z",
+      "symbol": "HK-2348",
+      "action": "BUY",
+      "type": "OPEN",
+      "amount": 150,
+      "price": 1.90,
+      "units": 78.95,
+      "leverage": 1,
+      "reason": "Test trade - Hong Kong stock validation",
+      "status": "PENDING"
+    },
+    {
+      "id": "3",
+      "timestamp": "2026-03-02T11:24:00Z",
+      "symbol": "HK-2348",
+      "action": "BUY",
+      "type": "OPEN",
+      "amount": 100,
+      "price": 1.90,
+      "units": 52.63,
+      "leverage": 1,
+      "reason": "Test trade - Hong Kong stock validation #2",
+      "status": "PENDING"
+    }
+  ]
 }

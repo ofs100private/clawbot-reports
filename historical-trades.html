@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historical Trades - OfsInvest</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            color: #e0e0e0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        
+        .back-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            transition: transform 0.3s;
+        }
+        
+        .back-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .filters {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .filter-label {
+            font-size: 0.9em;
+            color: #888;
+        }
+        
+        select, input {
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.05);
+            color: #e0e0e0;
+            font-size: 1em;
+        }
+        
+        .trades-table {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            text-align: left;
+            font-weight: bold;
+            color: #fff;
+        }
+        
+        td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        tr:hover {
+            background: rgba(255,255,255,0.05);
+        }
+        
+        .buy { color: #4caf50; font-weight: bold; }
+        .sell { color: #f44336; font-weight: bold; }
+        .profit { color: #4caf50; }
+        .loss { color: #f44336; }
+        
+        .status-executed { color: #4caf50; }
+        .status-pending { color: #ff9800; }
+        .status-cancelled { color: #f44336; }
+        
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .summary-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        .summary-label {
+            font-size: 0.9em;
+            color: #888;
+            margin-bottom: 10px;
+        }
+        
+        .summary-value {
+            font-size: 2em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="real-money-trading.html" class="back-btn">← Back to Dashboard</a>
+        
+        <header>
+            <h1>📊 Historical Trades</h1>
+            <p class="subtitle">Complete Trading History & Analytics</p>
+        </header>
+        
+        <!-- Summary Cards -->
+        <div class="summary-cards">
+            <div class="summary-card">
+                <div class="summary-label">Total Trades</div>
+                <div class="summary-value" id="totalTrades">--</div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-label">Win Rate</div>
+                <div class="summary-value" id="winRate">--%</div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-label">Total P&L</div>
+                <div class="summary-value" id="totalPnL">$--</div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-label">Average Trade</div>
+                <div class="summary-value" id="avgTrade">$--</div>
+            </div>
+        </div>
+        
+        <!-- Filters -->
+        <div class="filters">
+            <div class="filter-group">
+                <label class="filter-label">Symbol</label>
+                <select id="symbolFilter">
+                    <option value="">All Symbols</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">Action</label>
+                <select id="actionFilter">
+                    <option value="">All Actions</option>
+                    <option value="BUY">Buy</option>
+                    <option value="SELL">Sell</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">Status</label>
+                <select id="statusFilter">
+                    <option value="">All Status</option>
+                    <option value="EXECUTED">Executed</option>
+                    <option value="PENDING">Pending</option>
+                    <option value="CANCELLED">Cancelled</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">From Date</label>
+                <input type="date" id="fromDate">
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">To Date</label>
+                <input type="date" id="toDate">
+            </div>
+        </div>
+        
+        <!-- Trades Table -->
+        <div class="trades-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date/Time</th>
+                        <th>Symbol</th>
+                        <th>Action</th>
+                        <th>Amount</th>
+                        <th>Price</th>
+                        <th>Units</th>
+                        <th>Leverage</th>
+                        <th>Status</th>
+                        <th>Reason</th>
+                    </tr>
+                </thead>
+                <tbody id="tradesTableBody">
+                    <tr>
+                        <td colspan="9" style="text-align: center; padding: 40px;">
+                            Loading trades...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <script>
+        let allTrades = [];
+        
+        async function loadTrades() {
+            try {
+                const response = await fetch('trades.json?v=' + Date.now());
+                const data = await response.json();
+                allTrades = data.trades;
+                
+                populateSymbolFilter();
+                updateSummary();
+                filterAndDisplayTrades();
+            } catch (error) {
+                console.error('Error loading trades:', error);
+            }
+        }
+        
+        function populateSymbolFilter() {
+            const symbols = [...new Set(allTrades.map(t => t.symbol))];
+            const select = document.getElementById('symbolFilter');
+            symbols.forEach(symbol => {
+                const option = document.createElement('option');
+                option.value = symbol;
+                option.textContent = symbol;
+                select.appendChild(option);
+            });
+        }
+        
+        function updateSummary() {
+            const totalTrades = allTrades.length;
+            const executedTrades = allTrades.filter(t => t.status === 'EXECUTED');
+            const winningTrades = executedTrades.filter(t => (t.pnl || 0) > 0).length;
+            const winRate = executedTrades.length > 0 ? (winningTrades / executedTrades.length * 100) : 0;
+            const totalPnL = executedTrades.reduce((sum, t) => sum + (t.pnl || 0), 0);
+            const avgTrade = executedTrades.length > 0 ? (totalPnL / executedTrades.length) : 0;
+            
+            document.getElementById('totalTrades').textContent = totalTrades;
+            document.getElementById('winRate').textContent = winRate.toFixed(1) + '%';
+            document.getElementById('totalPnL').textContent = '$' + totalPnL.toFixed(2);
+            document.getElementById('totalPnL').className = 'summary-value ' + (totalPnL >= 0 ? 'profit' : 'loss');
+            document.getElementById('avgTrade').textContent = '$' + avgTrade.toFixed(2);
+            document.getElementById('avgTrade').className = 'summary-value ' + (avgTrade >= 0 ? 'profit' : 'loss');
+        }
+        
+        function filterAndDisplayTrades() {
+            const symbolFilter = document.getElementById('symbolFilter').value;
+            const actionFilter = document.getElementById('actionFilter').value;
+            const statusFilter = document.getElementById('statusFilter').value;
+            const fromDate = document.getElementById('fromDate').value;
+            const toDate = document.getElementById('toDate').value;
+            
+            let filtered = allTrades.filter(trade => {
+                if (symbolFilter && trade.symbol !== symbolFilter) return false;
+                if (actionFilter && trade.action !== actionFilter) return false;
+                if (statusFilter && trade.status !== statusFilter) return false;
+                if (fromDate && new Date(trade.timestamp) < new Date(fromDate)) return false;
+                if (toDate && new Date(trade.timestamp) > new Date(toDate)) return false;
+                return true;
+            });
+            
+            displayTrades(filtered);
+        }
+        
+        function displayTrades(trades) {
+            const tbody = document.getElementById('tradesTableBody');
+            
+            if (trades.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; padding: 40px;">No trades found</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = trades.map(trade => `
+                <tr>
+                    <td>${new Date(trade.timestamp).toLocaleString()}</td>
+                    <td><strong>${trade.symbol}</strong></td>
+                    <td class="${trade.action.toLowerCase()}">${trade.action}</td>
+                    <td>$${trade.amount.toFixed(2)}</td>
+                    <td>$${trade.price.toFixed(2)}</td>
+                    <td>${trade.units.toFixed(4)}</td>
+                    <td>${trade.leverage}x</td>
+                    <td class="status-${trade.status.toLowerCase()}">${trade.status}</td>
+                    <td style="max-width: 300px;">${trade.reason}</td>
+                </tr>
+            `).join('');
+        }
+        
+        // Event listeners
+        document.getElementById('symbolFilter').addEventListener('change', filterAndDisplayTrades);
+        document.getElementById('actionFilter').addEventListener('change', filterAndDisplayTrades);
+        document.getElementById('statusFilter').addEventListener('change', filterAndDisplayTrades);
+        document.getElementById('fromDate').addEventListener('change', filterAndDisplayTrades);
+        document.getElementById('toDate').addEventListener('change', filterAndDisplayTrades);
+        
+        // Initial load
+        loadTrades();
+    </script>
+</body>
+</html>
