@@ -1,5 +1,5 @@
 {
-  "last_update": "2026-03-02T16:30:00+02:00",
+  "last_update": "2026-03-02T17:16:00+02:00",
   "competition": {
     "start_date": "2026-03-02",
     "end_date": "2026-04-01",
@@ -158,14 +158,89 @@
     },
     "yoni": {
       "name": "Yoni Fan",
-      "total_value": 1000,
-      "cash": 920,
-      "equity": 0,
+      "total_value": 920,
+      "cash": 20,
+      "equity": 900,
       "pnlHistory": [
-        {"date": "2026-03-02T00:00:00Z", "pnl": 0}
+        {"date": "2026-03-02T00:00:00Z", "pnl": 0},
+        {"date": "2026-03-02T17:16:00+02:00", "pnl": 0}
       ],
-      "holdings": [],
-      "trades": []
+      "holdings": [
+        {
+          "sym": "TSM",
+          "units": 0.812,
+          "avgPrice": 369.35,
+          "currentPrice": 369.35,
+          "pnl": 0
+        },
+        {
+          "sym": "NVDA",
+          "units": 1.658,
+          "avgPrice": 180.88,
+          "currentPrice": 180.88,
+          "pnl": 0
+        },
+        {
+          "sym": "COIN",
+          "units": 1.62,
+          "avgPrice": 185.15,
+          "currentPrice": 185.15,
+          "pnl": 0
+        }
+      ],
+      "trades": [
+        {
+          "date": "2026-03-02T17:16:00+02:00",
+          "action": "buy",
+          "ticker": "TSM",
+          "units": 0.812,
+          "price": 369.35,
+          "amount": 300,
+          "reason": "SM:100|accumulating >60 buy signal, GEX:positive|0.13 support",
+          "pnl": 0
+        },
+        {
+          "date": "2026-03-02T17:16:00+02:00",
+          "action": "buy",
+          "ticker": "NVDA",
+          "units": 1.658,
+          "price": 180.88,
+          "amount": 300,
+          "reason": "SM:100|accumulating >60 strong buy signal despite GEX:negative|-0.8 volatility",
+          "pnl": 0
+        },
+        {
+          "date": "2026-03-02T17:16:00+02:00",
+          "action": "buy",
+          "ticker": "COIN",
+          "units": 1.62,
+          "price": 185.15,
+          "amount": 300,
+          "reason": "SM:100|accumulating >60 buy signal, GEX:negative|-0.32",
+          "pnl": 0
+        }
+      ],
+      "totalPnl": 0,
+      "audit": [
+        "2026-03-02T17:16:00+02:00: Initiated positions in TSM, NVDA, COIN based on high Smart Money scores (>60 accumulating) and supporting GEX data where positive."
+      ],
+      "prices": {
+        "NVDA": 180.88,
+        "AAPL": 264.08,
+        "MSFT": 399.27,
+        "GOOGL": 305.66,
+        "AMD": 194.88,
+        "AVGO": 314.72,
+        "TSM": 369.35,
+        "META": 648.18,
+        "AMZN": 208.48,
+        "PLTR": 144.38,
+        "SOFI": 17.84,
+        "COIN": 185.15,
+        "MARA": 9.59,
+        "RIOT": 16.66
+      },
+      "lastUpdate": "2026-03-02T17:16:00+02:00"
     }
   }
 }
