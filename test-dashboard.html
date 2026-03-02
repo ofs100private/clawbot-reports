@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Test - Holdings Data</title>
+    <script>
+        async function test() {
+            const response = await fetch('trades.json?v=' + Date.now());
+            const data = await response.json();
+            
+            document.getElementById('output').innerHTML = `
+                <h2>Debug Info:</h2>
+                <p>Holdings count: ${data.holdings ? data.holdings.length : 'N/A'}</p>
+                <p>Holdings array: ${JSON.stringify(data.holdings, null, 2)}</p>
+                <hr>
+                <h3>Raw JSON:</h3>
+                <pre>${JSON.stringify(data, null, 2)}</pre>
+            `;
+        }
+        
+        window.onload = test;
+    </script>
+</head>
+<body>
+    <div id="output">Loading...</div>
+</body>
+</html>
