@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Cache Cleared - Redirecting...</title>
+    <script>
+        // Force clear cache and redirect
+        if ('caches' in window) {
+            caches.keys().then(function(names) {
+                names.forEach(function(name) {
+                    caches.delete(name);
+                });
+            });
+        }
+        
+        setTimeout(function() {
+            window.location.href = 'real-money-trading.html?nocache=' + Date.now();
+        }, 1000);
+    </script>
+</head>
+<body style="background:#1a1f3a;color:#fff;font-family:Arial;text-align:center;padding:50px;">
+    <h1>Clearing cache...</h1>
+    <p>Redirecting to dashboard in 1 second...</p>
+</body>
+</html>
