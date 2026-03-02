@@ -1,136 +1,117 @@
 {
-  "lastUpdate": "2026-03-02T14:08:31+0200",
-  "competitors": {
+  "last_update": "2026-03-02T16:00:00+02:00",
+  "competition": {
+    "start_date": "2026-03-02",
+    "end_date": "2026-04-01",
+    "days_elapsed": 0,
+    "days_remaining": 30,
+    "status": "active"
+  },
+  "traders": {
     "ofsinvest": {
       "name": "OfsInvest",
       "model": "Expert Fusion - Real Money",
-      "startingCapital": 1000,
-      "currentCapital": 1000.15,
+      "starting_capital": 1000,
+      "current_capital": 1000.15,
       "cash": 600,
-      "invested": 400,
-      "totalPnL": 0.15,
-      "totalPnLPercent": 0.015,
+      "equity": 400,
+      "total_pnl": 0.15,
+      "total_pnl_percent": 0.015,
       "positions": [
         {
           "ticker": "ETH",
           "name": "Ethereum",
-          "positionId": "LIVE",
           "type": "LONG",
           "amount": 150,
-          "entryPrice": 1945.76,
-          "currentPrice": 1947.75,
-          "stopLoss": 1875,
-          "takeProfit": 2100,
+          "entry_price": 1945.76,
+          "current_price": 1947.75,
+          "stop_loss": 1875,
+          "take_profit": 2100,
           "status": "ACTIVE",
-          "entryDate": "2026-03-02T11:37:52Z",
           "pnl": 0.15,
-          "pnlPercent": 0.10
+          "pnl_percent": 0.10
         },
         {
           "ticker": "HK-2348",
           "name": "Hong Kong Stock",
-          "orderId": 1373429272,
           "type": "LONG",
           "amount": 150,
-          "entryPrice": 1.90,
-          "currentPrice": 1.90,
-          "stopLoss": 1.84,
-          "takeProfit": 2.00,
+          "entry_price": 1.90,
+          "current_price": 1.90,
           "status": "PENDING",
-          "entryDate": "2026-03-02T12:00:00Z",
           "pnl": 0,
-          "pnlPercent": 0
+          "pnl_percent": 0
         },
         {
           "ticker": "HK-2348",
           "name": "Hong Kong Stock",
-          "orderId": 1373974399,
           "type": "LONG",
           "amount": 100,
-          "entryPrice": 1.90,
-          "currentPrice": 1.90,
-          "stopLoss": 1.84,
-          "takeProfit": 2.00,
+          "entry_price": 1.90,
+          "current_price": 1.90,
           "status": "PENDING",
-          "entryDate": "2026-03-02T14:45:00Z",
           "pnl": 0,
-          "pnlPercent": 0
+          "pnl_percent": 0
         }
       ],
-      "trades": [
+      "trade_history": [
         {
-          "id": 1,
           "date": "2026-03-02T11:37:52Z",
           "ticker": "ETH",
           "action": "BUY",
           "amount": 150,
           "price": 1945.76,
-          "orderId": 1373495938,
-          "status": "FILLED",
-          "pnl": 0.15,
-          "note": "Crypto 24/7 advantage - executed while markets closed"
+          "pnl": 0.15
         }
       ],
       "stats": {
-        "totalTrades": 1,
+        "total_trades": 1,
         "wins": 1,
         "losses": 0,
-        "winRate": 100,
-        "avgWin": 0.15,
-        "avgLoss": 0,
-        "bestTrade": 0.15,
-        "worstTrade": 0
+        "win_rate": 100,
+        "best_trade": 0.15,
+        "worst_trade": 0
       }
     },
-    "micha_fan": {
+    "micha": {
       "name": "Micha Fan",
       "model": "Pure Micha Stocks",
-      "startingCapital": 1000,
-      "currentCapital": 1000,
+      "starting_capital": 1000,
+      "current_capital": 1000,
       "cash": 920,
-      "invested": 0,
-      "totalPnL": 0,
-      "totalPnLPercent": 0,
+      "equity": 0,
+      "total_pnl": 0,
+      "total_pnl_percent": 0,
       "positions": [],
-      "trades": [],
+      "trade_history": [],
       "stats": {
-        "totalTrades": 0,
+        "total_trades": 0,
         "wins": 0,
         "losses": 0,
-        "winRate": 0,
-        "avgWin": 0,
-        "avgLoss": 0,
-        "bestTrade": 0,
-        "worstTrade": 0
+        "win_rate": 0,
+        "best_trade": 0,
+        "worst_trade": 0
       }
     },
-    "yoni_fan": {
+    "yoni": {
       "name": "Yoni Fan",
       "model": "Pure QuantClaw",
-      "startingCapital": 1000,
-      "currentCapital": 1000,
+      "starting_capital": 1000,
+      "current_capital": 1000,
       "cash": 920,
-      "invested": 0,
-      "totalPnL": 0,
-      "totalPnLPercent": 0,
+      "equity": 0,
+      "total_pnl": 0,
+      "total_pnl_percent": 0,
       "positions": [],
-      "trades": [],
+      "trade_history": [],
       "stats": {
-        "totalTrades": 0,
+        "total_trades": 0,
         "wins": 0,
         "losses": 0,
-        "winRate": 0,
-        "avgWin": 0,
-        "avgLoss": 0,
-        "bestTrade": 0,
-        "worstTrade": 0
+        "win_rate": 0,
+        "best_trade": 0,
+        "worst_trade": 0
       }
     }
-  },
-  "competition": {
-    "startDate": "2026-03-02",
-    "endDate": "2026-04-01",
-    "daysElapsed": 0,
-    "daysRemaining": 30
   }
 }
