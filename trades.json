@@ -1,5 +1,5 @@
 {
-  "last_update": "2026-03-02T16:15:00+02:00",
+  "last_update": "2026-03-02T16:30:00+02:00",
   "competition": {
     "start_date": "2026-03-02",
     "end_date": "2026-04-01",
@@ -11,6 +11,10 @@
       "total_value": 1000.15,
       "cash": 600,
       "equity": 400.15,
+      "pnlHistory": [
+        {"date": "2026-03-02T00:00:00Z", "pnl": 0},
+        {"date": "2026-03-02T11:37:52Z", "pnl": 0.15}
+      ],
       "holdings": [
         {
           "sym": "ETH",
@@ -53,6 +57,9 @@
       "total_value": 1000,
       "cash": 920,
       "equity": 0,
+      "pnlHistory": [
+        {"date": "2026-03-02T00:00:00Z", "pnl": 0}
+      ],
       "holdings": [],
       "trades": []
     },
@@ -61,6 +68,9 @@
       "total_value": 1000,
       "cash": 920,
       "equity": 0,
+      "pnlHistory": [
+        {"date": "2026-03-02T00:00:00Z", "pnl": 0}
+      ],
       "holdings": [],
       "trades": []
     }
