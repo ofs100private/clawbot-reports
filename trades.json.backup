@@ -1,0 +1,689 @@
+{
+  "competition": {
+    "start_date": "2026-03-01T00:00:00+02:00",
+    "end_date": "2026-03-30T23:59:59+02:00",
+    "duration_days": 30,
+    "status": "READY_TO_START"
+  },
+  "traders": {
+    "ofsinvest": {
+      "name": "OfsInvest",
+      "type": "REAL",
+      "color": "#f0b90b",
+      "icon": "\ud83e\udde0",
+      "cash": 1000.0,
+      "holdings": {},
+      "equity": 0.0,
+      "total_value": 1000.0,
+      "trades": [],
+      "strategy": "Expert fusion (Micha discipline + Yoni data)",
+      "target": "1% daily NET ($10/day)",
+      "validation": "4-layer protocol",
+      "leverage": "1x only",
+      "max_trades_per_day": 8,
+      "cash_reserve_pct": 0.08
+    },
+    "micha": {
+      "name": "Micha Fan",
+      "type": "VIRTUAL",
+      "color": "#22c55e",
+      "icon": "\ud83d\udcc8",
+      "cash": 600.28,
+      "holdings": [
+        {
+          "sym": "QQQ",
+          "units": 0.329,
+          "avgPrice": 607.29,
+          "currentPrice": 607.29,
+          "pnl": 0,
+          "leverage": 1,
+          "action": "hold",
+          "reason": "Trend continuation above MA-150 in tech ETF"
+        },
+        {
+          "sym": "LLY",
+          "units": 0.19,
+          "avgPrice": 1051.99,
+          "currentPrice": 1051.99,
+          "pnl": 0,
+          "leverage": 1,
+          "action": "hold",
+          "reason": "Quality leader in pharma, breakout from base above MA-150"
+        }
+      ],
+      "equity": 399.72,
+      "total_value": 1000.0,
+      "trades": [
+        {
+          "date": "2026-03-01",
+          "action": "buy",
+          "ticker": "QQQ",
+          "units": 0.329,
+          "price": 607.29,
+          "amount": 199.84,
+          "reason": "Trend continuation above MA-150 in tech ETF",
+          "pnl": 0,
+          "leverage": 1
+        },
+        {
+          "date": "2026-03-01",
+          "action": "buy",
+          "ticker": "LLY",
+          "units": 0.19,
+          "price": 1051.99,
+          "amount": 199.88,
+          "reason": "Quality leader in pharma, breakout from base above MA-150",
+          "pnl": 0,
+          "leverage": 1
+        }
+      ],
+      "strategy": "Pure Micha Stocks methodology",
+      "focus": "MA-150, chart patterns, risk discipline",
+      "trades_per_cycle": "1-3",
+      "leverage": "1-2x",
+      "totalPnl": 0,
+      "pnlHistory": [
+        {
+          "date": "2026-02-28",
+          "pnl": 0
+        },
+        {
+          "date": "2026-03-01",
+          "pnl": 0
+        },
+        {
+          "date": "2026-03-02",
+          "pnl": 0
+        }
+      ],
+      "audit": [
+        "2026-03-01T01:06:00+02:00: Initial positions in QQQ and LLY based on Micha methodology",
+        "2026-03-01T05:06:00+02:00: Market closed (Sunday), no price changes, no new setups. Holding positions.",
+        "2026-03-01T09:06:00+02:00: Market closed (Sunday), no price changes, no new setups. Holding positions.",
+        "2026-03-01T13:06:00+02:00: Market closed (Sunday), no price changes, no new setups. Holding positions.",
+        "2026-03-01T17:06:00+02:00: Market closed (Sunday), no price changes, no new setups. Holding positions.",
+        "2026-03-01T21:06:00+02:00: Market closed (Sunday), no price changes, no new setups. Holding positions.",
+        "2026-03-02T01:06:00+02:00: Pre-market (Monday), prices unchanged, no new setups. Holding positions.",
+        "2026-03-02T05:06:00+02:00: Pre-market (Monday), prices unchanged, no new setups. Holding positions.",
+        "2026-03-02T09:06:00+02:00: Pre-market (Monday), prices unchanged, no new setups. Holding positions.",
+        "2026-03-02T13:06:00+02:00: Pre-market (Monday), prices unchanged, no new setups. Holding positions."
+      ],
+      "prices": {
+        "NVDA": 177.19,
+        "AAPL": 264.18,
+        "MSFT": 392.74,
+        "GOOGL": 311.76,
+        "AMD": 200.21,
+        "AVGO": 319.55,
+        "TSM": 374.58,
+        "META": 648.18,
+        "AMZN": 210,
+        "QQQ": 607.29,
+        "SPY": 685.99,
+        "COST": 1010.79,
+        "NFLX": 96.24,
+        "LLY": 1051.99
+      },
+      "lastUpdate": "2026-03-02T13:06:00+02:00"
+    },
+    "yoni": {
+      "name": "Yoni Fan",
+      "type": "VIRTUAL",
+      "color": "#a855f7",
+      "icon": "\ud83d\udd2e",
+      "cash": 0.0,
+      "holdings": [
+        {
+          "sym": "MSFT",
+          "units": 0.4582,
+          "avgPrice": 392.74,
+          "currentPrice": 392.74,
+          "pnl": 0,
+          "leverage": 2,
+          "action": "hold",
+          "reason": "SM 47.78|neutral GEX:positive|0"
+        },
+        {
+          "sym": "AVGO",
+          "units": 0.5632,
+          "avgPrice": 319.55,
+          "currentPrice": 319.55,
+          "pnl": 0,
+          "leverage": 2,
+          "action": "hold",
+          "reason": "SM 43.9|neutral GEX:positive|0.02"
+        },
+        {
+          "sym": "AMZN",
+          "units": 1.2595,
+          "avgPrice": 210,
+          "currentPrice": 210,
+          "pnl": 0,
+          "leverage": 2,
+          "action": "hold",
+          "reason": "SM 100|accumulating GEX:negative|0"
+        },
+        {
+          "sym": "SOFI",
+          "units": 13.5135,
+          "avgPrice": 17.76,
+          "currentPrice": 17.76,
+          "pnl": 0,
+          "leverage": 2,
+          "action": "hold",
+          "reason": "SM 100|accumulating GEX:positive|0.01"
+        },
+        {
+          "sym": "MARA",
+          "units": 26.9575,
+          "avgPrice": 8.94,
+          "currentPrice": 8.94,
+          "pnl": 0,
+          "leverage": 2,
+          "action": "hold",
+          "reason": "SM 100|accumulating GEX:positive|0.01"
+        }
+      ],
+      "equity": 999.99,
+      "total_value": 999.99,
+      "trades": [
+        {
+          "date": "2026-02-28",
+          "action": "buy",
+          "ticker": "AMD",
+          "units": 1.997,
+          "price": 200.21,
+          "amount": 400,
+          "reason": "SM 100 accumulating, GEX positive 0.41 support",
+          "pnl": 0,
+          "leverage": 2
+        },
+        {
+          "date": "2026-02-28",
+          "action": "buy",
+          "ticker": "TSM",
+          "units": 1.067,
+          "price": 374.58,
+          "amount": 400,
+          "reason": "SM 100 accumulating, GEX positive 0.07 support",
+          "pnl": 0,
+          "leverage": 2
+        },
+        {
+          "date": "2026-02-28",
+          "action": "buy",
+          "ticker": "PLTR",
+          "units": 1.458,
+          "price": 137.19,
+          "amount": 200,
+          "reason": "SM 65.57 accumulating, GEX negative -0.14 but SM strong >60",
+          "pnl": 0,
+          "leverage": 2
+        },
+        {
+          "date": "2026-03-01",
+          "action": "sell",
+          "ticker": "PLTR",
+          "units": 1.458,
+          "price": 137.19,
+          "amount": 200,
+          "reason": "GEX negative -0.14 indicating potential volatility, SM 70.25|accumulating but rotating to higher conviction",
+          "pnl": 0,
+          "leverage": 2
+        },
+        {
+          "date": "2026-03-01",
+          "action": "buy",
+          "ticker": "COIN",
+          "units": 1.137,
+          "price": 175.85,
+          "amount": 200,
+          "reason": "SM 100|accumulating with highest score, GEX negative -0.07 minimal volatility",
+          "pnl": 0,
+          "leverage": 2
+        },
+        {
+          "date": "2026-03-01",
+          "action": "sell",
+          "ticker": "AMD",
+          "units": 1.997,
+          "price": 200.21,
+          "amount": 399.82,
+          "reason": "SM 0|distributing, clear distribution signal despite positive GEX 0.42",
+          "pnl": 0,
+          "leverage": 2
+        },
+        {
+          "date": "2026-03-01",
+          "action": "sell",
+          "ticker": "COIN",
+          "units": 1.137,
+          "price": 175.85,
+          "amount": 199.94,
+          "reason": "SM 0|distributing, distribution with negative GEX -0.07 volatility",
+          "pnl": 0,
+          "leverage": 2
+        },
+        {
+          "date": "2026-03-01",
+          "action": "buy",
+          "ticker": "MSFT",
+          "units": 0.7638,
+          "price": 392.74,
+          "amount": 300,
+          "reason": "SM 65.39|accumulating >60, positive GEX 0.32 providing support",
+          "pnl": 0,
+          "leverage": 2
+        },
+        {
+          "date": "2026-03-01",
+          "action": "buy",
+          "ticker": "AMZN",
+          "units": 1.4274,
+          "price": 210,
+          "amount": 299.76,
+          "reason": "SM 100|accumulating max score, strong accumulation despite negative GEX -0.62",
+          "pnl": 0,
+          "leverage": 2
+        },
+        {
+          "date": "2026-03-01",
+          "action": "sell",
+          "ticker": "AMZN",
+          "units": 1.4274,
+          "price": 210,
+          "amount": 299.75,
+          "reason": "SM 0|distributing <40, GEX negative -0.62 indicating volatility during distribution",
+          "pnl": 0,
+          "leverage": 2
+        },
+        {
+          "date": "2026-03-01",
+          "action": "sell",
+          "ticker": "TSM",
+          "units": 1.067,
+          "price": 374.58,
+          "amount": 399.68,
+          "reason": "SM 47.33|neutral 40-60, GEX positive 0.07 but rotating to stronger SM >60 signals",
+          "pnl": 0,
+          "leverage": 2
+        },
+        {
+          "date": "2026-03-01",
+          "action": "buy",
+          "ticker": "SOFI",
+          "units": 19.7072,
+          "price": 17.76,
+          "amount": 350,
+          "reason": "SM 66.85|accumulating >60, GEX positive 0.15 providing support",
+          "pnl": 0,
+          "leverage": 2
+        },
+        {
+          "date": "2026-03-01",
+          "action": "buy",
+          "ticker": "PLTR",
+          "units": 2.5469,
+          "price": 137.19,
+          "amount": 349.43,
+          "reason": "SM 100|accumulating max score, GEX negative -0.14 with minimal volatility",
+          "pnl": 0,
+          "leverage": 2
+        },
+        {
+          "date": "2026-03-01",
+          "action": "sell",
+          "ticker": "PLTR",
+          "units": 2.5469,
+          "price": 137.19,
+          "amount": 349.43,
+          "reason": "SM 50|neutral 40-60, GEX negative -0.14 indicating potential volatility",
+          "pnl": 0,
+          "leverage": 2
+        },
+        {
+          "date": "2026-03-01",
+          "action": "buy",
+          "ticker": "NVDA",
+          "units": 1.1288,
+          "price": 177.19,
+          "amount": 200,
+          "reason": "SM 100|accumulating >60, GEX positive|0.9 providing strong support",
+          "pnl": 0,
+          "leverage": 2
+        },
+        {
+          "date": "2026-03-01",
+          "action": "buy",
+          "ticker": "AMD",
+          "units": 0.7462,
+          "price": 200.21,
+          "amount": 149.43,
+          "reason": "SM 100|accumulating >60, GEX positive|0.42 providing support",
+          "pnl": 0,
+          "leverage": 2
+        },
+        {
+          "date": "2026-03-01",
+          "action": "sell",
+          "ticker": "MSFT",
+          "units": 0.7638,
+          "price": 392.74,
+          "amount": 300,
+          "reason": "SM 36.81|distributing <40, positive GEX 0.32 but distribution signal",
+          "pnl": 0,
+          "leverage": 2
+        },
+        {
+          "date": "2026-03-01",
+          "action": "sell",
+          "ticker": "NVDA",
+          "units": 1.1288,
+          "price": 177.19,
+          "amount": 200,
+          "reason": "SM 50|neutral 40-60, rotating to stronger SM >60 accumulations",
+          "pnl": 0,
+          "leverage": 2
+        },
+        {
+          "date": "2026-03-01",
+          "action": "sell",
+          "ticker": "AMD",
+          "units": 0.7462,
+          "price": 200.21,
+          "amount": 149.36,
+          "reason": "SM 48.3|neutral 40-60, rotating to stronger SM >60 accumulations",
+          "pnl": 0,
+          "leverage": 2
+        },
+        {
+          "date": "2026-03-01",
+          "action": "buy",
+          "ticker": "META",
+          "units": 0.334,
+          "price": 648.18,
+          "amount": 216.45,
+          "reason": "SM 100|accumulating >60, GEX negative -0.08 minimal volatility",
+          "pnl": 0,
+          "leverage": 2
+        },
+        {
+          "date": "2026-03-01",
+          "action": "buy",
+          "ticker": "AMZN",
+          "units": 1.0307,
+          "price": 210,
+          "amount": 216.45,
+          "reason": "SM 100|accumulating >60, GEX negative -0.62 volatility but max SM score",
+          "pnl": 0,
+          "leverage": 2
+        },
+        {
+          "date": "2026-03-01",
+          "action": "buy",
+          "ticker": "PLTR",
+          "units": 1.5779,
+          "price": 137.19,
+          "amount": 216.45,
+          "reason": "SM 67.16|accumulating >60, GEX negative -0.14 low volatility",
+          "pnl": 0,
+          "leverage": 2
+        },
+        {
+          "date": "2026-03-01",
+          "action": "sell",
+          "ticker": "SOFI",
+          "units": 19.7072,
+          "price": 17.76,
+          "amount": 350,
+          "reason": "SM 0|distributing <40, GEX positive|0.11 but clear distribution signal",
+          "pnl": 0,
+          "leverage": 2
+        },
+        {
+          "date": "2026-03-01",
+          "action": "sell",
+          "ticker": "AMZN",
+          "units": 1.0307,
+          "price": 210,
+          "amount": 216.447,
+          "reason": "SM 100|accumulating but rotating to positions with positive GEX support (current GEX negative|-0.53 indicating higher volatility)",
+          "pnl": 0,
+          "leverage": 2
+        },
+        {
+          "date": "2026-03-01",
+          "action": "buy",
+          "ticker": "AAPL",
+          "units": 1.3248,
+          "price": 264.18,
+          "amount": 350,
+          "reason": "SM 100|accumulating >60, GEX positive|0.09 providing support",
+          "pnl": 0,
+          "leverage": 2
+        },
+        {
+          "date": "2026-03-01",
+          "action": "buy",
+          "ticker": "GOOGL",
+          "units": 1.0375,
+          "price": 311.76,
+          "amount": 216.45,
+          "reason": "SM 100|accumulating >60, GEX negative|-0.27 indicating some volatility but max SM score",
+          "pnl": 0,
+          "leverage": 2
+        },
+        {
+          "date": "2026-03-02",
+          "action": "sell",
+          "ticker": "GOOGL",
+          "units": 1.0375,
+          "price": 311.76,
+          "amount": 323.463,
+          "reason": "SM 0|distributing <40, GEX negative|-0.27 indicating volatility",
+          "pnl": 0
+        },
+        {
+          "date": "2026-03-02",
+          "action": "sell",
+          "ticker": "PLTR",
+          "units": 1.5779,
+          "price": 137.19,
+          "amount": 216.456,
+          "reason": "SM 50|neutral 40-60, GEX negative|-0.19 indicating potential volatility; rotating to higher conviction SM>60",
+          "pnl": 0
+        },
+        {
+          "date": "2026-03-02",
+          "action": "buy",
+          "ticker": "MSFT",
+          "units": 0.4582,
+          "price": 392.74,
+          "amount": 180.0,
+          "reason": "SM 100|accumulating max score, GEX positive|0.12 providing support",
+          "pnl": 0
+        },
+        {
+          "date": "2026-03-02",
+          "action": "buy",
+          "ticker": "AVGO",
+          "units": 0.5632,
+          "price": 319.55,
+          "amount": 180.0,
+          "reason": "SM 100|accumulating max score, GEX negative|-0.23 but strong accumulation signal",
+          "pnl": 0
+        },
+        {
+          "date": "2026-03-02",
+          "action": "buy",
+          "ticker": "SOFI",
+          "units": 10.078,
+          "price": 17.76,
+          "amount": 179.0,
+          "reason": "SM 100|accumulating max score, GEX positive|0.11 providing support",
+          "pnl": 0
+        },
+        {
+          "date": "2026-03-02",
+          "action": "sell",
+          "ticker": "AAPL",
+          "units": 1.3248,
+          "price": 264.18,
+          "amount": 349.99,
+          "reason": "SM 0|distributing <40, GEX positive|0.13 but distribution signal takes precedence",
+          "pnl": 0
+        },
+        {
+          "date": "2026-03-02",
+          "action": "sell",
+          "ticker": "SOFI",
+          "units": 10.078,
+          "price": 17.76,
+          "amount": 178.99,
+          "reason": "SM 0|distributing <40, GEX positive|0.11 but distribution signal takes precedence",
+          "pnl": 0
+        },
+        {
+          "date": "2026-03-02",
+          "action": "buy",
+          "ticker": "AMZN",
+          "units": 1.2595,
+          "price": 210,
+          "amount": 264.5,
+          "reason": "SM 100|accumulating >60, GEX negative|-0.54 but max SM score high conviction",
+          "pnl": 0
+        },
+        {
+          "date": "2026-03-02",
+          "action": "buy",
+          "ticker": "RIOT",
+          "units": 16.2374,
+          "price": 16.29,
+          "amount": 264.5,
+          "reason": "SM 100|accumulating >60, GEX negative|-0.15 but max SM score high conviction",
+          "pnl": 0
+        },
+        {
+          "date": "2026-03-02",
+          "action": "sell",
+          "ticker": "META",
+          "units": 0.334,
+          "price": 648.18,
+          "amount": 216.45,
+          "reason": "SM 0|distributing <40, GEX positive|0 but clear distribution signal",
+          "pnl": 0,
+          "leverage": 2
+        },
+        {
+          "date": "2026-03-02",
+          "action": "buy",
+          "ticker": "AMD",
+          "units": 1.0814,
+          "price": 200.21,
+          "amount": 216.45,
+          "reason": "SM 100|accumulating >60, GEX negative|0 but max SM score high conviction",
+          "pnl": 0,
+          "leverage": 2
+        },
+        {
+          "date": "2026-03-02",
+          "action": "sell",
+          "ticker": "AMD",
+          "units": 1.0814,
+          "price": 200.21,
+          "amount": 216.5,
+          "reason": "SM 32.99|distributing <40, GEX negative|0 indicating volatility",
+          "pnl": 0,
+          "leverage": 2
+        },
+        {
+          "date": "2026-03-02",
+          "action": "sell",
+          "ticker": "RIOT",
+          "units": 16.2374,
+          "price": 16.29,
+          "amount": 264.5,
+          "reason": "SM 45.97|neutral 40-60, rotating to high SM accumulating with positive GEX",
+          "pnl": 0,
+          "leverage": 2
+        },
+        {
+          "date": "2026-03-02",
+          "action": "buy",
+          "ticker": "SOFI",
+          "units": 13.5135,
+          "price": 17.76,
+          "amount": 240,
+          "reason": "SM 100|accumulating >60, GEX positive|0.01 providing support",
+          "pnl": 0,
+          "leverage": 2
+        },
+        {
+          "date": "2026-03-02",
+          "action": "buy",
+          "ticker": "MARA",
+          "units": 26.9575,
+          "price": 8.94,
+          "amount": 241,
+          "reason": "SM 100|accumulating >60, GEX positive|0.01 providing support",
+          "pnl": 0,
+          "leverage": 2
+        }
+      ],
+      "strategy": "Pure QuantClaw methodology",
+      "focus": "SM scores, GEX, factor alpha",
+      "trades_per_cycle": "2-5",
+      "leverage": "1-5x",
+      "totalPnl": 0,
+      "pnlHistory": [
+        {
+          "date": "2026-02-28",
+          "pnl": 0
+        },
+        {
+          "date": "2026-03-01",
+          "pnl": 0
+        },
+        {
+          "date": "2026-03-02",
+          "pnl": 0
+        }
+      ],
+      "audit": [
+        "2026-02-28T21:16:00+02:00: Initial buys based on QuantClaw signals",
+        "2026-03-01T01:16:00+02:00: Rotated PLTR to COIN for stronger SM 100 vs 70.25 and less negative GEX",
+        "2026-03-01T05:16:00+02:00: Sold AMD and COIN (SM=0 distributing); Bought MSFT (SM 65.39 accumulating, +GEX 0.32) and AMZN (SM 100 accumulating, -GEX -0.62)",
+        "2026-03-01T09:16:00+02:00: Sold AMZN (SM 0 distributing) and TSM (SM 47 neutral); Bought SOFI (SM 66.85 accumulating, +GEX 0.15) and PLTR (SM 100 accumulating, -GEX -0.14)",
+        "2026-03-01T13:16:00+02:00: Sold PLTR (SM 50 neutral); Bought NVDA (SM 100 accumulating, +GEX 0.9) and AMD (SM 100 accumulating, +GEX 0.42)",
+        "2026-03-01T17:16:00+02:00: Sold MSFT (SM 36.81 distributing), NVDA (SM 50 neutral), AMD (SM 48.3 neutral); Bought META (SM 100 accumulating, -GEX -0.08), AMZN (SM 100, -GEX -0.62), PLTR (SM 67.16, -GEX -0.14)",
+        "2026-03-01T21:16:00+02:00: Sold SOFI (SM 0 distributing) and AMZN (rotate from high negative GEX); Bought AAPL (SM 100 accumulating, +GEX 0.09) and GOOGL (SM 100 accumulating, -GEX -0.27)",
+        "2026-03-02T01:16:00+02:00: Sold GOOGL (SM 0 distributing) and PLTR (SM 50 neutral); Bought MSFT (SM 100 accumulating, +GEX 0.12), AVGO (SM 100 accumulating, -GEX -0.23), SOFI (SM 100 accumulating, +GEX 0.11)",
+        "2026-03-02T05:16:00+02:00: Sold AAPL and SOFI (SM 0 distributing); Bought AMZN (SM 100 accumulating, GEX negative -0.54) and RIOT (SM 100 accumulating, GEX negative -0.15)",
+        "2026-03-02T09:16:00+02:00: Sold META (SM 0 distributing); Bought AMD (SM 100 accumulating, GEX negative|0)",
+        "2026-03-02T13:16:00+02:00: Sold AMD (distributing SM 32.99) and RIOT (neutral SM 45.97); Bought SOFI and MARA (both SM 100 accumulating with positive GEX support)"
+      ],
+      "prices": {
+        "NVDA": 177.19,
+        "AAPL": 264.18,
+        "MSFT": 392.74,
+        "GOOGL": 311.76,
+        "AMD": 200.21,
+        "AVGO": 319.55,
+        "TSM": 374.58,
+        "META": 648.18,
+        "AMZN": 210,
+        "PLTR": 137.19,
+        "SOFI": 17.76,
+        "COIN": 175.85,
+        "MARA": 8.94,
+        "RIOT": 16.29
+      },
+      "lastUpdate": "2026-03-02T13:16:00+02:00"
+    }
+  },
+  "settings": {
+    "commission_per_trade": 1.0,
+    "update_interval_minutes": 5,
+    "last_update": null
+  }
+}

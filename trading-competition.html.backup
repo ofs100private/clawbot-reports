@@ -493,9 +493,6 @@
                 <a href="trade-history.html" class="nav-button">
                     📊 View Trade History
                 </a>
-                <a href="brainmap.html" class="nav-button">
-                    🧠 Brain Map
-                </a>
             </div>
         </header>
         
@@ -506,27 +503,6 @@
         <div class="countdown">
             <h2>Competition Countdown</h2>
             <div class="countdown-timer" id="countdown">Starting March 1, 2026</div>
-        </div>
-        
-        <div class="chart-section">
-            <h2>📈 Performance Chart</h2>
-            <div class="chart-container">
-                <canvas id="performanceChart" width="1200" height="400"></canvas>
-            </div>
-            <div class="chart-legend">
-                <div class="legend-item">
-                    <div class="legend-color ofsinvest"></div>
-                    <span id="legend-ofsinvest">OfsInvest: $1,000.00</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color micha"></div>
-                    <span id="legend-micha">Micha Fan: $1,000.00</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color yoni"></div>
-                    <span id="legend-yoni">Yoni Fan: $1,000.00</span>
-                </div>
-            </div>
         </div>
         
         <div class="traders-grid">
@@ -717,6 +693,27 @@
                     <strong>Strategy:</strong> Pure QuantClaw methodology<br>
                     <strong>Focus:</strong> SM scores, GEX, factor alpha<br>
                     <strong>Trades:</strong> 2-5/day
+                </div>
+            </div>
+        </div>
+        
+        <div class="chart-section">
+            <h2>📈 Performance Chart</h2>
+            <div class="chart-container">
+                <canvas id="performanceChart" width="1200" height="400"></canvas>
+            </div>
+            <div class="chart-legend">
+                <div class="legend-item">
+                    <div class="legend-color ofsinvest"></div>
+                    <span id="legend-ofsinvest">OfsInvest: $1,000.00</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color micha"></div>
+                    <span id="legend-micha">Micha Fan: $1,000.00</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color yoni"></div>
+                    <span id="legend-yoni">Yoni Fan: $1,000.00</span>
                 </div>
             </div>
         </div>
