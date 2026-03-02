@@ -534,7 +534,7 @@
         // Load trading data
         async function loadTradesData() {
             try {
-                const response = await fetch('bot-trades.json?nocache=' + Date.now());
+                const response = await fetch('trades.json?nocache=' + Date.now());
                 const data = await response.json();
                 
                 console.log('Loaded trades data:', data);
