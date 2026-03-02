@@ -22,7 +22,7 @@
         }
         
         .container {
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto;
         }
         
@@ -48,12 +48,18 @@
             font-size: 1.1em;
         }
         
-        /* Breaking News Section */
+        /* News & Sentiment */
+        .top-section {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
         .news-section {
             background: rgba(255,255,255,0.05);
             border-radius: 15px;
             padding: 20px;
-            margin-bottom: 20px;
             backdrop-filter: blur(10px);
         }
         
@@ -82,60 +88,58 @@
         
         .news-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 15px;
+            gap: 10px;
         }
         
         .news-item {
             background: rgba(255,255,255,0.03);
-            padding: 15px;
-            border-radius: 10px;
-            border-left: 4px solid #667eea;
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 3px solid #667eea;
+            font-size: 0.9em;
         }
         
         .news-title {
             font-weight: bold;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
             color: #fff;
         }
         
         .news-meta {
-            font-size: 0.9em;
+            font-size: 0.85em;
             color: #888;
             display: flex;
             justify-content: space-between;
         }
         
-        /* Sentiment & Fear/Greed Section */
-        .metrics-grid {
+        /* Sentiment Cards */
+        .sentiment-section {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
+            gap: 10px;
         }
         
         .metric-card {
             background: rgba(255,255,255,0.05);
-            border-radius: 15px;
-            padding: 20px;
+            border-radius: 12px;
+            padding: 15px;
             text-align: center;
             backdrop-filter: blur(10px);
         }
         
         .metric-label {
-            font-size: 0.9em;
+            font-size: 0.8em;
             color: #888;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
         
         .metric-value {
-            font-size: 2em;
+            font-size: 1.8em;
             font-weight: bold;
-            margin-bottom: 5px;
+            margin-bottom: 3px;
         }
         
         .metric-trend {
-            font-size: 0.9em;
+            font-size: 0.85em;
         }
         
         .bullish { color: #4caf50; }
@@ -180,71 +184,181 @@
         
         .chart-container {
             position: relative;
-            height: 400px;
+            height: 300px;
             margin-bottom: 20px;
         }
         
-        /* Holdings Section */
-        .holdings-section {
+        /* Portfolio Layout */
+        .portfolio-layout {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        /* Asset List */
+        .asset-list-section {
             background: rgba(255,255,255,0.05);
             border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 20px;
-            backdrop-filter: blur(10px);
-        }
-        
-        .holding-item {
-            background: rgba(255,255,255,0.03);
-            border-radius: 10px;
             padding: 20px;
-            margin-bottom: 15px;
+            backdrop-filter: blur(10px);
+            max-height: 800px;
+            overflow-y: auto;
         }
         
-        .holding-header {
+        .asset-list-section h2 {
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        .asset-item {
+            background: rgba(255,255,255,0.03);
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+        }
+        
+        .asset-item:hover {
+            background: rgba(255,255,255,0.08);
+            transform: translateX(5px);
+        }
+        
+        .asset-item.active {
+            background: rgba(102, 126, 234, 0.2);
+            border-left-color: #667eea;
+        }
+        
+        .asset-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 5px;
         }
         
-        .holding-symbol {
-            font-size: 1.5em;
+        .asset-symbol {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        .asset-badge {
+            font-size: 0.9em;
+        }
+        
+        .asset-pnl {
+            font-size: 0.95em;
             font-weight: bold;
         }
         
-        .holding-pnl {
-            font-size: 1.3em;
-            font-weight: bold;
-        }
-        
-        .holding-details {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-        
-        .detail-item {
-            text-align: center;
-        }
-        
-        .detail-label {
+        .asset-details {
             font-size: 0.85em;
             color: #888;
         }
         
-        .detail-value {
-            font-size: 1.1em;
+        /* Chart Display */
+        .chart-display-section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            min-height: 600px;
+        }
+        
+        .chart-display-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .chart-title {
+            font-size: 1.8em;
             font-weight: bold;
         }
         
-        .tradingview-widget {
-            width: 100%;
-            height: 400px;
-            margin-top: 15px;
+        .chart-stats {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9em;
         }
         
-        /* Buttons */
+        .chart-stat {
+            text-align: center;
+        }
+        
+        .chart-stat-label {
+            color: #888;
+            font-size: 0.85em;
+        }
+        
+        .chart-stat-value {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        #tradingview_chart {
+            width: 100%;
+            height: 500px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .no-selection {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 500px;
+            color: #666;
+        }
+        
+        .no-selection-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+        
+        /* Badges */
+        .bot-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8em;
+        }
+        
+        .manual-badge {
+            background: rgba(76, 175, 80, 0.3);
+            color: #4caf50;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8em;
+        }
+        
+        .status-badge {
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.75em;
+            font-weight: bold;
+        }
+        
+        .status-executed {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4caf50;
+        }
+        
+        .status-pending {
+            background: rgba(255, 152, 0, 0.2);
+            color: #ff9800;
+        }
+        
+        /* Historical Button */
+        .historical-btn {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
         .btn {
             padding: 12px 24px;
             border: none;
@@ -265,50 +379,7 @@
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
         }
         
-        .historical-btn {
-            text-align: center;
-            margin-top: 30px;
-        }
-        
-        /* Status badges */
-        .status-badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 0.85em;
-            font-weight: bold;
-        }
-        
-        .status-active {
-            background: rgba(76, 175, 80, 0.2);
-            color: #4caf50;
-        }
-        
-        .status-pending {
-            background: rgba(255, 152, 0, 0.2);
-            color: #ff9800;
-        }
-        
-        .trade-source-badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 0.85em;
-            font-weight: bold;
-            margin-left: 10px;
-        }
-        
-        .bot-trade {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-        
-        .manual-trade {
-            background: rgba(76, 175, 80, 0.2);
-            color: #4caf50;
-        }
-        
-        /* Auto-refresh indicator */
+        /* Refresh indicator */
         .refresh-indicator {
             position: fixed;
             top: 20px;
@@ -318,6 +389,21 @@
             border-radius: 8px;
             font-size: 0.9em;
             backdrop-filter: blur(10px);
+            z-index: 1000;
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.05);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: rgba(102, 126, 234, 0.5);
+            border-radius: 4px;
         }
     </style>
 </head>
@@ -328,53 +414,44 @@
             <p class="subtitle">Live Performance Tracking • Expert 11-Signal Fusion Strategy</p>
         </header>
         
-        <!-- Breaking News Section -->
-        <div class="news-section">
-            <div class="news-header">
-                <span class="news-live"></span>
-                <span>📰 Breaking News</span>
-            </div>
-            <div class="news-grid" id="newsGrid">
-                <div class="news-item">
-                    <div class="news-title">Loading market news...</div>
-                    <div class="news-meta">
-                        <span>Market Wire</span>
-                        <span id="newsTime">--:--</span>
+        <!-- Top Section: News + Sentiment -->
+        <div class="top-section">
+            <div class="news-section">
+                <div class="news-header">
+                    <span class="news-live"></span>
+                    <span>📰 Breaking News</span>
+                </div>
+                <div class="news-grid" id="newsGrid">
+                    <div class="news-item">
+                        <div class="news-title">Loading market news...</div>
+                        <div class="news-meta">
+                            <span>Market Wire</span>
+                            <span id="newsTime">--:--</span>
+                        </div>
                     </div>
+                </div>
+            </div>
+            
+            <div class="sentiment-section">
+                <div class="metric-card">
+                    <div class="metric-label">Fear & Greed</div>
+                    <div class="metric-value" id="fearGreed">--</div>
+                    <div class="metric-trend" id="fearGreedLabel">--</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">US Market</div>
+                    <div class="metric-value" id="usMarketScore">--</div>
+                    <div class="metric-trend" id="usMarketLabel">--</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Crypto</div>
+                    <div class="metric-value" id="cryptoScore">--</div>
+                    <div class="metric-trend" id="cryptoLabel">--</div>
                 </div>
             </div>
         </div>
         
-        <!-- Sentiment & Fear/Greed Metrics -->
-        <div class="metrics-grid">
-            <div class="metric-card">
-                <div class="metric-label">Fear & Greed Index</div>
-                <div class="metric-value" id="fearGreed">--</div>
-                <div class="metric-trend" id="fearGreedLabel">Loading...</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-label">US Market Sentiment</div>
-                <div class="metric-value" id="usMarketScore">--</div>
-                <div class="metric-trend" id="usMarketLabel">--</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-label">Crypto Sentiment</div>
-                <div class="metric-value" id="cryptoScore">--</div>
-                <div class="metric-trend" id="cryptoLabel">--</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-label">Commodities Sentiment</div>
-                <div class="metric-value" id="commoditiesScore">--</div>
-                <div class="metric-trend" id="commoditiesLabel">--</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-label">ETFs Sentiment</div>
-                <div class="metric-value" id="etfsScore">--</div>
-                <div class="metric-trend" id="etfsLabel">--</div>
-            </div>
-        </div>
-        
-        <!-- Performance Section -->
+        <!-- Performance Overview -->
         <div class="performance-section">
             <div class="performance-header">
                 <h2>📈 Performance Overview</h2>
@@ -398,13 +475,25 @@
             </div>
         </div>
         
-        <!-- Holdings Section -->
-        <div class="holdings-section">
-            <h2 style="margin-bottom: 20px;">💼 Current Positions</h2>
-            <div id="holdingsContainer">
-                <div class="holding-item">
-                    <div class="holding-header">
-                        <span class="holding-symbol">Loading positions...</span>
+        <!-- Portfolio Layout: List + Chart -->
+        <div class="portfolio-layout">
+            <!-- Asset List -->
+            <div class="asset-list-section">
+                <h2>💼 Portfolio Assets</h2>
+                <div id="assetList">
+                    <div class="asset-item">
+                        <div class="asset-symbol">Loading...</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Chart Display -->
+            <div class="chart-display-section">
+                <div id="chartContent">
+                    <div class="no-selection">
+                        <div class="no-selection-icon">📊</div>
+                        <h3>Select an asset from the list</h3>
+                        <p>Click on any asset to view its TradingView chart</p>
                     </div>
                 </div>
             </div>
@@ -428,6 +517,9 @@
         const NEWS_REFRESH_INTERVAL = 300000; // 5 minutes
         
         let performanceChart = null;
+        let currentTradingViewWidget = null;
+        let allHoldings = [];
+        let selectedAsset = null;
         
         // Load all data
         async function loadAllData() {
@@ -446,15 +538,12 @@
                 const data = await response.json();
                 
                 console.log('Loaded trades data:', data);
-                console.log('Holdings count:', data.holdings ? data.holdings.length : 0);
                 
                 updatePerformanceStats(data.account);
                 updatePerformanceChart(data.performance_history, data.trades);
-                updateHoldings(data.holdings || []);
+                updateAssetList(data.holdings || []);
             } catch (error) {
                 console.error('Error loading trades data:', error);
-                document.getElementById('holdingsContainer').innerHTML = 
-                    `<div class="holding-item"><div class="holding-header"><span class="holding-symbol" style="color:#f44336;">Error loading positions: ${error.message}</span></div></div>`;
             }
         }
         
@@ -464,17 +553,13 @@
                 const response = await fetch('data/sentiment.json?v=' + Date.now());
                 const data = await response.json();
                 
-                // Fear & Greed
                 const fg = data.fear_greed;
                 document.getElementById('fearGreed').textContent = fg.value;
                 document.getElementById('fearGreedLabel').textContent = fg.label;
                 document.getElementById('fearGreedLabel').className = 'metric-trend ' + getColorClass(fg.value);
                 
-                // Sentiments
                 updateSentiment('usMarket', data.sentiment.us_market);
                 updateSentiment('crypto', data.sentiment.crypto);
-                updateSentiment('commodities', data.sentiment.commodities);
-                updateSentiment('etfs', data.sentiment.etfs);
             } catch (error) {
                 console.error('Error loading sentiment data:', error);
             }
@@ -521,14 +606,14 @@
         
         // Update performance stats
         function updatePerformanceStats(account) {
-            document.getElementById('totalValue').textContent = '$' + account.current_value.toFixed(2);
+            document.getElementById('totalValue').textContent = '$' + account.current_value.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
             document.getElementById('totalPnL').textContent = '$' + account.total_pnl.toFixed(2);
             document.getElementById('totalPnL').className = 'stat-value ' + (account.total_pnl >= 0 ? 'bullish' : 'bearish');
             document.getElementById('returnPct').textContent = account.pnl_percent.toFixed(2) + '%';
             document.getElementById('returnPct').className = 'stat-value ' + (account.pnl_percent >= 0 ? 'bullish' : 'bearish');
         }
         
-        // Update performance chart with buy/sell markers
+        // Update performance chart
         function updatePerformanceChart(history, trades) {
             const ctx = document.getElementById('performanceChart').getContext('2d');
             
@@ -538,17 +623,6 @@
             
             const labels = history.map(h => new Date(h.timestamp).toLocaleTimeString());
             const values = history.map(h => h.value);
-            
-            // Create annotations for buy/sell
-            const annotations = trades.map(trade => ({
-                type: 'point',
-                xValue: new Date(trade.timestamp).toLocaleTimeString(),
-                yValue: history.find(h => h.timestamp === trade.timestamp)?.value || 0,
-                backgroundColor: trade.action === 'BUY' ? 'rgba(76, 175, 80, 0.8)' : 'rgba(244, 67, 54, 0.8)',
-                radius: 8,
-                borderWidth: 2,
-                borderColor: '#fff'
-            }));
             
             performanceChart = new Chart(ctx, {
                 type: 'line',
@@ -590,7 +664,7 @@
                             ticks: {
                                 color: '#888',
                                 callback: function(value) {
-                                    return '$' + value.toFixed(0);
+                                    return '$' + value.toLocaleString();
                                 }
                             }
                         },
@@ -607,106 +681,137 @@
             });
         }
         
-        // Update holdings with TradingView charts
-        function updateHoldings(holdings) {
-            const container = document.getElementById('holdingsContainer');
-            
-            console.log('updateHoldings called with:', holdings);
+        // Update asset list
+        function updateAssetList(holdings) {
+            allHoldings = holdings;
+            const container = document.getElementById('assetList');
             
             if (!holdings || holdings.length === 0) {
-                container.innerHTML = `
-                    <div class="holding-item">
-                        <div class="holding-header">
-                            <span class="holding-symbol">No active positions</span>
-                        </div>
-                        <p style="color:#888;padding:20px;">All positions are closed or pending execution.</p>
-                    </div>
-                `;
+                container.innerHTML = '<div class="asset-item"><div class="asset-symbol">No positions</div></div>';
                 return;
             }
             
             container.innerHTML = holdings.map((holding, index) => `
-                <div class="holding-item">
-                    <div class="holding-header">
-                        <div>
-                            <span class="holding-symbol">${holding.symbol}</span>
-                            <span class="status-badge status-${holding.status.toLowerCase()}">${holding.status}</span>
-                            <span class="trade-source-badge ${holding.is_bot_trade ? 'bot-trade' : 'manual-trade'}">
-                                ${holding.trade_source || (holding.is_bot_trade ? '🤖 Bot' : '👤 Manual')}
-                            </span>
-                        </div>
-                        <div class="holding-pnl ${holding.pnl >= 0 ? 'bullish' : 'bearish'}">
-                            ${holding.pnl >= 0 ? '+' : ''}$${holding.pnl.toFixed(2)} (${holding.pnl_percent.toFixed(2)}%)
-                        </div>
+                <div class="asset-item" data-index="${index}" onclick="selectAsset(${index})">
+                    <div class="asset-header">
+                        <div class="asset-symbol">${holding.symbol}</div>
+                        <span class="asset-badge ${holding.is_bot_trade ? 'bot-badge' : 'manual-badge'}">
+                            ${holding.is_bot_trade ? '🤖' : '👤'}
+                        </span>
                     </div>
-                    <div class="holding-details">
-                        <div class="detail-item">
-                            <div class="detail-label">Entry Price</div>
-                            <div class="detail-value">$${holding.entry_price.toFixed(2)}</div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">Current Price</div>
-                            <div class="detail-value">$${holding.current_price.toFixed(2)}</div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">Units</div>
-                            <div class="detail-value">${holding.units.toFixed(4)}</div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">Position Value</div>
-                            <div class="detail-value">$${holding.current_value.toFixed(2)}</div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">Leverage</div>
-                            <div class="detail-value">${holding.leverage}x</div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">Entry Time</div>
-                            <div class="detail-value">${new Date(holding.entry_time).toLocaleDateString()}</div>
-                        </div>
+                    <div class="asset-pnl ${holding.pnl >= 0 ? 'bullish' : 'bearish'}">
+                        ${holding.pnl >= 0 ? '+' : ''}$${holding.pnl.toFixed(2)} (${holding.pnl_percent.toFixed(1)}%)
                     </div>
-                    <div id="tradingview_${index}" class="tradingview-widget"></div>
+                    <div class="asset-details">
+                        ${holding.current_value.toLocaleString('en-US', {style: 'currency', currency: 'USD'})} • 
+                        <span class="status-badge status-${holding.status.toLowerCase()}">${holding.status}</span>
+                    </div>
                 </div>
             `).join('');
+        }
+        
+        // Select asset and display chart
+        function selectAsset(index) {
+            selectedAsset = allHoldings[index];
             
-            // Initialize TradingView widgets with error handling
-            holdings.forEach((holding, index) => {
-                try {
-                    let symbol = holding.symbol;
-                    
-                    // Map symbols to TradingView format
-                    if (holding.type === 'crypto') {
-                        if (holding.symbol === 'ETH') symbol = 'BINANCE:ETHUSDT';
-                        else if (holding.symbol === 'BTC') symbol = 'BINANCE:BTCUSDT';
-                        else symbol = `BINANCE:${holding.symbol}USDT`;
-                    } else if (holding.symbol.startsWith('HK-')) {
-                        // Hong Kong stocks
-                        const hkCode = holding.symbol.replace('HK-', '');
-                        symbol = `HKEX:${hkCode}`;
-                    }
-                    
-                    new TradingView.widget({
-                        "container_id": `tradingview_${index}`,
-                        "width": "100%",
-                        "height": 400,
-                        "symbol": symbol,
-                        "interval": "D",
-                        "timezone": "Asia/Jerusalem",
-                        "theme": "dark",
-                        "style": "1",
-                        "locale": "en",
-                        "toolbar_bg": "#1a1f3a",
-                        "enable_publishing": false,
-                        "hide_side_toolbar": false,
-                        "allow_symbol_change": false,
-                        "studies": ["Volume@tv-basicstudies"]
-                    });
-                } catch (error) {
-                    console.error(`Error creating TradingView widget for ${holding.symbol}:`, error);
-                    document.getElementById(`tradingview_${index}`).innerHTML = 
-                        `<p style="text-align:center;padding:20px;color:#888;">Chart unavailable for ${holding.symbol}</p>`;
-                }
+            // Update active state
+            document.querySelectorAll('.asset-item').forEach((el, i) => {
+                el.classList.toggle('active', i === index);
             });
+            
+            // Display chart
+            displayAssetChart(selectedAsset);
+        }
+        
+        // Display TradingView chart for selected asset
+        function displayAssetChart(holding) {
+            const container = document.getElementById('chartContent');
+            
+            // Clear previous chart
+            if (currentTradingViewWidget) {
+                container.innerHTML = '';
+            }
+            
+            container.innerHTML = `
+                <div class="chart-display-header">
+                    <div class="chart-title">
+                        ${holding.symbol}
+                        <span class="${holding.is_bot_trade ? 'bot-badge' : 'manual-badge'}" style="font-size: 0.6em; margin-left: 10px;">
+                            ${holding.is_bot_trade ? '🤖 Bot' : '👤 Manual'}
+                        </span>
+                    </div>
+                    <div class="chart-stats">
+                        <div class="chart-stat">
+                            <div class="chart-stat-label">Entry</div>
+                            <div class="chart-stat-value">$${holding.entry_price.toFixed(2)}</div>
+                        </div>
+                        <div class="chart-stat">
+                            <div class="chart-stat-label">Current</div>
+                            <div class="chart-stat-value">$${holding.current_price.toFixed(2)}</div>
+                        </div>
+                        <div class="chart-stat">
+                            <div class="chart-stat-label">P&L</div>
+                            <div class="chart-stat-value ${holding.pnl >= 0 ? 'bullish' : 'bearish'}">
+                                ${holding.pnl >= 0 ? '+' : ''}$${holding.pnl.toFixed(2)}
+                            </div>
+                        </div>
+                        <div class="chart-stat">
+                            <div class="chart-stat-label">Leverage</div>
+                            <div class="chart-stat-value">${holding.leverage}x</div>
+                        </div>
+                    </div>
+                </div>
+                <div id="tradingview_chart"></div>
+            `;
+            
+            // Determine TradingView symbol
+            let symbol = holding.symbol;
+            if (holding.type === 'crypto') {
+                if (holding.symbol === 'ETH') symbol = 'BINANCE:ETHUSDT';
+                else if (holding.symbol === 'BTC') symbol = 'BINANCE:BTCUSDT';
+                else if (holding.symbol === 'SOL') symbol = 'BINANCE:SOLUSDT';
+                else symbol = `BINANCE:${holding.symbol}USDT`;
+            } else if (holding.symbol.startsWith('HK-')) {
+                const hkCode = holding.symbol.replace('HK-', '');
+                symbol = `HKEX:${hkCode}`;
+            } else if (holding.symbol === 'SPX500') {
+                symbol = 'SP:SPX';
+            } else if (holding.symbol === 'Space-Investor') {
+                // Copy trader - show generic market
+                symbol = 'BINANCE:BTCUSDT';
+            }
+            
+            // Create TradingView widget
+            try {
+                currentTradingViewWidget = new TradingView.widget({
+                    "container_id": "tradingview_chart",
+                    "width": "100%",
+                    "height": 500,
+                    "symbol": symbol,
+                    "interval": "D",
+                    "timezone": "Asia/Jerusalem",
+                    "theme": "dark",
+                    "style": "1",
+                    "locale": "en",
+                    "toolbar_bg": "#1a1f3a",
+                    "enable_publishing": false,
+                    "hide_side_toolbar": false,
+                    "allow_symbol_change": false,
+                    "studies": [
+                        "MASimple@tv-basicstudies",
+                        "Volume@tv-basicstudies"
+                    ],
+                    "studies_overrides": {
+                        "volume.volume.color.0": "rgba(244,67,54,0.5)",
+                        "volume.volume.color.1": "rgba(76,175,80,0.5)",
+                        "moving average.ma.color": "#2196F3",
+                        "moving average.ma.linewidth": 2
+                    }
+                });
+            } catch (error) {
+                console.error('Error creating TradingView widget:', error);
+                container.innerHTML += '<p style="text-align:center;color:#f44;padding:20px;">Chart unavailable</p>';
+            }
         }
         
         // Initial load

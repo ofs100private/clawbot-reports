@@ -228,7 +228,8 @@ def build_portfolio_from_tracked():
     all_trades.sort(key=lambda x: x["timestamp"], reverse=True)
     
     # Calculate account totals
-    initial_capital = 1700
+    # Initial capital should be the sum of all invested amounts
+    initial_capital = sum(t["amount"] for t in tracked["orders"] if t["status"] not in ["CANCELLED", "REJECTED"])
     current_value = initial_capital + total_pnl
     cash = current_value - total_equity
     
