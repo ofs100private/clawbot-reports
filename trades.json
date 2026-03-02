@@ -1,60 +1,43 @@
 {
-  "last_update": "2026-03-02T16:00:00+02:00",
+  "last_update": "2026-03-02T16:15:00+02:00",
   "competition": {
     "start_date": "2026-03-02",
     "end_date": "2026-04-01",
-    "days_elapsed": 0,
-    "days_remaining": 30,
     "status": "active"
   },
   "traders": {
     "ofsinvest": {
       "name": "OfsInvest",
-      "model": "Expert Fusion - Real Money",
-      "starting_capital": 1000,
-      "current_capital": 1000.15,
+      "total_value": 1000.15,
       "cash": 600,
-      "equity": 400,
-      "total_pnl": 0.15,
-      "total_pnl_percent": 0.015,
-      "positions": [
+      "equity": 400.15,
+      "holdings": [
         {
-          "ticker": "ETH",
-          "name": "Ethereum",
-          "type": "LONG",
-          "amount": 150,
-          "entry_price": 1945.76,
+          "sym": "ETH",
           "current_price": 1947.75,
-          "stop_loss": 1875,
-          "take_profit": 2100,
-          "status": "ACTIVE",
-          "pnl": 0.15,
-          "pnl_percent": 0.10
+          "entry_price": 1945.76,
+          "units": 0.07709,
+          "leverage": 1,
+          "action": "LONG"
         },
         {
-          "ticker": "HK-2348",
-          "name": "Hong Kong Stock",
-          "type": "LONG",
-          "amount": 150,
-          "entry_price": 1.90,
+          "sym": "HK-2348",
           "current_price": 1.90,
-          "status": "PENDING",
-          "pnl": 0,
-          "pnl_percent": 0
+          "entry_price": 1.90,
+          "units": 78.95,
+          "leverage": 1,
+          "action": "PENDING"
         },
         {
-          "ticker": "HK-2348",
-          "name": "Hong Kong Stock",
-          "type": "LONG",
-          "amount": 100,
-          "entry_price": 1.90,
+          "sym": "HK-2348",
           "current_price": 1.90,
-          "status": "PENDING",
-          "pnl": 0,
-          "pnl_percent": 0
+          "entry_price": 1.90,
+          "units": 52.63,
+          "leverage": 1,
+          "action": "PENDING"
         }
       ],
-      "trade_history": [
+      "trades": [
         {
           "date": "2026-03-02T11:37:52Z",
           "ticker": "ETH",
@@ -63,55 +46,23 @@
           "price": 1945.76,
           "pnl": 0.15
         }
-      ],
-      "stats": {
-        "total_trades": 1,
-        "wins": 1,
-        "losses": 0,
-        "win_rate": 100,
-        "best_trade": 0.15,
-        "worst_trade": 0
-      }
+      ]
     },
     "micha": {
       "name": "Micha Fan",
-      "model": "Pure Micha Stocks",
-      "starting_capital": 1000,
-      "current_capital": 1000,
+      "total_value": 1000,
       "cash": 920,
       "equity": 0,
-      "total_pnl": 0,
-      "total_pnl_percent": 0,
-      "positions": [],
-      "trade_history": [],
-      "stats": {
-        "total_trades": 0,
-        "wins": 0,
-        "losses": 0,
-        "win_rate": 0,
-        "best_trade": 0,
-        "worst_trade": 0
-      }
+      "holdings": [],
+      "trades": []
     },
     "yoni": {
       "name": "Yoni Fan",
-      "model": "Pure QuantClaw",
-      "starting_capital": 1000,
-      "current_capital": 1000,
+      "total_value": 1000,
       "cash": 920,
       "equity": 0,
-      "total_pnl": 0,
-      "total_pnl_percent": 0,
-      "positions": [],
-      "trade_history": [],
-      "stats": {
-        "total_trades": 0,
-        "wins": 0,
-        "losses": 0,
-        "win_rate": 0,
-        "best_trade": 0,
-        "worst_trade": 0
-      }
+      "holdings": [],
+      "trades": []
     }
   }
 }
