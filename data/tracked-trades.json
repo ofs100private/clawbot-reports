@@ -1,0 +1,56 @@
+{
+  "orders": [
+    {
+      "order_id": "1373417744",
+      "symbol": "BTC",
+      "action": "BUY",
+      "amount": 100,
+      "price": 66273,
+      "leverage": 1,
+      "is_bot": false,
+      "reason": "Test trade - BTC via direct ID",
+      "timestamp": "2026-03-02T12:30:00+02:00",
+      "status": "UNKNOWN_None",
+      "last_sync": "2026-03-02T21:03:58.176138+02:00"
+    },
+    {
+      "order_id": "1373429272",
+      "symbol": "HK-2348",
+      "action": "BUY",
+      "amount": 150,
+      "price": 1.9,
+      "leverage": 1,
+      "is_bot": false,
+      "reason": "Test trade - Hong Kong stock validation",
+      "timestamp": "2026-03-02T09:12:00+02:00",
+      "status": "UNKNOWN_None",
+      "last_sync": "2026-03-02T21:03:58.928211+02:00"
+    },
+    {
+      "order_id": "1373974399",
+      "symbol": "HK-2348",
+      "action": "BUY",
+      "amount": 100,
+      "price": 1.9,
+      "leverage": 1,
+      "is_bot": false,
+      "reason": "Test trade - Hong Kong stock validation #2",
+      "timestamp": "2026-03-02T11:24:00+02:00",
+      "status": "UNKNOWN_None",
+      "last_sync": "2026-03-02T21:04:00.545588+02:00"
+    },
+    {
+      "order_id": "1373482995",
+      "symbol": "ETH",
+      "action": "BUY",
+      "amount": 150,
+      "price": 1945.76,
+      "leverage": 1,
+      "is_bot": true,
+      "reason": "Expert 11-signal fusion: SM 85, ETH recovery from $1,910 low, $1B+ ETF inflows",
+      "timestamp": "2026-03-02T11:37:52+02:00",
+      "status": "UNKNOWN_None",
+      "last_sync": "2026-03-02T21:04:01.525482+02:00"
+    }
+  ]
+}

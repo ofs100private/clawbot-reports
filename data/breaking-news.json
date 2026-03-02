@@ -1,12 +1,1 @@
-{
-  "last_update": "2026-03-02T20:48:21.091064+02:00",
-  "news": [
-    {
-      "title": "Loading market news...",
-      "source": "Market Wire",
-      "time": "2026-03-02T20:48:21.089809+02:00",
-      "impact": "neutral",
-      "url": "#"
-    }
-  ]
-}
+{"last_update": "2026-03-02T21:03:00+03:00", "news": [{"title": "US-Israel Strikes on Iran Spark Oil Surge and Stock Volatility", "source": "Reuters", "time": "2026-03-02", "impact": "High", "url": "https://www.reuters.com/markets/us"}, {"title": "Stock Indices Stage Recovery After Early Sell-Off", "source": "CNBC", "time": "2026-03-02", "impact": "Medium", "url": "https://www.cnbc.com/"}, {"title": "Gold Reaches $5,400 Amid Flight to Safety", "source": "Yahoo Finance", "time": "2026-03-02", "impact": "Medium", "url": "https://finance.yahoo.com/"}]}

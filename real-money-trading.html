@@ -289,6 +289,25 @@
             color: #ff9800;
         }
         
+        .trade-source-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        .bot-trade {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .manual-trade {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4caf50;
+        }
+        
         /* Auto-refresh indicator */
         .refresh-indicator {
             position: fixed;
@@ -592,6 +611,9 @@
                         <div>
                             <span class="holding-symbol">${holding.symbol}</span>
                             <span class="status-badge status-${holding.status.toLowerCase()}">${holding.status}</span>
+                            <span class="trade-source-badge ${holding.is_bot_trade ? 'bot-trade' : 'manual-trade'}">
+                                ${holding.trade_source || (holding.is_bot_trade ? '🤖 Bot' : '👤 Manual')}
+                            </span>
                         </div>
                         <div class="holding-pnl ${holding.pnl >= 0 ? 'bullish' : 'bearish'}">
                             ${holding.pnl >= 0 ? '+' : ''}$${holding.pnl.toFixed(2)} (${holding.pnl_percent.toFixed(2)}%)

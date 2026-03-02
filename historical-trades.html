@@ -127,6 +127,24 @@
         .status-pending { color: #ff9800; }
         .status-cancelled { color: #f44336; }
         
+        .bot-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 8px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+        
+        .manual-badge {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4caf50;
+            padding: 2px 8px;
+            border-radius: 8px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+        
         .summary-cards {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -225,6 +243,7 @@
                     <tr>
                         <th>Date/Time</th>
                         <th>Symbol</th>
+                        <th>Source</th>
                         <th>Action</th>
                         <th>Amount</th>
                         <th>Price</th>
@@ -320,6 +339,7 @@
                 <tr>
                     <td>${new Date(trade.timestamp).toLocaleString()}</td>
                     <td><strong>${trade.symbol}</strong></td>
+                    <td><span class="${trade.is_bot_trade ? 'bot-badge' : 'manual-badge'}">${trade.trade_source || (trade.is_bot_trade ? '🤖 Bot' : '👤 Manual')}</span></td>
                     <td class="${trade.action.toLowerCase()}">${trade.action}</td>
                     <td>$${trade.amount.toFixed(2)}</td>
                     <td>$${trade.price.toFixed(2)}</td>
