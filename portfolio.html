@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Overview - OfsInvest</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            color: #e0e0e0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .stat-label {
+            font-size: 0.9em;
+            color: #888;
+            margin-bottom: 10px;
+        }
+        
+        .stat-value {
+            font-size: 2.2em;
+            font-weight: bold;
+        }
+        
+        .stat-sub {
+            font-size: 0.9em;
+            color: #888;
+            margin-top: 5px;
+        }
+        
+        .bullish { color: #4caf50; }
+        .bearish { color: #f44336; }
+        
+        /* Allocation Section */
+        .allocation-section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .allocation-header {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+        
+        .allocation-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .allocation-card {
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            padding: 25px;
+        }
+        
+        .allocation-title {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .allocation-icon {
+            font-size: 1.5em;
+        }
+        
+        .allocation-stats {
+            display: grid;
+            gap: 10px;
+        }
+        
+        .allocation-stat {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .allocation-stat:last-child {
+            border-bottom: none;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 350px;
+        }
+        
+        /* Positions List */
+        .positions-section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .positions-grid {
+            display: grid;
+            gap: 15px;
+        }
+        
+        .position-item {
+            background: rgba(255,255,255,0.03);
+            border-radius: 10px;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .position-symbol {
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        
+        .position-name {
+            font-size: 0.85em;
+            color: #888;
+        }
+        
+        .position-value {
+            text-align: right;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+        
+        .position-pnl {
+            text-align: right;
+            font-weight: bold;
+        }
+        
+        .bot-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+        }
+        
+        .manual-badge {
+            background: rgba(76, 175, 80, 0.3);
+            color: #4caf50;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+        }
+        
+        .section-divider {
+            border-top: 2px solid rgba(102, 126, 234, 0.3);
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>💼 Portfolio Overview</h1>
+            <p style="color: #888; font-size: 1.1em;">Complete Portfolio: Manual + Bot Trading</p>
+        </header>
+        
+        <!-- Total Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Total Portfolio Value</div>
+                <div class="stat-value" id="totalValue">$--</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Total P&L</div>
+                <div class="stat-value" id="totalPnL">$--</div>
+                <div class="stat-sub" id="totalPct">--%</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Bot Allocation</div>
+                <div class="stat-value" id="botValue">$--</div>
+                <div class="stat-sub" id="botPct">--% of total</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Manual Portfolio</div>
+                <div class="stat-value" id="manualValue">$--</div>
+                <div class="stat-sub" id="manualPct">--% of total</div>
+            </div>
+        </div>
+        
+        <!-- Allocation Breakdown -->
+        <div class="allocation-section">
+            <div class="allocation-header">📊 Portfolio Allocation</div>
+            
+            <div class="allocation-grid">
+                <div class="allocation-card">
+                    <div class="allocation-title">
+                        <span class="allocation-icon">🤖</span>
+                        <span>Bot Trading</span>
+                    </div>
+                    <div class="allocation-stats">
+                        <div class="allocation-stat">
+                            <span>Budget:</span>
+                            <span><strong>$1,700</strong></span>
+                        </div>
+                        <div class="allocation-stat">
+                            <span>Current Value:</span>
+                            <span id="botCurrentValue">$--</span>
+                        </div>
+                        <div class="allocation-stat">
+                            <span>P&L:</span>
+                            <span id="botPnL" class="bullish">$--</span>
+                        </div>
+                        <div class="allocation-stat">
+                            <span>Positions:</span>
+                            <span id="botPositions">--</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="allocation-card">
+                    <div class="allocation-title">
+                        <span class="allocation-icon">👤</span>
+                        <span>Manual Portfolio</span>
+                    </div>
+                    <div class="allocation-stats">
+                        <div class="allocation-stat">
+                            <span>Total Value:</span>
+                            <span id="manualCurrentValue">$--</span>
+                        </div>
+                        <div class="allocation-stat">
+                            <span>P&L:</span>
+                            <span id="manualPnL" class="bullish">$--</span>
+                        </div>
+                        <div class="allocation-stat">
+                            <span>Return:</span>
+                            <span id="manualReturn" class="bullish">--%</span>
+                        </div>
+                        <div class="allocation-stat">
+                            <span>Positions:</span>
+                            <span id="manualPositions">--</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <canvas id="allocationChart"></canvas>
+            </div>
+        </div>
+        
+        <!-- All Positions -->
+        <div class="positions-section">
+            <div class="allocation-header">🎯 All Positions (10)</div>
+            <div class="positions-grid" id="positionsGrid">
+                <div style="text-align:center;padding:40px;color:#888;">Loading positions...</div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let allocationChart = null;
+        
+        async function loadData() {
+            try {
+                const response = await fetch('unified-portfolio.json?v=' + Date.now());
+                const data = await response.json();
+                
+                updateStats(data);
+                updateAllocationChart(data);
+                updatePositions(data);
+            } catch (error) {
+                console.error('Error loading data:', error);
+            }
+        }
+        
+        function updateStats(data) {
+            // Total stats
+            document.getElementById('totalValue').textContent = '$' + data.total.portfolio_value.toLocaleString('en-US', {minimumFractionDigits: 2});
+            document.getElementById('totalPnL').textContent = '$' + data.total.total_pnl.toFixed(2);
+            document.getElementById('totalPnL').className = 'stat-value ' + (data.total.total_pnl >= 0 ? 'bullish' : 'bearish');
+            document.getElementById('totalPct').textContent = data.total.pnl_percent.toFixed(2) + '%';
+            
+            // Bot stats
+            document.getElementById('botValue').textContent = '$' + data.allocation.bot.value.toLocaleString('en-US', {minimumFractionDigits: 2});
+            document.getElementById('botPct').textContent = data.allocation.bot.percentage_of_total.toFixed(1) + '% of total';
+            document.getElementById('botCurrentValue').textContent = '$' + data.allocation.bot.value.toFixed(2);
+            document.getElementById('botPnL').textContent = (data.allocation.bot.pnl >= 0 ? '+' : '') + '$' + data.allocation.bot.pnl.toFixed(2);
+            document.getElementById('botPnL').className = data.allocation.bot.pnl >= 0 ? 'bullish' : 'bearish';
+            document.getElementById('botPositions').textContent = data.allocation.bot.positions;
+            
+            // Manual stats
+            document.getElementById('manualValue').textContent = '$' + data.allocation.manual.value.toLocaleString('en-US', {minimumFractionDigits: 2});
+            document.getElementById('manualPct').textContent = data.allocation.manual.percentage_of_total.toFixed(1) + '% of total';
+            document.getElementById('manualCurrentValue').textContent = '$' + data.allocation.manual.value.toLocaleString('en-US', {minimumFractionDigits: 2});
+            document.getElementById('manualPnL').textContent = (data.allocation.manual.pnl >= 0 ? '+' : '') + '$' + data.allocation.manual.pnl.toFixed(2);
+            document.getElementById('manualPnL').className = data.allocation.manual.pnl >= 0 ? 'bullish' : 'bearish';
+            document.getElementById('manualReturn').textContent = data.allocation.manual.pnl_percent.toFixed(2) + '%';
+            document.getElementById('manualReturn').className = data.allocation.manual.pnl_percent >= 0 ? 'bullish' : 'bearish';
+            document.getElementById('manualPositions').textContent = data.allocation.manual.positions;
+        }
+        
+        function updateAllocationChart(data) {
+            const ctx = document.getElementById('allocationChart').getContext('2d');
+            
+            if (allocationChart) {
+                allocationChart.destroy();
+            }
+            
+            allocationChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Bot Trading', 'Manual Portfolio'],
+                    datasets: [{
+                        label: 'Portfolio Value ($)',
+                        data: [data.allocation.bot.value, data.allocation.manual.value],
+                        backgroundColor: [
+                            'rgba(102, 126, 234, 0.8)',
+                            'rgba(76, 175, 80, 0.8)'
+                        ],
+                        borderColor: [
+                            '#667eea',
+                            '#4caf50'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0,0,0,0.8)',
+                            callbacks: {
+                                label: function(context) {
+                                    const value = context.parsed.y;
+                                    const total = data.total.portfolio_value;
+                                    const pct = (value / total * 100).toFixed(1);
+                                    return '$' + value.toLocaleString() + ' (' + pct + '%)';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(255,255,255,0.1)'
+                            },
+                            ticks: {
+                                color: '#888',
+                                callback: function(value) {
+                                    return '$' + (value/1000).toFixed(0) + 'K';
+                                }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                color: '#fff',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function updatePositions(data) {
+            const container = document.getElementById('positionsGrid');
+            
+            let html = '';
+            
+            // Bot positions first
+            if (data.bot_positions.length > 0) {
+                html += '<div class="section-divider"></div>';
+                html += '<div style="padding:10px 0;color:#667eea;font-weight:bold;">🤖 BOT TRADING</div>';
+                data.bot_positions.forEach(pos => {
+                    html += `
+                        <div class="position-item">
+                            <div>
+                                <div class="position-symbol">${pos.symbol}</div>
+                                <div class="position-name">${pos.name}</div>
+                            </div>
+                            <div class="position-value">$${pos.current_value.toFixed(2)}</div>
+                            <div class="position-pnl ${pos.pnl >= 0 ? 'bullish' : 'bearish'}">
+                                ${pos.pnl >= 0 ? '+' : ''}$${pos.pnl.toFixed(2)} (${pos.pnl_percent.toFixed(2)}%)
+                            </div>
+                            <span class="bot-badge">🤖 Bot</span>
+                        </div>
+                    `;
+                });
+            }
+            
+            // Manual positions
+            if (data.manual_positions.length > 0) {
+                html += '<div class="section-divider"></div>';
+                html += '<div style="padding:10px 0;color:#4caf50;font-weight:bold;">👤 MANUAL PORTFOLIO</div>';
+                data.manual_positions.forEach(pos => {
+                    html += `
+                        <div class="position-item">
+                            <div>
+                                <div class="position-symbol">${pos.symbol}</div>
+                                <div class="position-name">${pos.name}</div>
+                            </div>
+                            <div class="position-value">$${pos.current_value.toLocaleString('en-US', {minimumFractionDigits: 2})}</div>
+                            <div class="position-pnl ${pos.pnl >= 0 ? 'bullish' : 'bearish'}">
+                                ${pos.pnl >= 0 ? '+' : ''}$${pos.pnl.toFixed(2)} (${pos.pnl_percent.toFixed(2)}%)
+                            </div>
+                            <span class="manual-badge">👤 Manual</span>
+                        </div>
+                    `;
+                });
+            }
+            
+            container.innerHTML = html;
+        }
+        
+        // Load data
+        loadData();
+        
+        // Auto-refresh every 30 seconds
+        setInterval(loadData, 30000);
+    </script>
+</body>
+</html>

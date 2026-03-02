@@ -1,0 +1,139 @@
+{
+  "last_update": "2026-03-02T23:58:00+02:00",
+  "total": {
+    "portfolio_value": 22818.61,
+    "total_pnl": 1143.27,
+    "pnl_percent": 5.27
+  },
+  "allocation": {
+    "bot": {
+      "value": 1707.23,
+      "budget": 1700,
+      "pnl": 7.23,
+      "pnl_percent": 0.43,
+      "percentage_of_total": 7.48,
+      "positions": 1
+    },
+    "manual": {
+      "value": 21111.38,
+      "pnl": 1136.04,
+      "pnl_percent": 5.68,
+      "percentage_of_total": 92.52,
+      "positions": 9
+    }
+  },
+  "bot_positions": [
+    {
+      "symbol": "ETH",
+      "name": "Ethereum",
+      "current_price": 2039.52,
+      "entry_price": 1945.76,
+      "amount": 150,
+      "current_value": 157.23,
+      "pnl": 7.23,
+      "pnl_percent": 4.82,
+      "leverage": 1,
+      "trade_source": "🤖 Bot"
+    }
+  ],
+  "manual_positions": [
+    {
+      "symbol": "UUUU",
+      "name": "Energy Fuels Inc",
+      "amount": 264.24,
+      "current_value": 323.90,
+      "pnl": 59.66,
+      "pnl_percent": 22.58,
+      "leverage": 2,
+      "trade_source": "👤 Manual"
+    },
+    {
+      "symbol": "XLU",
+      "name": "Utilities Select Sector",
+      "amount": 927.90,
+      "current_value": 1099.51,
+      "pnl": 172.61,
+      "pnl_percent": 18.62,
+      "leverage": 2,
+      "trade_source": "👤 Manual"
+    },
+    {
+      "symbol": "CVX",
+      "name": "Chevron",
+      "amount": 3507.61,
+      "current_value": 3953.23,
+      "pnl": 445.62,
+      "pnl_percent": 12.70,
+      "leverage": 1,
+      "trade_source": "👤 Manual"
+    },
+    {
+      "symbol": "Space-Investor",
+      "name": "Jason Horton Copy Trading",
+      "amount": 3150.96,
+      "current_value": 3358.79,
+      "pnl": 207.83,
+      "pnl_percent": 6.60,
+      "leverage": 1,
+      "trade_source": "👤 Manual"
+    },
+    {
+      "symbol": "HOOD",
+      "name": "Robinhood",
+      "amount": 2340.29,
+      "current_value": 2430.86,
+      "pnl": 90.57,
+      "pnl_percent": 3.87,
+      "leverage": 1,
+      "trade_source": "👤 Manual"
+    },
+    {
+      "symbol": "SOL",
+      "name": "Solana",
+      "amount": 830.94,
+      "current_value": 856.32,
+      "pnl": 25.38,
+      "pnl_percent": 3.05,
+      "leverage": 1,
+      "trade_source": "👤 Manual"
+    },
+    {
+      "symbol": "CAT",
+      "name": "Caterpillar",
+      "amount": 2722.73,
+      "current_value": 2785.50,
+      "pnl": 62.77,
+      "pnl_percent": 2.31,
+      "leverage": 1,
+      "trade_source": "👤 Manual"
+    },
+    {
+      "symbol": "SPX500",
+      "name": "S&P 500 Index",
+      "amount": 4000,
+      "current_value": 4065.63,
+      "pnl": 65.65,
+      "pnl_percent": 1.64,
+      "leverage": 1,
+      "trade_source": "👤 Manual"
+    },
+    {
+      "symbol": "BTC",
+      "name": "Bitcoin",
+      "amount": 3530.67,
+      "current_value": 3537.94,
+      "pnl": 7.27,
+      "pnl_percent": 0.21,
+      "leverage": 1,
+      "trade_source": "👤 Manual"
+    }
+  ],
+  "performance_history": [
+    {
+      "timestamp": "2026-03-02T23:58:00+02:00",
+      "total": 22818.61,
+      "bot": 1707.23,
+      "manual": 21111.38
+    }
+  ]
+}
