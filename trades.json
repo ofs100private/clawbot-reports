@@ -1,13 +1,13 @@
 {
-  "last_update": "2026-03-03T01:29:30.893803+02:00",
+  "last_update": "2026-03-03T01:34:36.327089+02:00",
   "account": {
     "start_date": "2026-03-02",
-    "initial_capital": 21675.34,
-    "current_value": 22818.61,
+    "initial_capital": 21625.34,
+    "current_value": 25136.28847656,
     "cash": 0.0,
-    "equity": 22818.61,
-    "total_pnl": 1143.2700000000002,
-    "pnl_percent": 5.274519338566316
+    "equity": 25136.28847656,
+    "total_pnl": 3510.94847656,
+    "pnl_percent": 16.235344630697135
   },
   "performance_history": [
     {
@@ -94,6 +94,11 @@
       "timestamp": "2026-03-03T01:29:30.893803+02:00",
       "value": 22818.61,
       "pnl": 1143.2700000000002
+    },
+    {
+      "timestamp": "2026-03-03T01:34:36.327089+02:00",
+      "value": 25136.28847656,
+      "pnl": 3510.94847656
     }
   ],
   "holdings": [
@@ -171,21 +176,21 @@
     },
     {
       "position_id": "1373482995",
-      "symbol": "ETH",
-      "name": "ETH",
-      "type": "crypto",
-      "current_price": 2039.52,
-      "entry_price": 1945.76,
-      "units": 0.07709069977797879,
-      "amount": 150,
-      "current_value": 157.23,
-      "pnl": 7.23,
-      "pnl_percent": 4.82,
+      "symbol": "HK-2348",
+      "name": "HK-2348",
+      "type": "stock",
+      "current_price": 1.89,
+      "entry_price": 1.9,
+      "units": 52.631578947368425,
+      "amount": 100,
+      "current_value": 778.18561569,
+      "pnl": 678.18561569,
+      "pnl_percent": 678.18561569,
       "leverage": 1,
       "status": "EXECUTED",
       "entry_time": "2026-03-02T11:37:52+02:00",
-      "is_bot_trade": true,
-      "trade_source": "\ud83e\udd16 Bot"
+      "is_bot_trade": false,
+      "trade_source": "\ud83d\udc64 Manual"
     },
     {
       "position_id": "hood_position",
@@ -286,11 +291,11 @@
       "entry_price": 1.9,
       "units": 78.94736842105263,
       "amount": 150,
-      "current_value": 149.21,
-      "pnl": -0.79,
-      "pnl_percent": -0.5266666666666667,
+      "current_value": 1167.2470882799998,
+      "pnl": 1017.2470882799998,
+      "pnl_percent": 678.1647255199999,
       "leverage": 1,
-      "status": "PENDING",
+      "status": "EXECUTED",
       "entry_time": "2026-03-02T09:12:00+02:00",
       "is_bot_trade": false,
       "trade_source": "\ud83d\udc64 Manual"
@@ -304,11 +309,11 @@
       "entry_price": 1.9,
       "units": 52.631578947368425,
       "amount": 100,
-      "current_value": 99.47,
-      "pnl": -0.53,
-      "pnl_percent": -0.53,
+      "current_value": 778.15577259,
+      "pnl": 678.15577259,
+      "pnl_percent": 678.15577259,
       "leverage": 1,
-      "status": "PENDING",
+      "status": "EXECUTED",
       "entry_time": "2026-03-02T11:24:00+02:00",
       "is_bot_trade": false,
       "trade_source": "\ud83d\udc64 Manual"
@@ -318,17 +323,17 @@
     {
       "id": "1373482995",
       "timestamp": "2026-03-02T11:37:52+02:00",
-      "symbol": "ETH",
+      "symbol": "HK-2348",
       "action": "BUY",
       "type": "OPEN",
-      "amount": 150,
-      "price": 1945.76,
-      "units": 0.07709069977797879,
+      "amount": 100,
+      "price": 1.9,
+      "units": 52.631578947368425,
       "leverage": 1,
-      "reason": "Expert 11-signal fusion: SM 85, ETH recovery from $1,910 low, $1B+ ETF inflows",
+      "reason": "Test trade - HK-2348 (was mislabeled as ETH)",
       "status": "EXECUTED",
-      "is_bot_trade": true,
-      "trade_source": "\ud83e\udd16 Bot"
+      "is_bot_trade": false,
+      "trade_source": "\ud83d\udc64 Manual"
     },
     {
       "id": "1373974399",
@@ -341,7 +346,7 @@
       "units": 52.631578947368425,
       "leverage": 1,
       "reason": "Test trade - Hong Kong stock validation #2",
-      "status": "PENDING",
+      "status": "EXECUTED",
       "is_bot_trade": false,
       "trade_source": "\ud83d\udc64 Manual"
     },
@@ -356,7 +361,7 @@
       "units": 78.94736842105263,
       "leverage": 1,
       "reason": "Test trade - Hong Kong stock validation",
-      "status": "PENDING",
+      "status": "EXECUTED",
       "is_bot_trade": false,
       "trade_source": "\ud83d\udc64 Manual"
     },
@@ -498,10 +503,10 @@
   ],
   "stats": {
     "total_positions": 12,
-    "bot_positions": 1,
-    "manual_positions": 11,
+    "bot_positions": 0,
+    "manual_positions": 12,
     "total_orders": 12,
-    "bot_orders": 1,
-    "manual_orders": 11
+    "bot_orders": 0,
+    "manual_orders": 12
   }
 }
