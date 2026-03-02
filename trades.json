@@ -133,16 +133,6 @@
       "cash": 0.0,
       "holdings": [
         {
-          "sym": "META",
-          "units": 0.334,
-          "avgPrice": 648.18,
-          "currentPrice": 648.18,
-          "pnl": 0,
-          "leverage": 2,
-          "action": "hold",
-          "reason": "SM 65.49|accumulating GEX:negative|-0.01"
-        },
-        {
           "sym": "MSFT",
           "units": 0.4582,
           "avgPrice": 392.74,
@@ -150,7 +140,7 @@
           "pnl": 0,
           "leverage": 2,
           "action": "hold",
-          "reason": "SM 44.47|neutral GEX:positive|0.1"
+          "reason": "SM 62.21|accumulating GEX:positive|0"
         },
         {
           "sym": "AVGO",
@@ -160,7 +150,7 @@
           "pnl": 0,
           "leverage": 2,
           "action": "hold",
-          "reason": "SM 48.22|neutral GEX:negative|-0.23"
+          "reason": "SM 100|accumulating GEX:positive|0.02"
         },
         {
           "sym": "AMZN",
@@ -170,7 +160,7 @@
           "pnl": 0,
           "leverage": 2,
           "action": "hold",
-          "reason": "SM 100|accumulating GEX:negative|-0.54"
+          "reason": "SM 66.6|accumulating GEX:negative|0"
         },
         {
           "sym": "RIOT",
@@ -180,7 +170,17 @@
           "pnl": 0,
           "leverage": 2,
           "action": "hold",
-          "reason": "SM 100|accumulating GEX:negative|-0.15"
+          "reason": "SM 66.15|accumulating GEX:positive|0.01"
+        },
+        {
+          "sym": "AMD",
+          "units": 1.0814,
+          "avgPrice": 200.21,
+          "currentPrice": 200.21,
+          "pnl": 0,
+          "leverage": 2,
+          "action": "hold",
+          "reason": "SM 100|accumulating GEX:negative|0"
         }
       ],
       "equity": 999.99,
@@ -561,6 +561,28 @@
           "amount": 264.5,
           "reason": "SM 100|accumulating >60, GEX negative|-0.15 but max SM score high conviction",
           "pnl": 0
+        },
+        {
+          "date": "2026-03-02",
+          "action": "sell",
+          "ticker": "META",
+          "units": 0.334,
+          "price": 648.18,
+          "amount": 216.45,
+          "reason": "SM 0|distributing <40, GEX positive|0 but clear distribution signal",
+          "pnl": 0,
+          "leverage": 2
+        },
+        {
+          "date": "2026-03-02",
+          "action": "buy",
+          "ticker": "AMD",
+          "units": 1.0814,
+          "price": 200.21,
+          "amount": 216.45,
+          "reason": "SM 100|accumulating >60, GEX negative|0 but max SM score high conviction",
+          "pnl": 0,
+          "leverage": 2
         }
       ],
       "strategy": "Pure QuantClaw methodology",
@@ -591,7 +613,8 @@
         "2026-03-01T17:16:00+02:00: Sold MSFT (SM 36.81 distributing), NVDA (SM 50 neutral), AMD (SM 48.3 neutral); Bought META (SM 100 accumulating, -GEX -0.08), AMZN (SM 100, -GEX -0.62), PLTR (SM 67.16, -GEX -0.14)",
         "2026-03-01T21:16:00+02:00: Sold SOFI (SM 0 distributing) and AMZN (rotate from high negative GEX); Bought AAPL (SM 100 accumulating, +GEX 0.09) and GOOGL (SM 100 accumulating, -GEX -0.27)",
         "2026-03-02T01:16:00+02:00: Sold GOOGL (SM 0 distributing) and PLTR (SM 50 neutral); Bought MSFT (SM 100 accumulating, +GEX 0.12), AVGO (SM 100 accumulating, -GEX -0.23), SOFI (SM 100 accumulating, +GEX 0.11)",
-        "2026-03-02T05:16:00+02:00: Sold AAPL and SOFI (SM 0 distributing); Bought AMZN (SM 100 accumulating, GEX negative -0.54) and RIOT (SM 100 accumulating, GEX negative -0.15)"
+        "2026-03-02T05:16:00+02:00: Sold AAPL and SOFI (SM 0 distributing); Bought AMZN (SM 100 accumulating, GEX negative -0.54) and RIOT (SM 100 accumulating, GEX negative -0.15)",
+        "2026-03-02T09:16:00+02:00: Sold META (SM 0 distributing); Bought AMD (SM 100 accumulating, GEX negative|0)"
       ],
       "prices": {
         "NVDA": 177.19,
@@ -609,7 +632,7 @@
         "MARA": 8.94,
         "RIOT": 16.29
       },
-      "lastUpdate": "2026-03-02T05:16:00+02:00"
+      "lastUpdate": "2026-03-02T09:16:00+02:00"
     }
   },
   "settings": {
