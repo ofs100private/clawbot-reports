@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Portfolio Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #1a1f3a;
+            color: white;
+        }
+        .holding {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+        .error {
+            color: #f44;
+            background: rgba(255,0,0,0.1);
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Portfolio Data Test</h1>
+    <div id="status">Loading...</div>
+    <div id="holdings"></div>
+    <div id="debug"></div>
+    
+    <script>
+        async function loadData() {
+            const statusDiv = document.getElementById('status');
+            const holdingsDiv = document.getElementById('holdings');
+            const debugDiv = document.getElementById('debug');
+            
+            try {
+                statusDiv.textContent = 'Fetching trades.json...';
+                
+                const response = await fetch('trades.json?v=' + Date.now());
+                statusDiv.textContent = `Response status: ${response.status}`;
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+                const data = await response.json();
+                statusDiv.textContent = '✓ Data loaded successfully';
+                
+                debugDiv.innerHTML = `
+                    <h3>Debug Info:</h3>
+                    <p>Last update: ${data.last_update}</p>
+                    <p>Holdings count: ${data.holdings ? data.holdings.length : 0}</p>
+                    <p>Account value: $${data.account.current_value}</p>
+                    <p>Total P&L: $${data.account.total_pnl}</p>
+                `;
+                
+                if (!data.holdings || data.holdings.length === 0) {
+                    holdingsDiv.innerHTML = '<p class="error">No holdings found!</p>';
+                    return;
+                }
+                
+                holdingsDiv.innerHTML = '<h2>Holdings:</h2>' + 
+                    data.holdings.map(h => `
+                        <div class="holding">
+                            <h3>${h.symbol} ${h.is_bot_trade ? '🤖' : '👤'}</h3>
+                            <p>Status: ${h.status}</p>
+                            <p>Entry: $${h.entry_price.toFixed(2)} | Current: $${h.current_price.toFixed(2)}</p>
+                            <p>P&L: $${h.pnl.toFixed(2)} (${h.pnl_percent.toFixed(2)}%)</p>
+                        </div>
+                    `).join('');
+                
+            } catch (error) {
+                statusDiv.innerHTML = `<span class="error">ERROR: ${error.message}</span>`;
+                debugDiv.innerHTML = `<pre>${error.stack}</pre>`;
+            }
+        }
+        
+        loadData();
+    </script>
+</body>
+</html>
