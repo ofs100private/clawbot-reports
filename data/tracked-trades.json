@@ -12,7 +12,10 @@
       "timestamp": "2026-02-01T10:00:00+02:00",
       "status": "EXECUTED",
       "current_pnl": 59.66,
-      "current_price": 23.35
+      "current_price": 23.35,
+      "last_price_update": "2026-03-03T01:30:58.575344+02:00",
+      "data_source": "SNAPSHOT",
+      "note": "Manual position - no live eToro order ID available"
     },
     {
       "order_id": "xlu_position",
@@ -26,7 +29,10 @@
       "timestamp": "2026-02-01T10:00:00+02:00",
       "status": "EXECUTED",
       "current_pnl": 172.61,
-      "current_price": 47.37
+      "current_price": 47.37,
+      "last_price_update": "2026-03-03T01:30:59.014335+02:00",
+      "data_source": "SNAPSHOT",
+      "note": "Manual position - no live eToro order ID available"
     },
     {
       "order_id": "cvx_position",
@@ -40,7 +46,10 @@
       "timestamp": "2026-02-01T10:00:00+02:00",
       "status": "EXECUTED",
       "current_pnl": 445.62,
-      "current_price": 189.3
+      "current_price": 189.3,
+      "last_price_update": "2026-03-03T01:30:59.401036+02:00",
+      "data_source": "SNAPSHOT",
+      "note": "Manual position - no live eToro order ID available"
     },
     {
       "order_id": "space_investor_position",
@@ -54,21 +63,26 @@
       "timestamp": "2026-02-01T10:00:00+02:00",
       "status": "EXECUTED",
       "current_pnl": 207.83,
-      "current_price": 0
+      "current_price": 0,
+      "last_price_update": "2026-03-03T01:30:59.401101+02:00",
+      "data_source": "SNAPSHOT",
+      "note": "Manual position - no live eToro order ID available"
     },
     {
       "order_id": "1373482995",
-      "symbol": "ETH",
+      "symbol": "HK-2348",
       "action": "BUY",
-      "amount": 150,
-      "price": 1945.76,
+      "amount": 100,
+      "price": 1.9,
       "leverage": 1,
-      "is_bot": true,
-      "reason": "Expert 11-signal fusion: SM 85, ETH recovery from $1,910 low, $1B+ ETF inflows",
+      "is_bot": false,
+      "reason": "Test trade - HK-2348 (was mislabeled as ETH)",
       "timestamp": "2026-03-02T11:37:52+02:00",
       "status": "EXECUTED",
-      "current_pnl": 7.23,
-      "current_price": 2039.52
+      "current_pnl": 678.18561569,
+      "current_price": 1.89,
+      "data_source": "LIVE_ETORO_API",
+      "last_api_update": "2026-03-03T01:34:24.866190+02:00"
     },
     {
       "order_id": "hood_position",
@@ -82,7 +96,10 @@
       "timestamp": "2026-02-01T10:00:00+02:00",
       "status": "EXECUTED",
       "current_pnl": 90.57,
-      "current_price": 78.81
+      "current_price": 78.81,
+      "last_price_update": "2026-03-03T01:31:00.326701+02:00",
+      "data_source": "SNAPSHOT",
+      "note": "Manual position - no live eToro order ID available"
     },
     {
       "order_id": "sol_position",
@@ -96,7 +113,10 @@
       "timestamp": "2026-02-01T10:00:00+02:00",
       "status": "EXECUTED",
       "current_pnl": 25.38,
-      "current_price": 87.39
+      "current_price": 87.39,
+      "last_price_update": "2026-03-03T01:31:00.720035+02:00",
+      "data_source": "SNAPSHOT",
+      "note": "Manual position - no live eToro order ID available"
     },
     {
       "order_id": "cat_position",
@@ -110,7 +130,10 @@
       "timestamp": "2026-02-01T10:00:00+02:00",
       "status": "EXECUTED",
       "current_pnl": 62.77,
-      "current_price": 750.0
+      "current_price": 750.0,
+      "last_price_update": "2026-03-03T01:31:01.184354+02:00",
+      "data_source": "SNAPSHOT",
+      "note": "Manual position - no live eToro order ID available"
     },
     {
       "order_id": "spx500_position",
@@ -124,7 +147,10 @@
       "timestamp": "2026-02-01T10:00:00+02:00",
       "status": "EXECUTED",
       "current_pnl": 65.65,
-      "current_price": 6870.57
+      "current_price": 6870.57,
+      "last_price_update": "2026-03-03T01:31:01.712327+02:00",
+      "data_source": "SNAPSHOT",
+      "note": "Manual position - no live eToro order ID available"
     },
     {
       "order_id": "btc_position",
@@ -138,7 +164,10 @@
       "timestamp": "2026-02-01T10:00:00+02:00",
       "status": "EXECUTED",
       "current_pnl": 7.27,
-      "current_price": 69288.5
+      "current_price": 69288.5,
+      "last_price_update": "2026-03-03T01:31:02.139132+02:00",
+      "data_source": "SNAPSHOT",
+      "note": "Manual position - no live eToro order ID available"
     },
     {
       "order_id": "1373429272",
@@ -150,9 +179,11 @@
       "is_bot": false,
       "reason": "Test trade - Hong Kong stock validation",
       "timestamp": "2026-03-02T09:12:00+02:00",
-      "status": "PENDING",
-      "current_pnl": -0.79,
-      "current_price": 1.89
+      "status": "EXECUTED",
+      "current_pnl": 1017.2470882799998,
+      "current_price": 1.89,
+      "data_source": "LIVE_ETORO_API",
+      "last_api_update": "2026-03-03T01:34:25.516134+02:00"
     },
     {
       "order_id": "1373974399",
@@ -164,9 +195,11 @@
       "is_bot": false,
       "reason": "Test trade - Hong Kong stock validation #2",
       "timestamp": "2026-03-02T11:24:00+02:00",
-      "status": "PENDING",
-      "current_pnl": -0.53,
-      "current_price": 1.89
+      "status": "EXECUTED",
+      "current_pnl": 678.15577259,
+      "current_price": 1.89,
+      "data_source": "LIVE_ETORO_API",
+      "last_api_update": "2026-03-03T01:34:26.081567+02:00"
     }
   ]
 }
