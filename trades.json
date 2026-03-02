@@ -141,7 +141,7 @@
           "pnl": 0,
           "leverage": 2,
           "action": "hold",
-          "reason": "SM 62.21|accumulating GEX:positive|0"
+          "reason": "SM 47.78|neutral GEX:positive|0"
         },
         {
           "sym": "AVGO",
@@ -151,7 +151,7 @@
           "pnl": 0,
           "leverage": 2,
           "action": "hold",
-          "reason": "SM 100|accumulating GEX:positive|0.02"
+          "reason": "SM 43.9|neutral GEX:positive|0.02"
         },
         {
           "sym": "AMZN",
@@ -161,27 +161,27 @@
           "pnl": 0,
           "leverage": 2,
           "action": "hold",
-          "reason": "SM 66.6|accumulating GEX:negative|0"
-        },
-        {
-          "sym": "RIOT",
-          "units": 16.2374,
-          "avgPrice": 16.29,
-          "currentPrice": 16.29,
-          "pnl": 0,
-          "leverage": 2,
-          "action": "hold",
-          "reason": "SM 66.15|accumulating GEX:positive|0.01"
-        },
-        {
-          "sym": "AMD",
-          "units": 1.0814,
-          "avgPrice": 200.21,
-          "currentPrice": 200.21,
-          "pnl": 0,
-          "leverage": 2,
-          "action": "hold",
           "reason": "SM 100|accumulating GEX:negative|0"
+        },
+        {
+          "sym": "SOFI",
+          "units": 13.5135,
+          "avgPrice": 17.76,
+          "currentPrice": 17.76,
+          "pnl": 0,
+          "leverage": 2,
+          "action": "hold",
+          "reason": "SM 100|accumulating GEX:positive|0.01"
+        },
+        {
+          "sym": "MARA",
+          "units": 26.9575,
+          "avgPrice": 8.94,
+          "currentPrice": 8.94,
+          "pnl": 0,
+          "leverage": 2,
+          "action": "hold",
+          "reason": "SM 100|accumulating GEX:positive|0.01"
         }
       ],
       "equity": 999.99,
@@ -584,6 +584,50 @@
           "reason": "SM 100|accumulating >60, GEX negative|0 but max SM score high conviction",
           "pnl": 0,
           "leverage": 2
+        },
+        {
+          "date": "2026-03-02",
+          "action": "sell",
+          "ticker": "AMD",
+          "units": 1.0814,
+          "price": 200.21,
+          "amount": 216.5,
+          "reason": "SM 32.99|distributing <40, GEX negative|0 indicating volatility",
+          "pnl": 0,
+          "leverage": 2
+        },
+        {
+          "date": "2026-03-02",
+          "action": "sell",
+          "ticker": "RIOT",
+          "units": 16.2374,
+          "price": 16.29,
+          "amount": 264.5,
+          "reason": "SM 45.97|neutral 40-60, rotating to high SM accumulating with positive GEX",
+          "pnl": 0,
+          "leverage": 2
+        },
+        {
+          "date": "2026-03-02",
+          "action": "buy",
+          "ticker": "SOFI",
+          "units": 13.5135,
+          "price": 17.76,
+          "amount": 240,
+          "reason": "SM 100|accumulating >60, GEX positive|0.01 providing support",
+          "pnl": 0,
+          "leverage": 2
+        },
+        {
+          "date": "2026-03-02",
+          "action": "buy",
+          "ticker": "MARA",
+          "units": 26.9575,
+          "price": 8.94,
+          "amount": 241,
+          "reason": "SM 100|accumulating >60, GEX positive|0.01 providing support",
+          "pnl": 0,
+          "leverage": 2
         }
       ],
       "strategy": "Pure QuantClaw methodology",
@@ -615,7 +659,8 @@
         "2026-03-01T21:16:00+02:00: Sold SOFI (SM 0 distributing) and AMZN (rotate from high negative GEX); Bought AAPL (SM 100 accumulating, +GEX 0.09) and GOOGL (SM 100 accumulating, -GEX -0.27)",
         "2026-03-02T01:16:00+02:00: Sold GOOGL (SM 0 distributing) and PLTR (SM 50 neutral); Bought MSFT (SM 100 accumulating, +GEX 0.12), AVGO (SM 100 accumulating, -GEX -0.23), SOFI (SM 100 accumulating, +GEX 0.11)",
         "2026-03-02T05:16:00+02:00: Sold AAPL and SOFI (SM 0 distributing); Bought AMZN (SM 100 accumulating, GEX negative -0.54) and RIOT (SM 100 accumulating, GEX negative -0.15)",
-        "2026-03-02T09:16:00+02:00: Sold META (SM 0 distributing); Bought AMD (SM 100 accumulating, GEX negative|0)"
+        "2026-03-02T09:16:00+02:00: Sold META (SM 0 distributing); Bought AMD (SM 100 accumulating, GEX negative|0)",
+        "2026-03-02T13:16:00+02:00: Sold AMD (distributing SM 32.99) and RIOT (neutral SM 45.97); Bought SOFI and MARA (both SM 100 accumulating with positive GEX support)"
       ],
       "prices": {
         "NVDA": 177.19,
@@ -633,7 +678,7 @@
         "MARA": 8.94,
         "RIOT": 16.29
       },
-      "lastUpdate": "2026-03-02T09:16:00+02:00"
+      "lastUpdate": "2026-03-02T13:16:00+02:00"
     }
   },
   "settings": {
