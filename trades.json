@@ -1,13 +1,13 @@
 {
-  "last_update": "2026-03-02T21:04:27.428060+02:00",
+  "last_update": "2026-03-02T21:15:36.781541+02:00",
   "account": {
     "start_date": "2026-03-02",
     "initial_capital": 1700,
-    "current_value": 1700,
-    "cash": 1700,
-    "equity": 0,
-    "total_pnl": 0,
-    "pnl_percent": 0.0
+    "current_value": 1707.56,
+    "cash": 1300.0,
+    "equity": 407.56,
+    "total_pnl": 7.5600000000000005,
+    "pnl_percent": 0.44470588235294123
   },
   "performance_history": [
     {
@@ -36,7 +36,62 @@
       "pnl": 8.88
     }
   ],
-  "holdings": [],
+  "holdings": [
+    {
+      "position_id": "1373429272",
+      "symbol": "HK-2348",
+      "name": "HK-2348",
+      "type": "stock",
+      "current_price": 1.89,
+      "entry_price": 1.9,
+      "units": 78.94736842105263,
+      "amount": 150,
+      "current_value": 149.21,
+      "pnl": -0.79,
+      "pnl_percent": -0.5266666666666667,
+      "leverage": 1,
+      "status": "PENDING",
+      "entry_time": "2026-03-02T09:12:00+02:00",
+      "is_bot_trade": false,
+      "trade_source": "\ud83d\udc64 Manual"
+    },
+    {
+      "position_id": "1373974399",
+      "symbol": "HK-2348",
+      "name": "HK-2348",
+      "type": "stock",
+      "current_price": 1.89,
+      "entry_price": 1.9,
+      "units": 52.631578947368425,
+      "amount": 100,
+      "current_value": 99.47,
+      "pnl": -0.53,
+      "pnl_percent": -0.53,
+      "leverage": 1,
+      "status": "PENDING",
+      "entry_time": "2026-03-02T11:24:00+02:00",
+      "is_bot_trade": false,
+      "trade_source": "\ud83d\udc64 Manual"
+    },
+    {
+      "position_id": "1373482995",
+      "symbol": "ETH",
+      "name": "ETH",
+      "type": "crypto",
+      "current_price": 2062,
+      "entry_price": 1945.76,
+      "units": 0.07709069977797879,
+      "amount": 150,
+      "current_value": 158.88,
+      "pnl": 8.88,
+      "pnl_percent": 5.92,
+      "leverage": 1,
+      "status": "EXECUTED",
+      "entry_time": "2026-03-02T11:37:52+02:00",
+      "is_bot_trade": true,
+      "trade_source": "\ud83e\udd16 Bot"
+    }
+  ],
   "trades": [
     {
       "id": "1373417744",
@@ -48,8 +103,8 @@
       "price": 66273,
       "units": 0.0015089101142244956,
       "leverage": 1,
-      "reason": "Test trade - BTC via direct ID",
-      "status": "UNKNOWN_None",
+      "reason": "Test trade - BTC via direct ID (CANCELLED)",
+      "status": "CANCELLED",
       "is_bot_trade": false,
       "trade_source": "\ud83d\udc64 Manual"
     },
@@ -64,7 +119,7 @@
       "units": 0.07709069977797879,
       "leverage": 1,
       "reason": "Expert 11-signal fusion: SM 85, ETH recovery from $1,910 low, $1B+ ETF inflows",
-      "status": "UNKNOWN_None",
+      "status": "EXECUTED",
       "is_bot_trade": true,
       "trade_source": "\ud83e\udd16 Bot"
     },
@@ -79,7 +134,7 @@
       "units": 52.631578947368425,
       "leverage": 1,
       "reason": "Test trade - Hong Kong stock validation #2",
-      "status": "UNKNOWN_None",
+      "status": "PENDING",
       "is_bot_trade": false,
       "trade_source": "\ud83d\udc64 Manual"
     },
@@ -94,15 +149,15 @@
       "units": 78.94736842105263,
       "leverage": 1,
       "reason": "Test trade - Hong Kong stock validation",
-      "status": "UNKNOWN_None",
+      "status": "PENDING",
       "is_bot_trade": false,
       "trade_source": "\ud83d\udc64 Manual"
     }
   ],
   "stats": {
-    "total_positions": 0,
-    "bot_positions": 0,
-    "manual_positions": 0,
+    "total_positions": 3,
+    "bot_positions": 1,
+    "manual_positions": 2,
     "total_orders": 4,
     "bot_orders": 1,
     "manual_orders": 3

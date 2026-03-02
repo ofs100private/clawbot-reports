@@ -8,10 +8,11 @@
       "price": 66273,
       "leverage": 1,
       "is_bot": false,
-      "reason": "Test trade - BTC via direct ID",
+      "reason": "Test trade - BTC via direct ID (CANCELLED)",
       "timestamp": "2026-03-02T12:30:00+02:00",
-      "status": "UNKNOWN_None",
-      "last_sync": "2026-03-02T21:03:58.176138+02:00"
+      "status": "CANCELLED",
+      "current_pnl": 0,
+      "current_price": 66273
     },
     {
       "order_id": "1373429272",
@@ -23,8 +24,9 @@
       "is_bot": false,
       "reason": "Test trade - Hong Kong stock validation",
       "timestamp": "2026-03-02T09:12:00+02:00",
-      "status": "UNKNOWN_None",
-      "last_sync": "2026-03-02T21:03:58.928211+02:00"
+      "status": "PENDING",
+      "current_pnl": -0.79,
+      "current_price": 1.89
     },
     {
       "order_id": "1373974399",
@@ -36,8 +38,9 @@
       "is_bot": false,
       "reason": "Test trade - Hong Kong stock validation #2",
       "timestamp": "2026-03-02T11:24:00+02:00",
-      "status": "UNKNOWN_None",
-      "last_sync": "2026-03-02T21:04:00.545588+02:00"
+      "status": "PENDING",
+      "current_pnl": -0.53,
+      "current_price": 1.89
     },
     {
       "order_id": "1373482995",
@@ -49,8 +52,9 @@
       "is_bot": true,
       "reason": "Expert 11-signal fusion: SM 85, ETH recovery from $1,910 low, $1B+ ETF inflows",
       "timestamp": "2026-03-02T11:37:52+02:00",
-      "status": "UNKNOWN_None",
-      "last_sync": "2026-03-02T21:04:01.525482+02:00"
+      "status": "EXECUTED",
+      "current_pnl": 8.88,
+      "current_price": 2062
     }
   ]
 }

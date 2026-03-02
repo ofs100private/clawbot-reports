@@ -112,6 +112,8 @@ def sync_all_tracked_trades():
     bot_trades = load_bot_trades()
     
     updated_count = 0
+    api_failed_count = 0
+    
     for trade in tracked["orders"]:
         order_id = trade["order_id"]
         old_status = trade.get("status", "UNKNOWN")
@@ -119,7 +121,7 @@ def sync_all_tracked_trades():
         # Query eToro
         order_data = get_order_status(order_id)
         
-        if order_data:
+        if order_data and order_data.get("StatusID") is not None:
             status_id = order_data.get("StatusID")
             new_status = map_status_id(status_id)
             
@@ -134,9 +136,28 @@ def sync_all_tracked_trades():
                     trade["current_pnl"] = order_data["NetProfit"]
                 if "CurrentRate" in order_data:
                     trade["current_price"] = order_data["CurrentRate"]
+        else:
+            # API failed - keep existing status from tracked-trades.json
+            api_failed_count += 1
+            if old_status in ["UNKNOWN", "UNKNOWN_None", ""]:
+                # If we never had a status, default to PENDING for new orders
+                # Check if order is very old (>24h) - might be cancelled
+                from dateutil import parser
+                order_time = parser.parse(trade["timestamp"])
+                now = datetime.now(pytz.timezone('Asia/Jerusalem'))
+                hours_old = (now - order_time).total_seconds() / 3600
+                
+                if hours_old > 24:
+                    print(f"  Order {order_id}: Assuming CANCELLED (>24h old, API unavailable)")
+                    trade["status"] = "CANCELLED"
+                else:
+                    print(f"  Order {order_id}: Keeping local status or defaulting to PENDING")
+                    # Keep existing status or set to PENDING if truly unknown
+                    if old_status in ["UNKNOWN", "UNKNOWN_None", ""]:
+                        trade["status"] = "PENDING"
     
     save_tracked_trades(tracked)
-    print(f"Updated {updated_count} trades")
+    print(f"Updated {updated_count} trades, {api_failed_count} API calls failed (using local status)")
     
     return tracked
 
@@ -174,8 +195,9 @@ def build_portfolio_from_tracked():
         }
         all_trades.append(trade_entry)
         
-        # If EXECUTED or PENDING_EXECUTION, add to holdings
-        if trade["status"] in ["EXECUTED", "PENDING_EXECUTION", "PENDING"]:
+        # If not CANCELLED or REJECTED, consider it a holding
+        # (includes EXECUTED, PENDING, PENDING_EXECUTION, or UNKNOWN if API unavailable)
+        if trade["status"] not in ["CANCELLED", "REJECTED", "CLOSED"]:
             current_pnl = trade.get("current_pnl", 0)
             current_value = trade["amount"] + current_pnl
             
