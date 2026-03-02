@@ -1,5 +1,5 @@
 {
-  "last_update": "2026-03-02T16:30:00+02:00",
+  "last_update": "2026-03-02T18:15:00+02:00",
   "competition": {
     "start_date": "2026-03-02",
     "end_date": "2026-04-01",
@@ -8,8 +8,8 @@
   "traders": {
     "ofsinvest": {
       "name": "OfsInvest",
-      "total_value": 1000.15,
-      "cash": 600,
+      "total_value": 1700.15,
+      "cash": 1300,
       "equity": 400.15,
       "pnlHistory": [
         {"date": "2026-03-02T00:00:00Z", "pnl": 0},
@@ -26,7 +26,7 @@
         },
         {
           "sym": "HK-2348",
-          "current_price": 1.90,
+          "current_price": 1.89,
           "entry_price": 1.90,
           "units": 78.95,
           "leverage": 1,
@@ -34,7 +34,7 @@
         },
         {
           "sym": "HK-2348",
-          "current_price": 1.90,
+          "current_price": 1.89,
           "entry_price": 1.90,
           "units": 52.63,
           "leverage": 1,
@@ -54,8 +54,8 @@
     },
     "micha": {
       "name": "Micha Fan",
-      "total_value": 1000,
-      "cash": 920,
+      "total_value": 1700,
+      "cash": 1564,
       "equity": 0,
       "pnlHistory": [
         {"date": "2026-03-02T00:00:00Z", "pnl": 0}
@@ -65,8 +65,8 @@
     },
     "yoni": {
       "name": "Yoni Fan",
-      "total_value": 1000,
-      "cash": 920,
+      "total_value": 1700,
+      "cash": 1564,
       "equity": 0,
       "pnlHistory": [
         {"date": "2026-03-02T00:00:00Z", "pnl": 0}
