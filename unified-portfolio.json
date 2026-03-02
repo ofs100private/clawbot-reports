@@ -1,24 +1,32 @@
 {
-  "last_update": "2026-03-02T23:58:00+02:00",
+  "last_update": "2026-03-03T00:00:00+02:00",
   "total": {
-    "portfolio_value": 22818.61,
-    "total_pnl": 1143.27,
-    "pnl_percent": 5.27
+    "invested": 32450,
+    "positions_value": 22818.61,
+    "cash": 7626,
+    "account_value": 30444.61,
+    "total_pnl": -2005.39,
+    "pnl_percent": -6.18
   },
   "allocation": {
     "bot": {
-      "value": 1707.23,
-      "budget": 1700,
+      "invested": 1700,
+      "current_value": 1707.23,
+      "cash": 1550,
+      "positions_value": 157.23,
       "pnl": 7.23,
       "pnl_percent": 0.43,
-      "percentage_of_total": 7.48,
+      "percentage_of_invested": 5.24,
       "positions": 1
     },
     "manual": {
-      "value": 21111.38,
-      "pnl": 1136.04,
-      "pnl_percent": 5.68,
-      "percentage_of_total": 92.52,
+      "invested": 30750,
+      "current_value": 28737.38,
+      "cash": 6076,
+      "positions_value": 22661.38,
+      "pnl": -2012.62,
+      "pnl_percent": -6.54,
+      "percentage_of_invested": 94.76,
       "positions": 9
     }
   },
@@ -26,9 +34,9 @@
     {
       "symbol": "ETH",
       "name": "Ethereum",
+      "invested": 150,
       "current_price": 2039.52,
       "entry_price": 1945.76,
-      "amount": 150,
       "current_value": 157.23,
       "pnl": 7.23,
       "pnl_percent": 4.82,
@@ -40,7 +48,7 @@
     {
       "symbol": "UUUU",
       "name": "Energy Fuels Inc",
-      "amount": 264.24,
+      "invested": 264.24,
       "current_value": 323.90,
       "pnl": 59.66,
       "pnl_percent": 22.58,
@@ -50,7 +58,7 @@
     {
       "symbol": "XLU",
       "name": "Utilities Select Sector",
-      "amount": 927.90,
+      "invested": 927.90,
       "current_value": 1099.51,
       "pnl": 172.61,
       "pnl_percent": 18.62,
@@ -60,7 +68,7 @@
     {
       "symbol": "CVX",
       "name": "Chevron",
-      "amount": 3507.61,
+      "invested": 3507.61,
       "current_value": 3953.23,
       "pnl": 445.62,
       "pnl_percent": 12.70,
@@ -70,7 +78,7 @@
     {
       "symbol": "Space-Investor",
       "name": "Jason Horton Copy Trading",
-      "amount": 3150.96,
+      "invested": 3150.96,
       "current_value": 3358.79,
       "pnl": 207.83,
       "pnl_percent": 6.60,
@@ -80,7 +88,7 @@
     {
       "symbol": "HOOD",
       "name": "Robinhood",
-      "amount": 2340.29,
+      "invested": 2340.29,
       "current_value": 2430.86,
       "pnl": 90.57,
       "pnl_percent": 3.87,
@@ -90,7 +98,7 @@
     {
       "symbol": "SOL",
       "name": "Solana",
-      "amount": 830.94,
+      "invested": 830.94,
       "current_value": 856.32,
       "pnl": 25.38,
       "pnl_percent": 3.05,
@@ -100,7 +108,7 @@
     {
       "symbol": "CAT",
       "name": "Caterpillar",
-      "amount": 2722.73,
+      "invested": 2722.73,
       "current_value": 2785.50,
       "pnl": 62.77,
       "pnl_percent": 2.31,
@@ -110,7 +118,7 @@
     {
       "symbol": "SPX500",
       "name": "S&P 500 Index",
-      "amount": 4000,
+      "invested": 4000,
       "current_value": 4065.63,
       "pnl": 65.65,
       "pnl_percent": 1.64,
@@ -120,7 +128,7 @@
     {
       "symbol": "BTC",
       "name": "Bitcoin",
-      "amount": 3530.67,
+      "invested": 3530.67,
       "current_value": 3537.94,
       "pnl": 7.27,
       "pnl_percent": 0.21,
@@ -128,12 +136,17 @@
       "trade_source": "👤 Manual"
     }
   ],
+  "cash_breakdown": {
+    "total_cash": 7626,
+    "bot_cash": 1550,
+    "manual_cash": 6076
+  },
   "performance_history": [
     {
-      "timestamp": "2026-03-02T23:58:00+02:00",
-      "total": 22818.61,
+      "timestamp": "2026-03-03T00:00:00+02:00",
+      "total": 30444.61,
       "bot": 1707.23,
-      "manual": 21111.38
+      "manual": 28737.38
     }
   ]
 }
