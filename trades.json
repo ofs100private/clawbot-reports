@@ -1,29 +1,58 @@
 {
-  "lastUpdate": "2026-03-02T14:45:00+02:00",
+  "lastUpdate": "2026-03-02T15:30:00+02:00",
   "competitors": {
     "ofsinvest": {
       "name": "OfsInvest",
-      "model": "Expert Fusion - 24x5 Global",
+      "model": "Expert Fusion - Real Money",
       "startingCapital": 1000,
-      "currentCapital": 1000,
-      "cash": 820,
-      "invested": 100,
-      "totalPnL": 0,
-      "totalPnLPercent": 0,
+      "currentCapital": 1000.15,
+      "cash": 600,
+      "invested": 400,
+      "totalPnL": 0.15,
+      "totalPnLPercent": 0.015,
       "positions": [
+        {
+          "ticker": "ETH",
+          "name": "Ethereum",
+          "positionId": "LIVE",
+          "type": "LONG",
+          "amount": 150,
+          "entryPrice": 1945.76,
+          "currentPrice": 1947.75,
+          "stopLoss": 1875,
+          "takeProfit": 2100,
+          "status": "ACTIVE",
+          "entryDate": "2026-03-02T11:37:52Z",
+          "pnl": 0.15,
+          "pnlPercent": 0.10
+        },
+        {
+          "ticker": "HK-2348",
+          "name": "Hong Kong Stock",
+          "orderId": 1373429272,
+          "type": "LONG",
+          "amount": 150,
+          "entryPrice": 1.90,
+          "currentPrice": 1.90,
+          "stopLoss": 1.84,
+          "takeProfit": 2.00,
+          "status": "PENDING",
+          "entryDate": "2026-03-02T12:00:00Z",
+          "pnl": 0,
+          "pnlPercent": 0
+        },
         {
           "ticker": "HK-2348",
           "name": "Hong Kong Stock",
           "orderId": 1373974399,
           "type": "LONG",
           "amount": 100,
-          "units": 411.72,
           "entryPrice": 1.90,
           "currentPrice": 1.90,
           "stopLoss": 1.84,
           "takeProfit": 2.00,
           "status": "PENDING",
-          "entryDate": "2026-03-02T14:45:00+02:00",
+          "entryDate": "2026-03-02T14:45:00Z",
           "pnl": 0,
           "pnlPercent": 0
         }
@@ -31,24 +60,25 @@
       "trades": [
         {
           "id": 1,
-          "date": "2026-03-02T14:45:00Z",
-          "ticker": "HK-2348",
+          "date": "2026-03-02T11:37:52Z",
+          "ticker": "ETH",
           "action": "BUY",
-          "amount": 100,
-          "price": 1.90,
-          "orderId": 1373974399,
-          "status": "PENDING",
-          "note": "24x5 global stock - First real order placed"
+          "amount": 150,
+          "price": 1945.76,
+          "orderId": 1373495938,
+          "status": "FILLED",
+          "pnl": 0.15,
+          "note": "Crypto 24/7 advantage - executed while markets closed"
         }
       ],
       "stats": {
         "totalTrades": 1,
-        "wins": 0,
+        "wins": 1,
         "losses": 0,
-        "winRate": 0,
-        "avgWin": 0,
+        "winRate": 100,
+        "avgWin": 0.15,
         "avgLoss": 0,
-        "bestTrade": 0,
+        "bestTrade": 0.15,
         "worstTrade": 0
       }
     },
