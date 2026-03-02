@@ -445,11 +445,16 @@
                 const response = await fetch('trades.json?v=' + Date.now());
                 const data = await response.json();
                 
+                console.log('Loaded trades data:', data);
+                console.log('Holdings count:', data.holdings ? data.holdings.length : 0);
+                
                 updatePerformanceStats(data.account);
                 updatePerformanceChart(data.performance_history, data.trades);
-                updateHoldings(data.holdings);
+                updateHoldings(data.holdings || []);
             } catch (error) {
                 console.error('Error loading trades data:', error);
+                document.getElementById('holdingsContainer').innerHTML = 
+                    `<div class="holding-item"><div class="holding-header"><span class="holding-symbol" style="color:#f44336;">Error loading positions: ${error.message}</span></div></div>`;
             }
         }
         
@@ -605,6 +610,21 @@
         // Update holdings with TradingView charts
         function updateHoldings(holdings) {
             const container = document.getElementById('holdingsContainer');
+            
+            console.log('updateHoldings called with:', holdings);
+            
+            if (!holdings || holdings.length === 0) {
+                container.innerHTML = `
+                    <div class="holding-item">
+                        <div class="holding-header">
+                            <span class="holding-symbol">No active positions</span>
+                        </div>
+                        <p style="color:#888;padding:20px;">All positions are closed or pending execution.</p>
+                    </div>
+                `;
+                return;
+            }
+            
             container.innerHTML = holdings.map((holding, index) => `
                 <div class="holding-item">
                     <div class="holding-header">
