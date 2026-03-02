@@ -755,7 +755,7 @@
         // Load trades data
         async function loadTradesData() {
             try {
-                const response = await fetch('trades.json');
+                const response = await fetch('trades.json?v=' + Date.now());
                 const data = await response.json();
                 updateDashboard(data);
             } catch (error) {
