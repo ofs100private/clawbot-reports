@@ -1,0 +1,70 @@
+{
+  "last_update": "2026-03-02T23:52:00+02:00",
+  "account": {
+    "name": "OfsInvest Bot Trading",
+    "start_date": "2026-03-02",
+    "initial_capital": 1700,
+    "current_value": 1707.23,
+    "cash": 1550,
+    "equity": 157.23,
+    "total_pnl": 7.23,
+    "pnl_percent": 0.43
+  },
+  "performance_history": [
+    {
+      "timestamp": "2026-03-02T11:37:52+02:00",
+      "value": 1700,
+      "pnl": 0
+    },
+    {
+      "timestamp": "2026-03-02T23:52:00+02:00",
+      "value": 1707.23,
+      "pnl": 7.23
+    }
+  ],
+  "holdings": [
+    {
+      "position_id": "1373482995",
+      "symbol": "ETH",
+      "name": "Ethereum",
+      "type": "crypto",
+      "current_price": 2039.52,
+      "entry_price": 1945.76,
+      "units": 0.07709,
+      "amount": 150,
+      "current_value": 157.23,
+      "pnl": 7.23,
+      "pnl_percent": 4.82,
+      "leverage": 1,
+      "status": "EXECUTED",
+      "entry_time": "2026-03-02T11:37:52+02:00",
+      "is_bot_trade": true,
+      "trade_source": "🤖 Bot"
+    }
+  ],
+  "trades": [
+    {
+      "id": "1373482995",
+      "timestamp": "2026-03-02T11:37:52+02:00",
+      "symbol": "ETH",
+      "action": "BUY",
+      "type": "OPEN",
+      "amount": 150,
+      "price": 1945.76,
+      "units": 0.07709,
+      "leverage": 1,
+      "reason": "Expert 11-signal fusion: SM 85, ETH recovery from $1,910 low, $1B+ ETF inflows",
+      "status": "EXECUTED",
+      "is_bot_trade": true,
+      "trade_source": "🤖 Bot"
+    }
+  ],
+  "stats": {
+    "total_positions": 1,
+    "bot_positions": 1,
+    "manual_positions": 0,
+    "total_orders": 1,
+    "bot_orders": 1,
+    "manual_orders": 0
+  }
+}
