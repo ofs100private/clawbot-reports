@@ -1149,5 +1149,14 @@
       "value": 1700,
       "pnl": 0
     }
-  ]
+  ],
+  "bot": {
+    "budget": 1700,
+    "current_value": 297.7098129997,
+    "invested": 300,
+    "cash": 1400,
+    "pnl": -2.2901870003000226,
+    "pnl_percent": -0.7633956667666743,
+    "positions": 1
+  }
 }
