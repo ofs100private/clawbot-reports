@@ -1,1 +1,26 @@
-{"last_update": "2026-03-03T18:38:00+02:00", "news": [{"title": "Dow Jones Plunges Over 1,100 Points Amid US-Iran War Tensions", "source": "Yahoo Finance", "time": "2026-03-03T18:38:00+02:00", "impact": "bearish", "url": "https://finance.yahoo.com/news/live/stock-market-today-dow-plunges-over-1100-points-sp-500-and-nasdaq-sink-as-oil-surges-amid-war-worries-150425235.html"}, {"title": "Bitcoin Surges Above $69K, Outperforming Amid Market Chaos", "source": "Investing.com", "time": "2026-03-03T18:38:00+02:00", "impact": "bullish", "url": "https://www.investing.com/news/cryptocurrency-news"}, {"title": "S&P 500 Down ~2% as Global Shares Slump on War Worries", "source": "WRAL", "time": "2026-03-03T18:38:00+02:00", "impact": "bearish", "url": "https://www.wral.com/news/ap/75edb-dow-drops-1-000-as-stocks-sell-off-around-the-world-and-oil-prices-leap-even-higher-on-war-worries"}]}
+{
+  "last_update": "2026-03-03T18:45:00+03:00",
+  "news": [
+    {
+      "title": "Dow Jones Plunges Over 1,100 Points Amid War Tensions",
+      "source": "Yahoo Finance",
+      "time": "2026-03-03T18:45:00+03:00",
+      "impact": "bearish",
+      "url": "https://finance.yahoo.com/news/live/stock-market-today-dow-plunges-over-1100-points-sp-500-and-nasdaq-sink-as-oil-surges-amid-war-worries-150425235.html"
+    },
+    {
+      "title": "Bitcoin Surges Above $69K Despite Market Turmoil",
+      "source": "Investing.com",
+      "time": "2026-03-03T18:45:00+03:00",
+      "impact": "bullish",
+      "url": "https://www.investing.com/news/cryptocurrency-news"
+    },
+    {
+      "title": "S&P 500 Down ~2% in Broad Risk-Off Move",
+      "source": "WRAL",
+      "time": "2026-03-03T18:45:00+03:00",
+      "impact": "bearish",
+      "url": "https://www.wral.com/news/ap/75edb-dow-drops-1-000-as-stocks-sell-off-around-the-world-and-oil-prices-leap-even-higher-on-war-worries"
+    }
+  ]
+}
