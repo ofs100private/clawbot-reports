@@ -11,34 +11,9 @@
   },
   "performance_history": [
     {
-      "timestamp": "2026-03-03T10:37:00.358324+02:00",
+      "timestamp": "2026-03-03T11:14:07.855278+02:00",
       "value": 40787.08,
       "pnl": 709.25
-    },
-    {
-      "timestamp": "2026-03-03T10:42:14.071005+02:00",
-      "value": 37777.46,
-      "pnl": 0
-    },
-    {
-      "timestamp": "2026-03-03T10:47:21.692571+02:00",
-      "value": 37777.46,
-      "pnl": 0
-    },
-    {
-      "timestamp": "2026-03-03T10:52:18.843766+02:00",
-      "value": 37777.46,
-      "pnl": 0
-    },
-    {
-      "timestamp": "2026-03-03T11:06:14.182589+02:00",
-      "value": 37777.46,
-      "pnl": 0
-    },
-    {
-      "timestamp": "2026-03-03T11:10:51.859405+02:00",
-      "value": 37777.46,
-      "pnl": 0
     }
   ],
   "holdings": [
@@ -613,5 +588,13 @@
     "total_orders": 17,
     "bot_orders": 0,
     "manual_orders": 17
-  }
+  },
+  "bot_performance_history": [
+    {
+      "timestamp": "2026-03-03T11:14:07.855278+02:00",
+      "value": 1700.0,
+      "pnl": 0.0
+    }
+  ],
+  "note": "1 graph with 2 lines: Manual (green, $39,087) vs Bot (purple, $1,700)"
 }
