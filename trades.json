@@ -1,13 +1,13 @@
 {
-  "last_update": "2026-03-03T18:09:33.678083+02:00",
+  "last_update": "2026-03-03T18:23:45.459944+02:00",
   "account": {
     "start_date": "2026-03-02",
-    "initial_capital": 38427.46,
-    "current_value": 40727.9928621103,
+    "initial_capital": 38127.46,
+    "current_value": 40428.99587136,
     "cash": 0.0,
-    "equity": 40727.9928621103,
-    "total_pnl": 2300.5328621103,
-    "pnl_percent": 5.9866898881953166
+    "equity": 40428.99587136,
+    "total_pnl": 2301.53587136,
+    "pnl_percent": 6.036425902381119
   },
   "performance_history": [
     {
@@ -397,6 +397,16 @@
       "timestamp": "2026-03-03T18:09:33.678083+02:00",
       "value": 40727.9928621103,
       "pnl": 2300.5328621103
+    },
+    {
+      "timestamp": "2026-03-03T18:20:30.323767+02:00",
+      "value": 1700,
+      "pnl": 0
+    },
+    {
+      "timestamp": "2026-03-03T18:23:45.459944+02:00",
+      "value": 40428.99587136,
+      "pnl": 2301.53587136
     }
   ],
   "holdings": [
@@ -779,25 +789,6 @@
       "is_bot_trade": true,
       "trade_source": "\ud83e\udd16 Bot",
       "trader": "OfsInvest"
-    },
-    {
-      "position_id": "1377233872",
-      "symbol": "AAPL",
-      "name": "AAPL",
-      "type": "stock",
-      "current_price": 262.4399,
-      "entry_price": 264.72,
-      "units": 1.1332728921124207,
-      "amount": 300,
-      "current_value": 298.99699075030003,
-      "pnl": -1.0030092496999714,
-      "pnl_percent": -0.33433641656665714,
-      "leverage": 1,
-      "status": "EXECUTED",
-      "entry_time": "2026-03-03T17:25:25+02:00",
-      "is_bot_trade": true,
-      "trade_source": "\ud83e\udd16 Bot",
-      "trader": "OfsInvest"
     }
   ],
   "trades": [
@@ -827,7 +818,7 @@
       "units": 1.1332728921124207,
       "leverage": 1,
       "reason": "Best technical setup + perfect institutional support (Smart Money: 100)",
-      "status": "EXECUTED",
+      "status": "CANCELLED",
       "is_bot_trade": true,
       "trade_source": "\ud83e\udd16 Bot"
     },
@@ -1118,8 +1109,8 @@
     }
   ],
   "stats": {
-    "total_positions": 21,
-    "bot_positions": 4,
+    "total_positions": 20,
+    "bot_positions": 3,
     "manual_positions": 17,
     "total_orders": 21,
     "bot_orders": 4,
