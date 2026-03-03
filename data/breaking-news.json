@@ -1,26 +1,26 @@
 {
-  "last_update": "2026-03-03T19:30:00+02:00",
+  "last_update": "2026-03-03T19:36:00+02:00",
   "news": [
     {
-      "title": "Geopolitical Tensions Drive Massive Selloff in Stocks Amid Surging Oil Prices",
-      "source": "WSJ",
-      "time": "2026-03-03T19:30:00+02:00",
+      "title": "Global Stocks Plunge on Iran War Escalation, Over $3.2T Erased",
+      "source": "Economic Times",
+      "time": "2026-03-03T19:36:00+02:00",
       "impact": "bearish",
-      "url": "https://www.wsj.com/livecoverage/stock-market-today-dow-sp-500-nasdaq-03-03-2026"
+      "url": "https://m.economictimes.com/news/international/us/is-a-recession-coming-why-global-stock-markets-are-crashing-right-now-as-more-than-3-2-trillion-in-market-value-evaporates-and-brent-crude-nears-85-a-barrel-amid-the-us-israel-iran-war/articleshow/128977112.cms"
     },
     {
-      "title": "Crypto Markets Under Pressure but Bitcoin Shows Resilience",
+      "title": "Oil Surges as Brent Nears $85/Barrel Amid Tensions",
+      "source": "CNBC",
+      "time": "2026-03-03T19:36:00+02:00",
+      "impact": "bullish",
+      "url": "https://www.cnbc.com/"
+    },
+    {
+      "title": "Bitcoin Attempts Stand at $68K as Stocks Melt Down",
       "source": "CoinDesk",
-      "time": "2026-03-03T19:30:00+02:00",
+      "time": "2026-03-03T19:36:00+02:00",
       "impact": "neutral",
       "url": "https://www.coindesk.com/markets/2026/03/03/bitcoin-attempting-to-make-a-stand-as-global-stock-markets-melt-down-on-iran-war"
-    },
-    {
-      "title": "Oil & Inflation Fears Surge Amid Middle East Conflict",
-      "source": "Yahoo Finance",
-      "time": "2026-03-03T19:30:00+02:00",
-      "impact": "bearish",
-      "url": "https://finance.yahoo.com/"
     }
   ]
 }
