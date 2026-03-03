@@ -1,13 +1,13 @@
 {
-  "last_update": "2026-03-03T10:10:28.358709+02:00",
+  "last_update": "2026-03-03T10:12:29.607070+02:00",
   "account": {
     "start_date": "2026-03-02",
-    "initial_capital": 21625.34,
-    "current_value": 25136.28847656,
-    "cash": 0.0,
-    "equity": 25136.28847656,
-    "total_pnl": 3510.94847656,
-    "pnl_percent": 16.235344630697135
+    "initial_capital": 37059.11,
+    "current_value": 40808.49,
+    "cash": 3018.72,
+    "equity": 37059.11,
+    "total_pnl": 730.66,
+    "pnl_percent": 1.97
   },
   "performance_history": [
     {
@@ -938,5 +938,6 @@
     "total_orders": 12,
     "bot_orders": 0,
     "manual_orders": 12
-  }
+  },
+  "note": "Portfolio totals from real eToro account. Individual position list incomplete - awaiting full position data."
 }
