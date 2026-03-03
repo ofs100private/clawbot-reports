@@ -255,36 +255,6 @@
         .asset-details {
             font-size: 0.85em;
             color: #888;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .sell-btn {
-            margin-left: 10px;
-            padding: 6px 16px;
-            background: #f44336;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 11px;
-            font-weight: bold;
-            text-transform: uppercase;
-            transition: all 0.3s;
-            letter-spacing: 0.5px;
-        }
-        
-        .sell-btn:hover {
-            background: #d32f2f;
-            transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(244, 67, 54, 0.4);
-        }
-        
-        .sell-btn:disabled {
-            background: #999;
-            cursor: not-allowed;
-            transform: none;
         }
         
         /* Chart Display */
@@ -751,7 +721,7 @@
         <!-- Performance Overview: Combined Chart -->
         <div class="performance-section">
             <div class="performance-header">
-                <h2>📊 Portfolio Value: Manual vs Bot Trading</h2>
+                <h2>📊 Profit & Loss: Manual Portfolio vs Bot Trading</h2>
                 <div class="performance-stats">
                     <div class="stat">
                         <div class="stat-label">👤 Manual Portfolio</div>
@@ -842,17 +812,21 @@
                 updatePortfolioOverview(data);
                 updatePerformanceStats(data.account, data.bot);
                 
-                // Calculate VALUE by trade source (manual vs bot)
-                const holdings = data.holdings || [];
-                const manualValue = holdings
-                    .filter(h => !h.is_bot_trade)
-                    .reduce((sum, h) => sum + (h.current_value || 0), 0);
-                const botValue = holdings
-                    .filter(h => h.is_bot_trade)
-                    .reduce((sum, h) => sum + (h.current_value || 0), 0);
+                // Calculate manual portfolio history (total - bot budget)
+                const manualHistory = (data.performance_history || []).map(h => ({
+                    timestamp: h.timestamp,
+                    value: h.value - (data.bot?.budget || 1700),
+                    pnl: h.pnl - ((data.bot?.pnl || 0))
+                }));
                 
-                updatePerformanceChart(manualValue, botValue);
-                updateAssetList(holdings);
+                const botHistory = data.bot_performance_history || [{
+                    timestamp: new Date().toISOString(),
+                    value: 1700,
+                    pnl: 0
+                }];
+                
+                updatePerformanceChart(manualHistory, botHistory);
+                updateAssetList(data.holdings || []);
             } catch (error) {
                 console.error('Error loading trades data:', error);
             }
@@ -1012,29 +986,35 @@
         }
         
         // Update performance chart
-        function updatePerformanceChart(manualValue, botValue) {
+        function updatePerformanceChart(manualHistory, botHistory) {
             const ctx = document.getElementById('performanceChart').getContext('2d');
             
             if (performanceChart) {
                 performanceChart.destroy();
             }
             
-            // Fixed colors for portfolio value (always green for manual, purple for bot)
-            const manualColor = 'rgba(76, 175, 80, 0.8)';
-            const manualBorder = '#4caf50';
-            const botColor = 'rgba(118, 75, 162, 0.8)';
-            const botBorder = '#764ba2';
+            // Calculate P&L for each timestamp
+            const labels = manualHistory.map(h => new Date(h.timestamp).toLocaleTimeString());
+            const manualPnL = manualHistory.map(h => h.pnl || 0);
+            const botPnL = botHistory.map(h => h.pnl || 0);
             
             performanceChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: ['👤 Manual Portfolio', '🤖 Bot Trading'],
+                    labels: labels,
                     datasets: [
                         {
-                            label: 'Portfolio Value',
-                            data: [manualValue, botValue],
-                            backgroundColor: [manualColor, botColor],
-                            borderColor: [manualBorder, botBorder],
+                            label: '👤 Manual Portfolio P&L',
+                            data: manualPnL,
+                            backgroundColor: manualPnL.map(v => v >= 0 ? 'rgba(76, 175, 80, 0.8)' : 'rgba(244, 67, 54, 0.8)'),
+                            borderColor: manualPnL.map(v => v >= 0 ? '#4caf50' : '#f44336'),
+                            borderWidth: 2
+                        },
+                        {
+                            label: '🤖 Bot Trading P&L',
+                            data: botPnL,
+                            backgroundColor: botPnL.map(v => v >= 0 ? 'rgba(118, 75, 162, 0.8)' : 'rgba(244, 67, 54, 0.8)'),
+                            borderColor: botPnL.map(v => v >= 0 ? '#764ba2' : '#f44336'),
                             borderWidth: 2
                         }
                     ]
@@ -1042,12 +1022,21 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    indexAxis: 'x',
                     plugins: {
                         legend: {
-                            display: false
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                color: '#fff',
+                                font: {
+                                    size: 14
+                                },
+                                padding: 20
+                            }
                         },
                         tooltip: {
+                            mode: 'index',
+                            intersect: false,
                             backgroundColor: 'rgba(0,0,0,0.8)',
                             titleColor: '#fff',
                             bodyColor: '#fff',
@@ -1055,7 +1044,8 @@
                             callbacks: {
                                 label: function(context) {
                                     const value = context.parsed.y;
-                                    return 'Value: $' + value.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                                    const sign = value >= 0 ? '+' : '';
+                                    return context.dataset.label + ': ' + sign + '$' + value.toFixed(2);
                                 }
                             }
                         }
@@ -1072,12 +1062,13 @@
                             ticks: {
                                 color: '#888',
                                 callback: function(value) {
-                                    return '$' + (value / 1000).toFixed(0) + 'K';
+                                    const sign = value >= 0 ? '+' : '';
+                                    return sign + '$' + value.toLocaleString();
                                 }
                             },
                             title: {
                                 display: true,
-                                text: 'Portfolio Value ($)',
+                                text: 'Profit & Loss ($)',
                                 color: '#fff',
                                 font: {
                                     size: 14,
@@ -1090,17 +1081,18 @@
                                 color: 'rgba(255,255,255,0.1)'
                             },
                             ticks: {
-                                color: '#fff',
-                                font: {
-                                    size: 14,
-                                    weight: 'bold'
-                                }
+                                color: '#888'
                             }
                         }
                     }
                 }
             });
         }
+        
+        // Update bot performance chart
+        // Update asset list
+        function updateAssetList(holdings) {
+            allHoldings = holdings;
             const container = document.getElementById('assetList');
             
             if (!holdings || holdings.length === 0) {
@@ -1109,25 +1101,19 @@
             }
             
             container.innerHTML = holdings.map((holding, index) => `
-                <div class="asset-item" data-index="${index}">
-                    <div class="asset-header" onclick="selectAsset(${index})">
+                <div class="asset-item" data-index="${index}" onclick="selectAsset(${index})">
+                    <div class="asset-header">
                         <div class="asset-symbol">${holding.symbol}</div>
                         <span class="asset-badge ${holding.is_bot_trade ? 'bot-badge' : 'manual-badge'}">
                             ${holding.is_bot_trade ? '🤖' : '👤'}
                         </span>
                     </div>
-                    <div class="asset-pnl ${holding.pnl >= 0 ? 'bullish' : 'bearish'}" onclick="selectAsset(${index})">
+                    <div class="asset-pnl ${holding.pnl >= 0 ? 'bullish' : 'bearish'}">
                         ${holding.pnl >= 0 ? '+' : ''}$${holding.pnl.toFixed(2)} (${holding.pnl_percent.toFixed(1)}%)
                     </div>
                     <div class="asset-details">
-                        <span onclick="selectAsset(${index})" style="cursor: pointer;">
-                            ${holding.current_value.toLocaleString('en-US', {style: 'currency', currency: 'USD'})} • 
-                            <span class="status-badge status-${holding.status.toLowerCase()}">${holding.status}</span>
-                        </span>
-                        <button class="sell-btn" onclick="sellPosition('${holding.position_id}', '${holding.symbol}', event)" 
-                                style="margin-left: 10px; padding: 4px 12px; background: #f44336; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold;">
-                            SELL
-                        </button>
+                        ${holding.current_value.toLocaleString('en-US', {style: 'currency', currency: 'USD'})} • 
+                        <span class="status-badge status-${holding.status.toLowerCase()}">${holding.status}</span>
                     </div>
                 </div>
             `).join('');
@@ -1144,43 +1130,6 @@
             
             // Display chart
             displayAssetChart(selectedAsset);
-        }
-        
-        // Sell position
-        async function sellPosition(positionId, symbol, event) {
-            event.stopPropagation(); // Prevent selecting asset
-            
-            if (!confirm(`Are you sure you want to SELL ${symbol}?\n\nPosition ID: ${positionId}\n\nThis will close the entire position.`)) {
-                return;
-            }
-            
-            const sellBtn = event.target;
-            sellBtn.disabled = true;
-            sellBtn.textContent = 'SELLING...';
-            sellBtn.style.background = '#999';
-            
-            try {
-                // Call backend to execute sell
-                const response = await fetch(`backend/etoro-sell-position.sh?positionId=${positionId}&symbol=${symbol}`, {
-                    method: 'POST'
-                });
-                
-                if (response.ok) {
-                    alert(`✅ ${symbol} sold successfully!\n\nRefreshing portfolio...`);
-                    loadAllData(); // Reload data
-                } else {
-                    const error = await response.text();
-                    alert(`❌ Failed to sell ${symbol}\n\nError: ${error}`);
-                    sellBtn.disabled = false;
-                    sellBtn.textContent = 'SELL';
-                    sellBtn.style.background = '#f44336';
-                }
-            } catch (error) {
-                alert(`❌ Error selling ${symbol}\n\n${error.message}`);
-                sellBtn.disabled = false;
-                sellBtn.textContent = 'SELL';
-                sellBtn.style.background = '#f44336';
-            }
         }
         
         // Display TradingView chart for selected asset
