@@ -824,17 +824,17 @@
             const botHoldings = holdings.filter(h => h.is_bot_trade);
             const manualHoldings = holdings.filter(h => !h.is_bot_trade);
             
-            // Calculate bot stats
+            // Bot stats - use REAL numbers from account, not summed holdings
             const botBudget = 1700; // Fixed budget for bot trading
-            const botValue = botHoldings.reduce((sum, h) => sum + h.current_value, 0);
+            const botValue = botHoldings.reduce((sum, h) => sum + h.current_value, 0); // Actual bot positions value
             const botPnL = botHoldings.reduce((sum, h) => sum + h.pnl, 0);
             const botPositions = botHoldings.length;
             
-            // Calculate manual stats
-            const manualValue = manualHoldings.reduce((sum, h) => sum + h.current_value, 0);
-            const manualPnL = manualHoldings.reduce((sum, h) => sum + h.pnl, 0);
-            const manualAmount = manualHoldings.reduce((sum, h) => sum + h.amount, 0);
-            const manualReturn = manualAmount > 0 ? (manualPnL / manualAmount * 100) : 0;
+            // Manual stats - calculate from account totals, not incomplete holdings sum
+            // Manual value = Total account - Bot budget
+            const manualValue = account.current_value - botBudget;
+            const manualPnL = account.total_pnl - botPnL; // All P&L minus bot P&L
+            const manualReturn = account.pnl_percent; // Use account return % (since mostly manual)
             const manualPositions = manualHoldings.length;
             
             // Update top cards
@@ -845,8 +845,9 @@
             pnlElement.className = 'overview-card-value ' + (account.total_pnl >= 0 ? 'bullish' : 'bearish');
             document.getElementById('overviewTotalPct').textContent = account.pnl_percent.toFixed(2) + '%';
             
-            document.getElementById('overviewBotValue').textContent = '$' + botValue.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-            document.getElementById('overviewBotPct').textContent = ((botValue / account.current_value) * 100).toFixed(1) + '% of total';
+            // Show bot BUDGET allocation, not current value
+            document.getElementById('overviewBotValue').textContent = '$' + botBudget.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('overviewBotPct').textContent = ((botBudget / account.current_value) * 100).toFixed(1) + '% of total';
             
             document.getElementById('overviewManualValue').textContent = '$' + manualValue.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
             document.getElementById('overviewManualPct').textContent = ((manualValue / account.current_value) * 100).toFixed(1) + '% of total';
@@ -870,9 +871,9 @@
             document.getElementById('allocationManualReturn').textContent = manualReturn.toFixed(2) + '%';
             document.getElementById('allocationManualPositions').textContent = manualPositions;
             
-            // Update allocation bars
-            const botPct = (botValue / account.current_value) * 100;
-            const manualPct = (manualValue / account.current_value) * 100;
+            // Update allocation bars - use BUDGET allocation, not current value
+            const botPct = (botBudget / account.current_value) * 100;
+            const manualPct = ((account.current_value - botBudget) / account.current_value) * 100;
             
             const botBar = document.getElementById('allocationBarBot');
             const manualBar = document.getElementById('allocationBarManual');
