@@ -1,24 +1,24 @@
 {
-  "last_update": "2026-03-03T21:56:00+02:00",
+  "last_update": "2026-03-03T22:04:00+03:00",
   "news": [
     {
-      "title": "Stock Markets in Turmoil Amid Middle East Escalation",
+      "title": "US Stocks Sharply Lower Amid Middle East Escalation",
       "source": "CNBC",
-      "time": "2026-03-03T21:56:00+02:00",
+      "time": "2026-03-03T22:04:00+03:00",
       "impact": "bearish",
       "url": "https://www.cnbc.com/2026/03/02/stock-market-today-live-updates.html"
     },
     {
-      "title": "Bitcoin Attempting to Make a Stand as Global Stock Markets Melt Down on Iran War",
+      "title": "Bitcoin Holds at $68,000 as Stocks Melt Down on Iran War Fears",
       "source": "CoinDesk",
-      "time": "2026-03-03T21:56:00+02:00",
+      "time": "2026-03-03T22:04:00+03:00",
       "impact": "neutral",
       "url": "https://www.coindesk.com/markets/2026/03/03/bitcoin-attempting-to-make-a-stand-as-global-stock-markets-melt-down-on-iran-war"
     },
     {
-      "title": "Ethereum Price Tests Support Near $1,940 as Risk Sentiment Turns Defensive",
+      "title": "Ethereum Tests Support Near $1,940 Amid Defensive Risk Sentiment",
       "source": "Seeking Alpha",
-      "time": "2026-03-03T21:56:00+02:00",
+      "time": "2026-03-03T22:04:00+03:00",
       "impact": "bearish",
       "url": "https://seekingalpha.com/article/4877752-ethereum-price-tests-support-near-1940-as-risk-sentiment-turns-defensive"
     }
