@@ -1,5 +1,5 @@
 {
-  "last_update": "2026-03-03T18:01:18.089327+02:00",
+  "last_update": "2026-03-03T18:01:38.929801+02:00",
   "account": {
     "start_date": "2026-03-02",
     "initial_capital": 38427.46,
@@ -406,7 +406,8 @@
       "status": "EXECUTED",
       "entry_time": "2026-02-01T11:28:39.626350+02:00",
       "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
+      "trade_source": "\ud83d\udc64 Manual",
+      "trader": "Manual"
     },
     {
       "position_id": "manual_qqq_1",
@@ -424,7 +425,8 @@
       "status": "EXECUTED",
       "entry_time": "2026-02-03T11:28:39.626350+02:00",
       "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
+      "trade_source": "\ud83d\udc64 Manual",
+      "trader": "Manual"
     },
     {
       "position_id": "manual_btc_2",
@@ -442,7 +444,8 @@
       "status": "EXECUTED",
       "entry_time": "2026-02-05T11:28:39.626350+02:00",
       "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
+      "trade_source": "\ud83d\udc64 Manual",
+      "trader": "Manual"
     },
     {
       "position_id": "manual_cat_3",
@@ -460,7 +463,8 @@
       "status": "EXECUTED",
       "entry_time": "2026-02-07T11:28:39.626350+02:00",
       "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
+      "trade_source": "\ud83d\udc64 Manual",
+      "trader": "Manual"
     },
     {
       "position_id": "manual_spx500_4",
@@ -478,13 +482,14 @@
       "status": "EXECUTED",
       "entry_time": "2026-02-09T11:28:39.626350+02:00",
       "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
+      "trade_source": "\ud83d\udc64 Manual",
+      "trader": "Manual"
     },
     {
       "position_id": "manual_sol_5",
       "symbol": "SOL",
       "name": "SOL",
-      "type": "stock",
+      "type": "crypto",
       "current_price": 0,
       "entry_price": 0,
       "units": 0,
@@ -496,7 +501,8 @@
       "status": "EXECUTED",
       "entry_time": "2026-02-11T11:28:39.626350+02:00",
       "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
+      "trade_source": "\ud83d\udc64 Manual",
+      "trader": "Manual"
     },
     {
       "position_id": "manual_space-investor_6",
@@ -514,7 +520,8 @@
       "status": "EXECUTED",
       "entry_time": "2026-02-13T11:28:39.626350+02:00",
       "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
+      "trade_source": "\ud83d\udc64 Manual",
+      "trader": "Manual"
     },
     {
       "position_id": "manual_eth_7",
@@ -532,7 +539,8 @@
       "status": "EXECUTED",
       "entry_time": "2026-02-15T11:28:39.626350+02:00",
       "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
+      "trade_source": "\ud83d\udc64 Manual",
+      "trader": "Manual"
     },
     {
       "position_id": "manual_xlu_8",
@@ -550,7 +558,8 @@
       "status": "EXECUTED",
       "entry_time": "2026-02-17T11:28:39.626350+02:00",
       "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
+      "trade_source": "\ud83d\udc64 Manual",
+      "trader": "Manual"
     },
     {
       "position_id": "manual_xlc_9",
@@ -568,7 +577,8 @@
       "status": "EXECUTED",
       "entry_time": "2026-02-19T11:28:39.626350+02:00",
       "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
+      "trade_source": "\ud83d\udc64 Manual",
+      "trader": "Manual"
     },
     {
       "position_id": "manual_arkx_10",
@@ -586,7 +596,8 @@
       "status": "EXECUTED",
       "entry_time": "2026-02-21T11:28:39.626350+02:00",
       "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
+      "trade_source": "\ud83d\udc64 Manual",
+      "trader": "Manual"
     },
     {
       "position_id": "manual_uuuu_11",
@@ -604,7 +615,8 @@
       "status": "EXECUTED",
       "entry_time": "2026-02-23T11:28:39.626350+02:00",
       "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
+      "trade_source": "\ud83d\udc64 Manual",
+      "trader": "Manual"
     },
     {
       "position_id": "manual_gold_12",
@@ -622,7 +634,8 @@
       "status": "EXECUTED",
       "entry_time": "2026-02-25T11:28:39.626350+02:00",
       "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
+      "trade_source": "\ud83d\udc64 Manual",
+      "trader": "Manual"
     },
     {
       "position_id": "manual_cvx_13",
@@ -640,7 +653,8 @@
       "status": "EXECUTED",
       "entry_time": "2026-02-27T11:28:39.626350+02:00",
       "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
+      "trade_source": "\ud83d\udc64 Manual",
+      "trader": "Manual"
     },
     {
       "position_id": "manual_natgas_14",
@@ -658,7 +672,8 @@
       "status": "EXECUTED",
       "entry_time": "2026-03-01T11:28:39.626350+02:00",
       "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
+      "trade_source": "\ud83d\udc64 Manual",
+      "trader": "Manual"
     },
     {
       "position_id": "manual_soxx_15",
@@ -676,7 +691,8 @@
       "status": "PENDING",
       "entry_time": "2026-03-03T11:28:39.626350+02:00",
       "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
+      "trade_source": "\ud83d\udc64 Manual",
+      "trader": "Manual"
     },
     {
       "position_id": "manual_igv_16",
@@ -694,7 +710,8 @@
       "status": "PENDING",
       "entry_time": "2026-03-05T11:28:39.626350+02:00",
       "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
+      "trade_source": "\ud83d\udc64 Manual",
+      "trader": "Manual"
     },
     {
       "position_id": "1373482995",
@@ -711,8 +728,9 @@
       "leverage": 1,
       "status": "EXECUTED",
       "entry_time": "2026-03-01T10:28:39.626248+02:00",
-      "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
+      "is_bot_trade": true,
+      "trade_source": "\ud83e\udd16 Bot",
+      "trader": "OfsInvest"
     },
     {
       "position_id": "1373429272",
@@ -729,8 +747,9 @@
       "leverage": 1,
       "status": "EXECUTED",
       "entry_time": "2026-03-01T09:28:39.626306+02:00",
-      "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
+      "is_bot_trade": true,
+      "trade_source": "\ud83e\udd16 Bot",
+      "trader": "OfsInvest"
     },
     {
       "position_id": "1373974399",
@@ -747,8 +766,9 @@
       "leverage": 1,
       "status": "EXECUTED",
       "entry_time": "2026-03-01T11:28:39.626323+02:00",
-      "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
+      "is_bot_trade": true,
+      "trade_source": "\ud83e\udd16 Bot",
+      "trader": "OfsInvest"
     },
     {
       "position_id": "1377233872",
@@ -765,8 +785,9 @@
       "leverage": 1,
       "status": "EXECUTED",
       "entry_time": "2026-03-03T17:25:25+02:00",
-      "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
+      "is_bot_trade": true,
+      "trade_source": "\ud83e\udd16 Bot",
+      "trader": "OfsInvest"
     }
   ],
   "trades": [
@@ -797,8 +818,8 @@
       "leverage": 1,
       "reason": "Best technical setup + perfect institutional support (Smart Money: 100)",
       "status": "EXECUTED",
-      "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
+      "is_bot_trade": true,
+      "trade_source": "\ud83e\udd16 Bot"
     },
     {
       "id": "manual_soxx_15",
@@ -842,8 +863,8 @@
       "leverage": 1,
       "reason": "Bot test trade - HK-2348",
       "status": "EXECUTED",
-      "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
+      "is_bot_trade": true,
+      "trade_source": "\ud83e\udd16 Bot"
     },
     {
       "id": "1373482995",
@@ -857,8 +878,8 @@
       "leverage": 1,
       "reason": "Bot test trade - HK-2348",
       "status": "EXECUTED",
-      "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
+      "is_bot_trade": true,
+      "trade_source": "\ud83e\udd16 Bot"
     },
     {
       "id": "1373429272",
@@ -872,8 +893,8 @@
       "leverage": 1,
       "reason": "Bot test trade - HK-2348",
       "status": "EXECUTED",
-      "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
+      "is_bot_trade": true,
+      "trade_source": "\ud83e\udd16 Bot"
     },
     {
       "id": "manual_cvx_13",
@@ -1088,10 +1109,10 @@
   ],
   "stats": {
     "total_positions": 21,
-    "bot_positions": 0,
-    "manual_positions": 21,
+    "bot_positions": 4,
+    "manual_positions": 17,
     "total_orders": 21,
-    "bot_orders": 0,
-    "manual_orders": 21
+    "bot_orders": 4,
+    "manual_orders": 17
   }
 }

@@ -180,7 +180,8 @@ def build_portfolio_from_tracked():
     
     for trade in tracked["orders"]:
         order_id = trade["order_id"]
-        is_bot = order_id in bot_trades["orders"]
+        # Use is_bot_trade from tracked data (already set correctly)
+        is_bot = trade.get("is_bot_trade", False)
         
         # Add to trades list
         trade_entry = {
@@ -193,10 +194,10 @@ def build_portfolio_from_tracked():
             "price": trade["price"],
             "units": trade["amount"] / trade["price"] if trade["price"] > 0 else 0,
             "leverage": trade["leverage"],
-            "reason": trade["reason"],
+            "reason": trade.get("reason", ""),
             "status": trade["status"],
             "is_bot_trade": is_bot,
-            "trade_source": "🤖 Bot" if is_bot else "👤 Manual"
+            "trade_source": trade.get("trade_source", "🤖 Bot" if is_bot else "👤 Manual")
         }
         all_trades.append(trade_entry)
         
@@ -210,7 +211,7 @@ def build_portfolio_from_tracked():
                 "position_id": order_id,
                 "symbol": trade["symbol"],
                 "name": trade["symbol"],
-                "type": "crypto" if trade["symbol"] in ["ETH", "BTC"] else "stock",
+                "type": "crypto" if trade["symbol"] in ["ETH", "BTC", "SOL", "XRP"] else "stock",
                 "current_price": trade.get("current_price", trade["price"]),
                 "entry_price": trade["price"],
                 "units": trade["amount"] / trade["price"] if trade["price"] > 0 else 0,
@@ -222,7 +223,8 @@ def build_portfolio_from_tracked():
                 "status": trade["status"],
                 "entry_time": trade["timestamp"],
                 "is_bot_trade": is_bot,
-                "trade_source": "🤖 Bot" if is_bot else "👤 Manual"
+                "trade_source": trade.get("trade_source", "🤖 Bot" if is_bot else "👤 Manual"),
+                "trader": trade.get("trader", "OfsInvest" if is_bot else "Manual")
             }
             holdings.append(holding)
             
