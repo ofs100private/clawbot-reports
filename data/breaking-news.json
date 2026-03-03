@@ -1,26 +1,26 @@
 {
-  "last_update": "2026-03-03T21:32:00+02:00",
+  "last_update": "2026-03-03T21:38:00+02:00",
   "news": [
     {
-      "title": "US Stocks Plunge Amid Escalating Iran War Fears and Oil Surge",
-      "source": "Yahoo Finance",
-      "time": "2026-03-03T21:32:00+02:00",
+      "title": "Global stock markets melt down amid Iran war escalation",
+      "source": "CoinDesk",
+      "time": "2026-03-03T21:38:00+02:00",
       "impact": "bearish",
-      "url": "https://finance.yahoo.com/news/live/stock-market-today-dow-falls-by-700-points-sp-500-and-nasdaq-sink-as-oil-surges-amid-war-worries-150425336.html"
+      "url": "https://www.coindesk.com/markets/2026/03/03/bitcoin-attempting-to-make-a-stand-as-global-stock-markets-melt-down-on-iran-war"
     },
     {
-      "title": "Bitcoin Surges Toward $70,000 Despite Broader Market Turmoil",
-      "source": "CryptoSlate",
-      "time": "2026-03-03T21:32:00+02:00",
-      "impact": "bullish",
-      "url": "https://cryptoslate.com/"
+      "title": "Bitcoin attempts to hold steady as equities tumble",
+      "source": "CoinDesk",
+      "time": "2026-03-03T21:38:00+02:00",
+      "impact": "neutral",
+      "url": "https://www.coindesk.com/markets/2026/03/03/bitcoin-attempting-to-make-a-stand-as-global-stock-markets-melt-down-on-iran-war"
     },
     {
-      "title": "Crypto Miners Sell Holdings as Iran Tensions Increase Volatility",
-      "source": "Investors.com",
-      "time": "2026-03-03T21:32:00+02:00",
+      "title": "Momentum trades break with gold, silver, and South Korea down big",
+      "source": "CNBC",
+      "time": "2026-03-03T21:38:00+02:00",
       "impact": "bearish",
-      "url": "https://www.investors.com/news/bitcoin-miners-sell-holdings-mara-core-scientific-iran-cryptocurrency-outflows"
+      "url": "https://www.cnbc.com/2026/03/03/the-momentum-trades-of-2026-are-breaking-with-gold-silver-and-south-korea-down-big.html"
     }
   ]
 }
