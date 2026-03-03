@@ -1,1 +1,26 @@
-{"last_update": "2026-03-03T19:41:00+02:00", "news": [{"title": "Global Stocks Plunge on Iran War Escalation, Oil Surges", "source": "Economic Times", "time": "2026-03-03T19:41:00+02:00", "impact": "bearish", "url": "https://m.economictimes.com/news/international/us/is-a-recession-coming-why-global-stock-markets-are-crashing-right-now-as-more-than-3-2-trillion-in-market-value-evaporates-and-brent-crude-nears-85-a-barrel-amid-the-us-israel-iran-war/articleshow/128977112.cms"}, {"title": "Dow Jones Plunges Over 1,100 Points Amid Recession Fears", "source": "MarketWatch", "time": "2026-03-03T19:41:00+02:00", "impact": "bearish", "url": "https://www.marketwatch.com/?gaa_at=eafs&gaa_n=AWEtsqdYQT8l9wLkSjI4bRpxWrnTGXW7PXOoOoj0f3iJOXDt8J8C3GZqOVYn&gaa_sig=Z4hytTk_8oqp3leYZUJNA7DXLUZJpUjGaaKCKJdrehTjtyl9-RQB_eCi5hm83IHPMcD3g2he0EV87UAAQgZRfg%3D%3D&gaa_ts=69a71fb5"}, {"title": "Bitcoin Rallying Back to $68,000 Despite Market Meltdown", "source": "CoinDesk", "time": "2026-03-03T19:41:00+02:00", "impact": "bullish", "url": "https://www.coindesk.com/markets/2026/03/03/bitcoin-attempting-to-make-a-stand-as-global-stock-markets-melt-down-on-iran-war"}]}
+{
+  "last_update": "2026-03-03T19:54:00+02:00",
+  "news": [
+    {
+      "title": "Dow Jones Plunges Over 600 Points Amid Iran War Tensions",
+      "source": "WSJ",
+      "time": "2026-03-03T19:54:00+02:00",
+      "impact": "bearish",
+      "url": "https://www.wsj.com/livecoverage/stock-market-today-dow-sp-500-nasdaq-03-03-2026"
+    },
+    {
+      "title": "Oil Prices Surge on Middle East Conflict Fears",
+      "source": "Bloomberg",
+      "time": "2026-03-03T19:54:00+02:00",
+      "impact": "bullish",
+      "url": "https://www.bloomberg.com/news/articles/2026-03-02/asia-poised-for-weak-open-after-treasuries-sink-markets-wrap"
+    },
+    {
+      "title": "Bitcoin Climbs to $68,000 as Global Stocks Melt Down",
+      "source": "CoinDesk",
+      "time": "2026-03-03T19:54:00+02:00",
+      "impact": "bullish",
+      "url": "https://www.coindesk.com/markets/2026/03/03/bitcoin-attempting-to-make-a-stand-as-global-stock-markets-melt-down-on-iran-war"
+    }
+  ]
+}
