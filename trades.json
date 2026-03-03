@@ -1,13 +1,13 @@
 {
-  "last_update": "2026-03-03T10:29:08.395222+02:00",
+  "last_update": "2026-03-03T10:29:44.230898+02:00",
   "account": {
     "start_date": "2026-03-02",
-    "initial_capital": 21625.34,
-    "current_value": 25136.28847656,
-    "cash": 0.0,
-    "equity": 25136.28847656,
-    "total_pnl": 3510.94847656,
-    "pnl_percent": 16.235344630697135
+    "initial_capital": 37059.11,
+    "current_value": 40787.08,
+    "cash": 3018.72,
+    "equity": 37768.36,
+    "total_pnl": 709.25,
+    "pnl_percent": 1.91
   },
   "performance_history": [
     {
@@ -544,6 +544,11 @@
       "timestamp": "2026-03-03T10:29:08.395222+02:00",
       "value": 25136.28847656,
       "pnl": 3510.94847656
+    },
+    {
+      "timestamp": "2026-03-03T10:29:44.230898+02:00",
+      "value": 40787.08,
+      "pnl": 709.25
     }
   ],
   "holdings": [
@@ -953,5 +958,19 @@
     "total_orders": 12,
     "bot_orders": 0,
     "manual_orders": 12
-  }
+  },
+  "bot": {
+    "budget": 1700.0,
+    "current_value": 0.0,
+    "pnl": 0.0,
+    "pnl_percent": 0.0,
+    "positions": 0
+  },
+  "bot_performance_history": [
+    {
+      "timestamp": "2026-03-03T10:29:44.230898+02:00",
+      "value": 0.0,
+      "pnl": 0.0
+    }
+  ]
 }
