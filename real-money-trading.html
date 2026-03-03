@@ -718,51 +718,30 @@
             </div>
         </div>
         
-        <!-- Performance Overview: Full Account -->
+        <!-- Performance Overview: Combined Chart -->
         <div class="performance-section">
             <div class="performance-header">
-                <h2>📈 Full Account Performance</h2>
+                <h2>📈 Performance Comparison: Manual vs Bot</h2>
                 <div class="performance-stats">
                     <div class="stat">
-                        <div class="stat-label">Portfolio Value</div>
+                        <div class="stat-label">👤 Manual Portfolio</div>
+                        <div class="stat-value" id="manualValue">$--</div>
+                        <div class="stat-trend" id="manualPnL">$--</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">🤖 Bot Trading</div>
+                        <div class="stat-value" id="botValue">$--</div>
+                        <div class="stat-trend" id="botPnL">$--</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">💰 Total Account</div>
                         <div class="stat-value" id="totalValue">$--</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-label">Total P&L</div>
-                        <div class="stat-value" id="totalPnL">$--</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-label">Return %</div>
-                        <div class="stat-value" id="returnPct">--%</div>
+                        <div class="stat-trend" id="totalPnL">$--</div>
                     </div>
                 </div>
             </div>
             <div class="chart-container">
                 <canvas id="performanceChart"></canvas>
-            </div>
-        </div>
-        
-        <!-- Performance Overview: Bot Only -->
-        <div class="performance-section">
-            <div class="performance-header">
-                <h2>🤖 Bot Trading Performance</h2>
-                <div class="performance-stats">
-                    <div class="stat">
-                        <div class="stat-label">Bot Value</div>
-                        <div class="stat-value" id="botValue">$--</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-label">Bot P&L</div>
-                        <div class="stat-value" id="botPnL">$--</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-label">Bot Return %</div>
-                        <div class="stat-value" id="botReturnPct">--%</div>
-                    </div>
-                </div>
-            </div>
-            <div class="chart-container">
-                <canvas id="botPerformanceChart"></canvas>
             </div>
         </div>
         
@@ -808,7 +787,6 @@
         const NEWS_REFRESH_INTERVAL = 300000; // 5 minutes
         
         let performanceChart = null;
-        let botPerformanceChart = null;
         let currentTradingViewWidget = null;
         let allHoldings = [];
         let selectedAsset = null;
@@ -832,10 +810,22 @@
                 console.log('Loaded trades data:', data);
                 
                 updatePortfolioOverview(data);
-                updatePerformanceStats(data.account);
-                updateBotStats(data.bot || {budget: 1700, current_value: 0, pnl: 0, pnl_percent: 0});
-                updatePerformanceChart(data.performance_history || [], data.trades);
-                updateBotPerformanceChart(data.bot_performance_history || [{timestamp: new Date().toISOString(), value: 1700, pnl: 0}]);
+                updatePerformanceStats(data.account, data.bot);
+                
+                // Calculate manual portfolio history (total - bot budget)
+                const manualHistory = (data.performance_history || []).map(h => ({
+                    timestamp: h.timestamp,
+                    value: h.value - (data.bot?.budget || 1700),
+                    pnl: h.pnl - ((data.bot?.pnl || 0))
+                }));
+                
+                const botHistory = data.bot_performance_history || [{
+                    timestamp: new Date().toISOString(),
+                    value: 1700,
+                    pnl: 0
+                }];
+                
+                updatePerformanceChart(manualHistory, botHistory);
                 updateAssetList(data.holdings || []);
             } catch (error) {
                 console.error('Error loading trades data:', error);
@@ -971,55 +961,85 @@
         }
         
         // Update performance stats
-        function updatePerformanceStats(account) {
-            document.getElementById('totalValue').textContent = '$' + account.current_value.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-            document.getElementById('totalPnL').textContent = '$' + account.total_pnl.toFixed(2);
-            document.getElementById('totalPnL').className = 'stat-value ' + (account.total_pnl >= 0 ? 'bullish' : 'bearish');
-            document.getElementById('returnPct').textContent = account.pnl_percent.toFixed(2) + '%';
-            document.getElementById('returnPct').className = 'stat-value ' + (account.pnl_percent >= 0 ? 'bullish' : 'bearish');
-        }
-        
-        // Update bot stats
-        function updateBotStats(bot) {
+        function updatePerformanceStats(account, bot) {
+            bot = bot || {budget: 1700, current_value: 0, pnl: 0, pnl_percent: 0};
+            
+            // Calculate manual portfolio (account - bot budget)
+            const manualValue = account.current_value - bot.budget;
+            const manualPnL = account.total_pnl - bot.pnl;
+            
+            // Update manual stats
+            document.getElementById('manualValue').textContent = '$' + manualValue.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('manualPnL').textContent = (manualPnL >= 0 ? '+' : '') + '$' + manualPnL.toFixed(2);
+            document.getElementById('manualPnL').className = 'stat-trend ' + (manualPnL >= 0 ? 'bullish' : 'bearish');
+            
+            // Update bot stats
             document.getElementById('botValue').textContent = '$' + bot.current_value.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-            document.getElementById('botPnL').textContent = '$' + bot.pnl.toFixed(2);
-            document.getElementById('botPnL').className = 'stat-value ' + (bot.pnl >= 0 ? 'bullish' : 'bearish');
-            document.getElementById('botReturnPct').textContent = bot.pnl_percent.toFixed(2) + '%';
-            document.getElementById('botReturnPct').className = 'stat-value ' + (bot.pnl_percent >= 0 ? 'bullish' : 'bearish');
+            document.getElementById('botPnL').textContent = (bot.pnl >= 0 ? '+' : '') + '$' + bot.pnl.toFixed(2);
+            document.getElementById('botPnL').className = 'stat-trend ' + (bot.pnl >= 0 ? 'bullish' : 'bearish');
+            
+            // Update total stats
+            document.getElementById('totalValue').textContent = '$' + account.current_value.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('totalPnL').textContent = (account.total_pnl >= 0 ? '+' : '') + '$' + account.total_pnl.toFixed(2);
+            document.getElementById('totalPnL').className = 'stat-trend ' + (account.total_pnl >= 0 ? 'bullish' : 'bearish');
         }
         
         // Update performance chart
-        function updatePerformanceChart(history, trades) {
+        function updatePerformanceChart(manualHistory, botHistory) {
             const ctx = document.getElementById('performanceChart').getContext('2d');
             
             if (performanceChart) {
                 performanceChart.destroy();
             }
             
-            const labels = history.map(h => new Date(h.timestamp).toLocaleTimeString());
-            const values = history.map(h => h.value);
+            // Use manual history timestamps as the main timeline
+            const labels = manualHistory.map(h => new Date(h.timestamp).toLocaleTimeString());
+            const manualValues = manualHistory.map(h => h.value);
+            const botValues = botHistory.map(h => h.value);
             
             performanceChart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: labels,
-                    datasets: [{
-                        label: 'Portfolio Value',
-                        data: values,
-                        borderColor: '#667eea',
-                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
-                        tension: 0.4,
-                        fill: true,
-                        pointRadius: 4,
-                        pointHoverRadius: 6
-                    }]
+                    datasets: [
+                        {
+                            label: '👤 Manual Portfolio',
+                            data: manualValues,
+                            borderColor: '#4caf50',
+                            backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                            tension: 0.4,
+                            fill: true,
+                            pointRadius: 4,
+                            pointHoverRadius: 6,
+                            borderWidth: 2
+                        },
+                        {
+                            label: '🤖 Bot Trading',
+                            data: botValues,
+                            borderColor: '#764ba2',
+                            backgroundColor: 'rgba(118, 75, 162, 0.1)',
+                            tension: 0.4,
+                            fill: true,
+                            pointRadius: 4,
+                            pointHoverRadius: 6,
+                            borderWidth: 2
+                        }
+                    ]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
                         legend: {
-                            display: false
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                color: '#fff',
+                                font: {
+                                    size: 14
+                                },
+                                padding: 20
+                            }
                         },
                         tooltip: {
                             mode: 'index',
@@ -1027,7 +1047,6 @@
                             backgroundColor: 'rgba(0,0,0,0.8)',
                             titleColor: '#fff',
                             bodyColor: '#fff',
-                            borderColor: '#667eea',
                             borderWidth: 1
                         }
                     },
@@ -1057,73 +1076,6 @@
         }
         
         // Update bot performance chart
-        function updateBotPerformanceChart(history) {
-            const ctx = document.getElementById('botPerformanceChart').getContext('2d');
-            
-            if (botPerformanceChart) {
-                botPerformanceChart.destroy();
-            }
-            
-            const labels = history.map(h => new Date(h.timestamp).toLocaleTimeString());
-            const values = history.map(h => h.value);
-            
-            botPerformanceChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Bot Value',
-                        data: values,
-                        borderColor: '#764ba2',
-                        backgroundColor: 'rgba(118, 75, 162, 0.1)',
-                        tension: 0.4,
-                        fill: true,
-                        pointRadius: 4,
-                        pointHoverRadius: 6
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            mode: 'index',
-                            intersect: false,
-                            backgroundColor: 'rgba(0,0,0,0.8)',
-                            titleColor: '#fff',
-                            bodyColor: '#fff',
-                            borderColor: '#764ba2',
-                            borderWidth: 1
-                        }
-                    },
-                    scales: {
-                        y: {
-                            grid: {
-                                color: 'rgba(255,255,255,0.1)'
-                            },
-                            ticks: {
-                                color: '#888',
-                                callback: function(value) {
-                                    return '$' + value.toLocaleString();
-                                }
-                            }
-                        },
-                        x: {
-                            grid: {
-                                color: 'rgba(255,255,255,0.1)'
-                            },
-                            ticks: {
-                                color: '#888'
-                            }
-                        }
-                    }
-                }
-            });
-        }
-        
         // Update asset list
         function updateAssetList(holdings) {
             allHoldings = holdings;
