@@ -98,9 +98,10 @@ def map_status_id(status_id):
     """Map eToro status ID to readable status"""
     status_map = {
         1: "PENDING",
-        2: "EXECUTED",
-        3: "CANCELLED",
-        4: "REJECTED",
+        2: "PARTIALLY_FILLED",
+        3: "EXECUTED",        # statusID=3 = ORDER FILLED/EXECUTED ✅
+        4: "CANCELLED",       # statusID=4 = ORDER CANCELLED ❌
+        5: "REJECTED",
         11: "PENDING_EXECUTION"
     }
     return status_map.get(status_id, f"UNKNOWN_{status_id}")
