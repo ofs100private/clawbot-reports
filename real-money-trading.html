@@ -681,25 +681,9 @@
             </div>
         </div>
         
-        <!-- Top Section: News + Sentiment -->
+        <!-- Top Section: Sentiment Only -->
         <div class="top-section">
-            <div class="news-section">
-                <div class="news-header">
-                    <span class="news-live"></span>
-                    <span>📰 Breaking News</span>
-                </div>
-                <div class="news-grid" id="newsGrid">
-                    <div class="news-item">
-                        <div class="news-title">Loading market news...</div>
-                        <div class="news-meta">
-                            <span>Market Wire</span>
-                            <span id="newsTime">--:--</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="sentiment-section">
+            <div class="sentiment-section" style="grid-column: 1 / -1;">
                 <div class="metric-card">
                     <div class="metric-label">Fear & Greed</div>
                     <div class="metric-value" id="fearGreed">--</div>
@@ -795,8 +779,7 @@
         async function loadAllData() {
             await Promise.all([
                 loadTradesData(),
-                loadSentimentData(),
-                loadNewsData()
+                loadSentimentData()
             ]);
             document.getElementById('lastUpdate').textContent = `Last update: ${new Date().toLocaleTimeString()}`;
         }
@@ -939,26 +922,6 @@
             return '➡️';
         }
         
-        // Load news data
-        async function loadNewsData() {
-            try {
-                const response = await fetch('data/breaking-news.json?v=' + Date.now());
-                const data = await response.json();
-                
-                const newsGrid = document.getElementById('newsGrid');
-                newsGrid.innerHTML = data.news.map(item => `
-                    <div class="news-item">
-                        <div class="news-title">${item.title}</div>
-                        <div class="news-meta">
-                            <span>${item.source}</span>
-                            <span>${new Date(item.time).toLocaleTimeString()}</span>
-                        </div>
-                    </div>
-                `).join('');
-            } catch (error) {
-                console.error('Error loading news data:', error);
-            }
-        }
         
         // Update performance stats
         function updatePerformanceStats(account, bot) {
@@ -1228,7 +1191,6 @@
         
         // Auto-refresh
         setInterval(loadAllData, DATA_REFRESH_INTERVAL);
-        setInterval(loadNewsData, NEWS_REFRESH_INTERVAL);
     </script>
 </body>
 </html>
