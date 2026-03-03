@@ -1,24 +1,24 @@
 {
-  "last_update": "2026-03-03T21:04:00+02:00",
+  "last_update": "2026-03-03T21:10:00+02:00",
   "news": [
     {
-      "title": "Global stocks plunge on Iran escalation, Dow down over 600 points",
+      "title": "Global Stocks Plunge Amid Iran Escalation, Dow Down Over 600 Points",
       "source": "WSJ",
-      "time": "2026-03-03T21:04:00+02:00",
+      "time": "2026-03-03T21:10:00+02:00",
       "impact": "bearish",
       "url": "https://www.wsj.com/livecoverage/stock-market-today-dow-sp-500-nasdaq-03-03-2026?gaa_at=eafs&gaa_n=AWEtsqdpHWI85llxFwxX2PL2Pz17-Prl1Bc-T1kfNJMRXl_9CZbzcLlfUDxP&gaa_sig=WUH_nJ8c3nRQYk38rns5AHUxDu0KVg3ubZRy0hsOSz1fREZUd9KwVw2GxQumREvywTYG7cNmM3Q9lBUqCysOmA%3D%3D&gaa_ts=69a73461"
     },
     {
-      "title": "Bitcoin rebounds to $68,000 amid market turmoil, showing resilience",
+      "title": "Bitcoin Rebounds to $68,000 as Global Stock Markets Melt Down on Iran War",
       "source": "CoinDesk",
-      "time": "2026-03-03T21:04:00+02:00",
+      "time": "2026-03-03T21:10:00+02:00",
       "impact": "bullish",
       "url": "https://www.coindesk.com/markets/2026/03/03/bitcoin-attempting-to-make-a-stand-as-global-stock-markets-melt-down-on-iran-war"
     },
     {
-      "title": "Iranian crypto outflows spike; Bitcoin miners MARA and Core Scientific tumble",
+      "title": "Iranian Crypto Outflows Spike; Bitcoin Miners Like MARA and Core Scientific Tumble",
       "source": "Investors.com",
-      "time": "2026-03-03T21:04:00+02:00",
+      "time": "2026-03-03T21:10:00+02:00",
       "impact": "bearish",
       "url": "https://www.investors.com/news/bitcoin-miners-sell-holdings-mara-core-scientific-iran-cryptocurrency-outflows"
     }
