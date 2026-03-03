@@ -721,7 +721,7 @@
         <!-- Performance Overview: Combined Chart -->
         <div class="performance-section">
             <div class="performance-header">
-                <h2>📈 Performance Comparison: Manual vs Bot</h2>
+                <h2>📊 Profit & Loss: Manual Portfolio vs Bot Trading</h2>
                 <div class="performance-stats">
                     <div class="stat">
                         <div class="stat-label">👤 Manual Portfolio</div>
@@ -992,36 +992,28 @@
                 performanceChart.destroy();
             }
             
-            // Use manual history timestamps as the main timeline
+            // Calculate P&L for each timestamp
             const labels = manualHistory.map(h => new Date(h.timestamp).toLocaleTimeString());
-            const manualValues = manualHistory.map(h => h.value);
-            const botValues = botHistory.map(h => h.value);
+            const manualPnL = manualHistory.map(h => h.pnl || 0);
+            const botPnL = botHistory.map(h => h.pnl || 0);
             
             performanceChart = new Chart(ctx, {
-                type: 'line',
+                type: 'bar',
                 data: {
                     labels: labels,
                     datasets: [
                         {
-                            label: '👤 Manual Portfolio',
-                            data: manualValues,
-                            borderColor: '#4caf50',
-                            backgroundColor: 'rgba(76, 175, 80, 0.1)',
-                            tension: 0.4,
-                            fill: true,
-                            pointRadius: 4,
-                            pointHoverRadius: 6,
+                            label: '👤 Manual Portfolio P&L',
+                            data: manualPnL,
+                            backgroundColor: manualPnL.map(v => v >= 0 ? 'rgba(76, 175, 80, 0.8)' : 'rgba(244, 67, 54, 0.8)'),
+                            borderColor: manualPnL.map(v => v >= 0 ? '#4caf50' : '#f44336'),
                             borderWidth: 2
                         },
                         {
-                            label: '🤖 Bot Trading',
-                            data: botValues,
-                            borderColor: '#764ba2',
-                            backgroundColor: 'rgba(118, 75, 162, 0.1)',
-                            tension: 0.4,
-                            fill: true,
-                            pointRadius: 4,
-                            pointHoverRadius: 6,
+                            label: '🤖 Bot Trading P&L',
+                            data: botPnL,
+                            backgroundColor: botPnL.map(v => v >= 0 ? 'rgba(118, 75, 162, 0.8)' : 'rgba(244, 67, 54, 0.8)'),
+                            borderColor: botPnL.map(v => v >= 0 ? '#764ba2' : '#f44336'),
                             borderWidth: 2
                         }
                     ]
@@ -1047,18 +1039,39 @@
                             backgroundColor: 'rgba(0,0,0,0.8)',
                             titleColor: '#fff',
                             bodyColor: '#fff',
-                            borderWidth: 1
+                            borderWidth: 1,
+                            callbacks: {
+                                label: function(context) {
+                                    const value = context.parsed.y;
+                                    const sign = value >= 0 ? '+' : '';
+                                    return context.dataset.label + ': ' + sign + '$' + value.toFixed(2);
+                                }
+                            }
                         }
                     },
                     scales: {
                         y: {
+                            beginAtZero: true,
                             grid: {
-                                color: 'rgba(255,255,255,0.1)'
+                                color: 'rgba(255,255,255,0.1)',
+                                drawBorder: true,
+                                zeroLineColor: '#ffffff',
+                                zeroLineWidth: 2
                             },
                             ticks: {
                                 color: '#888',
                                 callback: function(value) {
-                                    return '$' + value.toLocaleString();
+                                    const sign = value >= 0 ? '+' : '';
+                                    return sign + '$' + value.toLocaleString();
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Profit & Loss ($)',
+                                color: '#fff',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
                                 }
                             }
                         },
