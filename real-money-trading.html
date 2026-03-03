@@ -721,7 +721,7 @@
         <!-- Performance Overview: Combined Chart -->
         <div class="performance-section">
             <div class="performance-header">
-                <h2>📊 Profit & Loss: Manual Portfolio vs Bot Trading</h2>
+                <h2>📊 Portfolio Value: Manual vs Bot Trading</h2>
                 <div class="performance-stats">
                     <div class="stat">
                         <div class="stat-label">👤 Manual Portfolio</div>
@@ -993,28 +993,26 @@
                 performanceChart.destroy();
             }
             
-            // Calculate P&L for each timestamp
-            const labels = manualHistory.map(h => new Date(h.timestamp).toLocaleTimeString());
-            const manualPnL = manualHistory.map(h => h.pnl || 0);
-            const botPnL = botHistory.map(h => h.pnl || 0);
+            // Get latest values (current portfolio value)
+            const manualValue = manualHistory.length > 0 ? manualHistory[manualHistory.length - 1].value : 0;
+            const botValue = botHistory.length > 0 ? botHistory[botHistory.length - 1].value : 0;
             
             performanceChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: labels,
+                    labels: ['Manual Portfolio', 'Bot Trading'],
                     datasets: [
                         {
-                            label: '👤 Manual Portfolio P&L',
-                            data: manualPnL,
-                            backgroundColor: manualPnL.map(v => v >= 0 ? 'rgba(76, 175, 80, 0.8)' : 'rgba(244, 67, 54, 0.8)'),
-                            borderColor: manualPnL.map(v => v >= 0 ? '#4caf50' : '#f44336'),
-                            borderWidth: 2
-                        },
-                        {
-                            label: '🤖 Bot Trading P&L',
-                            data: botPnL,
-                            backgroundColor: botPnL.map(v => v >= 0 ? 'rgba(118, 75, 162, 0.8)' : 'rgba(244, 67, 54, 0.8)'),
-                            borderColor: botPnL.map(v => v >= 0 ? '#764ba2' : '#f44336'),
+                            label: 'Portfolio Value',
+                            data: [manualValue, botValue],
+                            backgroundColor: [
+                                'rgba(76, 175, 80, 0.8)',  // Green for Manual
+                                'rgba(118, 75, 162, 0.8)'  // Purple for Bot
+                            ],
+                            borderColor: [
+                                '#4caf50',  // Green border
+                                '#764ba2'   // Purple border
+                            ],
                             borderWidth: 2
                         }
                     ]
@@ -1022,21 +1020,12 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    indexAxis: 'x',
                     plugins: {
                         legend: {
-                            display: true,
-                            position: 'top',
-                            labels: {
-                                color: '#fff',
-                                font: {
-                                    size: 14
-                                },
-                                padding: 20
-                            }
+                            display: false
                         },
                         tooltip: {
-                            mode: 'index',
-                            intersect: false,
                             backgroundColor: 'rgba(0,0,0,0.8)',
                             titleColor: '#fff',
                             bodyColor: '#fff',
@@ -1044,8 +1033,7 @@
                             callbacks: {
                                 label: function(context) {
                                     const value = context.parsed.y;
-                                    const sign = value >= 0 ? '+' : '';
-                                    return context.dataset.label + ': ' + sign + '$' + value.toFixed(2);
+                                    return 'Value: $' + value.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
                                 }
                             }
                         }
@@ -1055,20 +1043,17 @@
                             beginAtZero: true,
                             grid: {
                                 color: 'rgba(255,255,255,0.1)',
-                                drawBorder: true,
-                                zeroLineColor: '#ffffff',
-                                zeroLineWidth: 2
+                                drawBorder: true
                             },
                             ticks: {
                                 color: '#888',
                                 callback: function(value) {
-                                    const sign = value >= 0 ? '+' : '';
-                                    return sign + '$' + value.toLocaleString();
+                                    return '$' + (value / 1000).toFixed(0) + 'K';
                                 }
                             },
                             title: {
                                 display: true,
-                                text: 'Profit & Loss ($)',
+                                text: 'Portfolio Value ($)',
                                 color: '#fff',
                                 font: {
                                     size: 14,
@@ -1081,7 +1066,11 @@
                                 color: 'rgba(255,255,255,0.1)'
                             },
                             ticks: {
-                                color: '#888'
+                                color: '#fff',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                }
                             }
                         }
                     }
