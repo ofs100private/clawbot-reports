@@ -1,26 +1,26 @@
 {
-  "last_update": "2026-03-03T20:09:00+03:00",
+  "last_update": "2026-03-03T20:17:00+03:00",
   "news": [
     {
-      "title": "Global stocks plunging amid escalating Iran war tensions, with oil prices surging",
+      "title": "U.S. Stocks Plunge on Middle East Tensions, Dow Drops Over 600 Points",
       "source": "WSJ",
-      "time": "2026-03-03T20:09:00+03:00",
+      "time": "2026-03-03T20:17:00+03:00",
       "impact": "bearish",
-      "url": "https://www.wsj.com/livecoverage/stock-market-today-dow-sp-500-nasdaq-03-03-2026?gaa_at=eafs&gaa_n=AWEtsqejsVWjj9voIb4oqebmZuGOckF9499ZjkIU29h-xVb0GHNOT3jEw2i1&gaa_sig=_-E_LasIOAERPh0qFgni3mpyTV14R7lwmIiISEcQVuB1E3Wx8BHHbFv08EdpkreTWVyv0NKeIzOp2m6XvKnHSQ%3D%3D&gaa_ts=69a723f4"
+      "url": "https://www.wsj.com/livecoverage/stock-market-today-dow-sp-500-nasdaq-03-03-2026"
     },
     {
-      "title": "Bitcoin attempting to make a stand as global stock markets melt down on Iran war",
+      "title": "Oil Prices Surge Amid Escalating Iran Conflict",
+      "source": "Bloomberg",
+      "time": "2026-03-03T20:17:00+03:00",
+      "impact": "bullish",
+      "url": "https://www.bloomberg.com/news/articles/2026-03-02/asia-poised-for-weak-open-after-treasuries-sink-markets-wrap"
+    },
+    {
+      "title": "Bitcoin Bucks Trend, Climbs to $68,000 as Stocks Tumble",
       "source": "CoinDesk",
-      "time": "2026-03-03T20:09:00+03:00",
-      "impact": "neutral",
+      "time": "2026-03-03T20:17:00+03:00",
+      "impact": "bullish",
       "url": "https://www.coindesk.com/markets/2026/03/03/bitcoin-attempting-to-make-a-stand-as-global-stock-markets-melt-down-on-iran-war"
-    },
-    {
-      "title": "Dow plunges as oil prices leap higher on war worries",
-      "source": "LA Times",
-      "time": "2026-03-03T20:09:00+03:00",
-      "impact": "bearish",
-      "url": "https://www.latimes.com/business/story/2026-03-03/dow-plunges-as-oil-prices-leap-higher-on-war-worries"
     }
   ]
 }
