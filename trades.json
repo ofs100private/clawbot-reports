@@ -499,6 +499,45 @@
       "entry_time": "2026-03-01T11:28:39.626323+02:00",
       "is_bot_trade": false,
       "trade_source": "\ud83d\udc64 Manual"
+    },
+    {
+      "symbol": "HK-2348",
+      "action": "BUY",
+      "amount": 100,
+      "current_value": 100,
+      "pnl": -0.44,
+      "pnl_percent": -0.44,
+      "leverage": 1,
+      "is_bot_trade": true,
+      "trade_source": "\ud83e\udd16 Bot",
+      "status": "CLOSED",
+      "entry_date": "2026-03-01T09:28:00+02:00"
+    },
+    {
+      "symbol": "HK-2348",
+      "action": "BUY",
+      "amount": 150,
+      "current_value": 150,
+      "pnl": -0.66,
+      "pnl_percent": -0.44,
+      "leverage": 1,
+      "is_bot_trade": true,
+      "trade_source": "\ud83e\udd16 Bot",
+      "status": "CLOSED",
+      "entry_date": "2026-03-01T10:28:00+02:00"
+    },
+    {
+      "symbol": "HK-2348",
+      "action": "BUY",
+      "amount": 100,
+      "current_value": 100,
+      "pnl": -0.44,
+      "pnl_percent": -0.44,
+      "leverage": 1,
+      "is_bot_trade": true,
+      "trade_source": "\ud83e\udd16 Bot",
+      "status": "CLOSED",
+      "entry_date": "2026-03-01T11:28:00+02:00"
     }
   ],
   "trades": [
