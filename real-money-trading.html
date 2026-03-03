@@ -804,31 +804,64 @@
         // Load trading data
         async function loadTradesData() {
             try {
-                const response = await fetch('trades.json?nocache=' + Date.now());
+                console.log('Loading trades data...');
+                const response = await fetch('trades.json?t=' + Date.now());
+                
+                if (!response.ok) {
+                    throw new Error('HTTP ' + response.status);
+                }
+                
                 const data = await response.json();
+                console.log('✅ Data loaded:', data);
                 
-                console.log('Loaded trades data:', data);
+                // VALIDATE required keys
+                if (!data.account) throw new Error('Missing account data');
+                if (!data.bot) throw new Error('Missing bot data');
+                if (!data.holdings) throw new Error('Missing holdings data');
                 
-                updatePortfolioOverview(data);
-                updatePerformanceStats(data.account, data.bot);
+                // Extract data
+                const account = data.account;
+                const bot = data.bot;
+                const holdings = data.holdings || [];
                 
-                // Calculate manual portfolio history (total - bot budget)
-                const manualHistory = (data.performance_history || []).map(h => ({
-                    timestamp: h.timestamp,
-                    value: h.value - (data.bot?.budget || 1700),
-                    pnl: h.pnl - ((data.bot?.pnl || 0))
-                }));
+                // UPDATE TOP CARDS - Direct and simple
+                document.getElementById('overviewTotalValue').textContent = 
+                    '$' + account.current_value.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
                 
-                const botHistory = data.bot_performance_history || [{
-                    timestamp: new Date().toISOString(),
-                    value: 1700,
-                    pnl: 0
-                }];
+                document.getElementById('overviewTotalPnL').textContent = 
+                    '$' + account.total_pnl.toFixed(2);
+                document.getElementById('overviewTotalPnL').className = 
+                    'overview-card-value ' + (account.total_pnl >= 0 ? 'bullish' : 'bearish');
                 
-                updatePerformanceChart(manualHistory, botHistory);
-                updateAssetList(data.holdings || []);
+                document.getElementById('overviewTotalPct').textContent = 
+                    account.pnl_percent.toFixed(2) + '%';
+                
+                document.getElementById('overviewBotValue').textContent = 
+                    '$' + bot.budget.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                
+                const manualValue = account.current_value - bot.budget;
+                document.getElementById('overviewManualValue').textContent = 
+                    '$' + manualValue.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                
+                // Performance stats
+                updatePerformanceStats(account, bot);
+                
+                // Chart - calculate values
+                const botHoldings = holdings.filter(h => h.is_bot_trade);
+                const manualHoldings = holdings.filter(h => !h.is_bot_trade);
+                const botTotalValue = botHoldings.reduce((sum, h) => sum + (h.current_value || 0), 0);
+                const manualTotalValue = manualHoldings.reduce((sum, h) => sum + (h.current_value || 0), 0);
+                
+                updatePerformanceChart(manualTotalValue, botTotalValue);
+                
+                // Assets
+                updateAssetList(holdings);
+                
+                console.log('✅ Dashboard updated successfully');
+                
             } catch (error) {
-                console.error('Error loading trades data:', error);
+                console.error('❌ Dashboard Error:', error);
+                alert('Dashboard failed to load: ' + error.message);
             }
         }
         
