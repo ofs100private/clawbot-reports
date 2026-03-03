@@ -1,26 +1,26 @@
 {
-  "last_update": "2026-03-03T22:49:00+03:00",
+  "last_update": "2026-03-03T22:54:00+02:00",
   "news": [
     {
-      "title": "Stocks Plunge on US-Iran Escalation, Oil Surges",
-      "source": "Fox Business",
-      "time": "2026-03-03T22:49:00+03:00",
+      "title": "Global Stocks Tumble on Escalating US-Iran Conflict",
+      "source": "Yahoo Finance",
+      "time": "2026-03-03T22:54:00+02:00",
       "impact": "bearish",
-      "url": "https://www.foxbusiness.com/stocks"
+      "url": "https://finance.yahoo.com/news/live/stock-market-today-dow-sp-500-and-nasdaq-slide-as-oil-rises-amid-war-worries-193537739.html"
     },
     {
-      "title": "Bitcoin Attempting to Make a Stand as Global Stock Markets Melt Down on Iran War",
+      "title": "Bitcoin Attempting to Make a Stand as Global Stock Markets Melt Down",
       "source": "CoinDesk",
-      "time": "2026-03-03T22:49:00+03:00",
+      "time": "2026-03-03T22:54:00+02:00",
       "impact": "neutral",
       "url": "https://www.coindesk.com/markets/2026/03/03/bitcoin-attempting-to-make-a-stand-as-global-stock-markets-melt-down-on-iran-war"
     },
     {
-      "title": "Crypto Today: Bitcoin, Ethereum, XRP Pull Back as Sentiment Remains in Extreme Market Fear",
-      "source": "FXStreet",
-      "time": "2026-03-03T22:49:00+03:00",
+      "title": "Momentum Trades Breaking with Gold, Silver, and South Korea Down Big",
+      "source": "CNBC",
+      "time": "2026-03-03T22:54:00+02:00",
       "impact": "bearish",
-      "url": "https://www.fxstreet.com/cryptocurrencies/news/crypto-today-bitcoin-ethereum-xrp-pull-back-as-sentiment-remains-in-extreme-market-fear-202603031200"
+      "url": "https://www.cnbc.com/2026/03/03/the-momentum-trades-of-2026-are-breaking-with-gold-silver-and-south-korea-down-big.html"
     }
   ]
 }
