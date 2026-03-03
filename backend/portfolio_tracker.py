@@ -118,6 +118,10 @@ def sync_all_tracked_trades():
         order_id = trade["order_id"]
         old_status = trade.get("status", "UNKNOWN")
         
+        # Skip manual positions (don't have real eToro order IDs)
+        if order_id.startswith("manual_"):
+            continue
+        
         # Query eToro
         order_data = get_order_status(order_id)
         
