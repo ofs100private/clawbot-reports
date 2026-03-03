@@ -1,26 +1,26 @@
 {
-  "last_update": "2026-03-03T22:32:00+03:00",
+  "last_update": "2026-03-03T22:39:00+02:00",
   "news": [
     {
-      "title": "Global Stocks Plunge Amid Israel-Iran Conflict Escalation",
-      "source": "Investing.com",
-      "time": "2026-03-03T22:32:00+03:00",
+      "title": "U.S. Stocks Plunge on US-Iran Escalation, Oil Surges",
+      "source": "Fox Business",
+      "time": "2026-03-03T22:39:00+02:00",
       "impact": "bearish",
-      "url": "https://www.investing.com/"
+      "url": "https://www.foxbusiness.com/stocks"
     },
     {
-      "title": "Oil Prices Surge Over 4-13% to Multi-Month Highs",
-      "source": "Yahoo Finance",
-      "time": "2026-03-03T22:32:00+03:00",
-      "impact": "neutral",
-      "url": "https://finance.yahoo.com/"
-    },
-    {
-      "title": "Bitcoin Holds Above $68K, Crypto Shows Resilience Amid Market Turmoil",
+      "title": "Bitcoin Holds Steady Amid Global Market Turmoil",
       "source": "CoinDesk",
-      "time": "2026-03-03T22:32:00+03:00",
+      "time": "2026-03-03T22:39:00+02:00",
+      "impact": "neutral",
+      "url": "https://www.coindesk.com/markets/2026/03/03/bitcoin-attempting-to-make-a-stand-as-global-stock-markets-melt-down-on-iran-war"
+    },
+    {
+      "title": "Crypto Funds See $1B Inflows Despite War Jitters",
+      "source": "Yahoo Finance",
+      "time": "2026-03-03T22:39:00+02:00",
       "impact": "bullish",
-      "url": "https://www.coindesk.com/"
+      "url": "https://finance.yahoo.com/news/bitcoin-ethereum-etfs-snap-five-162927599.html"
     }
   ]
 }
