@@ -1,1 +1,26 @@
-{"last_update":"2026-03-03T17:09:00Z","news":[{"title":"Dow Plunges Over 1,100 Points Amid War Worries","source":"Yahoo Finance","time":"2026-03-03T17:09:00Z","impact":"bearish","url":"https://finance.yahoo.com/news/live/stock-market-today-dow-plunges-over-1100-points-sp-500-and-nasdaq-sink-as-oil-surges-amid-war-worries-150425235.html"},{"title":"Bitcoin Attempting to Make a Stand as Global Stock Markets Melt Down","source":"CoinDesk","time":"2026-03-03T17:09:00Z","impact":"neutral","url":"https://www.coindesk.com/markets/2026/03/03/bitcoin-attempting-to-make-a-stand-as-global-stock-markets-melt-down-on-iran-war"},{"title":"Standard Chartered Says Ethereum Could Hit $4,000 This Year","source":"Yahoo Finance","time":"2026-03-03T17:09:00Z","impact":"bullish","url":"https://finance.yahoo.com/news/standard-chartered-says-ethereum-eth-102000184.html"}]}
+{
+  "last_update": "2026-03-03T19:14:00+02:00",
+  "news": [
+    {
+      "title": "Dow Plunges Over 1,100 Points Amid War Worries",
+      "source": "Yahoo Finance",
+      "time": "2026-03-03T19:14:00+02:00",
+      "impact": "bearish",
+      "url": "https://finance.yahoo.com/news/live/stock-market-today-dow-plunges-over-1100-points-sp-500-and-nasdaq-sink-as-oil-surges-amid-war-worries-150425235.html"
+    },
+    {
+      "title": "Bitcoin Attempts Stand as Global Stocks Melt Down",
+      "source": "CoinDesk",
+      "time": "2026-03-03T19:14:00+02:00",
+      "impact": "neutral",
+      "url": "https://www.coindesk.com/markets/2026/03/03/bitcoin-attempting-to-make-a-stand-as-global-stock-markets-melt-down-on-iran-war"
+    },
+    {
+      "title": "Ethereum Forecast Eyes $2,800 Rally",
+      "source": "DailyForex",
+      "time": "2026-03-03T19:14:00+02:00",
+      "impact": "bullish",
+      "url": "https://www.dailyforex.com/forex-technical-analysis/2026/03/ethereum-forecast-3-march-2026/241972"
+    }
+  ]
+}
