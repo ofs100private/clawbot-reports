@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Test - Simple</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #1a1a2e;
+            color: #fff;
+            padding: 20px;
+        }
+        .card {
+            background: #16213e;
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+        .value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #4caf50;
+        }
+        .label {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 5px;
+        }
+        #status {
+            padding: 10px;
+            background: #333;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎯 Portfolio Dashboard - Simple Test</h1>
+    
+    <div id="status">Loading data...</div>
+    
+    <div class="card">
+        <div class="label">Total Portfolio Value</div>
+        <div class="value" id="totalValue">$--</div>
+    </div>
+    
+    <div class="card">
+        <div class="label">Total P&L</div>
+        <div class="value" id="totalPnL">$--</div>
+    </div>
+    
+    <div class="card">
+        <div class="label">Bot Budget</div>
+        <div class="value" id="botBudget">$--</div>
+    </div>
+    
+    <div class="card">
+        <div class="label">Manual Portfolio</div>
+        <div class="value" id="manualValue">$--</div>
+    </div>
+    
+    <div class="card">
+        <div class="label">Holdings Count</div>
+        <div class="value" id="holdingsCount">--</div>
+    </div>
+    
+    <script>
+        console.log('Starting data load...');
+        
+        async function loadData() {
+            const status = document.getElementById('status');
+            
+            try {
+                status.textContent = 'Fetching trades.json...';
+                const response = await fetch('trades.json?t=' + Date.now());
+                
+                status.textContent = 'HTTP Status: ' + response.status;
+                
+                if (!response.ok) {
+                    throw new Error('HTTP ' + response.status);
+                }
+                
+                status.textContent = 'Parsing JSON...';
+                const data = await response.json();
+                
+                status.textContent = 'Data loaded! Keys: ' + Object.keys(data).join(', ');
+                
+                console.log('Data:', data);
+                
+                // Validate required keys
+                if (!data.account) {
+                    throw new Error('Missing account data');
+                }
+                if (!data.bot) {
+                    throw new Error('Missing bot data');
+                }
+                
+                // Update UI
+                const account = data.account;
+                const bot = data.bot;
+                const holdings = data.holdings || [];
+                
+                document.getElementById('totalValue').textContent = 
+                    '$' + account.current_value.toFixed(2);
+                
+                document.getElementById('totalPnL').textContent = 
+                    '$' + account.total_pnl.toFixed(2);
+                
+                document.getElementById('botBudget').textContent = 
+                    '$' + bot.budget.toFixed(2);
+                
+                const manualValue = account.current_value - bot.budget;
+                document.getElementById('manualValue').textContent = 
+                    '$' + manualValue.toFixed(2);
+                
+                document.getElementById('holdingsCount').textContent = 
+                    holdings.length + ' positions';
+                
+                status.textContent = '✅ SUCCESS - Dashboard loaded!';
+                status.style.background = '#0f5132';
+                status.style.color = '#d1e7dd';
+                
+            } catch (error) {
+                console.error('Error:', error);
+                status.textContent = '❌ ERROR: ' + error.message;
+                status.style.background = '#842029';
+                status.style.color = '#f8d7da';
+                
+                // Show stack trace
+                const pre = document.createElement('pre');
+                pre.textContent = error.stack;
+                pre.style.fontSize = '11px';
+                pre.style.marginTop = '10px';
+                status.appendChild(pre);
+            }
+        }
+        
+        loadData();
+        
+        // Refresh every 30 seconds
+        setInterval(loadData, 30000);
+    </script>
+</body>
+</html>
