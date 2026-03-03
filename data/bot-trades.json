@@ -1,4 +1,49 @@
 {
-  "orders": [],
-  "positions": []
+  "orders": [
+    {
+      "orderId": 1377233872,
+      "instrumentId": 8754,
+      "instrument": "AAPL",
+      "symbol": "AAPL.RTH",
+      "action": "BUY",
+      "amount": 300,
+      "leverage": 1,
+      "price": 264.72,
+      "units": 1.13,
+      "timestamp": "2026-03-03T15:25:25Z",
+      "timestamp_local": "2026-03-03T17:25:25+02:00",
+      "statusId": 1,
+      "status": "OPEN",
+      "trader": "OfsInvest",
+      "score": 0.70,
+      "smartMoney": 100,
+      "reasoning": "Best technical setup + perfect institutional support (Smart Money: 100)",
+      "cid": 28376799,
+      "accountType": "REAL"
+    }
+  ],
+  "positions": [
+    {
+      "positionId": null,
+      "orderId": 1377233872,
+      "instrumentId": 8754,
+      "instrument": "AAPL",
+      "symbol": "AAPL.RTH",
+      "amount": 300,
+      "leverage": 1,
+      "units": 1.13,
+      "entryPrice": 264.72,
+      "currentPrice": null,
+      "pnl": 0,
+      "pnlPct": 0,
+      "openDate": "2026-03-03T15:25:25Z",
+      "trader": "OfsInvest",
+      "status": "OPEN"
+    }
+  ],
+  "metadata": {
+    "total_orders": 1,
+    "total_positions": 1,
+    "last_updated": "2026-03-03T17:30:00+02:00"
+  }
 }

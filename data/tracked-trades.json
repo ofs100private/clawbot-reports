@@ -13,9 +13,9 @@
       "status": "EXECUTED",
       "current_pnl": 0,
       "current_price": 0,
-      "data_source": "MANUAL_SCREENSHOT",
+      "data_source": "SNAPSHOT",
       "last_update": "2026-03-03T10:36:37.969650+02:00",
-      "trade_source": "\ud83d\udc64 Manual"
+      "trade_source": "👤 Manual"
     },
     {
       "order_id": "manual_qqq_1",
@@ -30,9 +30,9 @@
       "status": "EXECUTED",
       "current_pnl": 0,
       "current_price": 0,
-      "data_source": "MANUAL_SCREENSHOT",
+      "data_source": "SNAPSHOT",
       "last_update": "2026-03-03T10:36:37.969650+02:00",
-      "trade_source": "\ud83d\udc64 Manual"
+      "trade_source": "👤 Manual"
     },
     {
       "order_id": "manual_btc_2",
@@ -47,9 +47,9 @@
       "status": "EXECUTED",
       "current_pnl": 0,
       "current_price": 0,
-      "data_source": "MANUAL_SCREENSHOT",
+      "data_source": "SNAPSHOT",
       "last_update": "2026-03-03T10:36:37.969650+02:00",
-      "trade_source": "\ud83d\udc64 Manual"
+      "trade_source": "👤 Manual"
     },
     {
       "order_id": "manual_cat_3",
@@ -64,9 +64,9 @@
       "status": "EXECUTED",
       "current_pnl": 0,
       "current_price": 0,
-      "data_source": "MANUAL_SCREENSHOT",
+      "data_source": "SNAPSHOT",
       "last_update": "2026-03-03T10:36:37.969650+02:00",
-      "trade_source": "\ud83d\udc64 Manual"
+      "trade_source": "👤 Manual"
     },
     {
       "order_id": "manual_spx500_4",
@@ -81,9 +81,9 @@
       "status": "EXECUTED",
       "current_pnl": 0,
       "current_price": 0,
-      "data_source": "MANUAL_SCREENSHOT",
+      "data_source": "SNAPSHOT",
       "last_update": "2026-03-03T10:36:37.969650+02:00",
-      "trade_source": "\ud83d\udc64 Manual"
+      "trade_source": "👤 Manual"
     },
     {
       "order_id": "manual_sol_5",
@@ -98,9 +98,9 @@
       "status": "EXECUTED",
       "current_pnl": 0,
       "current_price": 0,
-      "data_source": "MANUAL_SCREENSHOT",
+      "data_source": "SNAPSHOT",
       "last_update": "2026-03-03T10:36:37.969650+02:00",
-      "trade_source": "\ud83d\udc64 Manual"
+      "trade_source": "👤 Manual"
     },
     {
       "order_id": "manual_space-investor_6",
@@ -115,9 +115,9 @@
       "status": "EXECUTED",
       "current_pnl": 0,
       "current_price": 0,
-      "data_source": "MANUAL_SCREENSHOT",
+      "data_source": "SNAPSHOT",
       "last_update": "2026-03-03T10:36:37.969650+02:00",
-      "trade_source": "\ud83d\udc64 Manual"
+      "trade_source": "👤 Manual"
     },
     {
       "order_id": "manual_eth_7",
@@ -132,9 +132,9 @@
       "status": "EXECUTED",
       "current_pnl": 0,
       "current_price": 0,
-      "data_source": "MANUAL_SCREENSHOT",
+      "data_source": "SNAPSHOT",
       "last_update": "2026-03-03T10:36:37.969650+02:00",
-      "trade_source": "\ud83d\udc64 Manual"
+      "trade_source": "👤 Manual"
     },
     {
       "order_id": "manual_xlu_8",
@@ -149,9 +149,9 @@
       "status": "EXECUTED",
       "current_pnl": 0,
       "current_price": 0,
-      "data_source": "MANUAL_SCREENSHOT",
+      "data_source": "SNAPSHOT",
       "last_update": "2026-03-03T10:36:37.969650+02:00",
-      "trade_source": "\ud83d\udc64 Manual"
+      "trade_source": "👤 Manual"
     },
     {
       "order_id": "manual_xlc_9",
@@ -166,9 +166,9 @@
       "status": "EXECUTED",
       "current_pnl": 0,
       "current_price": 0,
-      "data_source": "MANUAL_SCREENSHOT",
+      "data_source": "SNAPSHOT",
       "last_update": "2026-03-03T10:36:37.969650+02:00",
-      "trade_source": "\ud83d\udc64 Manual"
+      "trade_source": "👤 Manual"
     },
     {
       "order_id": "manual_arkx_10",
@@ -183,9 +183,9 @@
       "status": "EXECUTED",
       "current_pnl": 0,
       "current_price": 0,
-      "data_source": "MANUAL_SCREENSHOT",
+      "data_source": "SNAPSHOT",
       "last_update": "2026-03-03T10:36:37.969650+02:00",
-      "trade_source": "\ud83d\udc64 Manual"
+      "trade_source": "👤 Manual"
     },
     {
       "order_id": "manual_uuuu_11",
@@ -200,9 +200,9 @@
       "status": "EXECUTED",
       "current_pnl": 0,
       "current_price": 0,
-      "data_source": "MANUAL_SCREENSHOT",
+      "data_source": "SNAPSHOT",
       "last_update": "2026-03-03T10:36:37.969650+02:00",
-      "trade_source": "\ud83d\udc64 Manual"
+      "trade_source": "👤 Manual"
     },
     {
       "order_id": "manual_gold_12",
@@ -217,9 +217,9 @@
       "status": "EXECUTED",
       "current_pnl": 0,
       "current_price": 0,
-      "data_source": "MANUAL_SCREENSHOT",
+      "data_source": "SNAPSHOT",
       "last_update": "2026-03-03T10:36:37.969650+02:00",
-      "trade_source": "\ud83d\udc64 Manual"
+      "trade_source": "👤 Manual"
     },
     {
       "order_id": "manual_cvx_13",
@@ -234,9 +234,9 @@
       "status": "EXECUTED",
       "current_pnl": 0,
       "current_price": 0,
-      "data_source": "MANUAL_SCREENSHOT",
+      "data_source": "SNAPSHOT",
       "last_update": "2026-03-03T10:36:37.969650+02:00",
-      "trade_source": "\ud83d\udc64 Manual"
+      "trade_source": "👤 Manual"
     },
     {
       "order_id": "manual_natgas_14",
@@ -251,9 +251,9 @@
       "status": "EXECUTED",
       "current_pnl": 0,
       "current_price": 0,
-      "data_source": "MANUAL_SCREENSHOT",
+      "data_source": "SNAPSHOT",
       "last_update": "2026-03-03T10:36:37.969650+02:00",
-      "trade_source": "\ud83d\udc64 Manual"
+      "trade_source": "👤 Manual"
     },
     {
       "order_id": "manual_soxx_15",
@@ -268,9 +268,9 @@
       "status": "PENDING",
       "current_pnl": 0,
       "current_price": 0,
-      "data_source": "MANUAL_SCREENSHOT",
+      "data_source": "SNAPSHOT",
       "last_update": "2026-03-03T10:36:37.969650+02:00",
-      "trade_source": "\ud83d\udc64 Manual"
+      "trade_source": "👤 Manual"
     },
     {
       "order_id": "manual_igv_16",
@@ -285,9 +285,9 @@
       "status": "PENDING",
       "current_pnl": 0,
       "current_price": 0,
-      "data_source": "MANUAL_SCREENSHOT",
+      "data_source": "SNAPSHOT",
       "last_update": "2026-03-03T10:36:37.969650+02:00",
-      "trade_source": "\ud83d\udc64 Manual"
+      "trade_source": "👤 Manual"
     },
     {
       "order_id": "1373482995",
@@ -297,13 +297,14 @@
       "price": 1.9,
       "leverage": 1,
       "is_bot_trade": true,
-      "trade_source": "\ud83e\udd16 Bot",
+      "trade_source": "🤖 Bot",
       "reason": "Bot test trade - HK-2348",
       "timestamp": "2026-03-01T10:28:39.626248+02:00",
       "status": "EXECUTED",
-      "current_pnl": 0,
-      "current_price": 1.89,
-      "data_source": "LIVE_ETORO_API"
+      "current_pnl": 657.5986946400001,
+      "current_price": 1.84,
+      "data_source": "LIVE_ETORO_API",
+      "last_api_update": "2026-03-03T17:27:54.731976+02:00"
     },
     {
       "order_id": "1373429272",
@@ -313,13 +314,14 @@
       "price": 1.9,
       "leverage": 1,
       "is_bot_trade": true,
-      "trade_source": "\ud83e\udd16 Bot",
+      "trade_source": "🤖 Bot",
       "reason": "Bot test trade - HK-2348",
       "timestamp": "2026-03-01T09:28:39.626306+02:00",
       "status": "EXECUTED",
-      "current_pnl": 0,
-      "current_price": 1.89,
-      "data_source": "LIVE_ETORO_API"
+      "current_pnl": 986.36753568,
+      "current_price": 1.84,
+      "data_source": "LIVE_ETORO_API",
+      "last_api_update": "2026-03-03T17:27:55.249741+02:00"
     },
     {
       "order_id": "1373974399",
@@ -329,13 +331,35 @@
       "price": 1.9,
       "leverage": 1,
       "is_bot_trade": true,
-      "trade_source": "\ud83e\udd16 Bot",
+      "trade_source": "🤖 Bot",
       "reason": "Bot test trade - HK-2348",
       "timestamp": "2026-03-01T11:28:39.626323+02:00",
       "status": "EXECUTED",
+      "current_pnl": 657.56964104,
+      "current_price": 1.84,
+      "data_source": "LIVE_ETORO_API",
+      "last_api_update": "2026-03-03T17:27:55.798588+02:00"
+    },
+    {
+      "order_id": "1377233872",
+      "symbol": "AAPL",
+      "action": "BUY",
+      "amount": 300,
+      "price": 264.72,
+      "leverage": 1,
+      "is_bot_trade": true,
+      "trade_source": "🤖 Bot",
+      "reason": "Best technical setup + perfect institutional support (Smart Money: 100)",
+      "timestamp": "2026-03-03T17:25:25+02:00",
+      "status": "EXECUTED",
       "current_pnl": 0,
-      "current_price": 1.89,
-      "data_source": "LIVE_ETORO_API"
+      "current_price": 264.72,
+      "data_source": "LIVE_ETORO_API",
+      "last_api_update": "2026-03-03T17:30:00+02:00",
+      "instrumentId": 8754,
+      "trader": "OfsInvest",
+      "score": 0.70,
+      "smartMoney": 100
     }
   ]
 }

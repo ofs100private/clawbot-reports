@@ -1,0 +1,42 @@
+{
+  "trade_id": "2026-03-03-AAPL-1377233872",
+  "timestamp": "2026-03-03T15:25:25Z",
+  "instrument": "AAPL",
+  "instrumentId": 8754,
+  "symbol": "AAPL.RTH",
+  "action": "BUY",
+  "amount": 300,
+  "leverage": 1,
+  "price_estimate": 264.72,
+  "units_estimate": 1.13,
+  "etoro_order_id": 1377233872,
+  "etoro_status_id": 1,
+  "etoro_cid": 28376799,
+  "etoro_token": "8a8a062d-5f28-4897-bf90-71e8926cee57",
+  "trader": "OfsInvest",
+  "reasoning": {
+    "overall_score": 0.70,
+    "smart_money_score": 100,
+    "technical_score": 72,
+    "decision": "Best technical setup + perfect institutional support (Smart Money: 100)",
+    "signals": {
+      "smart_money": 100,
+      "technical": 72,
+      "ma150": "GO",
+      "chart_pattern": "Strong uptrend",
+      "institutional_support": "Perfect accumulation"
+    }
+  },
+  "context": {
+    "data_source": "QuantClaw + eToro API",
+    "decision_engine": "v10.5 Real Universe",
+    "execution_method": "eToro API (instrument ID mapping)",
+    "breakthrough": "First trade after 15K+ instrument ID mapping received from Ofer"
+  },
+  "portfolio": {
+    "bot_budget": 1700,
+    "position_size_pct": 17.6,
+    "max_allowed_pct": 25,
+    "within_limits": true
+  }
+}
