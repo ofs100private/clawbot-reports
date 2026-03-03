@@ -255,6 +255,36 @@
         .asset-details {
             font-size: 0.85em;
             color: #888;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .sell-btn {
+            margin-left: 10px;
+            padding: 6px 16px;
+            background: #f44336;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            letter-spacing: 0.5px;
+        }
+        
+        .sell-btn:hover {
+            background: #d32f2f;
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(244, 67, 54, 0.4);
+        }
+        
+        .sell-btn:disabled {
+            background: #999;
+            cursor: not-allowed;
+            transform: none;
         }
         
         /* Chart Display */
@@ -812,16 +842,16 @@
                 updatePortfolioOverview(data);
                 updatePerformanceStats(data.account, data.bot);
                 
-                // Calculate P&L by trade source (manual vs bot)
+                // Calculate VALUE by trade source (manual vs bot)
                 const holdings = data.holdings || [];
-                const manualPnL = holdings
+                const manualValue = holdings
                     .filter(h => !h.is_bot_trade)
-                    .reduce((sum, h) => sum + (h.pnl || 0), 0);
-                const botPnL = holdings
+                    .reduce((sum, h) => sum + (h.current_value || 0), 0);
+                const botValue = holdings
                     .filter(h => h.is_bot_trade)
-                    .reduce((sum, h) => sum + (h.pnl || 0), 0);
+                    .reduce((sum, h) => sum + (h.current_value || 0), 0);
                 
-                updatePerformanceChart(manualPnL, botPnL);
+                updatePerformanceChart(manualValue, botValue);
                 updateAssetList(holdings);
             } catch (error) {
                 console.error('Error loading trades data:', error);
@@ -982,18 +1012,18 @@
         }
         
         // Update performance chart
-        function updatePerformanceChart(manualPnL, botPnL) {
+        function updatePerformanceChart(manualValue, botValue) {
             const ctx = document.getElementById('performanceChart').getContext('2d');
             
             if (performanceChart) {
                 performanceChart.destroy();
             }
             
-            // Determine colors based on positive/negative P&L
-            const manualColor = manualPnL >= 0 ? 'rgba(76, 175, 80, 0.8)' : 'rgba(244, 67, 54, 0.8)';
-            const manualBorder = manualPnL >= 0 ? '#4caf50' : '#f44336';
-            const botColor = botPnL >= 0 ? 'rgba(118, 75, 162, 0.8)' : 'rgba(244, 67, 54, 0.8)';
-            const botBorder = botPnL >= 0 ? '#764ba2' : '#f44336';
+            // Fixed colors for portfolio value (always green for manual, purple for bot)
+            const manualColor = 'rgba(76, 175, 80, 0.8)';
+            const manualBorder = '#4caf50';
+            const botColor = 'rgba(118, 75, 162, 0.8)';
+            const botBorder = '#764ba2';
             
             performanceChart = new Chart(ctx, {
                 type: 'bar',
@@ -1001,8 +1031,8 @@
                     labels: ['👤 Manual Portfolio', '🤖 Bot Trading'],
                     datasets: [
                         {
-                            label: 'P&L',
-                            data: [manualPnL, botPnL],
+                            label: 'Portfolio Value',
+                            data: [manualValue, botValue],
                             backgroundColor: [manualColor, botColor],
                             borderColor: [manualBorder, botBorder],
                             borderWidth: 2
@@ -1025,8 +1055,7 @@
                             callbacks: {
                                 label: function(context) {
                                     const value = context.parsed.y;
-                                    const sign = value >= 0 ? '+' : '';
-                                    return 'P&L: ' + sign + '$' + value.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                                    return 'Value: $' + value.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
                                 }
                             }
                         }
@@ -1043,13 +1072,12 @@
                             ticks: {
                                 color: '#888',
                                 callback: function(value) {
-                                    const sign = value >= 0 ? '+' : '';
-                                    return sign + '$' + value.toLocaleString();
+                                    return '$' + (value / 1000).toFixed(0) + 'K';
                                 }
                             },
                             title: {
                                 display: true,
-                                text: 'Profit & Loss ($)',
+                                text: 'Portfolio Value ($)',
                                 color: '#fff',
                                 font: {
                                     size: 14,

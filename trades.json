@@ -1142,5 +1142,12 @@
     "total_orders": 18,
     "bot_orders": 1,
     "manual_orders": 17
-  }
+  },
+  "bot_performance_history": [
+    {
+      "timestamp": "2026-03-03T19:46:48.912878+02:00",
+      "value": 1700,
+      "pnl": 0
+    }
+  ]
 }
