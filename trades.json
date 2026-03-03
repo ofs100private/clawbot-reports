@@ -1,13 +1,13 @@
 {
-  "last_update": "2026-03-03T18:01:38.929801+02:00",
+  "last_update": "2026-03-03T18:05:24.881347+02:00",
   "account": {
     "start_date": "2026-03-02",
     "initial_capital": 38427.46,
-    "current_value": 40727.82208149,
+    "current_value": 40727.9928621103,
     "cash": 0.0,
-    "equity": 40727.82208149,
-    "total_pnl": 2300.36208149,
-    "pnl_percent": 5.986245464805637
+    "equity": 40727.9928621103,
+    "total_pnl": 2300.5328621103,
+    "pnl_percent": 5.9866898881953166
   },
   "performance_history": [
     {
@@ -387,6 +387,11 @@
       "timestamp": "2026-03-03T18:01:18.089327+02:00",
       "value": 40727.82208149,
       "pnl": 2300.36208149
+    },
+    {
+      "timestamp": "2026-03-03T18:04:46.750945+02:00",
+      "value": 40428.99587136,
+      "pnl": 2301.53587136
     }
   ],
   "holdings": [
@@ -775,13 +780,13 @@
       "symbol": "AAPL",
       "name": "AAPL",
       "type": "stock",
-      "current_price": 262.29,
+      "current_price": 262.4399,
       "entry_price": 264.72,
       "units": 1.1332728921124207,
       "amount": 300,
-      "current_value": 298.82621013000005,
-      "pnl": -1.1737898699999505,
-      "pnl_percent": -0.3912632899999835,
+      "current_value": 298.99699075030003,
+      "pnl": -1.0030092496999714,
+      "pnl_percent": -0.33433641656665714,
       "leverage": 1,
       "status": "EXECUTED",
       "entry_time": "2026-03-03T17:25:25+02:00",
