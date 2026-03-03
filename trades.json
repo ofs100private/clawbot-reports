@@ -795,5 +795,45 @@
     "total_orders": 20,
     "bot_orders": 0,
     "manual_orders": 20
+  },
+  "bot_performance_history": [
+    {
+      "timestamp": "2026-03-01T09:00:00+02:00",
+      "value": 1700.0,
+      "pnl": 0.0,
+      "event": "Starting budget"
+    },
+    {
+      "timestamp": "2026-03-01T09:28:39.626306+02:00",
+      "value": 1850.0,
+      "pnl": 0,
+      "event": "BUY HK-2348 $150"
+    },
+    {
+      "timestamp": "2026-03-01T10:28:39.626248+02:00",
+      "value": 1950.0,
+      "pnl": 0,
+      "event": "BUY HK-2348 $100"
+    },
+    {
+      "timestamp": "2026-03-01T11:28:39.626323+02:00",
+      "value": 2050.0,
+      "pnl": 0,
+      "event": "BUY HK-2348 $100"
+    },
+    {
+      "timestamp": "2026-03-03T12:15:33.721202+02:00",
+      "value": 1700.0,
+      "pnl": 0.0,
+      "event": "Current (positions closed)"
+    }
+  ],
+  "bot": {
+    "budget": 1700.0,
+    "current_value": 1700.0,
+    "pnl": 0.0,
+    "pnl_percent": 0.0,
+    "positions": 0,
+    "total_trades": 3
   }
 }
