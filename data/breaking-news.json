@@ -1,25 +1,25 @@
 {
-  "last_update": "2026-03-03T20:33:00+02:00",
+  "last_update": "2026-03-03T20:45:00+02:00",
   "news": [
     {
-      "title": "U.S. Stocks Plunge Amid Escalating Middle East Tensions",
-      "source": "WSJ",
-      "time": "2026-03-03T20:33:00+02:00",
+      "title": "Dow Jones Plunges Over 900 Points Amid Escalating Iran Conflict",
+      "source": "CNBC",
+      "time": "2026-03-03T20:45:00+02:00",
       "impact": "bearish",
-      "url": "https://www.wsj.com/livecoverage/stock-market-today-dow-sp-500-nasdaq-03-03-2026"
+      "url": "https://www.cnbc.com/2026/03/02/stock-market-today-live-updates.html"
     },
     {
-      "title": "Oil Prices Surge on Fears of Prolonged Iran Conflict",
-      "source": "Bloomberg",
-      "time": "2026-03-03T20:33:00+02:00",
-      "impact": "bullish",
-      "url": "https://www.bloomberg.com/news/articles/2026-03-02/asia-poised-for-weak-open-after-treasuries-sink-markets-wrap"
+      "title": "S&P 500 Falls 2.26% as Oil Surges and Yields Climb",
+      "source": "Trading Economics",
+      "time": "2026-03-03T20:45:00+02:00",
+      "impact": "bearish",
+      "url": "https://tradingeconomics.com/united-states/stock-market"
     },
     {
-      "title": "Bitcoin Climbs Toward $69,000 Amid Global Stock Meltdown",
+      "title": "Bitcoin Holds Steady Amid Global Stock Market Meltdown on Iran War Fears",
       "source": "CoinDesk",
-      "time": "2026-03-03T20:33:00+02:00",
-      "impact": "bullish",
+      "time": "2026-03-03T20:45:00+02:00",
+      "impact": "neutral",
       "url": "https://www.coindesk.com/markets/2026/03/03/bitcoin-attempting-to-make-a-stand-as-global-stock-markets-melt-down-on-iran-war"
     }
   ]
