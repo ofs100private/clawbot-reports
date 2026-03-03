@@ -1,0 +1,27 @@
+DASHBOARD CACHE CLEAR REQUIRED
+================================
+
+If you're seeing "$--" for all values, you need to FORCE RELOAD:
+
+Windows/Linux: Ctrl + Shift + R  OR  Ctrl + F5
+Mac: Cmd + Shift + R
+
+This will bypass browser cache and load the fixed version.
+
+Dashboard URL:
+https://ofs100private.github.io/clawbot-reports/real-money-trading.html?v=$(date +%s)
+
+Current Status (verified):
+- ✅ GitHub Pages updated: 20:01 IST  
+- ✅ trades.json data valid
+- ✅ All keys present (account, bot, holdings)
+- ✅ JavaScript code correct
+- ✅ Dashboard SHOULD load after cache clear
+
+Expected values after reload:
+- Total Value: $40,429
+- Total P&L: $2,301.54
+- Bot Budget: $1,700
+- Manual Value: $38,729
+
+If still not working after force reload, open browser console (F12) and check for errors.
