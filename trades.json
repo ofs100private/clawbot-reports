@@ -1,5 +1,4 @@
 {
-  "last_update": "2026-03-03T10:29:44.230898+02:00",
   "account": {
     "start_date": "2026-03-02",
     "initial_capital": 37059.11,
@@ -9,946 +8,291 @@
     "total_pnl": 709.25,
     "pnl_percent": 1.91
   },
-  "performance_history": [
-    {
-      "timestamp": "2026-03-02T23:31:13.796727+02:00",
-      "value": 22818.61,
-      "pnl": 1143.2700000000002
-    },
-    {
-      "timestamp": "2026-03-02T23:45:57.727155+02:00",
-      "value": 22818.61,
-      "pnl": 1143.2700000000002
-    },
-    {
-      "timestamp": "2026-03-02T23:51:17.932524+02:00",
-      "value": 22818.61,
-      "pnl": 1143.2700000000002
-    },
-    {
-      "timestamp": "2026-03-03T00:01:22.299082+02:00",
-      "value": 22818.61,
-      "pnl": 1143.2700000000002
-    },
-    {
-      "timestamp": "2026-03-03T00:10:55.906059+02:00",
-      "value": 22818.61,
-      "pnl": 1143.2700000000002
-    },
-    {
-      "timestamp": "2026-03-03T00:15:46.729940+02:00",
-      "value": 22818.61,
-      "pnl": 1143.2700000000002
-    },
-    {
-      "timestamp": "2026-03-03T00:25:53.628530+02:00",
-      "value": 22818.61,
-      "pnl": 1143.2700000000002
-    },
-    {
-      "timestamp": "2026-03-03T00:38:34.256737+02:00",
-      "value": 22818.61,
-      "pnl": 1143.2700000000002
-    },
-    {
-      "timestamp": "2026-03-03T00:43:32.336545+02:00",
-      "value": 22818.61,
-      "pnl": 1143.2700000000002
-    },
-    {
-      "timestamp": "2026-03-03T00:48:41.892921+02:00",
-      "value": 22818.61,
-      "pnl": 1143.2700000000002
-    },
-    {
-      "timestamp": "2026-03-03T00:53:34.828011+02:00",
-      "value": 22818.61,
-      "pnl": 1143.2700000000002
-    },
-    {
-      "timestamp": "2026-03-03T00:58:53.345685+02:00",
-      "value": 22818.61,
-      "pnl": 1143.2700000000002
-    },
-    {
-      "timestamp": "2026-03-03T01:04:04.749273+02:00",
-      "value": 22818.61,
-      "pnl": 1143.2700000000002
-    },
-    {
-      "timestamp": "2026-03-03T01:11:50.368254+02:00",
-      "value": 22818.61,
-      "pnl": 1143.2700000000002
-    },
-    {
-      "timestamp": "2026-03-03T01:16:45.727762+02:00",
-      "value": 22818.61,
-      "pnl": 1143.2700000000002
-    },
-    {
-      "timestamp": "2026-03-03T01:22:03.426856+02:00",
-      "value": 22818.61,
-      "pnl": 1143.2700000000002
-    },
-    {
-      "timestamp": "2026-03-03T01:29:30.893803+02:00",
-      "value": 22818.61,
-      "pnl": 1143.2700000000002
-    },
-    {
-      "timestamp": "2026-03-03T01:34:36.327089+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T01:39:22.552060+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T01:44:28.168128+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T01:50:18.147071+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T01:55:10.225479+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T01:59:57.079463+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T02:14:58.150222+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T02:20:23.438777+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T02:25:11.069719+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T02:35:07.210631+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T02:40:08.496711+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T02:45:25.019872+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T02:50:16.374007+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T02:55:25.056129+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T03:05:29.947121+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T03:10:11.311561+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T03:15:12.922132+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T03:20:21.785161+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T03:25:12.369817+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T03:30:14.810033+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T03:35:15.641112+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T03:45:26.846604+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T03:50:19.499939+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T03:55:33.822202+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T04:00:21.922952+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T04:05:41.744508+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T04:10:32.760957+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T04:15:29.682291+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T04:22:46.899017+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T04:27:37.621788+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T04:32:49.030833+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T04:37:56.694042+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T04:42:43.587700+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T04:47:46.827498+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T04:52:42.752129+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T04:58:04.983448+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T05:03:31.039181+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T05:08:32.604176+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T05:13:58.373556+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T05:19:04.689463+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T05:23:41.488262+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T05:28:39.471505+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T05:34:43.836855+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T05:44:41.776763+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T05:49:39.158330+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T06:00:03.353412+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T06:04:46.084643+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T06:10:06.675007+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T06:14:55.705827+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T06:19:54.558863+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T06:25:01.893792+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T06:29:45.484654+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T06:34:51.186058+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T06:39:57.837775+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T06:44:54.960211+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T06:55:47.852726+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T07:01:11.125567+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T07:06:12.414401+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T07:11:10.453290+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T07:16:06.453738+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T07:21:27.102178+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T07:26:05.017643+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T07:31:01.848939+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T07:36:03.501443+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T07:41:00.417569+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T07:45:58.355665+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T07:51:12.534324+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T07:55:58.406346+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T08:01:05.697974+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T08:07:44.907103+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T08:12:39.933749+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T08:22:40.307596+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T08:27:59.559659+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T08:32:36.082842+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T08:39:20.225456+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T08:45:17.572379+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T08:57:29.970158+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T09:14:23.813008+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T09:19:18.173924+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T09:24:13.378804+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T09:38:57.924272+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T09:43:39.793732+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T09:49:02.077103+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T09:53:46.494296+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T10:00:29.416847+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T10:05:32.732861+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T10:10:28.358709+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T10:15:27.172292+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T10:20:59.378763+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T10:29:08.395222+02:00",
-      "value": 25136.28847656,
-      "pnl": 3510.94847656
-    },
-    {
-      "timestamp": "2026-03-03T10:29:44.230898+02:00",
-      "value": 40787.08,
-      "pnl": 709.25
-    }
-  ],
+  "bot": {
+    "budget": 1700.0,
+    "current_value": 0.0,
+    "pnl": 0.0,
+    "pnl_percent": 0.0,
+    "positions": 0
+  },
   "holdings": [
     {
-      "position_id": "uuuu_position",
-      "symbol": "UUUU",
-      "name": "UUUU",
-      "type": "stock",
-      "current_price": 23.35,
-      "entry_price": 21.01,
-      "units": 12.57686815801999,
-      "amount": 264.24,
-      "current_value": 323.9,
-      "pnl": 59.66,
-      "pnl_percent": 22.577959430820464,
-      "leverage": 2,
-      "status": "EXECUTED",
-      "entry_time": "2026-02-01T10:00:00+02:00",
-      "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
-    },
-    {
-      "position_id": "xlu_position",
-      "symbol": "XLU",
-      "name": "XLU",
-      "type": "stock",
-      "current_price": 47.37,
-      "entry_price": 39.91,
-      "units": 23.249812077173644,
-      "amount": 927.9,
-      "current_value": 1100.51,
-      "pnl": 172.61,
-      "pnl_percent": 18.602220066817544,
-      "leverage": 2,
-      "status": "EXECUTED",
-      "entry_time": "2026-02-01T10:00:00+02:00",
-      "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
-    },
-    {
-      "position_id": "cvx_position",
-      "symbol": "CVX",
-      "name": "CVX",
-      "type": "stock",
-      "current_price": 189.3,
-      "entry_price": 168.07,
-      "units": 20.86993514607009,
-      "amount": 3507.61,
-      "current_value": 3953.23,
-      "pnl": 445.62,
-      "pnl_percent": 12.704377054461585,
-      "leverage": 1,
-      "status": "EXECUTED",
-      "entry_time": "2026-02-01T10:00:00+02:00",
-      "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
-    },
-    {
-      "position_id": "space_investor_position",
-      "symbol": "Space-Investor",
-      "name": "Space-Investor",
-      "type": "stock",
-      "current_price": 0,
-      "entry_price": 0,
-      "units": 0,
-      "amount": 3150.96,
-      "current_value": 3358.79,
-      "pnl": 207.83,
-      "pnl_percent": 6.595767639068728,
-      "leverage": 1,
-      "status": "EXECUTED",
-      "entry_time": "2026-02-01T10:00:00+02:00",
-      "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
-    },
-    {
-      "position_id": "1373482995",
-      "symbol": "HK-2348",
-      "name": "HK-2348",
-      "type": "stock",
-      "current_price": 1.89,
-      "entry_price": 1.9,
-      "units": 52.631578947368425,
-      "amount": 100,
-      "current_value": 778.18561569,
-      "pnl": 678.18561569,
-      "pnl_percent": 678.18561569,
-      "leverage": 1,
-      "status": "EXECUTED",
-      "entry_time": "2026-03-02T11:37:52+02:00",
-      "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
-    },
-    {
-      "position_id": "hood_position",
       "symbol": "HOOD",
-      "name": "HOOD",
-      "type": "stock",
-      "current_price": 78.81,
-      "entry_price": 75.68,
-      "units": 30.923493657505283,
-      "amount": 2340.29,
-      "current_value": 2430.86,
-      "pnl": 90.57,
-      "pnl_percent": 3.870033201013549,
+      "action": "BUY",
+      "amount": 2344,
+      "current_value": 2344,
+      "pnl": 0,
+      "pnl_percent": 0,
       "leverage": 1,
-      "status": "EXECUTED",
-      "entry_time": "2026-02-01T10:00:00+02:00",
       "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
+      "trade_source": "\ud83d\udc64 Manual",
+      "status": "EXECUTED",
+      "entry_date": "2026-03-03T10:34:24.885256+02:00"
     },
     {
-      "position_id": "sol_position",
-      "symbol": "SOL",
-      "name": "SOL",
-      "type": "stock",
-      "current_price": 87.39,
-      "entry_price": 84.86,
-      "units": 9.791892528871083,
-      "amount": 830.94,
-      "current_value": 856.32,
-      "pnl": 25.38,
-      "pnl_percent": 3.054372156834428,
+      "symbol": "QQQ",
+      "action": "BUY",
+      "amount": 4922,
+      "current_value": 4922,
+      "pnl": 0,
+      "pnl_percent": 0,
       "leverage": 1,
-      "status": "EXECUTED",
-      "entry_time": "2026-02-01T10:00:00+02:00",
       "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
+      "trade_source": "\ud83d\udc64 Manual",
+      "status": "EXECUTED",
+      "entry_date": "2026-03-03T10:34:24.885256+02:00"
     },
     {
-      "position_id": "cat_position",
-      "symbol": "CAT",
-      "name": "CAT",
-      "type": "stock",
-      "current_price": 750.0,
-      "entry_price": 732.88,
-      "units": 3.7151102499727107,
-      "amount": 2722.73,
-      "current_value": 2785.5,
-      "pnl": 62.77,
-      "pnl_percent": 2.305406705769577,
-      "leverage": 1,
-      "status": "EXECUTED",
-      "entry_time": "2026-02-01T10:00:00+02:00",
-      "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
-    },
-    {
-      "position_id": "spx500_position",
-      "symbol": "SPX500",
-      "name": "SPX500",
-      "type": "stock",
-      "current_price": 6870.57,
-      "entry_price": 6854.44,
-      "units": 0.5835633545555874,
-      "amount": 4000,
-      "current_value": 4065.65,
-      "pnl": 65.65,
-      "pnl_percent": 1.64125,
-      "leverage": 1,
-      "status": "EXECUTED",
-      "entry_time": "2026-02-01T10:00:00+02:00",
-      "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
-    },
-    {
-      "position_id": "btc_position",
       "symbol": "BTC",
-      "name": "BTC",
-      "type": "crypto",
-      "current_price": 69288.5,
-      "entry_price": 69217.01,
-      "units": 0.05100870436327718,
-      "amount": 3530.67,
-      "current_value": 3537.94,
-      "pnl": 7.27,
-      "pnl_percent": 0.20590992644455583,
+      "action": "BUY",
+      "amount": 3481,
+      "current_value": 3481,
+      "pnl": 0,
+      "pnl_percent": 0,
       "leverage": 1,
-      "status": "EXECUTED",
-      "entry_time": "2026-02-01T10:00:00+02:00",
       "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
+      "trade_source": "\ud83d\udc64 Manual",
+      "status": "EXECUTED",
+      "entry_date": "2026-03-03T10:34:24.885256+02:00"
     },
     {
-      "position_id": "1373429272",
-      "symbol": "HK-2348",
-      "name": "HK-2348",
-      "type": "stock",
-      "current_price": 1.89,
-      "entry_price": 1.9,
-      "units": 78.94736842105263,
-      "amount": 150,
-      "current_value": 1167.2470882799998,
-      "pnl": 1017.2470882799998,
-      "pnl_percent": 678.1647255199999,
+      "symbol": "CAT",
+      "action": "BUY",
+      "amount": 2741,
+      "current_value": 2741,
+      "pnl": 0,
+      "pnl_percent": 0,
       "leverage": 1,
-      "status": "EXECUTED",
-      "entry_time": "2026-03-02T09:12:00+02:00",
       "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
+      "trade_source": "\ud83d\udc64 Manual",
+      "status": "EXECUTED",
+      "entry_date": "2026-03-03T10:34:24.885256+02:00"
     },
     {
-      "position_id": "1373974399",
-      "symbol": "HK-2348",
-      "name": "HK-2348",
-      "type": "stock",
-      "current_price": 1.89,
-      "entry_price": 1.9,
-      "units": 52.631578947368425,
-      "amount": 100,
-      "current_value": 778.15577259,
-      "pnl": 678.15577259,
-      "pnl_percent": 678.15577259,
+      "symbol": "SPX500",
+      "action": "BUY",
+      "amount": 4024,
+      "current_value": 4024,
+      "pnl": 0,
+      "pnl_percent": 0,
       "leverage": 1,
-      "status": "EXECUTED",
-      "entry_time": "2026-03-02T11:24:00+02:00",
       "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
+      "trade_source": "\ud83d\udc64 Manual",
+      "status": "EXECUTED",
+      "entry_date": "2026-03-03T10:34:24.885256+02:00"
+    },
+    {
+      "symbol": "SOL",
+      "action": "BUY",
+      "amount": 839,
+      "current_value": 839,
+      "pnl": 0,
+      "pnl_percent": 0,
+      "leverage": 1,
+      "is_bot_trade": false,
+      "trade_source": "\ud83d\udc64 Manual",
+      "status": "EXECUTED",
+      "entry_date": "2026-03-03T10:34:24.885256+02:00"
+    },
+    {
+      "symbol": "Space-Investor",
+      "action": "BUY",
+      "amount": 3349,
+      "current_value": 3349,
+      "pnl": 0,
+      "pnl_percent": 0,
+      "leverage": 1,
+      "is_bot_trade": false,
+      "trade_source": "\ud83d\udc64 Manual",
+      "status": "EXECUTED",
+      "entry_date": "2026-03-03T10:34:24.885256+02:00"
+    },
+    {
+      "symbol": "ETH",
+      "action": "BUY",
+      "amount": 154,
+      "current_value": 154,
+      "pnl": 0,
+      "pnl_percent": 0,
+      "leverage": 1,
+      "is_bot_trade": false,
+      "trade_source": "\ud83d\udc64 Manual",
+      "status": "EXECUTED",
+      "entry_date": "2026-03-03T10:34:24.885256+02:00"
+    },
+    {
+      "symbol": "XLU",
+      "action": "BUY",
+      "amount": 1100,
+      "current_value": 1100,
+      "pnl": 0,
+      "pnl_percent": 0,
+      "leverage": 2,
+      "is_bot_trade": false,
+      "trade_source": "\ud83d\udc64 Manual",
+      "status": "EXECUTED",
+      "entry_date": "2026-03-03T10:34:24.885256+02:00"
+    },
+    {
+      "symbol": "XLC",
+      "action": "BUY",
+      "amount": 963,
+      "current_value": 963,
+      "pnl": 0,
+      "pnl_percent": 0,
+      "leverage": 2,
+      "is_bot_trade": false,
+      "trade_source": "\ud83d\udc64 Manual",
+      "status": "EXECUTED",
+      "entry_date": "2026-03-03T10:34:24.885256+02:00"
+    },
+    {
+      "symbol": "SOXX",
+      "action": "BUY",
+      "amount": 1500,
+      "current_value": 1500,
+      "pnl": 0,
+      "pnl_percent": 0,
+      "leverage": 1,
+      "is_bot_trade": false,
+      "trade_source": "\ud83d\udc64 Manual",
+      "status": "PENDING",
+      "entry_date": "2026-03-03T10:34:24.885256+02:00"
+    },
+    {
+      "symbol": "IGV",
+      "action": "BUY",
+      "amount": 4100,
+      "current_value": 4100,
+      "pnl": 0,
+      "pnl_percent": 0,
+      "leverage": 1,
+      "is_bot_trade": false,
+      "trade_source": "\ud83d\udc64 Manual",
+      "status": "PENDING",
+      "entry_date": "2026-03-03T10:34:24.885256+02:00"
     }
   ],
   "trades": [
     {
-      "id": "1373482995",
-      "timestamp": "2026-03-02T11:37:52+02:00",
-      "symbol": "HK-2348",
-      "action": "BUY",
-      "type": "OPEN",
-      "amount": 100,
-      "price": 1.9,
-      "units": 52.631578947368425,
-      "leverage": 1,
-      "reason": "Test trade - HK-2348 (was mislabeled as ETH)",
-      "status": "EXECUTED",
-      "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
-    },
-    {
-      "id": "1373974399",
-      "timestamp": "2026-03-02T11:24:00+02:00",
-      "symbol": "HK-2348",
-      "action": "BUY",
-      "type": "OPEN",
-      "amount": 100,
-      "price": 1.9,
-      "units": 52.631578947368425,
-      "leverage": 1,
-      "reason": "Test trade - Hong Kong stock validation #2",
-      "status": "EXECUTED",
-      "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
-    },
-    {
-      "id": "1373429272",
-      "timestamp": "2026-03-02T09:12:00+02:00",
-      "symbol": "HK-2348",
-      "action": "BUY",
-      "type": "OPEN",
-      "amount": 150,
-      "price": 1.9,
-      "units": 78.94736842105263,
-      "leverage": 1,
-      "reason": "Test trade - Hong Kong stock validation",
-      "status": "EXECUTED",
-      "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
-    },
-    {
-      "id": "uuuu_position",
-      "timestamp": "2026-02-01T10:00:00+02:00",
-      "symbol": "UUUU",
-      "action": "BUY",
-      "type": "OPEN",
-      "amount": 264.24,
-      "price": 21.01,
-      "units": 12.57686815801999,
-      "leverage": 2,
-      "reason": "Nuclear/Uranium sector - manual position",
-      "status": "EXECUTED",
-      "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
-    },
-    {
-      "id": "xlu_position",
-      "timestamp": "2026-02-01T10:00:00+02:00",
-      "symbol": "XLU",
-      "action": "BUY",
-      "type": "OPEN",
-      "amount": 927.9,
-      "price": 39.91,
-      "units": 23.249812077173644,
-      "leverage": 2,
-      "reason": "Utilities ETF - manual position",
-      "status": "EXECUTED",
-      "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
-    },
-    {
-      "id": "cvx_position",
-      "timestamp": "2026-02-01T10:00:00+02:00",
-      "symbol": "CVX",
-      "action": "BUY",
-      "type": "OPEN",
-      "amount": 3507.61,
-      "price": 168.07,
-      "units": 20.86993514607009,
-      "leverage": 1,
-      "reason": "Chevron Energy - manual position",
-      "status": "EXECUTED",
-      "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
-    },
-    {
-      "id": "space_investor_position",
-      "timestamp": "2026-02-01T10:00:00+02:00",
-      "symbol": "Space-Investor",
-      "action": "BUY",
-      "type": "OPEN",
-      "amount": 3150.96,
-      "price": 0,
-      "units": 0,
-      "leverage": 1,
-      "reason": "Jason Horton copy trader - manual",
-      "status": "EXECUTED",
-      "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
-    },
-    {
-      "id": "hood_position",
-      "timestamp": "2026-02-01T10:00:00+02:00",
+      "date": "2026-03-03T10:34:24.885256+02:00",
       "symbol": "HOOD",
       "action": "BUY",
-      "type": "OPEN",
-      "amount": 2340.29,
-      "price": 75.68,
-      "units": 30.923493657505283,
+      "amount": 2344,
       "leverage": 1,
-      "reason": "Robinhood - manual position",
+      "reason": "Manual position from eToro account",
       "status": "EXECUTED",
-      "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
+      "is_bot": false
     },
     {
-      "id": "sol_position",
-      "timestamp": "2026-02-01T10:00:00+02:00",
-      "symbol": "SOL",
+      "date": "2026-03-03T10:34:24.885256+02:00",
+      "symbol": "QQQ",
       "action": "BUY",
-      "type": "OPEN",
-      "amount": 830.94,
-      "price": 84.86,
-      "units": 9.791892528871083,
+      "amount": 4922,
       "leverage": 1,
-      "reason": "Solana crypto - manual position",
+      "reason": "Manual position from eToro account",
       "status": "EXECUTED",
-      "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
+      "is_bot": false
     },
     {
-      "id": "cat_position",
-      "timestamp": "2026-02-01T10:00:00+02:00",
-      "symbol": "CAT",
-      "action": "BUY",
-      "type": "OPEN",
-      "amount": 2722.73,
-      "price": 732.88,
-      "units": 3.7151102499727107,
-      "leverage": 1,
-      "reason": "Caterpillar - manual position",
-      "status": "EXECUTED",
-      "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
-    },
-    {
-      "id": "spx500_position",
-      "timestamp": "2026-02-01T10:00:00+02:00",
-      "symbol": "SPX500",
-      "action": "BUY",
-      "type": "OPEN",
-      "amount": 4000,
-      "price": 6854.44,
-      "units": 0.5835633545555874,
-      "leverage": 1,
-      "reason": "S&P 500 Index - manual position",
-      "status": "EXECUTED",
-      "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
-    },
-    {
-      "id": "btc_position",
-      "timestamp": "2026-02-01T10:00:00+02:00",
+      "date": "2026-03-03T10:34:24.885256+02:00",
       "symbol": "BTC",
       "action": "BUY",
-      "type": "OPEN",
-      "amount": 3530.67,
-      "price": 69217.01,
-      "units": 0.05100870436327718,
+      "amount": 3481,
       "leverage": 1,
-      "reason": "Bitcoin - manual position",
+      "reason": "Manual position from eToro account",
       "status": "EXECUTED",
-      "is_bot_trade": false,
-      "trade_source": "\ud83d\udc64 Manual"
+      "is_bot": false
+    },
+    {
+      "date": "2026-03-03T10:34:24.885256+02:00",
+      "symbol": "CAT",
+      "action": "BUY",
+      "amount": 2741,
+      "leverage": 1,
+      "reason": "Manual position from eToro account",
+      "status": "EXECUTED",
+      "is_bot": false
+    },
+    {
+      "date": "2026-03-03T10:34:24.885256+02:00",
+      "symbol": "SPX500",
+      "action": "BUY",
+      "amount": 4024,
+      "leverage": 1,
+      "reason": "Manual position from eToro account",
+      "status": "EXECUTED",
+      "is_bot": false
+    },
+    {
+      "date": "2026-03-03T10:34:24.885256+02:00",
+      "symbol": "SOL",
+      "action": "BUY",
+      "amount": 839,
+      "leverage": 1,
+      "reason": "Manual position from eToro account",
+      "status": "EXECUTED",
+      "is_bot": false
+    },
+    {
+      "date": "2026-03-03T10:34:24.885256+02:00",
+      "symbol": "Space-Investor",
+      "action": "BUY",
+      "amount": 3349,
+      "leverage": 1,
+      "reason": "Manual position from eToro account",
+      "status": "EXECUTED",
+      "is_bot": false
+    },
+    {
+      "date": "2026-03-03T10:34:24.885256+02:00",
+      "symbol": "ETH",
+      "action": "BUY",
+      "amount": 154,
+      "leverage": 1,
+      "reason": "Manual position from eToro account",
+      "status": "EXECUTED",
+      "is_bot": false
+    },
+    {
+      "date": "2026-03-03T10:34:24.885256+02:00",
+      "symbol": "XLU",
+      "action": "BUY",
+      "amount": 1100,
+      "leverage": 2,
+      "reason": "Manual position from eToro account",
+      "status": "EXECUTED",
+      "is_bot": false
+    },
+    {
+      "date": "2026-03-03T10:34:24.885256+02:00",
+      "symbol": "XLC",
+      "action": "BUY",
+      "amount": 963,
+      "leverage": 2,
+      "reason": "Manual position from eToro account",
+      "status": "EXECUTED",
+      "is_bot": false
+    },
+    {
+      "date": "2026-03-03T10:34:24.885256+02:00",
+      "symbol": "SOXX",
+      "action": "BUY",
+      "amount": 1500,
+      "leverage": 1,
+      "reason": "Manual position from eToro account",
+      "status": "PENDING",
+      "is_bot": false
+    },
+    {
+      "date": "2026-03-03T10:34:24.885256+02:00",
+      "symbol": "IGV",
+      "action": "BUY",
+      "amount": 4100,
+      "leverage": 1,
+      "reason": "Manual position from eToro account",
+      "status": "PENDING",
+      "is_bot": false
     }
   ],
   "stats": {
@@ -959,18 +303,20 @@
     "bot_orders": 0,
     "manual_orders": 12
   },
-  "bot": {
-    "budget": 1700.0,
-    "current_value": 0.0,
-    "pnl": 0.0,
-    "pnl_percent": 0.0,
-    "positions": 0
-  },
+  "performance_history": [
+    {
+      "timestamp": "2026-03-03T10:34:43.785074+02:00",
+      "value": 40787.08,
+      "pnl": 709.25
+    }
+  ],
   "bot_performance_history": [
     {
-      "timestamp": "2026-03-03T10:29:44.230898+02:00",
-      "value": 0.0,
+      "timestamp": "2026-03-03T10:34:43.785074+02:00",
+      "value": 1700.0,
       "pnl": 0.0
     }
-  ]
+  ],
+  "last_update": "2026-03-03T10:34:43.785074+02:00",
+  "note": "12 positions from manual screenshots. Missing ~5 positions not visible in screenshot AI description. Total account accurate."
 }
