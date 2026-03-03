@@ -321,7 +321,7 @@
       "current_pnl": 657.5986946400001,
       "current_price": 1.84,
       "data_source": "LIVE_ETORO_API",
-      "last_api_update": "2026-03-03T19:40:48.369766+02:00"
+      "last_api_update": "2026-03-03T19:52:25.994727+02:00"
     },
     {
       "order_id": "1373429272",
@@ -338,7 +338,7 @@
       "current_pnl": 986.36753568,
       "current_price": 1.84,
       "data_source": "LIVE_ETORO_API",
-      "last_api_update": "2026-03-03T19:40:50.242557+02:00"
+      "last_api_update": "2026-03-03T19:52:27.082875+02:00"
     },
     {
       "order_id": "1373974399",
@@ -355,7 +355,7 @@
       "current_pnl": 657.56964104,
       "current_price": 1.84,
       "data_source": "LIVE_ETORO_API",
-      "last_api_update": "2026-03-03T19:40:53.872845+02:00"
+      "last_api_update": "2026-03-03T19:52:28.184956+02:00"
     },
     {
       "order_id": "1377233872",
@@ -368,11 +368,11 @@
       "trade_source": "\ud83e\udd16 Bot",
       "reason": "Best technical setup + perfect institutional support (Smart Money: 100)",
       "timestamp": "2026-03-03T17:25:25+02:00",
-      "status": "EXECUTED",
-      "current_pnl": -2.2901870003000226,
-      "current_price": 261.3101,
+      "status": "CANCELLED",
+      "current_pnl": -2.2218291803000056,
+      "current_price": 261.3701,
       "data_source": "LIVE_ETORO_API",
-      "last_api_update": "2026-03-03T19:40:55.576778+02:00",
+      "last_api_update": "2026-03-03T19:52:29.901801+02:00",
       "instrumentId": 8754,
       "trader": "OfsInvest",
       "score": 0.7,

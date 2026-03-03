@@ -140,6 +140,13 @@ def update_dashboard():
         total_pnl += pnl
         total_equity += current_value
     
+    # Calculate bot stats
+    bot_holdings = [h for h in holdings if h['is_bot_trade']]
+    bot_total_amount = sum(h['amount'] for h in bot_holdings)
+    bot_total_value = sum(h['current_value'] for h in bot_holdings)
+    bot_total_pnl = sum(h['pnl'] for h in bot_holdings)
+    bot_budget = 1700
+    
     # Update trades.json
     trades_data['holdings'] = holdings
     trades_data['last_update'] = datetime.now(pytz.timezone('Asia/Jerusalem')).isoformat()
@@ -150,6 +157,17 @@ def update_dashboard():
         'total_orders': len(real_positions),
         'bot_orders': sum(1 for p in real_positions if p.get('is_bot_trade')),
         'manual_orders': sum(1 for p in real_positions if not p.get('is_bot_trade'))
+    }
+    
+    # Add bot key (CRITICAL for dashboard)
+    trades_data['bot'] = {
+        'budget': bot_budget,
+        'current_value': bot_total_value,
+        'invested': bot_total_amount,
+        'cash': bot_budget - bot_total_amount,
+        'pnl': bot_total_pnl,
+        'pnl_percent': (bot_total_pnl / bot_total_amount * 100) if bot_total_amount > 0 else 0,
+        'positions': len(bot_holdings)
     }
     
     # Save

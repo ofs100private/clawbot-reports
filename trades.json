@@ -1,5 +1,5 @@
 {
-  "last_update": "2026-03-03T19:45:25.341771+02:00",
+  "last_update": "2026-03-03T19:54:56.303002+02:00",
   "account": {
     "start_date": "2026-03-02",
     "initial_capital": 38127.46,
@@ -807,11 +807,11 @@
       "entry_price": 264.72,
       "units": 1.1332728921124207,
       "amount": 300,
-      "current_value": 297.7098129997,
-      "pnl": -2.2901870003000226,
-      "pnl_percent": -0.7633956667666743,
+      "current_value": 297.7781708197,
+      "pnl": -2.2218291803000056,
+      "pnl_percent": -0.7406097267666685,
       "leverage": 1,
-      "status": "EXECUTED",
+      "status": "CANCELLED",
       "entry_time": "2026-03-03T17:25:25+02:00",
       "is_bot_trade": true,
       "trade_source": "\ud83e\udd16 Bot",
@@ -1152,11 +1152,11 @@
   ],
   "bot": {
     "budget": 1700,
-    "current_value": 297.7098129997,
+    "current_value": 297.7781708197,
     "invested": 300,
     "cash": 1400,
-    "pnl": -2.2901870003000226,
-    "pnl_percent": -0.7633956667666743,
+    "pnl": -2.2218291803000056,
+    "pnl_percent": -0.7406097267666685,
     "positions": 1
   }
 }
