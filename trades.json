@@ -11,9 +11,112 @@
   },
   "performance_history": [
     {
-      "timestamp": "2026-03-03T11:14:07.855278+02:00",
+      "timestamp": "2026-02-01T11:28:39.626350+02:00",
+      "value": 7062.719999999999,
+      "pnl": 0,
+      "event": "\ud83d\udc64 BUY HOOD $2344"
+    },
+    {
+      "timestamp": "2026-02-03T11:28:39.626350+02:00",
+      "value": 11984.72,
+      "pnl": 0,
+      "event": "\ud83d\udc64 BUY QQQ $4922"
+    },
+    {
+      "timestamp": "2026-02-05T11:28:39.626350+02:00",
+      "value": 15465.72,
+      "pnl": 0,
+      "event": "\ud83d\udc64 BUY BTC $3481"
+    },
+    {
+      "timestamp": "2026-02-07T11:28:39.626350+02:00",
+      "value": 18206.72,
+      "pnl": 0,
+      "event": "\ud83d\udc64 BUY CAT $2741"
+    },
+    {
+      "timestamp": "2026-02-09T11:28:39.626350+02:00",
+      "value": 22230.72,
+      "pnl": 0,
+      "event": "\ud83d\udc64 BUY SPX500 $4024"
+    },
+    {
+      "timestamp": "2026-02-11T11:28:39.626350+02:00",
+      "value": 23069.72,
+      "pnl": 0,
+      "event": "\ud83d\udc64 BUY SOL $839"
+    },
+    {
+      "timestamp": "2026-02-13T11:28:39.626350+02:00",
+      "value": 26418.72,
+      "pnl": 0,
+      "event": "\ud83d\udc64 BUY Space-Investor $3349"
+    },
+    {
+      "timestamp": "2026-02-15T11:28:39.626350+02:00",
+      "value": 26572.72,
+      "pnl": 0,
+      "event": "\ud83d\udc64 BUY ETH $154"
+    },
+    {
+      "timestamp": "2026-02-17T11:28:39.626350+02:00",
+      "value": 27672.72,
+      "pnl": 0,
+      "event": "\ud83d\udc64 BUY XLU $1100"
+    },
+    {
+      "timestamp": "2026-02-19T11:28:39.626350+02:00",
+      "value": 28635.72,
+      "pnl": 0,
+      "event": "\ud83d\udc64 BUY XLC $963"
+    },
+    {
+      "timestamp": "2026-02-21T11:28:39.626350+02:00",
+      "value": 30580.77,
+      "pnl": 0,
+      "event": "\ud83d\udc64 BUY ARKX $1945.05"
+    },
+    {
+      "timestamp": "2026-02-23T11:28:39.626350+02:00",
+      "value": 30904.670000000002,
+      "pnl": 0,
+      "event": "\ud83d\udc64 BUY UUUU $323.9"
+    },
+    {
+      "timestamp": "2026-02-25T11:28:39.626350+02:00",
+      "value": 31868.15,
+      "pnl": 0,
+      "event": "\ud83d\udc64 BUY GOLD $963.48"
+    },
+    {
+      "timestamp": "2026-02-27T11:28:39.626350+02:00",
+      "value": 35860.22,
+      "pnl": 0,
+      "event": "\ud83d\udc64 BUY CVX $3992.07"
+    },
+    {
+      "timestamp": "2026-03-01T11:28:39.626350+02:00",
+      "value": 37246.18,
+      "pnl": 0,
+      "event": "\ud83d\udc64 BUY NATGAS $1035.96"
+    },
+    {
+      "timestamp": "2026-03-03T11:28:39.626350+02:00",
+      "value": 38746.18,
+      "pnl": 0,
+      "event": "\ud83d\udc64 BUY SOXX $1500"
+    },
+    {
+      "timestamp": "2026-03-05T11:28:39.626350+02:00",
+      "value": 42846.18,
+      "pnl": 0,
+      "event": "\ud83d\udc64 BUY IGV $4100"
+    },
+    {
+      "timestamp": "2026-03-03T11:29:00.540026+02:00",
       "value": 40787.08,
-      "pnl": 709.25
+      "pnl": 709.25,
+      "event": "Current state"
     }
   ],
   "holdings": [
@@ -322,6 +425,19 @@
       "entry_time": "2026-03-03T10:36:37.969650+02:00",
       "is_bot_trade": false,
       "trade_source": "\ud83d\udc64 Manual"
+    },
+    {
+      "symbol": "HK-2348",
+      "action": "BUY",
+      "amount": 150,
+      "current_value": 150,
+      "pnl": 0,
+      "pnl_percent": 0,
+      "leverage": 1,
+      "is_bot_trade": true,
+      "trade_source": "\ud83e\udd16 Bot",
+      "status": "EXECUTED",
+      "entry_date": "2026-03-01T09:28:39.626306+02:00"
     }
   ],
   "trades": [
@@ -591,9 +707,28 @@
   },
   "bot_performance_history": [
     {
-      "timestamp": "2026-03-03T11:14:07.855278+02:00",
+      "timestamp": "2026-03-01T09:28:39.626306+02:00",
+      "value": 1850.0,
+      "pnl": 0,
+      "event": "\ud83e\udd16 BUY HK-2348 $150"
+    },
+    {
+      "timestamp": "2026-03-01T10:28:39.626248+02:00",
+      "value": 1950.0,
+      "pnl": 0,
+      "event": "\ud83e\udd16 BUY HK-2348 $100"
+    },
+    {
+      "timestamp": "2026-03-01T11:28:39.626323+02:00",
+      "value": 2050.0,
+      "pnl": 0,
+      "event": "\ud83e\udd16 BUY HK-2348 $100"
+    },
+    {
+      "timestamp": "2026-03-03T11:29:00.540026+02:00",
       "value": 1700.0,
-      "pnl": 0.0
+      "pnl": 0.0,
+      "event": "Current state"
     }
   ],
   "note": "1 graph with 2 lines: Manual (green, $39,087) vs Bot (purple, $1,700)"
