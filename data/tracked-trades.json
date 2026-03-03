@@ -9,12 +9,12 @@
       "leverage": 1,
       "is_bot_trade": false,
       "reason": "Manual position from eToro account",
-      "timestamp": "2026-03-03T10:34:24.885256+02:00",
+      "timestamp": "2026-03-03T10:36:37.969650+02:00",
       "status": "EXECUTED",
       "current_pnl": 0,
       "current_price": 0,
       "data_source": "MANUAL_SCREENSHOT",
-      "last_update": "2026-03-03T10:34:24.885256+02:00"
+      "last_update": "2026-03-03T10:36:37.969650+02:00"
     },
     {
       "order_id": "manual_qqq_1",
@@ -25,12 +25,12 @@
       "leverage": 1,
       "is_bot_trade": false,
       "reason": "Manual position from eToro account",
-      "timestamp": "2026-03-03T10:34:24.885256+02:00",
+      "timestamp": "2026-03-03T10:36:37.969650+02:00",
       "status": "EXECUTED",
       "current_pnl": 0,
       "current_price": 0,
       "data_source": "MANUAL_SCREENSHOT",
-      "last_update": "2026-03-03T10:34:24.885256+02:00"
+      "last_update": "2026-03-03T10:36:37.969650+02:00"
     },
     {
       "order_id": "manual_btc_2",
@@ -41,12 +41,12 @@
       "leverage": 1,
       "is_bot_trade": false,
       "reason": "Manual position from eToro account",
-      "timestamp": "2026-03-03T10:34:24.885256+02:00",
+      "timestamp": "2026-03-03T10:36:37.969650+02:00",
       "status": "EXECUTED",
       "current_pnl": 0,
       "current_price": 0,
       "data_source": "MANUAL_SCREENSHOT",
-      "last_update": "2026-03-03T10:34:24.885256+02:00"
+      "last_update": "2026-03-03T10:36:37.969650+02:00"
     },
     {
       "order_id": "manual_cat_3",
@@ -57,12 +57,12 @@
       "leverage": 1,
       "is_bot_trade": false,
       "reason": "Manual position from eToro account",
-      "timestamp": "2026-03-03T10:34:24.885256+02:00",
+      "timestamp": "2026-03-03T10:36:37.969650+02:00",
       "status": "EXECUTED",
       "current_pnl": 0,
       "current_price": 0,
       "data_source": "MANUAL_SCREENSHOT",
-      "last_update": "2026-03-03T10:34:24.885256+02:00"
+      "last_update": "2026-03-03T10:36:37.969650+02:00"
     },
     {
       "order_id": "manual_spx500_4",
@@ -73,12 +73,12 @@
       "leverage": 1,
       "is_bot_trade": false,
       "reason": "Manual position from eToro account",
-      "timestamp": "2026-03-03T10:34:24.885256+02:00",
+      "timestamp": "2026-03-03T10:36:37.969650+02:00",
       "status": "EXECUTED",
       "current_pnl": 0,
       "current_price": 0,
       "data_source": "MANUAL_SCREENSHOT",
-      "last_update": "2026-03-03T10:34:24.885256+02:00"
+      "last_update": "2026-03-03T10:36:37.969650+02:00"
     },
     {
       "order_id": "manual_sol_5",
@@ -89,12 +89,12 @@
       "leverage": 1,
       "is_bot_trade": false,
       "reason": "Manual position from eToro account",
-      "timestamp": "2026-03-03T10:34:24.885256+02:00",
+      "timestamp": "2026-03-03T10:36:37.969650+02:00",
       "status": "EXECUTED",
       "current_pnl": 0,
       "current_price": 0,
       "data_source": "MANUAL_SCREENSHOT",
-      "last_update": "2026-03-03T10:34:24.885256+02:00"
+      "last_update": "2026-03-03T10:36:37.969650+02:00"
     },
     {
       "order_id": "manual_space-investor_6",
@@ -105,12 +105,12 @@
       "leverage": 1,
       "is_bot_trade": false,
       "reason": "Manual position from eToro account",
-      "timestamp": "2026-03-03T10:34:24.885256+02:00",
+      "timestamp": "2026-03-03T10:36:37.969650+02:00",
       "status": "EXECUTED",
       "current_pnl": 0,
       "current_price": 0,
       "data_source": "MANUAL_SCREENSHOT",
-      "last_update": "2026-03-03T10:34:24.885256+02:00"
+      "last_update": "2026-03-03T10:36:37.969650+02:00"
     },
     {
       "order_id": "manual_eth_7",
@@ -121,12 +121,12 @@
       "leverage": 1,
       "is_bot_trade": false,
       "reason": "Manual position from eToro account",
-      "timestamp": "2026-03-03T10:34:24.885256+02:00",
+      "timestamp": "2026-03-03T10:36:37.969650+02:00",
       "status": "EXECUTED",
       "current_pnl": 0,
       "current_price": 0,
       "data_source": "MANUAL_SCREENSHOT",
-      "last_update": "2026-03-03T10:34:24.885256+02:00"
+      "last_update": "2026-03-03T10:36:37.969650+02:00"
     },
     {
       "order_id": "manual_xlu_8",
@@ -137,12 +137,12 @@
       "leverage": 2,
       "is_bot_trade": false,
       "reason": "Manual position from eToro account",
-      "timestamp": "2026-03-03T10:34:24.885256+02:00",
+      "timestamp": "2026-03-03T10:36:37.969650+02:00",
       "status": "EXECUTED",
       "current_pnl": 0,
       "current_price": 0,
       "data_source": "MANUAL_SCREENSHOT",
-      "last_update": "2026-03-03T10:34:24.885256+02:00"
+      "last_update": "2026-03-03T10:36:37.969650+02:00"
     },
     {
       "order_id": "manual_xlc_9",
@@ -153,15 +153,95 @@
       "leverage": 2,
       "is_bot_trade": false,
       "reason": "Manual position from eToro account",
-      "timestamp": "2026-03-03T10:34:24.885256+02:00",
+      "timestamp": "2026-03-03T10:36:37.969650+02:00",
       "status": "EXECUTED",
       "current_pnl": 0,
       "current_price": 0,
       "data_source": "MANUAL_SCREENSHOT",
-      "last_update": "2026-03-03T10:34:24.885256+02:00"
+      "last_update": "2026-03-03T10:36:37.969650+02:00"
     },
     {
-      "order_id": "manual_soxx_10",
+      "order_id": "manual_arkx_10",
+      "symbol": "ARKX",
+      "action": "BUY",
+      "amount": 1945.05,
+      "price": 0,
+      "leverage": 1,
+      "is_bot_trade": false,
+      "reason": "Manual position from eToro account",
+      "timestamp": "2026-03-03T10:36:37.969650+02:00",
+      "status": "EXECUTED",
+      "current_pnl": 0,
+      "current_price": 0,
+      "data_source": "MANUAL_SCREENSHOT",
+      "last_update": "2026-03-03T10:36:37.969650+02:00"
+    },
+    {
+      "order_id": "manual_uuuu_11",
+      "symbol": "UUUU",
+      "action": "BUY",
+      "amount": 323.9,
+      "price": 0,
+      "leverage": 1,
+      "is_bot_trade": false,
+      "reason": "Manual position from eToro account",
+      "timestamp": "2026-03-03T10:36:37.969650+02:00",
+      "status": "EXECUTED",
+      "current_pnl": 0,
+      "current_price": 0,
+      "data_source": "MANUAL_SCREENSHOT",
+      "last_update": "2026-03-03T10:36:37.969650+02:00"
+    },
+    {
+      "order_id": "manual_gold_12",
+      "symbol": "GOLD",
+      "action": "BUY",
+      "amount": 963.48,
+      "price": 0,
+      "leverage": 5,
+      "is_bot_trade": false,
+      "reason": "Manual position from eToro account",
+      "timestamp": "2026-03-03T10:36:37.969650+02:00",
+      "status": "EXECUTED",
+      "current_pnl": 0,
+      "current_price": 0,
+      "data_source": "MANUAL_SCREENSHOT",
+      "last_update": "2026-03-03T10:36:37.969650+02:00"
+    },
+    {
+      "order_id": "manual_cvx_13",
+      "symbol": "CVX",
+      "action": "BUY",
+      "amount": 3992.07,
+      "price": 0,
+      "leverage": 1,
+      "is_bot_trade": false,
+      "reason": "Manual position from eToro account",
+      "timestamp": "2026-03-03T10:36:37.969650+02:00",
+      "status": "EXECUTED",
+      "current_pnl": 0,
+      "current_price": 0,
+      "data_source": "MANUAL_SCREENSHOT",
+      "last_update": "2026-03-03T10:36:37.969650+02:00"
+    },
+    {
+      "order_id": "manual_natgas_14",
+      "symbol": "NATGAS",
+      "action": "BUY",
+      "amount": 1035.96,
+      "price": 0,
+      "leverage": 2,
+      "is_bot_trade": false,
+      "reason": "Manual position from eToro account",
+      "timestamp": "2026-03-03T10:36:37.969650+02:00",
+      "status": "EXECUTED",
+      "current_pnl": 0,
+      "current_price": 0,
+      "data_source": "MANUAL_SCREENSHOT",
+      "last_update": "2026-03-03T10:36:37.969650+02:00"
+    },
+    {
+      "order_id": "manual_soxx_15",
       "symbol": "SOXX",
       "action": "BUY",
       "amount": 1500,
@@ -169,15 +249,15 @@
       "leverage": 1,
       "is_bot_trade": false,
       "reason": "Manual position from eToro account",
-      "timestamp": "2026-03-03T10:34:24.885256+02:00",
+      "timestamp": "2026-03-03T10:36:37.969650+02:00",
       "status": "PENDING",
       "current_pnl": 0,
       "current_price": 0,
       "data_source": "MANUAL_SCREENSHOT",
-      "last_update": "2026-03-03T10:34:24.885256+02:00"
+      "last_update": "2026-03-03T10:36:37.969650+02:00"
     },
     {
-      "order_id": "manual_igv_11",
+      "order_id": "manual_igv_16",
       "symbol": "IGV",
       "action": "BUY",
       "amount": 4100,
@@ -185,12 +265,12 @@
       "leverage": 1,
       "is_bot_trade": false,
       "reason": "Manual position from eToro account",
-      "timestamp": "2026-03-03T10:34:24.885256+02:00",
+      "timestamp": "2026-03-03T10:36:37.969650+02:00",
       "status": "PENDING",
       "current_pnl": 0,
       "current_price": 0,
       "data_source": "MANUAL_SCREENSHOT",
-      "last_update": "2026-03-03T10:34:24.885256+02:00"
+      "last_update": "2026-03-03T10:36:37.969650+02:00"
     }
   ]
 }

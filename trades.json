@@ -27,7 +27,7 @@
       "is_bot_trade": false,
       "trade_source": "\ud83d\udc64 Manual",
       "status": "EXECUTED",
-      "entry_date": "2026-03-03T10:34:24.885256+02:00"
+      "entry_date": "2026-03-03T10:36:37.969650+02:00"
     },
     {
       "symbol": "QQQ",
@@ -40,7 +40,7 @@
       "is_bot_trade": false,
       "trade_source": "\ud83d\udc64 Manual",
       "status": "EXECUTED",
-      "entry_date": "2026-03-03T10:34:24.885256+02:00"
+      "entry_date": "2026-03-03T10:36:37.969650+02:00"
     },
     {
       "symbol": "BTC",
@@ -53,7 +53,7 @@
       "is_bot_trade": false,
       "trade_source": "\ud83d\udc64 Manual",
       "status": "EXECUTED",
-      "entry_date": "2026-03-03T10:34:24.885256+02:00"
+      "entry_date": "2026-03-03T10:36:37.969650+02:00"
     },
     {
       "symbol": "CAT",
@@ -66,7 +66,7 @@
       "is_bot_trade": false,
       "trade_source": "\ud83d\udc64 Manual",
       "status": "EXECUTED",
-      "entry_date": "2026-03-03T10:34:24.885256+02:00"
+      "entry_date": "2026-03-03T10:36:37.969650+02:00"
     },
     {
       "symbol": "SPX500",
@@ -79,7 +79,7 @@
       "is_bot_trade": false,
       "trade_source": "\ud83d\udc64 Manual",
       "status": "EXECUTED",
-      "entry_date": "2026-03-03T10:34:24.885256+02:00"
+      "entry_date": "2026-03-03T10:36:37.969650+02:00"
     },
     {
       "symbol": "SOL",
@@ -92,7 +92,7 @@
       "is_bot_trade": false,
       "trade_source": "\ud83d\udc64 Manual",
       "status": "EXECUTED",
-      "entry_date": "2026-03-03T10:34:24.885256+02:00"
+      "entry_date": "2026-03-03T10:36:37.969650+02:00"
     },
     {
       "symbol": "Space-Investor",
@@ -105,7 +105,7 @@
       "is_bot_trade": false,
       "trade_source": "\ud83d\udc64 Manual",
       "status": "EXECUTED",
-      "entry_date": "2026-03-03T10:34:24.885256+02:00"
+      "entry_date": "2026-03-03T10:36:37.969650+02:00"
     },
     {
       "symbol": "ETH",
@@ -118,7 +118,7 @@
       "is_bot_trade": false,
       "trade_source": "\ud83d\udc64 Manual",
       "status": "EXECUTED",
-      "entry_date": "2026-03-03T10:34:24.885256+02:00"
+      "entry_date": "2026-03-03T10:36:37.969650+02:00"
     },
     {
       "symbol": "XLU",
@@ -131,7 +131,7 @@
       "is_bot_trade": false,
       "trade_source": "\ud83d\udc64 Manual",
       "status": "EXECUTED",
-      "entry_date": "2026-03-03T10:34:24.885256+02:00"
+      "entry_date": "2026-03-03T10:36:37.969650+02:00"
     },
     {
       "symbol": "XLC",
@@ -144,7 +144,72 @@
       "is_bot_trade": false,
       "trade_source": "\ud83d\udc64 Manual",
       "status": "EXECUTED",
-      "entry_date": "2026-03-03T10:34:24.885256+02:00"
+      "entry_date": "2026-03-03T10:36:37.969650+02:00"
+    },
+    {
+      "symbol": "ARKX",
+      "action": "BUY",
+      "amount": 1945.05,
+      "current_value": 1945.05,
+      "pnl": 0,
+      "pnl_percent": 0,
+      "leverage": 1,
+      "is_bot_trade": false,
+      "trade_source": "\ud83d\udc64 Manual",
+      "status": "EXECUTED",
+      "entry_date": "2026-03-03T10:36:37.969650+02:00"
+    },
+    {
+      "symbol": "UUUU",
+      "action": "BUY",
+      "amount": 323.9,
+      "current_value": 323.9,
+      "pnl": 0,
+      "pnl_percent": 0,
+      "leverage": 1,
+      "is_bot_trade": false,
+      "trade_source": "\ud83d\udc64 Manual",
+      "status": "EXECUTED",
+      "entry_date": "2026-03-03T10:36:37.969650+02:00"
+    },
+    {
+      "symbol": "GOLD",
+      "action": "BUY",
+      "amount": 963.48,
+      "current_value": 963.48,
+      "pnl": 0,
+      "pnl_percent": 0,
+      "leverage": 5,
+      "is_bot_trade": false,
+      "trade_source": "\ud83d\udc64 Manual",
+      "status": "EXECUTED",
+      "entry_date": "2026-03-03T10:36:37.969650+02:00"
+    },
+    {
+      "symbol": "CVX",
+      "action": "BUY",
+      "amount": 3992.07,
+      "current_value": 3992.07,
+      "pnl": 0,
+      "pnl_percent": 0,
+      "leverage": 1,
+      "is_bot_trade": false,
+      "trade_source": "\ud83d\udc64 Manual",
+      "status": "EXECUTED",
+      "entry_date": "2026-03-03T10:36:37.969650+02:00"
+    },
+    {
+      "symbol": "NATGAS",
+      "action": "BUY",
+      "amount": 1035.96,
+      "current_value": 1035.96,
+      "pnl": 0,
+      "pnl_percent": 0,
+      "leverage": 2,
+      "is_bot_trade": false,
+      "trade_source": "\ud83d\udc64 Manual",
+      "status": "EXECUTED",
+      "entry_date": "2026-03-03T10:36:37.969650+02:00"
     },
     {
       "symbol": "SOXX",
@@ -157,7 +222,7 @@
       "is_bot_trade": false,
       "trade_source": "\ud83d\udc64 Manual",
       "status": "PENDING",
-      "entry_date": "2026-03-03T10:34:24.885256+02:00"
+      "entry_date": "2026-03-03T10:36:37.969650+02:00"
     },
     {
       "symbol": "IGV",
@@ -170,12 +235,12 @@
       "is_bot_trade": false,
       "trade_source": "\ud83d\udc64 Manual",
       "status": "PENDING",
-      "entry_date": "2026-03-03T10:34:24.885256+02:00"
+      "entry_date": "2026-03-03T10:36:37.969650+02:00"
     }
   ],
   "trades": [
     {
-      "date": "2026-03-03T10:34:24.885256+02:00",
+      "date": "2026-03-03T10:36:37.969650+02:00",
       "symbol": "HOOD",
       "action": "BUY",
       "amount": 2344,
@@ -185,7 +250,7 @@
       "is_bot": false
     },
     {
-      "date": "2026-03-03T10:34:24.885256+02:00",
+      "date": "2026-03-03T10:36:37.969650+02:00",
       "symbol": "QQQ",
       "action": "BUY",
       "amount": 4922,
@@ -195,7 +260,7 @@
       "is_bot": false
     },
     {
-      "date": "2026-03-03T10:34:24.885256+02:00",
+      "date": "2026-03-03T10:36:37.969650+02:00",
       "symbol": "BTC",
       "action": "BUY",
       "amount": 3481,
@@ -205,7 +270,7 @@
       "is_bot": false
     },
     {
-      "date": "2026-03-03T10:34:24.885256+02:00",
+      "date": "2026-03-03T10:36:37.969650+02:00",
       "symbol": "CAT",
       "action": "BUY",
       "amount": 2741,
@@ -215,7 +280,7 @@
       "is_bot": false
     },
     {
-      "date": "2026-03-03T10:34:24.885256+02:00",
+      "date": "2026-03-03T10:36:37.969650+02:00",
       "symbol": "SPX500",
       "action": "BUY",
       "amount": 4024,
@@ -225,7 +290,7 @@
       "is_bot": false
     },
     {
-      "date": "2026-03-03T10:34:24.885256+02:00",
+      "date": "2026-03-03T10:36:37.969650+02:00",
       "symbol": "SOL",
       "action": "BUY",
       "amount": 839,
@@ -235,7 +300,7 @@
       "is_bot": false
     },
     {
-      "date": "2026-03-03T10:34:24.885256+02:00",
+      "date": "2026-03-03T10:36:37.969650+02:00",
       "symbol": "Space-Investor",
       "action": "BUY",
       "amount": 3349,
@@ -245,7 +310,7 @@
       "is_bot": false
     },
     {
-      "date": "2026-03-03T10:34:24.885256+02:00",
+      "date": "2026-03-03T10:36:37.969650+02:00",
       "symbol": "ETH",
       "action": "BUY",
       "amount": 154,
@@ -255,7 +320,7 @@
       "is_bot": false
     },
     {
-      "date": "2026-03-03T10:34:24.885256+02:00",
+      "date": "2026-03-03T10:36:37.969650+02:00",
       "symbol": "XLU",
       "action": "BUY",
       "amount": 1100,
@@ -265,7 +330,7 @@
       "is_bot": false
     },
     {
-      "date": "2026-03-03T10:34:24.885256+02:00",
+      "date": "2026-03-03T10:36:37.969650+02:00",
       "symbol": "XLC",
       "action": "BUY",
       "amount": 963,
@@ -275,7 +340,57 @@
       "is_bot": false
     },
     {
-      "date": "2026-03-03T10:34:24.885256+02:00",
+      "date": "2026-03-03T10:36:37.969650+02:00",
+      "symbol": "ARKX",
+      "action": "BUY",
+      "amount": 1945.05,
+      "leverage": 1,
+      "reason": "Manual position from eToro account",
+      "status": "EXECUTED",
+      "is_bot": false
+    },
+    {
+      "date": "2026-03-03T10:36:37.969650+02:00",
+      "symbol": "UUUU",
+      "action": "BUY",
+      "amount": 323.9,
+      "leverage": 1,
+      "reason": "Manual position from eToro account",
+      "status": "EXECUTED",
+      "is_bot": false
+    },
+    {
+      "date": "2026-03-03T10:36:37.969650+02:00",
+      "symbol": "GOLD",
+      "action": "BUY",
+      "amount": 963.48,
+      "leverage": 5,
+      "reason": "Manual position from eToro account",
+      "status": "EXECUTED",
+      "is_bot": false
+    },
+    {
+      "date": "2026-03-03T10:36:37.969650+02:00",
+      "symbol": "CVX",
+      "action": "BUY",
+      "amount": 3992.07,
+      "leverage": 1,
+      "reason": "Manual position from eToro account",
+      "status": "EXECUTED",
+      "is_bot": false
+    },
+    {
+      "date": "2026-03-03T10:36:37.969650+02:00",
+      "symbol": "NATGAS",
+      "action": "BUY",
+      "amount": 1035.96,
+      "leverage": 2,
+      "reason": "Manual position from eToro account",
+      "status": "EXECUTED",
+      "is_bot": false
+    },
+    {
+      "date": "2026-03-03T10:36:37.969650+02:00",
       "symbol": "SOXX",
       "action": "BUY",
       "amount": 1500,
@@ -285,7 +400,7 @@
       "is_bot": false
     },
     {
-      "date": "2026-03-03T10:34:24.885256+02:00",
+      "date": "2026-03-03T10:36:37.969650+02:00",
       "symbol": "IGV",
       "action": "BUY",
       "amount": 4100,
@@ -296,27 +411,27 @@
     }
   ],
   "stats": {
-    "total_positions": 12,
+    "total_positions": 17,
     "bot_positions": 0,
-    "manual_positions": 12,
-    "total_orders": 12,
+    "manual_positions": 17,
+    "total_orders": 17,
     "bot_orders": 0,
-    "manual_orders": 12
+    "manual_orders": 17
   },
   "performance_history": [
     {
-      "timestamp": "2026-03-03T10:34:43.785074+02:00",
+      "timestamp": "2026-03-03T10:37:00.358324+02:00",
       "value": 40787.08,
       "pnl": 709.25
     }
   ],
   "bot_performance_history": [
     {
-      "timestamp": "2026-03-03T10:34:43.785074+02:00",
+      "timestamp": "2026-03-03T10:37:00.358324+02:00",
       "value": 1700.0,
       "pnl": 0.0
     }
   ],
-  "last_update": "2026-03-03T10:34:43.785074+02:00",
-  "note": "12 positions from manual screenshots. Missing ~5 positions not visible in screenshot AI description. Total account accurate."
+  "last_update": "2026-03-03T10:37:00.358324+02:00",
+  "note": "Complete portfolio: 17 positions (15 executed + 2 pending). All manual trades from eToro screenshots."
 }
