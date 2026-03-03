@@ -1,24 +1,24 @@
 {
-  "last_update": "2026-03-03T17:53:00+02:00",
+  "last_update": "2026-03-03T18:18:00+02:00",
   "news": [
     {
-      "title": "Breaking News Monitor Activated",
-      "source": "OfsInvest",
-      "time": "2026-03-03T17:53:00+02:00",
-      "impact": "neutral",
-      "url": "#"
-    },
-    {
-      "title": "Real-time market news will appear here every 5 minutes",
+      "title": "Breaking News: Temporarily Unavailable",
       "source": "System",
-      "time": "2026-03-03T17:53:00+02:00",
+      "time": "2026-03-03T18:18:00+02:00",
       "impact": "neutral",
       "url": "#"
     },
     {
-      "title": "Next update: 17:58 IST",
-      "source": "Auto-Update",
-      "time": "2026-03-03T17:53:00+02:00",
+      "title": "Technical issue with news feed - working on fix",
+      "source": "Status",
+      "time": "2026-03-03T18:18:00+02:00",
+      "impact": "neutral",
+      "url": "#"
+    },
+    {
+      "title": "Focus: Data quality system now operational ✅",
+      "source": "System",
+      "time": "2026-03-03T18:18:00+02:00",
       "impact": "neutral",
       "url": "#"
     }
