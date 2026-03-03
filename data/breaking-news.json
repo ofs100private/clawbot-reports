@@ -1,26 +1,26 @@
 {
-  "last_update": "2026-03-03T21:38:00+02:00",
+  "last_update": "2026-03-03T21:43:00+03:00",
   "news": [
     {
-      "title": "Global stock markets melt down amid Iran war escalation",
+      "title": "Bitcoin Attempting to Make a Stand as Global Stock Markets Melt Down on Iran War",
       "source": "CoinDesk",
-      "time": "2026-03-03T21:38:00+02:00",
-      "impact": "bearish",
-      "url": "https://www.coindesk.com/markets/2026/03/03/bitcoin-attempting-to-make-a-stand-as-global-stock-markets-melt-down-on-iran-war"
-    },
-    {
-      "title": "Bitcoin attempts to hold steady as equities tumble",
-      "source": "CoinDesk",
-      "time": "2026-03-03T21:38:00+02:00",
+      "time": "2026-03-03T21:43:00+03:00",
       "impact": "neutral",
       "url": "https://www.coindesk.com/markets/2026/03/03/bitcoin-attempting-to-make-a-stand-as-global-stock-markets-melt-down-on-iran-war"
     },
     {
-      "title": "Momentum trades break with gold, silver, and South Korea down big",
+      "title": "Dow Jones Slips Over 371 Points Amid War Escalation",
       "source": "CNBC",
-      "time": "2026-03-03T21:38:00+02:00",
+      "time": "2026-03-03T21:43:00+03:00",
       "impact": "bearish",
-      "url": "https://www.cnbc.com/2026/03/03/the-momentum-trades-of-2026-are-breaking-with-gold-silver-and-south-korea-down-big.html"
+      "url": "https://www.cnbc.com/2026/03/02/stock-market-today-live-updates.html"
+    },
+    {
+      "title": "Bitcoin Slide Starts Anew as Iran Uncertainty Drags On",
+      "source": "Bloomberg",
+      "time": "2026-03-03T21:43:00+03:00",
+      "impact": "bearish",
+      "url": "https://www.bloomberg.com/news/articles/2026-03-03/bitcoin-btc-slide-starts-anew-as-iran-uncertainty-drags-on"
     }
   ]
 }
