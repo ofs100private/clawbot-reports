@@ -1,13 +1,13 @@
 {
-  "last_update": "2026-03-03T17:23:41.982396+02:00",
+  "last_update": "2026-03-03T17:31:52.285194+02:00",
   "account": {
     "start_date": "2026-03-02",
     "initial_capital": 38127.46,
-    "current_value": 38127.46,
+    "current_value": 40428.99587136,
     "cash": 0.0,
-    "equity": 38127.46,
-    "total_pnl": 0,
-    "pnl_percent": 0.0
+    "equity": 40428.99587136,
+    "total_pnl": 2301.53587136,
+    "pnl_percent": 6.036425902381119
   },
   "performance_history": [
     {
@@ -357,6 +357,11 @@
       "timestamp": "2026-03-03T17:23:41.982396+02:00",
       "value": 38127.46,
       "pnl": 0
+    },
+    {
+      "timestamp": "2026-03-03T17:31:52.285194+02:00",
+      "value": 40428.99587136,
+      "pnl": 2301.53587136
     }
   ],
   "holdings": [
@@ -671,13 +676,13 @@
       "symbol": "HK-2348",
       "name": "HK-2348",
       "type": "stock",
-      "current_price": 1.89,
+      "current_price": 1.84,
       "entry_price": 1.9,
       "units": 52.631578947368425,
       "amount": 100,
-      "current_value": 100,
-      "pnl": 0,
-      "pnl_percent": 0.0,
+      "current_value": 757.5986946400001,
+      "pnl": 657.5986946400001,
+      "pnl_percent": 657.5986946400001,
       "leverage": 1,
       "status": "EXECUTED",
       "entry_time": "2026-03-01T10:28:39.626248+02:00",
@@ -689,13 +694,13 @@
       "symbol": "HK-2348",
       "name": "HK-2348",
       "type": "stock",
-      "current_price": 1.89,
+      "current_price": 1.84,
       "entry_price": 1.9,
       "units": 78.94736842105263,
       "amount": 150,
-      "current_value": 150,
-      "pnl": 0,
-      "pnl_percent": 0.0,
+      "current_value": 1136.36753568,
+      "pnl": 986.36753568,
+      "pnl_percent": 657.57835712,
       "leverage": 1,
       "status": "EXECUTED",
       "entry_time": "2026-03-01T09:28:39.626306+02:00",
@@ -707,13 +712,13 @@
       "symbol": "HK-2348",
       "name": "HK-2348",
       "type": "stock",
-      "current_price": 1.89,
+      "current_price": 1.84,
       "entry_price": 1.9,
       "units": 52.631578947368425,
       "amount": 100,
-      "current_value": 100,
-      "pnl": 0,
-      "pnl_percent": 0.0,
+      "current_value": 757.56964104,
+      "pnl": 657.56964104,
+      "pnl_percent": 657.56964104,
       "leverage": 1,
       "status": "EXECUTED",
       "entry_time": "2026-03-01T11:28:39.626323+02:00",
@@ -734,6 +739,21 @@
       "leverage": 1,
       "reason": "Manual position from eToro account",
       "status": "PENDING",
+      "is_bot_trade": false,
+      "trade_source": "\ud83d\udc64 Manual"
+    },
+    {
+      "id": "1377233872",
+      "timestamp": "2026-03-03T17:25:25+02:00",
+      "symbol": "AAPL",
+      "action": "BUY",
+      "type": "OPEN",
+      "amount": 300,
+      "price": 264.72,
+      "units": 1.1332728921124207,
+      "leverage": 1,
+      "reason": "Best technical setup + perfect institutional support (Smart Money: 100)",
+      "status": "CANCELLED",
       "is_bot_trade": false,
       "trade_source": "\ud83d\udc64 Manual"
     },
@@ -1027,8 +1047,8 @@
     "total_positions": 20,
     "bot_positions": 0,
     "manual_positions": 20,
-    "total_orders": 20,
+    "total_orders": 21,
     "bot_orders": 0,
-    "manual_orders": 20
+    "manual_orders": 21
   }
 }
