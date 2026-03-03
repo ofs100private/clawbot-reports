@@ -1,24 +1,24 @@
 {
-  "last_update": "2026-03-03T20:45:00+02:00",
+  "last_update": "2026-03-03T20:50:00+02:00",
   "news": [
     {
-      "title": "Dow Jones Plunges Over 900 Points Amid Escalating Iran Conflict",
+      "title": "Dow Plunges Over 900 Points Amid U.S. Strikes on Iran and Escalating Middle East Tensions",
       "source": "CNBC",
-      "time": "2026-03-03T20:45:00+02:00",
+      "time": "2026-03-03T20:50:00+02:00",
       "impact": "bearish",
       "url": "https://www.cnbc.com/2026/03/02/stock-market-today-live-updates.html"
     },
     {
-      "title": "S&P 500 Falls 2.26% as Oil Surges and Yields Climb",
+      "title": "S&P 500 Down 2.26% as Oil Spikes on Supply Fears from Iran Conflict",
       "source": "Trading Economics",
-      "time": "2026-03-03T20:45:00+02:00",
+      "time": "2026-03-03T20:50:00+02:00",
       "impact": "bearish",
       "url": "https://tradingeconomics.com/united-states/stock-market"
     },
     {
-      "title": "Bitcoin Holds Steady Amid Global Stock Market Meltdown on Iran War Fears",
+      "title": "Bitcoin Holds Steady Amid Stock Market Meltdown, Sees Outflows from Iranian Exchanges",
       "source": "CoinDesk",
-      "time": "2026-03-03T20:45:00+02:00",
+      "time": "2026-03-03T20:50:00+02:00",
       "impact": "neutral",
       "url": "https://www.coindesk.com/markets/2026/03/03/bitcoin-attempting-to-make-a-stand-as-global-stock-markets-melt-down-on-iran-war"
     }
