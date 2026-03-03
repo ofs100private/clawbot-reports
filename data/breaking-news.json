@@ -1,1 +1,26 @@
-{"last_update": "2026-03-03T21:27:00+03:00", "news": [{"title": "US Stocks Plunge Over 1,200 Points Amid Escalating Middle East Tensions and Oil Surge", "source": "Yahoo Finance", "time": "2026-03-03T21:27:00+03:00", "impact": "bearish", "url": "https://finance.yahoo.com/news/live/stock-market-today-dow-falls-by-700-points-sp-500-and-nasdaq-sink-as-oil-surges-amid-war-worries-150425336.html"}, {"title": "Bitcoin Surges Toward $70,000 Showing Resilience Despite Broader Market Rout", "source": "CryptoSlate", "time": "2026-03-03T21:27:00+03:00", "impact": "bullish", "url": "https://cryptoslate.com/"}, {"title": "Bitcoin Miners Sell Holdings as Iran Tensions Increase Crypto Volatility", "source": "Investors.com", "time": "2026-03-03T21:27:00+03:00", "impact": "bearish", "url": "https://www.investors.com/news/bitcoin-miners-sell-holdings-mara-core-scientific-iran-cryptocurrency-outflows"}]}
+{
+  "last_update": "2026-03-03T21:32:00+02:00",
+  "news": [
+    {
+      "title": "US Stocks Plunge Amid Escalating Iran War Fears and Oil Surge",
+      "source": "Yahoo Finance",
+      "time": "2026-03-03T21:32:00+02:00",
+      "impact": "bearish",
+      "url": "https://finance.yahoo.com/news/live/stock-market-today-dow-falls-by-700-points-sp-500-and-nasdaq-sink-as-oil-surges-amid-war-worries-150425336.html"
+    },
+    {
+      "title": "Bitcoin Surges Toward $70,000 Despite Broader Market Turmoil",
+      "source": "CryptoSlate",
+      "time": "2026-03-03T21:32:00+02:00",
+      "impact": "bullish",
+      "url": "https://cryptoslate.com/"
+    },
+    {
+      "title": "Crypto Miners Sell Holdings as Iran Tensions Increase Volatility",
+      "source": "Investors.com",
+      "time": "2026-03-03T21:32:00+02:00",
+      "impact": "bearish",
+      "url": "https://www.investors.com/news/bitcoin-miners-sell-holdings-mara-core-scientific-iran-cryptocurrency-outflows"
+    }
+  ]
+}
