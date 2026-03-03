@@ -1,26 +1,26 @@
 {
-  "last_update": "2026-03-03T18:25:00+02:00",
+  "last_update": "2026-03-03T18:17:00+02:00",
   "news": [
     {
-      "title": "🔴 BREAKING: Markets Plunge on Iran War - Dow Down 1,100 Points",
-      "source": "Market Alert",
-      "time": "2026-03-03T18:25:00+02:00",
+      "title": "Dow Plunges Over 1,100 Points Amid Iran War Worries",
+      "source": "Yahoo Finance",
+      "time": "2026-03-03T18:17:00+02:00",
       "impact": "bearish",
-      "url": "https://www.cnbc.com/2026/03/02/stock-market-today-live-updates.html"
+      "url": "https://finance.yahoo.com/news/live/stock-market-today-dow-plunges-over-1100-points-sp-500-and-nasdaq-sink-as-oil-surges-amid-war-worries-150425235.html"
     },
     {
-      "title": "Bitcoin Holds $68K Despite Risk-Off - Resilience in Chaos",
+      "title": "Bitcoin Attempting to Make a Stand as Global Stock Markets Melt Down",
       "source": "CoinDesk",
-      "time": "2026-03-03T18:25:00+02:00",
-      "impact": "bullish",
-      "url": "https://www.coindesk.com/markets/2026/03/03/bitcoin-attempting-to-make-a-stand"
+      "time": "2026-03-03T18:17:00+02:00",
+      "impact": "neutral",
+      "url": "https://www.coindesk.com/markets/2026/03/03/bitcoin-attempting-to-make-a-stand-as-global-stock-markets-melt-down-on-iran-war"
     },
     {
-      "title": "Oil Prices Surge on Strait of Hormuz Fears - Inflation Risk",
-      "source": "Energy",
-      "time": "2026-03-03T18:25:00+02:00",
+      "title": "Momentum Trades Breaking: Gold, Silver, and South Korea Down Big",
+      "source": "CNBC",
+      "time": "2026-03-03T18:17:00+02:00",
       "impact": "bearish",
-      "url": "#"
+      "url": "https://www.cnbc.com/2026/03/03/the-momentum-trades-of-2026-are-breaking-with-gold-silver-and-south-korea-down-big.html"
     }
   ]
 }
