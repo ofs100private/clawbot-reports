@@ -1,10 +1,24 @@
 {
-  "last_update": "2026-03-02T22:42:39.461793+02:00",
+  "last_update": "2026-03-03T17:53:00+02:00",
   "news": [
     {
-      "title": "Loading market news...",
-      "source": "Market Wire",
-      "time": "2026-03-02T22:42:39.461652+02:00",
+      "title": "Breaking News Monitor Activated",
+      "source": "OfsInvest",
+      "time": "2026-03-03T17:53:00+02:00",
+      "impact": "neutral",
+      "url": "#"
+    },
+    {
+      "title": "Real-time market news will appear here every 5 minutes",
+      "source": "System",
+      "time": "2026-03-03T17:53:00+02:00",
+      "impact": "neutral",
+      "url": "#"
+    },
+    {
+      "title": "Next update: 17:58 IST",
+      "source": "Auto-Update",
+      "time": "2026-03-03T17:53:00+02:00",
       "impact": "neutral",
       "url": "#"
     }
