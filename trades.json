@@ -1,5 +1,5 @@
 {
-  "last_update": "2026-03-03T11:35:06.224020+02:00",
+  "last_update": "2026-03-03T12:35:50.295154+02:00",
   "account": {
     "start_date": "2026-03-02",
     "initial_capital": 38127.46,
@@ -120,6 +120,11 @@
     },
     {
       "timestamp": "2026-03-03T11:35:06.224020+02:00",
+      "value": 38127.46,
+      "pnl": 0
+    },
+    {
+      "timestamp": "2026-03-03T12:35:50.295154+02:00",
       "value": 38127.46,
       "pnl": 0
     }
@@ -795,39 +800,5 @@
     "total_orders": 20,
     "bot_orders": 0,
     "manual_orders": 20
-  },
-  "bot_performance_history": [
-    {
-      "timestamp": "2026-03-01T09:00:00+02:00",
-      "value": 1700.0,
-      "pnl": 0.0,
-      "event": "Starting budget"
-    },
-    {
-      "timestamp": "2026-03-01T11:30:00+02:00",
-      "value": 1698.68,
-      "pnl": -1.32,
-      "event": "3 HK-2348 trades executed"
-    },
-    {
-      "timestamp": "2026-03-02T10:00:00+02:00",
-      "value": 1698.68,
-      "pnl": -1.32,
-      "event": "Positions closed"
-    },
-    {
-      "timestamp": "2026-03-03T12:19:19.918824+02:00",
-      "value": 1698.68,
-      "pnl": -1.32,
-      "event": "Current state"
-    }
-  ],
-  "bot": {
-    "budget": 1700.0,
-    "current_value": 1698.68,
-    "pnl": -1.32,
-    "pnl_percent": -0.08,
-    "positions": 0,
-    "total_trades": 3
   }
 }
