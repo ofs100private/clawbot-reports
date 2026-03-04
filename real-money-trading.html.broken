@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Money Trading by OfsInvest</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://s3.tradingview.com/tv.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            color: #e0e0e0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #888;
+            font-size: 1.1em;
+        }
+        
+        /* News & Sentiment */
+        .top-section {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .news-section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .news-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+        
+        .news-live {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: #ff4444;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        .news-grid {
+            display: grid;
+            gap: 10px;
+        }
+        
+        .news-item {
+            background: rgba(255,255,255,0.03);
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 3px solid #667eea;
+            font-size: 0.9em;
+        }
+        
+        .news-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #fff;
+        }
+        
+        .news-meta {
+            font-size: 0.85em;
+            color: #888;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        /* Sentiment Cards */
+        .sentiment-section {
+            display: grid;
+            gap: 10px;
+        }
+        
+        .metric-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        .metric-label {
+            font-size: 0.8em;
+            color: #888;
+            margin-bottom: 8px;
+        }
+        
+        .metric-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+        
+        .metric-trend {
+            font-size: 0.85em;
+        }
+        
+        .bullish { color: #4caf50; }
+        .bearish { color: #f44336; }
+        .neutral { color: #ff9800; }
+        
+        /* Performance Section */
+        .performance-section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .performance-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .performance-stats {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-label {
+            font-size: 0.9em;
+            color: #888;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin-bottom: 20px;
+        }
+        
+        /* Portfolio Layout */
+        .portfolio-layout {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        /* Asset List */
+        .asset-list-section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            max-height: 800px;
+            overflow-y: auto;
+        }
+        
+        .asset-list-section h2 {
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        .asset-item {
+            background: rgba(255,255,255,0.03);
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+        }
+        
+        .asset-item:hover {
+            background: rgba(255,255,255,0.08);
+            transform: translateX(5px);
+        }
+        
+        .asset-item.active {
+            background: rgba(102, 126, 234, 0.2);
+            border-left-color: #667eea;
+        }
+        
+        .asset-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        
+        .asset-symbol {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        .asset-badge {
+            font-size: 0.9em;
+        }
+        
+        .asset-pnl {
+            font-size: 0.95em;
+            font-weight: bold;
+        }
+        
+        .asset-details {
+            font-size: 0.85em;
+            color: #888;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .sell-btn {
+            margin-left: 10px;
+            padding: 6px 16px;
+            background: #f44336;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            letter-spacing: 0.5px;
+        }
+        
+        .sell-btn:hover {
+            background: #d32f2f;
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(244, 67, 54, 0.4);
+        }
+        
+        .sell-btn:disabled {
+            background: #999;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        /* Chart Display */
+        .chart-display-section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            min-height: 600px;
+        }
+        
+        .chart-display-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .chart-title {
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+        
+        .chart-stats {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9em;
+        }
+        
+        .chart-stat {
+            text-align: center;
+        }
+        
+        .chart-stat-label {
+            color: #888;
+            font-size: 0.85em;
+        }
+        
+        .chart-stat-value {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        #tradingview_chart {
+            width: 100%;
+            height: 500px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .no-selection {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 500px;
+            color: #666;
+        }
+        
+        .no-selection-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+        
+        /* Badges */
+        .bot-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8em;
+        }
+        
+        .manual-badge {
+            background: rgba(76, 175, 80, 0.3);
+            color: #4caf50;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8em;
+        }
+        
+        .status-badge {
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.75em;
+            font-weight: bold;
+        }
+        
+        .status-executed {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4caf50;
+        }
+        
+        .status-pending {
+            background: rgba(255, 152, 0, 0.2);
+            color: #ff9800;
+        }
+        
+        /* Historical Button */
+        .historical-btn {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        /* Refresh indicator */
+        .refresh-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.1);
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.05);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: rgba(102, 126, 234, 0.5);
+            border-radius: 4px;
+        }
+        
+        /* Portfolio Overview Section */
+        .portfolio-overview {
+            margin-bottom: 30px;
+        }
+        
+        .overview-title {
+            text-align: center;
+            font-size: 2em;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .overview-subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 30px;
+        }
+        
+        .overview-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .overview-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            text-align: center;
+        }
+        
+        .overview-card-label {
+            font-size: 0.9em;
+            color: #888;
+            margin-bottom: 10px;
+        }
+        
+        .overview-card-value {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .overview-card-subtext {
+            font-size: 0.85em;
+            color: #999;
+        }
+        
+        .allocation-section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .allocation-header {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .allocation-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .allocation-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .allocation-icon {
+            font-size: 2em;
+        }
+        
+        .allocation-title {
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .allocation-details {
+            flex: 1;
+        }
+        
+        .allocation-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .allocation-row:last-child {
+            border-bottom: none;
+        }
+        
+        .allocation-label {
+            color: #888;
+        }
+        
+        .allocation-value {
+            font-weight: bold;
+        }
+        
+        .allocation-chart {
+            margin-top: 30px;
+        }
+        
+        .allocation-bars {
+            display: flex;
+            height: 60px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+        
+        .allocation-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .allocation-bar-bot {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .allocation-bar-manual {
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+        }
+        
+        .allocation-legend {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            font-size: 0.9em;
+        }
+        
+        .allocation-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .allocation-legend-color {
+            width: 30px;
+            height: 15px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 Real Money Trading by OfsInvest</h1>
+            <p class="subtitle">Live Performance Tracking • Expert 11-Signal Fusion Strategy</p>
+        </header>
+        
+        <!-- Portfolio Overview -->
+        <div class="portfolio-overview">
+            <h2 class="overview-title">📊 Portfolio Overview</h2>
+            <p class="overview-subtitle">Complete Portfolio: Manual + Bot Trading</p>
+            
+            <div class="overview-cards">
+                <div class="overview-card">
+                    <div class="overview-card-label">Total Portfolio Value</div>
+                    <div class="overview-card-value" id="overviewTotalValue">$--</div>
+                </div>
+                <div class="overview-card">
+                    <div class="overview-card-label">Total P&L</div>
+                    <div class="overview-card-value" id="overviewTotalPnL">$--</div>
+                    <div class="overview-card-subtext" id="overviewTotalPct">--%</div>
+                </div>
+                <div class="overview-card">
+                    <div class="overview-card-label">Bot Allocation</div>
+                    <div class="overview-card-value" id="overviewBotValue">$--</div>
+                    <div class="overview-card-subtext" id="overviewBotPct">--% of total</div>
+                </div>
+                <div class="overview-card">
+                    <div class="overview-card-label">Manual Portfolio</div>
+                    <div class="overview-card-value" id="overviewManualValue">$--</div>
+                    <div class="overview-card-subtext" id="overviewManualPct">--% of total</div>
+                </div>
+            </div>
+            
+            <div class="allocation-section">
+                <div class="allocation-header">
+                    📊 Portfolio Allocation
+                </div>
+                
+                <div class="allocation-grid">
+                    <!-- Bot Trading -->
+                    <div class="allocation-item">
+                        <div class="allocation-icon">🤖</div>
+                        <div class="allocation-details">
+                            <div class="allocation-title">Bot Trading</div>
+                            <div class="allocation-row">
+                                <span class="allocation-label">Budget:</span>
+                                <span class="allocation-value" id="allocationBotBudget">$--</span>
+                            </div>
+                            <div class="allocation-row">
+                                <span class="allocation-label">Current Value:</span>
+                                <span class="allocation-value" id="allocationBotCurrent">$--</span>
+                            </div>
+                            <div class="allocation-row">
+                                <span class="allocation-label">P&L:</span>
+                                <span class="allocation-value" id="allocationBotPnL">$--</span>
+                            </div>
+                            <div class="allocation-row">
+                                <span class="allocation-label">Positions:</span>
+                                <span class="allocation-value" id="allocationBotPositions">--</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Manual Portfolio -->
+                    <div class="allocation-item">
+                        <div class="allocation-icon">👤</div>
+                        <div class="allocation-details">
+                            <div class="allocation-title">Manual Portfolio</div>
+                            <div class="allocation-row">
+                                <span class="allocation-label">Total Value:</span>
+                                <span class="allocation-value" id="allocationManualValue">$--</span>
+                            </div>
+                            <div class="allocation-row">
+                                <span class="allocation-label">P&L:</span>
+                                <span class="allocation-value" id="allocationManualPnL">$--</span>
+                            </div>
+                            <div class="allocation-row">
+                                <span class="allocation-label">Return:</span>
+                                <span class="allocation-value" id="allocationManualReturn">--%</span>
+                            </div>
+                            <div class="allocation-row">
+                                <span class="allocation-label">Positions:</span>
+                                <span class="allocation-value" id="allocationManualPositions">--</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="allocation-chart">
+                    <div class="allocation-bars">
+                        <div class="allocation-bar allocation-bar-bot" id="allocationBarBot" style="width: 50%">
+                            Bot Trading
+                        </div>
+                        <div class="allocation-bar allocation-bar-manual" id="allocationBarManual" style="width: 50%">
+                            Manual Portfolio
+                        </div>
+                    </div>
+                    <div class="allocation-legend">
+                        <div class="allocation-legend-item">
+                            <div class="allocation-legend-color allocation-bar-bot"></div>
+                            <span>Bot Trading</span>
+                        </div>
+                        <div class="allocation-legend-item">
+                            <div class="allocation-legend-color allocation-bar-manual"></div>
+                            <span>Manual Portfolio</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Top Section: News + Sentiment -->
+        <div class="top-section">
+            <div class="news-section">
+                <div class="news-header">
+                    <span class="news-live"></span>
+                    <span>📰 Breaking News</span>
+                </div>
+                <div class="news-grid" id="newsGrid">
+                    <div class="news-item">
+                        <div class="news-title">Loading market news...</div>
+                        <div class="news-meta">
+                            <span>Market Wire</span>
+                            <span id="newsTime">--:--</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sentiment-section">
+                <div class="metric-card">
+                    <div class="metric-label">Fear & Greed</div>
+                    <div class="metric-value" id="fearGreed">--</div>
+                    <div class="metric-trend" id="fearGreedLabel">--</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">US Market</div>
+                    <div class="metric-value" id="usMarketScore">--</div>
+                    <div class="metric-trend" id="usMarketLabel">--</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Crypto</div>
+                    <div class="metric-value" id="cryptoScore">--</div>
+                    <div class="metric-trend" id="cryptoLabel">--</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Performance Overview: Combined Chart -->
+        <div class="performance-section">
+            <div class="performance-header">
+                <h2>📊 Portfolio Value: Manual vs Bot Trading</h2>
+                <div class="performance-stats">
+                    <div class="stat">
+                        <div class="stat-label">👤 Manual Portfolio</div>
+                        <div class="stat-value" id="manualValue">$--</div>
+                        <div class="stat-trend" id="manualPnL">$--</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">🤖 Bot Trading</div>
+                        <div class="stat-value" id="botValue">$--</div>
+                        <div class="stat-trend" id="botPnL">$--</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">💰 Total Account</div>
+                        <div class="stat-value" id="totalValue">$--</div>
+                        <div class="stat-trend" id="totalPnL">$--</div>
+                    </div>
+                </div>
+            </div>
+            <div class="chart-container">
+                <canvas id="performanceChart"></canvas>
+            </div>
+        </div>
+        
+        <!-- Portfolio Layout: List + Chart -->
+        <div class="portfolio-layout">
+            <!-- Asset List -->
+            <div class="asset-list-section">
+                <h2>💼 Portfolio Assets</h2>
+                <div id="assetList">
+                    <div class="asset-item">
+                        <div class="asset-symbol">Loading...</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Chart Display -->
+            <div class="chart-display-section">
+                <div id="chartContent">
+                    <div class="no-selection">
+                        <div class="no-selection-icon">📊</div>
+                        <h3>Select an asset from the list</h3>
+                        <p>Click on any asset to view its TradingView chart</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Historical Button -->
+        <div class="historical-btn">
+            <button class="btn btn-primary" onclick="window.location.href='historical-trades.html'">
+                📊 View Historical Trades
+            </button>
+        </div>
+    </div>
+    
+    <div class="refresh-indicator">
+        <span id="lastUpdate">Last update: --:--</span>
+    </div>
+    
+    <script>
+        // Configuration
+        const DATA_REFRESH_INTERVAL = 30000; // 30 seconds
+        const NEWS_REFRESH_INTERVAL = 300000; // 5 minutes
+        
+        let performanceChart = null;
+        let currentTradingViewWidget = null;
+        let allHoldings = [];
+        let selectedAsset = null;
+        
+        // Load all data
+        async function loadAllData() {
+            await Promise.all([
+                loadTradesData(),
+                loadSentimentData(),
+                loadNewsData()
+            ]);
+            document.getElementById('lastUpdate').textContent = `Last update: ${new Date().toLocaleTimeString()}`;
+        }
+        
+        // Load trading data
+        async function loadTradesData() {
+            try {
+                const response = await fetch('trades.json?nocache=' + Date.now());
+                const data = await response.json();
+                
+                console.log('Loaded trades data:', data);
+                
+                updatePortfolioOverview(data);
+                updatePerformanceStats(data.account, data.bot);
+                
+                // Calculate VALUE by trade source (manual vs bot)
+                const holdings = data.holdings || [];
+                const manualValue = holdings
+                    .filter(h => !h.is_bot_trade)
+                    .reduce((sum, h) => sum + (h.current_value || 0), 0);
+                const botValue = holdings
+                    .filter(h => h.is_bot_trade)
+                    .reduce((sum, h) => sum + (h.current_value || 0), 0);
+                
+                updatePerformanceChart(manualValue, botValue);
+                updateAssetList(holdings);
+            } catch (error) {
+                console.error('Error loading trades data:', error);
+            }
+        }
+        
+        // Update portfolio overview section
+        function updatePortfolioOverview(data) {
+            const holdings = data.holdings || [];
+            const account = data.account;
+            
+            // Separate bot vs manual
+            const botHoldings = holdings.filter(h => h.is_bot_trade);
+            const manualHoldings = holdings.filter(h => !h.is_bot_trade);
+            
+            // Bot stats - use REAL numbers from account, not summed holdings
+            const botBudget = 1700; // Fixed budget for bot trading
+            const botValue = botHoldings.reduce((sum, h) => sum + h.current_value, 0); // Actual bot positions value
+            const botPnL = botHoldings.reduce((sum, h) => sum + h.pnl, 0);
+            const botPositions = botHoldings.length;
+            
+            // Manual stats - calculate from account totals, not incomplete holdings sum
+            // Manual value = Total account - Bot budget
+            const manualValue = account.current_value - botBudget;
+            const manualPnL = account.total_pnl - botPnL; // All P&L minus bot P&L
+            const manualReturn = account.pnl_percent; // Use account return % (since mostly manual)
+            const manualPositions = manualHoldings.length;
+            
+            // Update top cards
+            document.getElementById('overviewTotalValue').textContent = '$' + account.current_value.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            
+            const pnlElement = document.getElementById('overviewTotalPnL');
+            pnlElement.textContent = '$' + account.total_pnl.toFixed(2);
+            pnlElement.className = 'overview-card-value ' + (account.total_pnl >= 0 ? 'bullish' : 'bearish');
+            document.getElementById('overviewTotalPct').textContent = account.pnl_percent.toFixed(2) + '%';
+            
+            // Show bot BUDGET allocation, not current value
+            document.getElementById('overviewBotValue').textContent = '$' + botBudget.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('overviewBotPct').textContent = ((botBudget / account.current_value) * 100).toFixed(1) + '% of total';
+            
+            document.getElementById('overviewManualValue').textContent = '$' + manualValue.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('overviewManualPct').textContent = ((manualValue / account.current_value) * 100).toFixed(1) + '% of total';
+            
+            // Update allocation details
+            document.getElementById('allocationBotBudget').textContent = '$' + botBudget.toLocaleString();
+            document.getElementById('allocationBotCurrent').textContent = '$' + botValue.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            
+            const botPnLElement = document.getElementById('allocationBotPnL');
+            botPnLElement.textContent = (botPnL >= 0 ? '+' : '') + '$' + botPnL.toFixed(2);
+            botPnLElement.className = 'allocation-value ' + (botPnL >= 0 ? 'bullish' : 'bearish');
+            
+            document.getElementById('allocationBotPositions').textContent = botPositions;
+            
+            document.getElementById('allocationManualValue').textContent = '$' + manualValue.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            
+            const manualPnLElement = document.getElementById('allocationManualPnL');
+            manualPnLElement.textContent = (manualPnL >= 0 ? '+' : '') + '$' + manualPnL.toFixed(2);
+            manualPnLElement.className = 'allocation-value ' + (manualPnL >= 0 ? 'bullish' : 'bearish');
+            
+            document.getElementById('allocationManualReturn').textContent = manualReturn.toFixed(2) + '%';
+            document.getElementById('allocationManualPositions').textContent = manualPositions;
+            
+            // Update allocation bars - use BUDGET allocation, not current value
+            const botPct = (botBudget / account.current_value) * 100;
+            const manualPct = ((account.current_value - botBudget) / account.current_value) * 100;
+            
+            const botBar = document.getElementById('allocationBarBot');
+            const manualBar = document.getElementById('allocationBarManual');
+            
+            botBar.style.width = botPct.toFixed(1) + '%';
+            manualBar.style.width = manualPct.toFixed(1) + '%';
+            
+            // Only show text if >15% width
+            botBar.textContent = botPct > 15 ? 'Bot Trading' : '';
+            manualBar.textContent = manualPct > 15 ? 'Manual Portfolio' : '';
+        }
+        
+        // Load sentiment data
+        async function loadSentimentData() {
+            try {
+                const response = await fetch('data/sentiment.json?v=' + Date.now());
+                const data = await response.json();
+                
+                const fg = data.fear_greed;
+                document.getElementById('fearGreed').textContent = fg.value;
+                document.getElementById('fearGreedLabel').textContent = fg.label;
+                document.getElementById('fearGreedLabel').className = 'metric-trend ' + getColorClass(fg.value);
+                
+                updateSentiment('usMarket', data.sentiment.us_market);
+                updateSentiment('crypto', data.sentiment.crypto);
+            } catch (error) {
+                console.error('Error loading sentiment data:', error);
+            }
+        }
+        
+        // Load news data
+        async function loadNewsData() {
+            try {
+                const response = await fetch('data/breaking-news.json?v=' + Date.now());
+                const data = await response.json();
+                
+                const newsGrid = document.getElementById('newsGrid');
+                newsGrid.innerHTML = data.news.map(item => `
+                    <div class="news-item">
+                        <div class="news-title">${item.title}</div>
+                        <div class="news-meta">
+                            <span>${item.source}</span>
+                            <span>${new Date(item.time).toLocaleTimeString()}</span>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading news data:', error);
+            }
+        }
+        
+        function updateSentiment(id, sentiment) {
+            document.getElementById(id + 'Score').textContent = sentiment.score;
+            document.getElementById(id + 'Label').textContent = sentiment.label + ' ' + getTrendEmoji(sentiment.trend);
+            document.getElementById(id + 'Score').className = 'metric-value ' + getColorClass(sentiment.score);
+        }
+        
+        function getColorClass(score) {
+            if (score >= 60) return 'bullish';
+            if (score <= 40) return 'bearish';
+            return 'neutral';
+        }
+        
+        function getTrendEmoji(trend) {
+            if (trend === 'up') return '↗️';
+            if (trend === 'down') return '↘️';
+            return '➡️';
+        }
+        
+        
+        // Update performance stats
+        function updatePerformanceStats(account, bot) {
+            bot = bot || {budget: 1700, current_value: 0, pnl: 0, pnl_percent: 0};
+            
+            // Calculate manual portfolio (account - bot budget)
+            const manualValue = account.current_value - bot.budget;
+            const manualPnL = account.total_pnl - bot.pnl;
+            
+            // Update manual stats
+            document.getElementById('manualValue').textContent = '$' + manualValue.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('manualPnL').textContent = (manualPnL >= 0 ? '+' : '') + '$' + manualPnL.toFixed(2);
+            document.getElementById('manualPnL').className = 'stat-trend ' + (manualPnL >= 0 ? 'bullish' : 'bearish');
+            
+            // Update bot stats
+            document.getElementById('botValue').textContent = '$' + bot.current_value.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('botPnL').textContent = (bot.pnl >= 0 ? '+' : '') + '$' + bot.pnl.toFixed(2);
+            document.getElementById('botPnL').className = 'stat-trend ' + (bot.pnl >= 0 ? 'bullish' : 'bearish');
+            
+            // Update total stats
+            document.getElementById('totalValue').textContent = '$' + account.current_value.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('totalPnL').textContent = (account.total_pnl >= 0 ? '+' : '') + '$' + account.total_pnl.toFixed(2);
+            document.getElementById('totalPnL').className = 'stat-trend ' + (account.total_pnl >= 0 ? 'bullish' : 'bearish');
+        }
+        
+        // Update performance chart
+        function updatePerformanceChart(manualValue, botValue) {
+            const ctx = document.getElementById('performanceChart').getContext('2d');
+            
+            if (performanceChart) {
+                performanceChart.destroy();
+            }
+            
+            // Fixed colors for portfolio value (always green for manual, purple for bot)
+            const manualColor = 'rgba(76, 175, 80, 0.8)';
+            const manualBorder = '#4caf50';
+            const botColor = 'rgba(118, 75, 162, 0.8)';
+            const botBorder = '#764ba2';
+            
+            performanceChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['👤 Manual Portfolio', '🤖 Bot Trading'],
+                    datasets: [
+                        {
+                            label: 'Portfolio Value',
+                            data: [manualValue, botValue],
+                            backgroundColor: [manualColor, botColor],
+                            borderColor: [manualBorder, botBorder],
+                            borderWidth: 2
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'x',
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0,0,0,0.8)',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            borderWidth: 1,
+                            callbacks: {
+                                label: function(context) {
+                                    const value = context.parsed.y;
+                                    return 'Value: $' + value.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(255,255,255,0.1)',
+                                drawBorder: true,
+                                zeroLineColor: '#ffffff',
+                                zeroLineWidth: 2
+                            },
+                            ticks: {
+                                color: '#888',
+                                callback: function(value) {
+                                    return '$' + (value / 1000).toFixed(0) + 'K';
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Portfolio Value ($)',
+                                color: '#fff',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(255,255,255,0.1)'
+                            },
+                            ticks: {
+                                color: '#fff',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+            const container = document.getElementById('assetList');
+            
+            if (!holdings || holdings.length === 0) {
+                container.innerHTML = '<div class="asset-item"><div class="asset-symbol">No positions</div></div>';
+                return;
+            }
+            
+            container.innerHTML = holdings.map((holding, index) => `
+                <div class="asset-item" data-index="${index}">
+                    <div class="asset-header" onclick="selectAsset(${index})">
+                        <div class="asset-symbol">${holding.symbol}</div>
+                        <span class="asset-badge ${holding.is_bot_trade ? 'bot-badge' : 'manual-badge'}">
+                            ${holding.is_bot_trade ? '🤖' : '👤'}
+                        </span>
+                    </div>
+                    <div class="asset-pnl ${holding.pnl >= 0 ? 'bullish' : 'bearish'}" onclick="selectAsset(${index})">
+                        ${holding.pnl >= 0 ? '+' : ''}$${holding.pnl.toFixed(2)} (${holding.pnl_percent.toFixed(1)}%)
+                    </div>
+                    <div class="asset-details">
+                        <span onclick="selectAsset(${index})" style="cursor: pointer;">
+                            ${holding.current_value.toLocaleString('en-US', {style: 'currency', currency: 'USD'})} • 
+                            <span class="status-badge status-${holding.status.toLowerCase()}">${holding.status}</span>
+                        </span>
+                        <button class="sell-btn" onclick="sellPosition('${holding.position_id}', '${holding.symbol}', event)" 
+                                style="margin-left: 10px; padding: 4px 12px; background: #f44336; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold;">
+                            SELL
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Select asset and display chart
+        function selectAsset(index) {
+            selectedAsset = allHoldings[index];
+            
+            // Update active state
+            document.querySelectorAll('.asset-item').forEach((el, i) => {
+                el.classList.toggle('active', i === index);
+            });
+            
+            // Display chart
+            displayAssetChart(selectedAsset);
+        }
+        
+        // Sell position
+        async function sellPosition(positionId, symbol, event) {
+            event.stopPropagation(); // Prevent selecting asset
+            
+            if (!confirm(`Are you sure you want to SELL ${symbol}?\n\nPosition ID: ${positionId}\n\nThis will close the entire position.`)) {
+                return;
+            }
+            
+            const sellBtn = event.target;
+            sellBtn.disabled = true;
+            sellBtn.textContent = 'SELLING...';
+            sellBtn.style.background = '#999';
+            
+            try {
+                // Call backend to execute sell
+                const response = await fetch(`backend/etoro-sell-position.sh?positionId=${positionId}&symbol=${symbol}`, {
+                    method: 'POST'
+                });
+                
+                if (response.ok) {
+                    alert(`✅ ${symbol} sold successfully!\n\nRefreshing portfolio...`);
+                    loadAllData(); // Reload data
+                } else {
+                    const error = await response.text();
+                    alert(`❌ Failed to sell ${symbol}\n\nError: ${error}`);
+                    sellBtn.disabled = false;
+                    sellBtn.textContent = 'SELL';
+                    sellBtn.style.background = '#f44336';
+                }
+            } catch (error) {
+                alert(`❌ Error selling ${symbol}\n\n${error.message}`);
+                sellBtn.disabled = false;
+                sellBtn.textContent = 'SELL';
+                sellBtn.style.background = '#f44336';
+            }
+        }
+        
+        // Display TradingView chart for selected asset
+        function displayAssetChart(holding) {
+            const container = document.getElementById('chartContent');
+            
+            // Clear previous chart
+            if (currentTradingViewWidget) {
+                container.innerHTML = '';
+            }
+            
+            container.innerHTML = `
+                <div class="chart-display-header">
+                    <div class="chart-title">
+                        ${holding.symbol}
+                        <span class="${holding.is_bot_trade ? 'bot-badge' : 'manual-badge'}" style="font-size: 0.6em; margin-left: 10px;">
+                            ${holding.is_bot_trade ? '🤖 Bot' : '👤 Manual'}
+                        </span>
+                    </div>
+                    <div class="chart-stats">
+                        <div class="chart-stat">
+                            <div class="chart-stat-label">Entry</div>
+                            <div class="chart-stat-value">$${holding.entry_price.toFixed(2)}</div>
+                        </div>
+                        <div class="chart-stat">
+                            <div class="chart-stat-label">Current</div>
+                            <div class="chart-stat-value">$${holding.current_price.toFixed(2)}</div>
+                        </div>
+                        <div class="chart-stat">
+                            <div class="chart-stat-label">P&L</div>
+                            <div class="chart-stat-value ${holding.pnl >= 0 ? 'bullish' : 'bearish'}">
+                                ${holding.pnl >= 0 ? '+' : ''}$${holding.pnl.toFixed(2)}
+                            </div>
+                        </div>
+                        <div class="chart-stat">
+                            <div class="chart-stat-label">Leverage</div>
+                            <div class="chart-stat-value">${holding.leverage}x</div>
+                        </div>
+                    </div>
+                </div>
+                <div id="tradingview_chart"></div>
+            `;
+            
+            // Determine TradingView symbol
+            let symbol = holding.symbol;
+            if (holding.type === 'crypto') {
+                if (holding.symbol === 'ETH') symbol = 'BINANCE:ETHUSDT';
+                else if (holding.symbol === 'BTC') symbol = 'BINANCE:BTCUSDT';
+                else if (holding.symbol === 'SOL') symbol = 'BINANCE:SOLUSDT';
+                else symbol = `BINANCE:${holding.symbol}USDT`;
+            } else if (holding.symbol.startsWith('HK-')) {
+                const hkCode = holding.symbol.replace('HK-', '');
+                symbol = `HKEX:${hkCode}`;
+            } else if (holding.symbol === 'SPX500') {
+                symbol = 'SP:SPX';
+            } else if (holding.symbol === 'Space-Investor') {
+                // Copy trader - show generic market
+                symbol = 'BINANCE:BTCUSDT';
+            }
+            
+            // Create TradingView widget
+            try {
+                currentTradingViewWidget = new TradingView.widget({
+                    "container_id": "tradingview_chart",
+                    "width": "100%",
+                    "height": 500,
+                    "symbol": symbol,
+                    "interval": "D",
+                    "timezone": "Asia/Jerusalem",
+                    "theme": "dark",
+                    "style": "1",
+                    "locale": "en",
+                    "toolbar_bg": "#1a1f3a",
+                    "enable_publishing": false,
+                    "hide_side_toolbar": false,
+                    "allow_symbol_change": false,
+                    "studies": [
+                        "MASimple@tv-basicstudies",
+                        "Volume@tv-basicstudies"
+                    ],
+                    "studies_overrides": {
+                        "volume.volume.color.0": "rgba(244,67,54,0.5)",
+                        "volume.volume.color.1": "rgba(76,175,80,0.5)",
+                        "moving average.length": 150,
+                        "moving average.ma.color": "#FF8C00",
+                        "moving average.ma.linewidth": 4
+                    }
+                });
+            } catch (error) {
+                console.error('Error creating TradingView widget:', error);
+                container.innerHTML += '<p style="text-align:center;color:#f44;padding:20px;">Chart unavailable</p>';
+            }
+        }
+        
+        // Initial load
+        loadAllData();
+        
+        // Auto-refresh
+        setInterval(loadAllData, DATA_REFRESH_INTERVAL);
+        setInterval(loadNewsData, NEWS_REFRESH_INTERVAL);
+    </script>
+</body>
+</html>

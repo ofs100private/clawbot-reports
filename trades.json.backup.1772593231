@@ -14,7 +14,7 @@
       "timestamp": "2026-03-03T17:25:26+02:00",
       "value": 1700,
       "pnl": 0,
-      "event": "🤖 BUY AAPL $300"
+      "event": "\ud83e\udd16 BUY AAPL $300"
     },
     {
       "timestamp": "2026-03-03T22:51:45+02:00",
@@ -100,7 +100,7 @@
       "status": "EXECUTED",
       "entry_time": "2026-02-01T11:28:39.626350+02:00",
       "is_bot_trade": false,
-      "trade_source": "👤 Manual",
+      "trade_source": "\ud83d\udc64 Manual",
       "trader": "Manual"
     },
     {
@@ -119,7 +119,7 @@
       "status": "EXECUTED",
       "entry_time": "2026-02-03T11:28:39.626350+02:00",
       "is_bot_trade": false,
-      "trade_source": "👤 Manual",
+      "trade_source": "\ud83d\udc64 Manual",
       "trader": "Manual"
     },
     {
@@ -138,7 +138,7 @@
       "status": "EXECUTED",
       "entry_time": "2026-02-05T11:28:39.626350+02:00",
       "is_bot_trade": false,
-      "trade_source": "👤 Manual",
+      "trade_source": "\ud83d\udc64 Manual",
       "trader": "Manual"
     },
     {
@@ -157,7 +157,7 @@
       "status": "EXECUTED",
       "entry_time": "2026-02-07T11:28:39.626350+02:00",
       "is_bot_trade": false,
-      "trade_source": "👤 Manual",
+      "trade_source": "\ud83d\udc64 Manual",
       "trader": "Manual"
     },
     {
@@ -176,7 +176,7 @@
       "status": "EXECUTED",
       "entry_time": "2026-02-09T11:28:39.626350+02:00",
       "is_bot_trade": false,
-      "trade_source": "👤 Manual",
+      "trade_source": "\ud83d\udc64 Manual",
       "trader": "Manual"
     },
     {
@@ -195,7 +195,7 @@
       "status": "EXECUTED",
       "entry_time": "2026-02-11T11:28:39.626350+02:00",
       "is_bot_trade": false,
-      "trade_source": "👤 Manual",
+      "trade_source": "\ud83d\udc64 Manual",
       "trader": "Manual"
     },
     {
@@ -214,7 +214,7 @@
       "status": "EXECUTED",
       "entry_time": "2026-02-13T11:28:39.626350+02:00",
       "is_bot_trade": false,
-      "trade_source": "👤 Manual",
+      "trade_source": "\ud83d\udc64 Manual",
       "trader": "Manual"
     },
     {
@@ -233,7 +233,7 @@
       "status": "EXECUTED",
       "entry_time": "2026-02-15T11:28:39.626350+02:00",
       "is_bot_trade": false,
-      "trade_source": "👤 Manual",
+      "trade_source": "\ud83d\udc64 Manual",
       "trader": "Manual"
     },
     {
@@ -252,7 +252,7 @@
       "status": "EXECUTED",
       "entry_time": "2026-02-17T11:28:39.626350+02:00",
       "is_bot_trade": false,
-      "trade_source": "👤 Manual",
+      "trade_source": "\ud83d\udc64 Manual",
       "trader": "Manual"
     },
     {
@@ -271,7 +271,7 @@
       "status": "EXECUTED",
       "entry_time": "2026-02-19T11:28:39.626350+02:00",
       "is_bot_trade": false,
-      "trade_source": "👤 Manual",
+      "trade_source": "\ud83d\udc64 Manual",
       "trader": "Manual"
     },
     {
@@ -290,7 +290,7 @@
       "status": "EXECUTED",
       "entry_time": "2026-02-21T11:28:39.626350+02:00",
       "is_bot_trade": false,
-      "trade_source": "👤 Manual",
+      "trade_source": "\ud83d\udc64 Manual",
       "trader": "Manual"
     },
     {
@@ -309,7 +309,7 @@
       "status": "EXECUTED",
       "entry_time": "2026-02-23T11:28:39.626350+02:00",
       "is_bot_trade": false,
-      "trade_source": "👤 Manual",
+      "trade_source": "\ud83d\udc64 Manual",
       "trader": "Manual"
     },
     {
@@ -328,7 +328,7 @@
       "status": "EXECUTED",
       "entry_time": "2026-02-25T11:28:39.626350+02:00",
       "is_bot_trade": false,
-      "trade_source": "👤 Manual",
+      "trade_source": "\ud83d\udc64 Manual",
       "trader": "Manual"
     },
     {
@@ -347,7 +347,7 @@
       "status": "EXECUTED",
       "entry_time": "2026-02-27T11:28:39.626350+02:00",
       "is_bot_trade": false,
-      "trade_source": "👤 Manual",
+      "trade_source": "\ud83d\udc64 Manual",
       "trader": "Manual"
     },
     {
@@ -366,7 +366,7 @@
       "status": "EXECUTED",
       "entry_time": "2026-03-01T11:28:39.626350+02:00",
       "is_bot_trade": false,
-      "trade_source": "👤 Manual",
+      "trade_source": "\ud83d\udc64 Manual",
       "trader": "Manual"
     },
     {
@@ -385,7 +385,7 @@
       "status": "PENDING",
       "entry_time": "2026-03-03T11:28:39.626350+02:00",
       "is_bot_trade": false,
-      "trade_source": "👤 Manual",
+      "trade_source": "\ud83d\udc64 Manual",
       "trader": "Manual"
     },
     {
@@ -404,7 +404,7 @@
       "status": "PENDING",
       "entry_time": "2026-03-05T11:28:39.626350+02:00",
       "is_bot_trade": false,
-      "trade_source": "👤 Manual",
+      "trade_source": "\ud83d\udc64 Manual",
       "trader": "Manual"
     },
     {
@@ -423,7 +423,7 @@
       "status": "CANCELLED",
       "entry_time": "2026-03-03T17:25:25+02:00",
       "is_bot_trade": true,
-      "trade_source": "🤖 Bot",
+      "trade_source": "\ud83e\udd16 Bot",
       "trader": "OfsInvest"
     }
   ],
@@ -441,7 +441,7 @@
       "reason": "Manual position from eToro account",
       "status": "PENDING",
       "is_bot_trade": false,
-      "trade_source": "👤 Manual"
+      "trade_source": "\ud83d\udc64 Manual"
     },
     {
       "id": "1377233872",
@@ -456,7 +456,7 @@
       "reason": "Best technical setup + perfect institutional support (Smart Money: 100)",
       "status": "CANCELLED",
       "is_bot_trade": true,
-      "trade_source": "🤖 Bot"
+      "trade_source": "\ud83e\udd16 Bot"
     },
     {
       "id": "manual_soxx_15",
@@ -471,7 +471,7 @@
       "reason": "Manual position from eToro account",
       "status": "PENDING",
       "is_bot_trade": false,
-      "trade_source": "👤 Manual"
+      "trade_source": "\ud83d\udc64 Manual"
     },
     {
       "id": "manual_natgas_14",
@@ -486,7 +486,7 @@
       "reason": "Manual position from eToro account",
       "status": "EXECUTED",
       "is_bot_trade": false,
-      "trade_source": "👤 Manual"
+      "trade_source": "\ud83d\udc64 Manual"
     },
     {
       "id": "1373974399",
@@ -501,7 +501,7 @@
       "reason": "Bot test trade - HK-2348",
       "status": "EXECUTED",
       "is_bot_trade": true,
-      "trade_source": "🤖 Bot"
+      "trade_source": "\ud83e\udd16 Bot"
     },
     {
       "id": "1373482995",
@@ -516,7 +516,7 @@
       "reason": "Bot test trade - HK-2348",
       "status": "EXECUTED",
       "is_bot_trade": true,
-      "trade_source": "🤖 Bot"
+      "trade_source": "\ud83e\udd16 Bot"
     },
     {
       "id": "1373429272",
@@ -531,7 +531,7 @@
       "reason": "Bot test trade - HK-2348",
       "status": "EXECUTED",
       "is_bot_trade": true,
-      "trade_source": "🤖 Bot"
+      "trade_source": "\ud83e\udd16 Bot"
     },
     {
       "id": "manual_cvx_13",
@@ -546,7 +546,7 @@
       "reason": "Manual position from eToro account",
       "status": "EXECUTED",
       "is_bot_trade": false,
-      "trade_source": "👤 Manual"
+      "trade_source": "\ud83d\udc64 Manual"
     },
     {
       "id": "manual_gold_12",
@@ -561,7 +561,7 @@
       "reason": "Manual position from eToro account",
       "status": "EXECUTED",
       "is_bot_trade": false,
-      "trade_source": "👤 Manual"
+      "trade_source": "\ud83d\udc64 Manual"
     },
     {
       "id": "manual_uuuu_11",
@@ -576,7 +576,7 @@
       "reason": "Manual position from eToro account",
       "status": "EXECUTED",
       "is_bot_trade": false,
-      "trade_source": "👤 Manual"
+      "trade_source": "\ud83d\udc64 Manual"
     },
     {
       "id": "manual_arkx_10",
@@ -591,7 +591,7 @@
       "reason": "Manual position from eToro account",
       "status": "EXECUTED",
       "is_bot_trade": false,
-      "trade_source": "👤 Manual"
+      "trade_source": "\ud83d\udc64 Manual"
     },
     {
       "id": "manual_xlc_9",
@@ -606,7 +606,7 @@
       "reason": "Manual position from eToro account",
       "status": "EXECUTED",
       "is_bot_trade": false,
-      "trade_source": "👤 Manual"
+      "trade_source": "\ud83d\udc64 Manual"
     },
     {
       "id": "manual_xlu_8",
@@ -621,7 +621,7 @@
       "reason": "Manual position from eToro account",
       "status": "EXECUTED",
       "is_bot_trade": false,
-      "trade_source": "👤 Manual"
+      "trade_source": "\ud83d\udc64 Manual"
     },
     {
       "id": "manual_eth_7",
@@ -636,7 +636,7 @@
       "reason": "Manual position from eToro account",
       "status": "EXECUTED",
       "is_bot_trade": false,
-      "trade_source": "👤 Manual"
+      "trade_source": "\ud83d\udc64 Manual"
     },
     {
       "id": "manual_space-investor_6",
@@ -651,7 +651,7 @@
       "reason": "Manual position from eToro account",
       "status": "EXECUTED",
       "is_bot_trade": false,
-      "trade_source": "👤 Manual"
+      "trade_source": "\ud83d\udc64 Manual"
     },
     {
       "id": "manual_sol_5",
@@ -666,7 +666,7 @@
       "reason": "Manual position from eToro account",
       "status": "EXECUTED",
       "is_bot_trade": false,
-      "trade_source": "👤 Manual"
+      "trade_source": "\ud83d\udc64 Manual"
     },
     {
       "id": "manual_spx500_4",
@@ -681,7 +681,7 @@
       "reason": "Manual position from eToro account",
       "status": "EXECUTED",
       "is_bot_trade": false,
-      "trade_source": "👤 Manual"
+      "trade_source": "\ud83d\udc64 Manual"
     },
     {
       "id": "manual_cat_3",
@@ -696,7 +696,7 @@
       "reason": "Manual position from eToro account",
       "status": "EXECUTED",
       "is_bot_trade": false,
-      "trade_source": "👤 Manual"
+      "trade_source": "\ud83d\udc64 Manual"
     },
     {
       "id": "manual_btc_2",
@@ -711,7 +711,7 @@
       "reason": "Manual position from eToro account",
       "status": "EXECUTED",
       "is_bot_trade": false,
-      "trade_source": "👤 Manual"
+      "trade_source": "\ud83d\udc64 Manual"
     },
     {
       "id": "manual_qqq_1",
@@ -726,7 +726,7 @@
       "reason": "Manual position from eToro account",
       "status": "EXECUTED",
       "is_bot_trade": false,
-      "trade_source": "👤 Manual"
+      "trade_source": "\ud83d\udc64 Manual"
     },
     {
       "id": "manual_hood_0",
@@ -741,7 +741,7 @@
       "reason": "Manual position from eToro account",
       "status": "EXECUTED",
       "is_bot_trade": false,
-      "trade_source": "👤 Manual"
+      "trade_source": "\ud83d\udc64 Manual"
     }
   ],
   "stats": {
@@ -760,8 +760,5 @@
     "pnl": 0.45540484000002834,
     "pnl_percent": 0.1518016133333428,
     "positions": 1
-  },
-  "metadata": {
-    "last_sync": "2026-03-04T03:00:28Z"
   }
 }

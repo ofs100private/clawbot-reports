@@ -57,7 +57,7 @@ if [ "$TRADE_FILES" -ne "$TOTAL_TRADES" ]; then
 fi
 
 # 4. Update dashboard data file
-DASHBOARD_DATA="$BACKEND_DIR/../trading-data.json"
+DASHBOARD_DATA="$BACKEND_DIR/../trades.json"
 if [ -f "$DASHBOARD_DATA" ]; then
     echo ""
     echo "Step 3: Updating dashboard data..."

@@ -318,10 +318,10 @@
       "reason": "Bot test trade - HK-2348",
       "timestamp": "2026-03-01T10:28:39.626248+02:00",
       "status": "EXECUTED",
-      "current_pnl": 657.5986946400001,
-      "current_price": 1.84,
+      "current_pnl": 641.1291578,
+      "current_price": 1.8,
       "data_source": "LIVE_ETORO_API",
-      "last_api_update": "2026-03-03T19:52:25.994727+02:00"
+      "last_api_update": "2026-03-04T05:00:29.910092+02:00"
     },
     {
       "order_id": "1373429272",
@@ -335,10 +335,10 @@
       "reason": "Bot test trade - HK-2348",
       "timestamp": "2026-03-01T09:28:39.626306+02:00",
       "status": "EXECUTED",
-      "current_pnl": 986.36753568,
-      "current_price": 1.84,
+      "current_pnl": 961.6638935999999,
+      "current_price": 1.8,
       "data_source": "LIVE_ETORO_API",
-      "last_api_update": "2026-03-03T19:52:27.082875+02:00"
+      "last_api_update": "2026-03-04T05:00:30.455057+02:00"
     },
     {
       "order_id": "1373974399",
@@ -352,10 +352,10 @@
       "reason": "Bot test trade - HK-2348",
       "timestamp": "2026-03-01T11:28:39.626323+02:00",
       "status": "EXECUTED",
-      "current_pnl": 657.56964104,
-      "current_price": 1.84,
+      "current_pnl": 641.1007357999999,
+      "current_price": 1.8,
       "data_source": "LIVE_ETORO_API",
-      "last_api_update": "2026-03-03T19:52:28.184956+02:00"
+      "last_api_update": "2026-03-04T05:00:31.005833+02:00"
     },
     {
       "order_id": "1377233872",
@@ -369,10 +369,10 @@
       "reason": "Best technical setup + perfect institutional support (Smart Money: 100)",
       "timestamp": "2026-03-03T17:25:25+02:00",
       "status": "CANCELLED",
-      "current_pnl": -2.2218291803000056,
-      "current_price": 261.3701,
+      "current_pnl": 0.45540484000002834,
+      "current_price": 263.72,
       "data_source": "LIVE_ETORO_API",
-      "last_api_update": "2026-03-03T19:52:29.901801+02:00",
+      "last_api_update": "2026-03-04T05:00:31.636773+02:00",
       "instrumentId": 8754,
       "trader": "OfsInvest",
       "score": 0.7,
