@@ -57,21 +57,60 @@ if [ "$TRADE_FILES" -ne "$TOTAL_TRADES" ]; then
 fi
 
 # 4. Update dashboard data file
+TRACKED_FILE="/home/ofer/clawbot-reports/data/tracked-trades.json"
 DASHBOARD_DATA="$BACKEND_DIR/../trades.json"
-if [ -f "$DASHBOARD_DATA" ]; then
+if [ -f "$DASHBOARD_DATA" ] && [ -f "$TRACKED_FILE" ]; then
     echo ""
     echo "Step 3: Updating dashboard data..."
     
     # Backup current dashboard data
     cp "$DASHBOARD_DATA" "$DASHBOARD_DATA.backup.$(date +%s)"
     
-    # Update timestamp
-    jq --arg ts "$TIMESTAMP" '.metadata.last_sync = $ts' "$DASHBOARD_DATA" > "$DASHBOARD_DATA.tmp"
-    mv "$DASHBOARD_DATA.tmp" "$DASHBOARD_DATA"
+    # Make copy for comparison
+    cp "$DASHBOARD_DATA" "/tmp/trades_before.json"
+    
+    # Merge live data into holdings
+    jq '
+      .holdings = [
+        .holdings[] |
+        . as $holding |
+        ($tracked[0].orders[] | select(.order_id == $holding.position_id)) as $match |
+        if $match then
+          $holding
+          | .current_price = $match.current_price
+          | .pnl = $match.current_pnl
+          | .status = $match.status
+          | .pnl_percent = (if .amount > 0 then (.pnl / .amount) * 100 else 0 end)
+          | .current_value = (.amount + .pnl)
+          | (if $match.units != null then .units = $match.units else . end)
+          | (if $match.last_api_update != null then .last_update = $match.last_api_update else . end)
+        else
+          $holding
+        end
+      ]
+    ' --slurpfile tracked "$TRACKED_FILE" "$DASHBOARD_DATA" > "/tmp/trades_merged.json"
+    
+    # Compare if changed
+    if cmp -s "/tmp/trades_before.json" "/tmp/trades_merged.json"; then
+        echo "No data changes detected - skipping timestamp update"
+        rm "/tmp/trades_merged.json"
+    else
+        echo "Data changes detected - updating timestamp"
+        jq --arg ts "$TIMESTAMP" '.metadata.last_sync = $ts' "/tmp/trades_merged.json" > "$DASHBOARD_DATA.tmp"
+        mv "$DASHBOARD_DATA.tmp" "$DASHBOARD_DATA"
+        rm "/tmp/trades_merged.json"
+    fi
+    
+    rm "/tmp/trades_before.json"
     
     echo "✅ Dashboard data updated"
 else
-    echo "⚠️  Warning: Dashboard data file not found: $DASHBOARD_DATA"
+    if [ ! -f "$DASHBOARD_DATA" ]; then
+        echo "⚠️  Warning: Dashboard data file not found: $DASHBOARD_DATA"
+    fi
+    if [ ! -f "$TRACKED_FILE" ]; then
+        echo "⚠️  Warning: Tracked trades file not found: $TRACKED_FILE"
+    fi
 fi
 
 # 5. Validate critical files
