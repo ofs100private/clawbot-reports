@@ -1,0 +1,202 @@
+/* עיצוב בסיסי לאתר תרומות */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+}
+
+header {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+header h1 {
+    color: #2c3e50;
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+header p {
+    color: #7f8c8d;
+    font-size: 1.1rem;
+}
+
+main {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+section {
+    background: white;
+    margin: 2rem 0;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.hero h2 {
+    color: #2c3e50;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.hero p {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #7f8c8d;
+}
+
+.donation-amounts {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.amount-btn {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.amount-btn:hover {
+    background: #2980b9;
+}
+
+.amount-btn.selected {
+    background: #e74c3c;
+}
+
+#donationForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+input, textarea {
+    padding: 1rem;
+    border: 2px solid #ecf0f1;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+.donate-btn {
+    background: #27ae60;
+    color: white;
+    border: none;
+    padding: 1.2rem;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.donate-btn:hover {
+    background: #229954;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+}
+
+.number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #3498db;
+}
+
+.label {
+    color: #7f8c8d;
+    font-size: 1rem;
+}
+
+.story {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 10px;
+    border-left: 4px solid #3498db;
+}
+
+.story p {
+    font-style: italic;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.story-author {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+footer {
+    background: rgba(44, 62, 80, 0.9);
+    color: white;
+    text-align: center;
+    padding: 2rem;
+    margin-top: 2rem;
+}
+
+/* אנימציות */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+section {
+    animation: fadeIn 0.8s ease-out;
+}
+
+/* עיצוב רספונסיבי */
+@media (max-width: 600px) {
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    .donation-amounts {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .amount-btn {
+        width: 100%;
+        max-width: 200px;
+    }
+    
+    .stats {
+        flex-direction: column;
+    }
+}

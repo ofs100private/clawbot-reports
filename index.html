@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>אתר תרומות למפוני בתים</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>🏠 תרומות למפוני בתים</h1>
+        <p>עזרו לנו לעזור לאלה שהתחייבו להשאיר את בתיהם בעקבות המלחמה</p>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h2>יחד נבנה מחדש</h2>
+            <p>אלפי משפחות נאלצו לעזוב את בתיהן. כל תרומה, קטנה או גדולה, עוזרת לבנות להם עתיד חדש.</p>
+        </section>
+
+        <section class="donation-form">
+            <h3>תרומה מהירה</h3>
+            <div class="donation-amounts">
+                <button class="amount-btn" data-amount="100">₪100</button>
+                <button class="amount-btn" data-amount="250">₪250</button>
+                <button class="amount-btn" data-amount="500">₪500</button>
+                <button class="amount-btn" data-amount="1000">₪1000</button>
+            </div>
+            
+            <form id="donationForm">
+                <input type="number" id="customAmount" placeholder="סכום אחר" min="10">
+                <input type="text" id="donorName" placeholder="שם מלא" required>
+                <input type="email" id="donorEmail" placeholder="כתובת מייל" required>
+                <textarea id="message" placeholder="הודעה אישית (אופציונלי)"></textarea>
+                <button type="submit" class="donate-btn">תרום עכשיו</button>
+            </form>
+        </section>
+
+        <section class="impact">
+            <h3>ההשפעה שלנו</h3>
+            <div class="stats">
+                <div class="stat">
+                    <span class="number" id="totalRaised">₪0</span>
+                    <span class="label">נתרמו עד כה</span>
+                </div>
+                <div class="stat">
+                    <span class="number" id="totalDonors">0</span>
+                    <span class="label">תורמים</span>
+                </div>
+                <div class="stat">
+                    <span class="number" id="familiesHelped">0</span>
+                    <span class="label">משפחות שנעזרו</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="stories">
+            <h3>סיפורי הצלחה</h3>
+            <div class="story">
+                <p>"בזכות התרומות הצלחנו לשכור דירה חדשה ולהתחיל מחדש. תודה לכל התורמים!"</p>
+                <span class="story-author">- משפחת כהן</span>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>פרויקט של נתיב - כיתה ח׳</p>
+        <p>למידע נוסף: contact@donations.org.il</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
